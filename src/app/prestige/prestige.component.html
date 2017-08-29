@@ -30,7 +30,7 @@
       <p>
         By going away now you will earn {{gameService.game.getExperience() | format}} experience.
       </p>
-      <div class="row"> 
+      <div class="row">
 
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let world of gameService.game.nextWorlds ">
           <div class="card">
@@ -53,8 +53,8 @@
                     {{p[0].name}} price x {{p[1] }}
                   </li>
                   <li *ngIf="world.expMulti.greaterThan(1)">
-                      + {{world.expMulti.times(100)}}% experience
-                    </li>
+                    + {{world.expMulti.times(100)}}% experience
+                  </li>
                 </ul>
               </div>
               <div class="card-footer">

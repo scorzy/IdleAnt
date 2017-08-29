@@ -55,6 +55,14 @@ export class GameModel {
     up1: Research
     rDirt: Research
 
+    //    Bee
+    nectar: Unit
+    honey: Unit
+    foragingBee: Unit
+    workerBee: Unit
+    queenBee: Unit
+    hiveBee: Unit
+
     unitMap: Map<string, Unit> = new Map()
     all: Array<Unit>
     allBase: Array<Base>
@@ -101,6 +109,8 @@ export class GameModel {
         //    Production
         this.prodGenerators()
         this.prodJobs()
+
+        this.initBee()
 
         //    Fungus
         this.fungus.actions.push(new UpSpecial(this, this.fungus))
@@ -165,12 +175,12 @@ export class GameModel {
         this.sand = new Unit(this, "sand", "Sand", "Sand")
         this.listMaterial.push(this.sand)
 
-        this.food.quantity = Decimal(1E100)
-        // this.cristal.quantity = Decimal(1E100)
-        // this.science.quantity = Decimal(1E100)
-        // this.fungus.quantity = Decimal(1E100)
-        // this.wood.quantity = Decimal(1E100)
-        // this.soil.quantity = Decimal(1E100)
+        this.nectar = new Unit(this, "nectar", "Nectar", "Nectar")
+        this.listMaterial.push(this.nectar)
+        
+        this.honey = new Unit(this, "honey", "Honey", "Honey")
+        this.listMaterial.push(this.honey)
+        
     }
     initGenerators() {
         //    Generators 
@@ -217,7 +227,6 @@ export class GameModel {
         //
         //    Special
         //
-
         this.composterAnt = new Unit(this, "com", "Composter Ant", "Transform fungus into soil")
         this.listJobs.push(this.composterAnt)
         this.composterAnt.actions.push(new BuyAction(this,
@@ -228,7 +237,7 @@ export class GameModel {
             ]
         ))
         this.soil.addProductor(new Production(this.composterAnt))
-        this.fungus.addProductor(new Production(this.composterAnt, Decimal(-1)))
+        this.fungus.addProductor(new Production(this.composterAnt, Decimal(-5)))
 
 
         this.refineryAnt = new Unit(this, "ref", "Refinery Ant", "Transform soil into sand")
@@ -240,8 +249,8 @@ export class GameModel {
                 new Cost(this.littleAnt, Decimal(1), Decimal(1.01))
             ]
         ))
-        this.soil.addProductor(new Production(this.refineryAnt))
-        this.fungus.addProductor(new Production(this.refineryAnt, Decimal(-1)))
+        this.sand.addProductor(new Production(this.refineryAnt))
+        this.soil.addProductor(new Production(this.refineryAnt, Decimal(-5)))
 
 
         this.laserAnt = new Unit(this, "las", "Laser Ant", "Transform sand into cristal")
@@ -254,11 +263,10 @@ export class GameModel {
             ]
         ))
         this.cristal.addProductor(new Production(this.laserAnt))
-        this.soil.addProductor(new Production(this.laserAnt, Decimal(-1)))
+        this.sand.addProductor(new Production(this.laserAnt, Decimal(-5)))
 
         this.level1.push(this.composterAnt, this.refineryAnt, this.laserAnt)
     }
-
     prodGenerators() {
         //    Generators
         const genBaseCost = Decimal(10)
@@ -395,7 +403,69 @@ export class GameModel {
         })
     }
 
+    initBee() {
+        // foragingBee: Unit
+        // workerBee: Unit
+        // queenBee: Unit
+        // hiveBee: Unit
+
+        this.foragingBee = new Unit(this, "forBee", "Foraging Bee", "Get nectar")
+        this.listJobs.push(this.foragingBee)
+        this.foragingBee.actions.push(new BuyAction(this,
+            this.foragingBee,
+            [new Cost(this.food, Decimal(1), Decimal(1.01))]
+        ))
+        this.nectar.addProductor(new Production(this.foragingBee))
+
+        this.queenBee = new Unit(this, "qBee", "Queen Bee", "Yeld Foraging Bee")
+        this.hiveBee = new Unit(this, "hBee", "Hive Bee", "Yeld Queen")
+
+        this.workerBee = new Unit(this, "worBee", "Worker Bee", "Convert nectar to honey")
+        this.listJobs.push(this.workerBee)
+        this.workerBee.actions.push(new BuyAndUnlockAction(this,
+            this.workerBee,
+            [
+                new Cost(this.food, Decimal(1), Decimal(1.01)),
+                new Cost(this.foragingBee, Decimal(1), Decimal(1.01))
+            ], [this.queenBee]
+        ))
+        this.nectar.addProductor(new Production(this.workerBee, Decimal(-2)))
+        this.honey.addProductor(new Production(this.workerBee, Decimal(1)))
+
+        this.listJobs.push(this.queenBee)
+        this.queenBee.actions.push(new BuyAndUnlockAction(this,
+            this.queenBee,
+            [
+                new Cost(this.food, Decimal(1), Decimal(1.01)),
+                new Cost(this.foragingBee, Decimal(1), Decimal(1.01)),
+                new Cost(this.honey, Decimal(1), Decimal(1.01)),
+            ], [this.hiveBee]
+        ))
+        this.foragingBee.addProductor(new Production(this.queenBee))
+
+        this.listJobs.push(this.hiveBee)
+        this.hiveBee.actions.push(new BuyAction(this,
+            this.hiveBee,
+            [
+                new Cost(this.food, Decimal(1), Decimal(1.01)),
+                new Cost(this.queenBee, Decimal(1), Decimal(1.01)),
+                new Cost(this.honey, Decimal(1), Decimal(1.01)),
+            ]
+        ))
+        this.queenBee.addProductor(new Production(this.hiveBee))
+
+    }
+
     initResearchs() {
+
+        //    Bee
+        const beeResearch = new Research(
+            "beeRes",
+            "Bee", "Unlock Bee !",
+            [new Cost(this.science, Decimal(1))],
+            [this.nectar, this.foragingBee, this.workerBee, this.honey],
+            this
+        )
 
         //    Compost
         const laserResearch = new Research(
@@ -429,7 +499,7 @@ export class GameModel {
             "speRes",
             "Special Jobs", "Unlock special Jobs",
             [new Cost(this.science, Decimal(1))],
-            [composterResearch, refineryResearch, laserResearch],
+            [composterResearch, refineryResearch, laserResearch, beeResearch],
             this
         )
 
