@@ -1,0 +1,49 @@
+<h5>
+  {{action.name}}
+  <span *ngIf="!action.oneTime">({{action.quantity | format}})</span>
+</h5>
+<span>{{action.description}} &nbsp;</span><br/>
+<span *ngIf="!action.oneTime">Getting one will costs:</span>
+<span *ngIf="action.oneTime">Costs:</span>
+<span> {{priceString1}}</span><br/>
+<!-- <span *ngIf="maxBuy.greaterThanOrEqualTo(3)">Getting {{maxBuy.div(2).ceil() | format}} will costs: {{priceStringHalf}}</span>
+<br *ngIf="maxBuy.greaterThanOrEqualTo(3)" />
+<span *ngIf="maxBuy.greaterThanOrEqualTo(2)">Getting {{maxBuy | format}} will costs: {{priceStringMax}}</span>
+<br *ngIf="maxBuy.greaterThanOrEqualTo(2)" /> -->
+
+<div *ngIf="maxBuy.greaterThanOrEqualTo(1)">
+  <div class="btn-group w-100" role="group">
+
+    <button type="button" class="btn btn-secondary w-100" (click)="action.buy()" [disabled]="!maxBuy.greaterThanOrEqualTo(1)">
+                <span *ngIf="!action.oneTime">{{buyString1}}</span>
+                <span *ngIf="action.oneTime">Get</span>                        
+    </button>
+    <button type="button " class="btn btn-secondary w-100" (click)="action.buy(maxBuy.div(2).ceil())" *ngIf="maxBuy.greaterThanOrEqualTo(3)">
+              <span>{{buyStringHalf}}</span>              
+    </button>
+    <button type="button" class="btn btn-secondary w-100" (click)="action.buy(maxBuy)" *ngIf="maxBuy.greaterThanOrEqualTo(2)">
+              <span>{{buyStringMax}}</span>             
+    </button>
+
+  </div>
+</div>
+
+<table class="nowrap" style="width:100%" *ngIf="!maxBuy.greaterThanOrEqualTo(1)">
+  <tbody>
+    <tr *ngFor="let cost of prices1">
+      <td><span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span></td>
+      <td style="width:100%">
+        <div class="progress labeled">
+          <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
+          </progress>
+          <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                        {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
+          </span>
+          <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                        100%
+          </span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

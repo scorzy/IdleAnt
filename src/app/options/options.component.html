@@ -1,0 +1,16 @@
+<div class="content-container">
+  <div class="content-area">
+    <div class="form-group">
+      <button class="btn btn-success" (click)="save($event)">Save</button>
+      <button class="btn btn-primary" (click)="load($event)">Load</button>
+      <button class="btn btn-danger" (click)="clear($event)">Clear</button>
+    </div>
+    <div class="form-group">
+      <h5>Export / Import Save</h5>
+      <label for="save">Save</label>
+      <textarea ref-textarea class="form-control" rows="1" id="save" [(ngModel)]="stringSave"></textarea>
+      <button class="btn btn-success" (click)="export($event)">Export</button>
+      <button class="btn btn-primary" (click)="import($event)">Import</button>
+    </div>
+  </div>
+</div>

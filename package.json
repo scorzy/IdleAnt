@@ -21,8 +21,18 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@types/decimal.js": "0.0.30",
+    "@types/lz-string": "^1.3.32",
+    "@webcomponents/custom-elements": "^1.0.0-alpha.3",
+    "clarity-angular": "^0.10.1",
+    "clarity-icons": "^0.10.1",
+    "clarity-ui": "^0.10.1",
     "core-js": "^2.4.1",
+    "decimal.js": "^7.2.3",
+    "lz-string": "^1.4.4",
+    "mutationobserver-shim": "^0.3.2",
     "rxjs": "^5.4.1",
+    "swarm-numberformat": "^0.3.5",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
