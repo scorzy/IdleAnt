@@ -10,6 +10,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { Unit } from '../model/units/unit';
 import * as numberformat from 'swarm-numberformat';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-unit',
@@ -45,6 +46,13 @@ export class UnitComponent implements OnInit, OnDestroy {
 
   showProducers(): boolean {
     return this.gen.producedBy.filter(t => t.unit.unlocked).length > 0
+  }
+
+
+
+  endTime():string{
+    moment.locale('en');
+    return moment.duration(this.gen.endIn).humanize()
   }
 }
 

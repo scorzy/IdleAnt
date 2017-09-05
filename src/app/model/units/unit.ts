@@ -47,10 +47,8 @@ export class Unit extends Base {
     }
     getBoost(): decimal.Decimal {
         return this.model.up1.owned() && this.buyAction ?
-            this.buyAction.quantity.times(0.0005).times(
-                Decimal.pow(2,
-                    (this.upAction ? this.upAction.quantity : Decimal(0))
-                ))
+            this.buyAction.quantity.times(0.0005)
+                .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(0))
             : Decimal(0)
     }
     getProduction() {

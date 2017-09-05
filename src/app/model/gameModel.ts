@@ -1,7 +1,7 @@
 import { World } from './world';
 import { DefaultUrlHandlingStrategy } from '@angular/router/src/url_handling_strategy';
 import { Utils } from './utils';
-import { Base } from './units/base';
+import { Base, Type } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
 import { TypeList } from './typeList';
@@ -142,45 +142,54 @@ export class GameModel {
         this.food.description = "food"
         this.food.unlocked = true
         this.food.btType = "danger"
+        this.food.types = [Type.Material]
         this.listMaterial.push(this.food)
 
         this.cristal = new Unit(this, "cri")
         this.cristal.name = "Cristal"
         this.cristal.description = "Cristals are needed to get science"
         this.cristal.btType = "info"
+        this.cristal.types = [Type.Material]
         this.listMaterial.push(this.cristal)
 
         this.soil = new Unit(this, "soil")
         this.soil.name = "Soil"
         this.soil.description = "Soil is used to make nests"
         this.soil.btType = "warning"
+        this.soil.types = [Type.Material]
         this.listMaterial.push(this.soil)
 
         this.science = new Unit(this, "sci")
         this.science.name = "Science"
         this.science.description = "Science is used to improve stuff"
+        this.science.types = [Type.Material]
         this.listMaterial.push(this.science)
 
         this.fungus = new Unit(this, "fun")
         this.fungus.name = "Fungus"
         this.fungus.description = "Fungus yeld food"
         this.fungus.btType = "success"
+        this.fungus.types = [Type.Material]
         this.listMaterial.push(this.fungus)
 
         this.wood = new Unit(this, "wood")
         this.wood.name = "Wood"
         this.wood.description = "Wood"
+        this.wood.types = [Type.Material]
         this.listMaterial.push(this.wood)
 
         this.sand = new Unit(this, "sand", "Sand", "Sand")
+        this.sand.types = [Type.Material]
         this.listMaterial.push(this.sand)
 
         this.nectar = new Unit(this, "nectar", "Nectar", "Nectar")
+        this.nectar.types = [Type.Material]
         this.listMaterial.push(this.nectar)
-        
+
         this.honey = new Unit(this, "honey", "Honey", "Honey")
+        this.honey.types = [Type.Material]
         this.listMaterial.push(this.honey)
-        
+
     }
     initGenerators() {
         //    Generators 
@@ -190,9 +199,11 @@ export class GameModel {
             current = new Unit(this, "G" + i)
             current.name = strings.genNames[i - 1][0]
             current.description = strings.genNames[i - 1][1]
+            current.types = [Type.Ant]
             this.list.push(current)
         }
         this.littleAnt = this.list[0]
+        this.littleAnt.types = [Type.Ant]
         this.littleAnt.unlocked = true
     }
     initJobs() {
@@ -200,26 +211,31 @@ export class GameModel {
         this.geologist = new Unit(this, "geo")
         this.geologist.name = "Geologist"
         this.geologist.description = "Geologist yeld cristal"
+        this.geologist.types = [Type.Ant]
         this.listJobs.push(this.geologist)
 
         this.scientist = new Unit(this, "scn")
         this.scientist.name = "Scientist"
         this.scientist.description = "Scientist yeld science"
+        this.scientist.types = [Type.Ant]
         this.listJobs.push(this.scientist)
 
         this.carpenter = new Unit(this, "car")
         this.carpenter.name = "carpenter"
         this.carpenter.description = "carpenters yeld soil"
+        this.carpenter.types = [Type.Ant]
         this.listJobs.push(this.carpenter)
 
         this.farmer = new Unit(this, "far")
         this.farmer.name = "farmer"
         this.farmer.description = "farmer yeld fungus"
+        this.farmer.types = [Type.Ant]
         this.listJobs.push(this.farmer)
 
         this.lumberjack = new Unit(this, "lum")
         this.lumberjack.name = "Lumberjack"
         this.lumberjack.description = "Lumberjack yeld food"
+        this.lumberjack.types = [Type.Ant]
         this.listJobs.push(this.lumberjack)
 
         this.level1 = [this.geologist, this.scientist, this.farmer, this.carpenter, this.lumberjack]
@@ -228,6 +244,7 @@ export class GameModel {
         //    Special
         //
         this.composterAnt = new Unit(this, "com", "Composter Ant", "Transform fungus into soil")
+        this.composterAnt.types = [Type.Ant]
         this.listJobs.push(this.composterAnt)
         this.composterAnt.actions.push(new BuyAction(this,
             this.composterAnt,
@@ -241,6 +258,7 @@ export class GameModel {
 
 
         this.refineryAnt = new Unit(this, "ref", "Refinery Ant", "Transform soil into sand")
+        this.refineryAnt.types = [Type.Ant]
         this.listJobs.push(this.refineryAnt)
         this.refineryAnt.actions.push(new BuyAction(this,
             this.refineryAnt,
@@ -254,6 +272,7 @@ export class GameModel {
 
 
         this.laserAnt = new Unit(this, "las", "Laser Ant", "Transform sand into cristal")
+        this.laserAnt.types = [Type.Ant]
         this.listJobs.push(this.laserAnt)
         this.laserAnt.actions.push(new BuyAction(this,
             this.laserAnt,
@@ -404,12 +423,9 @@ export class GameModel {
     }
 
     initBee() {
-        // foragingBee: Unit
-        // workerBee: Unit
-        // queenBee: Unit
-        // hiveBee: Unit
 
         this.foragingBee = new Unit(this, "forBee", "Foraging Bee", "Get nectar")
+        this.foragingBee.types = [Type.Bee]
         this.listJobs.push(this.foragingBee)
         this.foragingBee.actions.push(new BuyAction(this,
             this.foragingBee,
@@ -418,9 +434,12 @@ export class GameModel {
         this.nectar.addProductor(new Production(this.foragingBee))
 
         this.queenBee = new Unit(this, "qBee", "Queen Bee", "Yeld Foraging Bee")
+        this.queenBee.types = [Type.Bee]
         this.hiveBee = new Unit(this, "hBee", "Hive Bee", "Yeld Queen")
+        this.hiveBee.types = [Type.Bee]
 
         this.workerBee = new Unit(this, "worBee", "Worker Bee", "Convert nectar to honey")
+        this.workerBee.types = [Type.Bee]
         this.listJobs.push(this.workerBee)
         this.workerBee.actions.push(new BuyAndUnlockAction(this,
             this.workerBee,
@@ -629,6 +648,8 @@ export class GameModel {
                 .forEach(p => p.unit.percentage = 0)
         })
 
+        this.all.forEach(a => a.endIn = Number.POSITIVE_INFINITY)
+
         for (const res of unl.filter(u =>
             u.quantity.greaterThan(0.1) &&
             u.producedBy.filter(p => p.efficiency.lessThan(0)).length > 0)) {
@@ -672,9 +693,9 @@ export class GameModel {
                         unitZero = res
                         console.log(unitZero.name + " stop " + maxTime)
                     }
+                    res.endIn = Math.min(s.toNumber() * 1000, res.endIn)
                 }
             }
-
         }
 
         if (maxTime > Number.EPSILON)
@@ -711,7 +732,7 @@ export class GameModel {
         return () => {
             let string = ""
             let ok = false
-            units.filter(u => !u.unlocked).forEach(u => {
+            units.filter(u => !u.unlocked && u.avabileThisWorld).forEach(u => {
                 u.unlocked = true
                 string += " " + u.name
                 ok = true
@@ -720,7 +741,8 @@ export class GameModel {
                 this.alert = new Alert("info", message ? message : "unlocked:" + string)
 
             console.log(string)
-            this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p => p.productor.unlocked = true))
+            this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>
+                p.productor.unlocked = p.productor.avabileThisWorld))
             return ok
         }
     }
@@ -773,8 +795,15 @@ export class GameModel {
     }
 
     getExperience(): decimal.Decimal {
-        return this.currentEarning.div(10E12).pow(1 / 3).times(this.world.expMulti)
+        return this.currentEarning.div(10E6).pow(1 / 3).times(this.world.expMulti)
     }
 
+    getUnits(types: Type[]): Unit[] {
+        return this.all.filter(u => {
+            let yes = true
+            types.forEach(t => yes = yes && u.types.includes(t))
+            return yes
+        })
+    }
 
 }

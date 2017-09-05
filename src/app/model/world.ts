@@ -27,13 +27,17 @@ export class World {
         this.game.setInitialStat()
         this.game.experience.quantity = exp
         if (this.avaiableUnits)
-            this.game.unlockUnits(this.avaiableUnits, "ciao")()
+            this.game.unlockUnits(this.avaiableUnits)()
         if (this.prodMod)
             this.prodMod.forEach(p => p[0].worldProdModifiers = p[1])
         if (this.unitMod)
             this.unitMod.forEach(p => p[0].worldEffModifiers = p[1])
         if (this.unitPrice)
             this.unitPrice.forEach(p => p[0].worldBuyModifiers = p[1])
+
+        // To Unlock
+
+
         this.game.world = this
     }
 
@@ -130,8 +134,8 @@ export class World {
             new World(game,
                 "of Fungus",
                 [],
-                [[game.food, Decimal(4)]],
-                [],
+                [[game.fungus, Decimal(4)]],
+                [new Cost(game.fungus,Decimal(1000))],
                 Decimal(1.1)
             )
         ]

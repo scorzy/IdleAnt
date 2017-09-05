@@ -1,26 +1,24 @@
 <div class="content-container">
-  <div class="content-area">
-    <router-outlet></router-outlet>
-  </div>
-
-  <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [clr-nav-level]="2">
-
-    <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of gameService.game.lists | filterListNotEmpty">
-      <span clrVerticalNavLink>
+    <div class="content-area">
+        <router-outlet></router-outlet>
+    </div>
+    <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [clr-nav-level]="2">
+        <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of gameService.game.lists | filterListNotEmpty">
+            <span clrVerticalNavLink>
         <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
         {{list.type}}
       </span>
-      <clr-vertical-nav-group-children *clrIfExpanded="true">
-        <a clrVerticalNavLink routerLink="./unit/pidgey"
-        [routerLink]="['./unit/'+g.id]"
-        routerLinkActive="active" 
-        *ngFor="let g of list.list | filterMax">
-          <span class="text-capitalize">{{g.name}}</span>
-          <span style="margin-left: auto;">{{g.quantity | format}}</span>
-        </a>
-      </clr-vertical-nav-group-children>
-    </clr-vertical-nav-group>
+            <clr-vertical-nav-group-children *clrIfExpanded="true">
+                <a clrVerticalNavLink routerLink="./unit/pidgey" [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax">
 
-  </clr-vertical-nav>
+                    <span class="text-capitalize">{{g.name}}</span>
+                    <span style="float: right">
+                               <span>{{g.quantity | format}}</span>
+                    <clr-icon class="alert-icon is-error" shape="exclamation-triangle" [style.visibility]="g.isEnding() ? 'visible' : 'hidden'"></clr-icon>
+                    </span>
 
+                </a>
+            </clr-vertical-nav-group-children>
+        </clr-vertical-nav-group>
+    </clr-vertical-nav>
 </div>
