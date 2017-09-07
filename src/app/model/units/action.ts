@@ -39,7 +39,7 @@ export class Action extends Base {
             if (prices.filter(v => v.basePrice.greaterThan(v.unit.quantity)).length == 0) {
                 prices.forEach(p => {
                     p.unit.quantity = p.unit.quantity.minus(p.basePrice)
-                    this.game.currentEarning = p.basePrice
+                    this.game.currentEarning = this.game.currentEarning.plus(p.basePrice)
                 })
                 this.quantity = this.quantity.plus(number)
                 if (this.fn)
@@ -69,8 +69,6 @@ export class Action extends Base {
     getBuyMax(): decimal.Decimal {
         if (!this.unlocked)
             return Decimal(0)
-        if (this.oneTime)
-            return Decimal(1)
 
         const price = this.getRealPrices()
 
@@ -87,6 +85,9 @@ export class Action extends Base {
                 ).floor()
             )
         }
+        if (this.oneTime && max.greaterThanOrEqualTo(1))
+            return Decimal(1)
+        
         return max
     }
     owned(): boolean {
@@ -168,7 +169,7 @@ export class Research extends Action {
             cost,
             description, game)
         this.oneTime = true
-        game.science.actions.push(this)
+        game.resList.push(this)
     }
 }
 

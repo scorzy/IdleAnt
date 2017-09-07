@@ -1,0 +1,14 @@
+<div class="content-container">
+    <div class="content-area">
+
+        <div class="toggle-switch">
+            <input type="checkbox" id="toggle_1" [(ngModel)]="resDone">
+            <label for="toggle_1">Show research done</label>
+        </div>
+
+        <div class="card-columns">
+            <app-action [action]="res" *ngFor="let res of gameService.game.resList | resPipe: resDone"></app-action>
+        </div>
+
+    </div>
+</div>

@@ -68,7 +68,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6" *ngFor="let act of gen.actions | filterMax">
-        <app-action [action]="act"></app-action>
+    <div class="card-columns">
+        <app-action [action]="act" *ngFor="let act of gen.actions.reverse() | filterMax"></app-action>
     </div>
 </div>

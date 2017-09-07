@@ -54,6 +54,7 @@ export class GameModel {
     //    Research
     up1: Research
     rDirt: Research
+    resList = Array<Research>()
 
     //    Bee
     nectar: Unit
@@ -73,12 +74,16 @@ export class GameModel {
     @Input()
     public alert: IAlert
 
+    //    Prestige
     currentEarning = Decimal(0)
     lifeEarning = Decimal(0)
     world: World
     nextWorlds: World[]
     experience: Unit
 
+    expLists = new Array<TypeList>()
+    expAnt = new Array<Unit>()
+    
 
     //    Special World Units
     crab: Unit
@@ -118,11 +123,10 @@ export class GameModel {
         this.initWorld()
         this.initResearchs()
 
-
         //    liste
         this.lists.push(new TypeList("Material", this.listMaterial))
         this.lists.push(new TypeList("Jobs", this.listJobs))
-        this.lists.push(new TypeList("Generators", this.list))
+        this.lists.push(new TypeList("Ants", this.list))
 
         this.all = Array.from(this.unitMap.values())
         this.alert = alertArray[0]
@@ -131,7 +135,9 @@ export class GameModel {
 
         World.initialize(this)
         this.generateRandomWorld()
+        this.generatePrestige()
 
+        this.list = this.list.reverse()
         this.setInitialStat()
     }
 
@@ -204,7 +210,7 @@ export class GameModel {
         }
         this.littleAnt = this.list[0]
         this.littleAnt.types = [Type.Ant]
-        this.littleAnt.unlocked = true
+        this.littleAnt.unlocked = true        
     }
     initJobs() {
         //    Jobs 1
@@ -604,6 +610,13 @@ export class GameModel {
             [this.crab],
             this
         )
+    }
+
+    generatePrestige(){
+
+    //    this.expAnt.push(new Unit)
+
+        this.expLists.push(new TypeList("Ant",this.expAnt))
     }
 
     setInitialStat() {

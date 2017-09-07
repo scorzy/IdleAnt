@@ -1,25 +1,26 @@
 <clr-main-container>
 
-  <clr-header class="header-5">
-    <div class="branding">
-      <a href="javascript://" class="nav-link" routerLink="/main/unit">
-        <clr-icon shape="vm-bug"></clr-icon>
-        <span class="title">Idle Ant</span>
-      </a>
-    </div>
-    <div class="header-nav" [clr-nav-level]="1">
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/unit">Units</a>
-    </div>
-    <div class="header-nav" [clr-nav-level]="1">
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige">Prestige</a>
-    </div>
-    <div class="header-actions">
-      <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
-        <clr-icon shape="cog"></clr-icon>
-      </a>
-    </div>
-  </clr-header>
+    <clr-header class="header-5">
+        <div class="branding">
+            <a href="javascript://" class="nav-link" routerLink="/main/unit">
+                <clr-icon shape="vm-bug"></clr-icon>
+                <span class="title">Idle Ant</span>
+            </a>
+        </div>
+        <div class="header-nav" [clr-nav-level]="1">
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/unit">Units</a>
 
-  <router-outlet></router-outlet>
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/lab">Laboratory</a>
+
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige">Prestige</a>
+        </div>
+        <div class="header-actions">
+            <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
+                <clr-icon shape="cog"></clr-icon>
+            </a>
+        </div>
+    </clr-header>
+
+    <router-outlet></router-outlet>
 
 </clr-main-container>

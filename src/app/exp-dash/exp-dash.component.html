@@ -1,0 +1,21 @@
+<div class="content-container">
+    <div class="content-area">
+        <router-outlet></router-outlet>
+    </div>
+
+    <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [clr-nav-level]="2">
+        <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of gameService.game.expLists">
+            <span clrVerticalNavLink>
+        <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
+        {{list.type}}
+      </span>
+            <clr-vertical-nav-group-children *clrIfExpanded="true">
+                <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax">
+
+                    <span class="text-capitalize">{{g.name}}</span>
+
+                </a>
+            </clr-vertical-nav-group-children>
+        </clr-vertical-nav-group>
+    </clr-vertical-nav>
+</div>

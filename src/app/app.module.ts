@@ -14,6 +14,10 @@ import * as numberformat from 'swarm-numberformat';
 import { FormsModule } from '@angular/forms';
 import { ActionComponent } from './action/action.component';
 import { PrestigeComponent } from './prestige/prestige.component';
+import { LabComponent } from './lab/lab.component';
+import { ResPipePipe } from './res-pipe.pipe';
+import { ExpDashComponent } from './exp-dash/exp-dash.component';
+import { ExpComponent } from './exp/exp.component';
 
 const appRoutes: Routes = [
   {
@@ -25,6 +29,16 @@ const appRoutes: Routes = [
       { path: 'unit', component: UnitComponent },
       { path: 'unit/:id', component: UnitComponent }
     ]
+  },
+  {
+    path: 'ex', component: ExpDashComponent,
+    children: [
+      { path: 'unit', component: ExpComponent },
+      { path: 'unit/:id', component: ExpComponent }
+    ]
+  },
+  {
+    path: 'lab', component: LabComponent
   },
   {
     path: 'options', component: OptionsComponent
@@ -51,7 +65,7 @@ export class FilterListNotEmpty implements PipeTransform {
 @Pipe({ name: 'filterMax', pure: false })
 export class FilterMax implements PipeTransform {
   public transform(values: Array<Unit>, filter: number): Array<Unit> {
-    return values.filter(gen => gen.unlocked).reverse();
+    return values.filter(gen => gen.unlocked);
   }
 }
 
@@ -67,7 +81,11 @@ export class FilterMax implements PipeTransform {
     FilterListNotEmpty,
     OptionsComponent,
     ActionComponent,
-    PrestigeComponent
+    PrestigeComponent,
+    LabComponent,
+    ResPipePipe,
+    ExpDashComponent,
+    ExpComponent
   ],
   imports: [
     BrowserModule,
