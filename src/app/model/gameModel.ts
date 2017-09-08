@@ -4,7 +4,7 @@ import { Utils } from './utils';
 import { Base, Type } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
-import { TypeList } from './typeList';
+import { PrestigeList, TypeList } from './typeList';
 import { Action, BuyAction, BuyAndUnlockAction, Research, UpAction, UpHire, UpSpecial } from './units/action';
 import { Production } from './production';
 import { Map } from 'rxjs/util/Map';
@@ -79,11 +79,16 @@ export class GameModel {
     lifeEarning = Decimal(0)
     world: World
     nextWorlds: World[]
-    experience: Unit
+    experience = Decimal(0)
 
-    expLists = new Array<TypeList>()
-    expAnt = new Array<Unit>()
-    
+    expLists = new Array<PrestigeList>()
+    expAnt = new Array<Base>()
+    allPrestigeUp = new Array<Base>()
+
+    pAntPower: Base
+    pAntFungus: Base
+    pAntNext: Base
+
 
     //    Special World Units
     crab: Unit
@@ -105,7 +110,7 @@ export class GameModel {
         this.unitMap = new Map()
         this.lists = new Array<TypeList>()
 
-        this.experience = new Unit(this, "exper", "Experience", "")
+        this.experience = Decimal(0)
 
         this.initMaterials()
         this.initGenerators()
@@ -210,7 +215,7 @@ export class GameModel {
         }
         this.littleAnt = this.list[0]
         this.littleAnt.types = [Type.Ant]
-        this.littleAnt.unlocked = true        
+        this.littleAnt.unlocked = true
     }
     initJobs() {
         //    Jobs 1
@@ -612,11 +617,24 @@ export class GameModel {
         )
     }
 
-    generatePrestige(){
+    generatePrestige() {
+        this.expLists = new Array<PrestigeList>()
+        this.expAnt = new Array<Base>()
 
-    //    this.expAnt.push(new Unit)
+        this.pAntPower = new Base(this, "pap", "Ant Power", "Ant Power")
+        this.allPrestigeUp.push(this.pAntPower)
+        this.expAnt.push(this.pAntPower)
 
-        this.expLists.push(new TypeList("Ant",this.expAnt))
+        this.pAntFungus = new Base(this, "paf", "Ant Fungus", "Ant Fungus")
+        this.allPrestigeUp.push(this.pAntFungus)
+        this.expAnt.push(this.pAntFungus)
+
+        this.pAntNext = new Base(this, "pan", "Ant Next", "Ant Next")
+        this.allPrestigeUp.push(this.pAntNext)
+        this.expAnt.push(this.pAntNext)
+
+        this.expLists.push(new PrestigeList("Ant",this.expAnt))
+
     }
 
     setInitialStat() {
@@ -753,7 +771,7 @@ export class GameModel {
             if (ok)
                 this.alert = new Alert("info", message ? message : "unlocked:" + string)
 
-            console.log(string)
+            //console.log(string)
             this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>
                 p.productor.unlocked = p.productor.avabileThisWorld))
             return ok
@@ -774,8 +792,10 @@ export class GameModel {
         save.last = Date.now()
         save.cur = this.currentEarning
         save.life = this.lifeEarning
+        save.exp = this.experience
         save.w = this.world.getData()
         save.nw = this.nextWorlds.map(w => w.getData())
+        save.pre = this.allPrestigeUp.map(p => p.getData())
         //return JSON.stringify(save)
         return LZString.compressToUTF16(JSON.stringify(save))
 
@@ -786,8 +806,8 @@ export class GameModel {
             saveRaw = LZString.decompressFromUTF16(saveRaw)
             const save = JSON.parse(saveRaw)
             this.currentEarning = Decimal(save.cur)
-            this.lifeEarning = save.life
-
+            this.lifeEarning = Decimal(save.life)
+            this.experience = Decimal(save.exp)
             this.world.restore(save.w)
 
             for (const s of save.list)
@@ -796,6 +816,9 @@ export class GameModel {
             this.nextWorlds[0].restore(save.nw[0])
             this.nextWorlds[1].restore(save.nw[1])
             this.nextWorlds[2].restore(save.nw[2])
+
+            for (const s of save.pre)
+                this.allPrestigeUp.find(p => p.id == s.id).restore(s)
 
             return save.last
 

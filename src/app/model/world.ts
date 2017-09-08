@@ -17,17 +17,22 @@ export class World {
         public toUnlock: Cost[],
         public expMulti = Decimal(1),
         public unitMod: [Unit, decimal.Decimal][] = [],
-        public unitPrice: [Unit, decimal.Decimal][] = []
+        public unitPrice: [Unit, decimal.Decimal][] = [],
+        public unlockedUnits: Base[] = []
     ) {
     }
 
     goTo() {
         const le = this.game.lifeEarning
-        const exp = this.game.experience.quantity.plus(this.game.getExperience())
+        const exp = this.game.experience.plus(this.game.getExperience())
         this.game.setInitialStat()
-        this.game.experience.quantity = exp
-        if (this.avaiableUnits)
-            this.game.unlockUnits(this.avaiableUnits)()
+        this.game.experience = exp
+        if(this.avaiableUnits)
+            this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
+        if (this.unlockedUnits){
+            this.unlockedUnits.forEach(u => u.avabileThisWorld = true)
+            this.game.unlockUnits(this.unlockedUnits)()
+        }
         if (this.prodMod)
             this.prodMod.forEach(p => p[0].worldProdModifiers = p[1])
         if (this.unitMod)
