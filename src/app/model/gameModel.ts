@@ -79,15 +79,15 @@ export class GameModel {
     lifeEarning = Decimal(0)
     world: World
     nextWorlds: World[]
-    experience = Decimal(0)
+    experience: Unit
 
-    expLists = new Array<PrestigeList>()
-    expAnt = new Array<Base>()
-    allPrestigeUp = new Array<Base>()
+    expLists = new Array<TypeList>()
+    expAnt = new Array<Unit>()
+    allPrestigeUp = new Array<Unit>()
 
-    pAntPower: Base
-    pAntFungus: Base
-    pAntNext: Base
+    pAntPower: Unit
+    pAntFungus: Unit
+    pAntNext: Unit
 
 
     //    Special World Units
@@ -110,8 +110,6 @@ export class GameModel {
         this.unitMap = new Map()
         this.lists = new Array<TypeList>()
 
-        this.experience = Decimal(0)
-
         this.initMaterials()
         this.initGenerators()
         this.initJobs()
@@ -133,7 +131,7 @@ export class GameModel {
         this.lists.push(new TypeList("Jobs", this.listJobs))
         this.lists.push(new TypeList("Ants", this.list))
 
-        this.all = Array.from(this.unitMap.values())
+        this.all = Array.from(this.unitMap.values()).filter(u => !u.prestige)
         this.alert = alertArray[0]
 
         this.world = World.getBaseWorld(this)
@@ -618,22 +616,32 @@ export class GameModel {
     }
 
     generatePrestige() {
-        this.expLists = new Array<PrestigeList>()
-        this.expAnt = new Array<Base>()
+        this.experience = new Unit(this, "exp", "Experience", "Experience", true)
+        this.expLists = new Array<TypeList>()
+        this.expAnt = new Array<Unit>()
 
-        this.pAntPower = new Base(this, "pap", "Ant Power", "Ant Power")
+        this.pAntPower = new Unit(this, "pap", "Ant Power", "Ant Power", true)
         this.allPrestigeUp.push(this.pAntPower)
+        this.pAntPower.unlocked = true
+        this.pAntPower.actions.push(new BuyAction(this, this.pAntPower,
+            [new Cost(this.experience, Decimal(100), Decimal(10))]))
         this.expAnt.push(this.pAntPower)
 
-        this.pAntFungus = new Base(this, "paf", "Ant Fungus", "Ant Fungus")
+        this.pAntFungus = new Unit(this, "paf", "Ant Fungus", "Ant Fungus", true)
         this.allPrestigeUp.push(this.pAntFungus)
+        this.pAntFungus.unlocked = true
+        this.pAntFungus.actions.push(new BuyAction(this, this.pAntFungus,
+            [new Cost(this.experience, Decimal(100), Decimal(10))]))
         this.expAnt.push(this.pAntFungus)
 
-        this.pAntNext = new Base(this, "pan", "Ant Next", "Ant Next")
+        this.pAntNext = new Unit(this, "pan", "Ant Next", "Ant Next", true)
         this.allPrestigeUp.push(this.pAntNext)
+        this.pAntNext.unlocked = true
+        this.pAntNext.actions.push(new BuyAction(this, this.pAntNext,
+            [new Cost(this.experience, Decimal(100), Decimal(10))]))
         this.expAnt.push(this.pAntNext)
 
-        this.expLists.push(new PrestigeList("Ant",this.expAnt))
+        this.expLists.push(new TypeList("Ant", this.expAnt))
 
     }
 
@@ -792,7 +800,6 @@ export class GameModel {
         save.last = Date.now()
         save.cur = this.currentEarning
         save.life = this.lifeEarning
-        save.exp = this.experience
         save.w = this.world.getData()
         save.nw = this.nextWorlds.map(w => w.getData())
         save.pre = this.allPrestigeUp.map(p => p.getData())
@@ -807,7 +814,6 @@ export class GameModel {
             const save = JSON.parse(saveRaw)
             this.currentEarning = Decimal(save.cur)
             this.lifeEarning = Decimal(save.life)
-            this.experience = Decimal(save.exp)
             this.world.restore(save.w)
 
             for (const s of save.list)

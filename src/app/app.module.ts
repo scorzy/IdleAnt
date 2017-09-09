@@ -16,25 +16,16 @@ import { ActionComponent } from './action/action.component';
 import { PrestigeComponent } from './prestige/prestige.component';
 import { LabComponent } from './lab/lab.component';
 import { ResPipePipe } from './res-pipe.pipe';
-import { ExpDashComponent } from './exp-dash/exp-dash.component';
-import { ExpComponent } from './exp/exp.component';
 
 const appRoutes: Routes = [
   {
     path: '', redirectTo: "main/unit", pathMatch: 'full'
   },
   {
-    path: 'main', component: MainNavComponent,
+    path: 'main/:type', component: MainNavComponent,
     children: [
       { path: 'unit', component: UnitComponent },
       { path: 'unit/:id', component: UnitComponent }
-    ]
-  },
-  {
-    path: 'ex', component: ExpDashComponent,
-    children: [
-      { path: 'unit', component: ExpComponent },
-      { path: 'unit/:id', component: ExpComponent }
     ]
   },
   {
@@ -83,9 +74,7 @@ export class FilterMax implements PipeTransform {
     ActionComponent,
     PrestigeComponent,
     LabComponent,
-    ResPipePipe,
-    ExpDashComponent,
-    ExpComponent
+    ResPipePipe
   ],
   imports: [
     BrowserModule,

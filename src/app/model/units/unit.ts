@@ -33,7 +33,8 @@ export class Unit extends Base {
         public model: GameModel,
         id: string,
         name: string = "",
-        description: string = "") {
+        description: string = "",
+        public prestige = false) {
         super(model, id)
         this.model.unitMap.set(this.id, this)
         this.name = name
@@ -76,4 +77,11 @@ export class Unit extends Base {
         for (const s of data.a)
             this.actions.find(a => a.id === s.id).restore(s)
     }
+
+    isEnding(): boolean {
+        if (this.prestige)
+            return false
+        return super.isEnding()
+    }
+
 }

@@ -1,3 +1,4 @@
+import { TypeList } from '../model/typeList';
 import { Action } from '../model/units/action';
 import { Production } from '../model/production';
 import { Cost } from '../model/cost';
@@ -14,32 +15,39 @@ import * as numberformat from 'swarm-numberformat';
   selector: 'app-unit',
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss']
-})export class MainNavComponent implements OnInit, OnDestroy {
-  
-    mioId = "";
-    paramsSub: any;
-    gen: Unit;
-    list: Unit[] = this.gameService.game.list;
-  
-    constructor(
-      public gameService: GameService,
-      private route: ActivatedRoute,
-      private activatedRoute: ActivatedRoute,
-      private router: Router) {
-      this.gen = this.gameService.game.list[0]
-    }
-  
-    ngOnInit() {
-      this.paramsSub = this.activatedRoute.params.subscribe(params => {
-        this.mioId = params['type'];
-        if (this.mioId === undefined) {
-          this.mioId ="gen"
-          return;
-        }
-      });
-    }
-  
-    ngOnDestroy() {
-      this.paramsSub.unsubscribe();
-    }
+}) export class MainNavComponent implements OnInit, OnDestroy {
+
+  mioId = ""
+  paramsSub: any
+  gen: Unit
+  list: Unit[] = this.gameService.game.list
+  typeLists: TypeList[]
+
+  constructor(
+    public gameService: GameService,
+    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) {
+    this.gen = this.gameService.game.list[0]
   }
+
+  ngOnInit() {
+    this.paramsSub = this.activatedRoute.params.subscribe(params => {
+      this.mioId = params['type']
+      console.log(this.mioId)
+      if (this.mioId == "unit") {
+        this.typeLists = this.gameService.game.lists
+      } else {
+        this.typeLists = this.gameService.game.expLists
+      }
+      if (this.mioId === undefined) {
+        this.mioId = "gen"
+        return;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.paramsSub.unsubscribe();
+  }
+}

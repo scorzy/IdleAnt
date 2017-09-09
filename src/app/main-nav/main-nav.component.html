@@ -3,7 +3,7 @@
         <router-outlet></router-outlet>
     </div>
     <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [clr-nav-level]="2">
-        <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of gameService.game.lists | filterListNotEmpty">
+        <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of typeLists | filterListNotEmpty">
             <span clrVerticalNavLink>
         <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
         {{list.type}}

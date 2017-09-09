@@ -24,9 +24,9 @@ export class World {
 
     goTo() {
         const le = this.game.lifeEarning
-        const exp = this.game.experience.plus(this.game.getExperience())
+        const exp = this.game.experience.quantity.plus(this.game.getExperience())
         this.game.setInitialStat()
-        this.game.experience = exp
+        this.game.experience.quantity = exp
         if(this.avaiableUnits)
             this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
         if (this.unlockedUnits){
