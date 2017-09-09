@@ -1,3 +1,4 @@
+import { summaryFileName } from '@angular/compiler/src/aot/util';
 import { Base } from './base';
 import { Production } from '../production';
 import { first } from 'rxjs/operator/first';
@@ -29,6 +30,8 @@ export class Unit extends Base {
 
     btType = ""
 
+    prestigeBonusProduction = Array<Unit>()
+
     constructor(
         public model: GameModel,
         id: string,
@@ -53,10 +56,14 @@ export class Unit extends Base {
             : Decimal(0)
     }
     getProduction() {
+        let sum = Decimal(1)
+        for (let p of this.prestigeBonusProduction)
+            sum = sum.plus(p.quantity)
+
         return this.getBoost().plus(1).times(
             Decimal.pow(2,
                 this.upSpecial ? this.upSpecial.quantity : Decimal(0)
-            ).times(this.worldEffModifiers)
+            ).times(this.worldEffModifiers).times(sum)
         )
     }
 

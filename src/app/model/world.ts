@@ -40,9 +40,6 @@ export class World {
         if (this.unitPrice)
             this.unitPrice.forEach(p => p[0].worldBuyModifiers = p[1])
 
-        // To Unlock
-        
-
         this.game.world = this
     }
 

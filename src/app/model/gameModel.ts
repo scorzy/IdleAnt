@@ -620,25 +620,30 @@ export class GameModel {
         this.expLists = new Array<TypeList>()
         this.expAnt = new Array<Unit>()
 
-        this.pAntPower = new Unit(this, "pap", "Ant Power", "Ant Power", true)
+        //    Ant food
+        this.pAntPower = new Unit(this, "pap", "Ant Power", "Ant yeld 100% more Food", true)
         this.allPrestigeUp.push(this.pAntPower)
         this.pAntPower.unlocked = true
         this.pAntPower.actions.push(new BuyAction(this, this.pAntPower,
-            [new Cost(this.experience, Decimal(100), Decimal(10))]))
+            [new Cost(this.experience, Decimal(1), Decimal(10))]))
         this.expAnt.push(this.pAntPower)
+        this.littleAnt.prestigeBonusProduction.push(this.pAntPower)
 
-        this.pAntFungus = new Unit(this, "paf", "Ant Fungus", "Ant Fungus", true)
+        //    Ant fungus
+        this.pAntFungus = new Unit(this, "paf", "Ant Fungus", "Farmer yeld 100% more Fungus", true)
         this.allPrestigeUp.push(this.pAntFungus)
         this.pAntFungus.unlocked = true
         this.pAntFungus.actions.push(new BuyAction(this, this.pAntFungus,
-            [new Cost(this.experience, Decimal(100), Decimal(10))]))
+            [new Cost(this.experience, Decimal(1), Decimal(10))]))
         this.expAnt.push(this.pAntFungus)
+        this.farmer.prestigeBonusProduction.push(this.pAntFungus)
 
+        //    Ant in next world
         this.pAntNext = new Unit(this, "pan", "Ant Next", "Ant Next", true)
         this.allPrestigeUp.push(this.pAntNext)
         this.pAntNext.unlocked = true
         this.pAntNext.actions.push(new BuyAction(this, this.pAntNext,
-            [new Cost(this.experience, Decimal(100), Decimal(10))]))
+            [new Cost(this.experience, Decimal(1), Decimal(10))]))
         this.expAnt.push(this.pAntNext)
 
         this.expLists.push(new TypeList("Ant", this.expAnt))
@@ -803,7 +808,7 @@ export class GameModel {
         save.w = this.world.getData()
         save.nw = this.nextWorlds.map(w => w.getData())
         save.pre = this.allPrestigeUp.map(p => p.getData())
-        //return JSON.stringify(save)
+        save.res = this.resList.map(r => r.getData())
         return LZString.compressToUTF16(JSON.stringify(save))
 
     }
@@ -826,6 +831,9 @@ export class GameModel {
             for (const s of save.pre)
                 this.allPrestigeUp.find(p => p.id == s.id).restore(s)
 
+            for (const s of save.res)
+                this.resList.find(p => p.id == s.id).restore(s)
+
             return save.last
 
         }
@@ -837,7 +845,7 @@ export class GameModel {
     }
 
     getExperience(): decimal.Decimal {
-        return this.currentEarning.div(10E6).pow(1 / 3).times(this.world.expMulti)
+        return this.currentEarning.div(10E1).pow(1 / 3).times(this.world.expMulti)
     }
 
     getUnits(types: Type[]): Unit[] {
