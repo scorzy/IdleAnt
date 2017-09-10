@@ -31,6 +31,7 @@ export class Unit extends Base {
     btType = ""
 
     prestigeBonusProduction = Array<Unit>()
+    prestigeBonusStart = Array<Unit>()
 
     constructor(
         public model: GameModel,
@@ -89,6 +90,16 @@ export class Unit extends Base {
         if (this.prestige)
             return false
         return super.isEnding()
+    }
+
+    initialize() {
+        super.initialize()
+
+        let sum = Decimal(0)
+        for (let p of this.prestigeBonusStart)
+            sum = sum.plus(p.quantity)
+
+        this.quantity = sum.times(5)
     }
 
 }

@@ -63,6 +63,7 @@ export class GameModel {
     workerBee: Unit
     queenBee: Unit
     hiveBee: Unit
+    listBee = new Array<Unit>()
 
     unitMap: Map<string, Unit> = new Map()
     all: Array<Unit>
@@ -130,6 +131,7 @@ export class GameModel {
         this.lists.push(new TypeList("Material", this.listMaterial))
         this.lists.push(new TypeList("Jobs", this.listJobs))
         this.lists.push(new TypeList("Ants", this.list))
+        this.lists.push(new TypeList("Bee",this.listBee))
 
         this.all = Array.from(this.unitMap.values()).filter(u => !u.prestige)
         this.alert = alertArray[0]
@@ -435,7 +437,7 @@ export class GameModel {
 
         this.foragingBee = new Unit(this, "forBee", "Foraging Bee", "Get nectar")
         this.foragingBee.types = [Type.Bee]
-        this.listJobs.push(this.foragingBee)
+        this.listBee.push(this.foragingBee)
         this.foragingBee.actions.push(new BuyAction(this,
             this.foragingBee,
             [new Cost(this.food, Decimal(1), Decimal(1.01))]
@@ -449,7 +451,7 @@ export class GameModel {
 
         this.workerBee = new Unit(this, "worBee", "Worker Bee", "Convert nectar to honey")
         this.workerBee.types = [Type.Bee]
-        this.listJobs.push(this.workerBee)
+        this.listBee.push(this.workerBee)
         this.workerBee.actions.push(new BuyAndUnlockAction(this,
             this.workerBee,
             [
@@ -460,7 +462,7 @@ export class GameModel {
         this.nectar.addProductor(new Production(this.workerBee, Decimal(-2)))
         this.honey.addProductor(new Production(this.workerBee, Decimal(1)))
 
-        this.listJobs.push(this.queenBee)
+        this.listBee.push(this.queenBee)
         this.queenBee.actions.push(new BuyAndUnlockAction(this,
             this.queenBee,
             [
@@ -471,7 +473,7 @@ export class GameModel {
         ))
         this.foragingBee.addProductor(new Production(this.queenBee))
 
-        this.listJobs.push(this.hiveBee)
+        this.listBee.push(this.hiveBee)
         this.hiveBee.actions.push(new BuyAction(this,
             this.hiveBee,
             [
@@ -481,7 +483,6 @@ export class GameModel {
             ]
         ))
         this.queenBee.addProductor(new Production(this.hiveBee))
-
     }
 
     initResearchs() {
@@ -645,6 +646,7 @@ export class GameModel {
         this.pAntNext.actions.push(new BuyAction(this, this.pAntNext,
             [new Cost(this.experience, Decimal(1), Decimal(10))]))
         this.expAnt.push(this.pAntNext)
+        this.littleAnt.prestigeBonusStart = [this.pAntNext]
 
         this.expLists.push(new TypeList("Ant", this.expAnt))
 
@@ -655,6 +657,7 @@ export class GameModel {
             u.initialize()
             u.actions.forEach(a => a.initialize())
         })
+        this.resList.forEach(r => r.initialize())
         this.food.unlocked = true
         this.food.quantity = Decimal(5E5)
         this.littleAnt.unlocked = true
