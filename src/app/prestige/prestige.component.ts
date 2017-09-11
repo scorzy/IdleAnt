@@ -31,4 +31,8 @@ export class PrestigeComponent implements OnInit {
     world.goTo()
     this.router.navigateByUrl('/')
   }
+
+  change(){
+    this.gameService.game.generateRandomWorld()
+  }
 }

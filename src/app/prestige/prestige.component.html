@@ -31,6 +31,7 @@
             <p>
                 By going away now you will earn {{gameService.game.getExperience() | format}} experience.
             </p>
+            <button class="btn btn-primary" (click)="change()">Change</button>
             <div class="row">
 
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let world of gameService.game.nextWorlds ">

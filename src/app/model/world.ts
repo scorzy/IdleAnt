@@ -27,9 +27,9 @@ export class World {
         const exp = this.game.experience.quantity.plus(this.game.getExperience())
         this.game.setInitialStat()
         this.game.experience.quantity = exp
-        if(this.avaiableUnits)
+        if (this.avaiableUnits)
             this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
-        if (this.unlockedUnits){
+        if (this.unlockedUnits) {
             this.unlockedUnits.forEach(u => u.avabileThisWorld = true)
             this.game.unlockUnits(this.unlockedUnits)()
         }
@@ -44,18 +44,24 @@ export class World {
     }
 
     static getBaseWorld(game: GameModel): World {
-        return new World(game, "base", [], [], [new Cost(game.food, Decimal(1000))])
+        return new World(game, "base",
+            [],
+            [],
+            [
+                new Cost(game.food, Decimal(1E1)),
+                //  new Cost(game.maxAnt,Decimal(100))
+            ]
+        )
     }
 
     static getRandomWorld(game: GameModel): World {
-        console.log("getRandomWorld")
-        const worldRet = new World(game, "base", [], [], [new Cost(game.food, Decimal(1000))])
+        const worldRet = this.getBaseWorld(game)
 
         const worldType = World.worldTypes[Math.floor(Math.random() * (World.worldTypes.length))]
         const worldPrefix = World.worldPrefix[Math.floor(Math.random() * (World.worldPrefix.length))]
         const worldSuffix = World.worldSuffix[Math.floor(Math.random() * (World.worldSuffix.length))]
 
-        const worlds = [worldType, worldPrefix, worldSuffix]
+        const worlds = [worldType, worldPrefix, worldSuffix, this.getBaseWorld(game)]
         worldRet.name = worldPrefix.name + " " + worldType.name + " " + worldSuffix.name
 
         worlds.forEach(w => {
@@ -79,6 +85,13 @@ export class World {
                     prod[1] = prod[1].times(p[1])
                 else
                     worldRet.unitPrice.push([p[0], p[1]])
+            })
+            w.toUnlock.forEach(p => {
+                const toUnlock = worldRet.toUnlock.find(c => c.unit.id == p.unit.id)
+                if (toUnlock)
+                    toUnlock.basePrice = toUnlock.basePrice.plus(p.basePrice)
+                else
+                    worldRet.toUnlock.push(new Cost(p.unit, p.basePrice))
             })
 
             worldRet.expMulti = worldRet.expMulti.times(w.expMulti)
@@ -113,10 +126,19 @@ export class World {
     static initialize(game: GameModel) {
         World.worldTypes = [
             new World(game,
+                "Park",
+                [],
+                [],
+                []
+            ),
+            new World(game,
                 "Beach",
-                [game.seaRes],
+                [],
                 [[game.sand, Decimal(2)]],
-                [new Cost(game.food, Decimal(1000))])
+                [new Cost(game.crabQueen, Decimal(1000))],
+                Decimal(1), [], [],
+                [game.seaRes]
+            )
         ]
 
         World.worldPrefix = [
@@ -124,12 +146,71 @@ export class World {
                 [],
                 [[game.food, Decimal(0.5)]],
                 [],
-                Decimal(1.1)),
+                Decimal(1.2)),
+            new World(game, "Freezing",
+                [],
+                [[game.food, Decimal(0.25)]],
+                [],
+                Decimal(1.5)),
             new World(game, "Hot",
                 [],
-                [[game.food, Decimal(1.5)]],
+                [[game.food, Decimal(2)]],
                 []
-            )
+            ),
+            new World(game, "Arid",
+                [],
+                [[game.fungus, Decimal(0.5)]],
+                [],
+                Decimal(1.2)
+            ),
+            new World(game, "Wooded",
+                [],
+                [[game.wood, Decimal(2)]],
+                []
+            ),
+            new World(game, "Crystallized",
+                [],
+                [
+                    [game.cristal, Decimal(2)],
+                    [game.food, Decimal(0.75)],
+                    [game.fungus, Decimal(0.75)]
+                ],
+                []
+            ),
+            new World(game, "Dying",
+                [],
+                [
+                    [game.food, Decimal(0.6)],
+                    [game.fungus, Decimal(0.6)],
+                    [game.wood, Decimal(0.6)],
+                    [game.honey, Decimal(0.6)],
+                    [game.nectar, Decimal(0.6)]
+                ],
+                [], Decimal(2)
+            ),
+            new World(game, "Rainy",
+                [],
+                [
+                    [game.wood, Decimal(1.5)],
+                    [game.fungus, Decimal(1.5)]
+                ], []
+            ),
+            new World(game, "Foggy",
+                [],
+                [
+                    [game.wood, Decimal(0.8)],
+                    [game.fungus, Decimal(0.8)]
+                ], [], Decimal(1.3)
+            ),
+            new World(game, "Technological",
+                [],
+                [
+                    [game.science, Decimal(1.5)]
+                ], []
+            ),
+
+
+
         ]
 
         World.worldSuffix = [
@@ -137,8 +218,38 @@ export class World {
                 "of Fungus",
                 [],
                 [[game.fungus, Decimal(4)]],
-                [new Cost(game.fungus,Decimal(1000))],
+                [new Cost(game.fungus, Decimal(1000))],
                 Decimal(1.1)
+            ),
+            new World(game,
+                "of Bee",
+                [], [], [],
+                Decimal(1),
+                [[game.foragingBee, Decimal(2)]]
+            ),
+            new World(game,
+                "of Ant",
+                [], [], [],
+                Decimal(1),
+                [[game.foragingBee, Decimal(2)]]
+            ),
+            new World(game,
+                "of Scientist",
+                [], [], [],
+                Decimal(1),
+                [[game.scientist, Decimal(2)]]
+            ),
+            new World(game,
+                "of Farming",
+                [], [], [],
+                Decimal(1),
+                [[game.farmer, Decimal(2)]]
+            ),
+            new World(game,
+                "of Cristall",
+                [],
+                [[game.cristal, Decimal(2)]],
+                []
             )
         ]
 
