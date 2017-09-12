@@ -87,7 +87,7 @@ export class Action extends Base {
         }
         if (this.oneTime && max.greaterThanOrEqualTo(1))
             return Decimal(1)
-        
+
         return max
     }
     owned(): boolean {
@@ -231,4 +231,21 @@ export class UpHire extends Action {
     }
 }
 
+export class UpEfficiency extends Action {
+    constructor(
+        game: GameModel,
+        unit,
+        price: Array<Cost>
+    ) {
+        super("ef", "Upgrade efficiency", null, price, "Upgrade efficiency", game, unit)
+        this.unit.upEfficiency = this
+    }
 
+    getBuyMax(): decimal.Decimal {
+        const max = super.getBuyMax()
+        const rem = Decimal(40).minus(max)
+        if (rem.lessThanOrEqualTo(0))
+            return Decimal(0)
+        return Decimal.min(rem, max)
+    }
+}

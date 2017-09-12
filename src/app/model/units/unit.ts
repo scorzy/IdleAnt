@@ -27,6 +27,7 @@ export class Unit extends Base {
     upAction: Action
     upSpecial: Action
     upHire: Action
+    upEfficiency: Action
 
     btType = ""
 

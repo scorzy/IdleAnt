@@ -5,7 +5,7 @@ import { Base, Type } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
 import { PrestigeList, TypeList } from './typeList';
-import { Action, BuyAction, BuyAndUnlockAction, Research, UpAction, UpHire, UpSpecial } from './units/action';
+import { Action, BuyAction, BuyAndUnlockAction, Research, UpAction, UpEfficiency, UpHire, UpSpecial } from './units/action';
 import { Production } from './production';
 import { Map } from 'rxjs/util/Map';
 import { Data } from '@angular/router';
@@ -54,6 +54,7 @@ export class GameModel {
 
     //    Research
     up1: Research
+    upEfficiency: Research
     rDirt: Research
     resList = Array<Research>()
     specialResearch: Research
@@ -301,6 +302,10 @@ export class GameModel {
         this.cristal.addProductor(new Production(this.laserAnt))
         this.sand.addProductor(new Production(this.laserAnt, Decimal(-5)))
 
+        const consumer = [this.composterAnt, this.refineryAnt, this.laserAnt]
+        consumer.forEach(l =>
+            l.actions.push(new UpEfficiency(this, l, [new Cost(this.science, Decimal(1), Decimal(10))])))
+
         this.level1.push(this.composterAnt, this.refineryAnt, this.laserAnt)
     }
     prodGenerators() {
@@ -436,6 +441,8 @@ export class GameModel {
             l.actions.push(new UpAction(this, l, [new Cost(this.science, Decimal(1E3), Decimal(10))]))
             l.actions.push(new UpHire(this, l, [new Cost(this.science, Decimal(1E3), Decimal(10))]))
         })
+
+
     }
 
     initBee() {
@@ -538,12 +545,21 @@ export class GameModel {
             this
         )
 
+        //    Efficiency
+        const allUpEff = Array.from(this.unitMap.values()).filter(u => u.upEfficiency).map(u => u.upEfficiency)
+        this.upEfficiency = new Research(
+            "effiRes",
+            "Efficiency", "Unlock Efficiency Upgrade",
+            [new Cost(this.science, Decimal(1))],
+            allUpEff, this
+        )
+
         //    Special
         this.specialResearch = new Research(
             "speRes",
             "Special Jobs", "Unlock special Jobs",
             [new Cost(this.science, Decimal(1))],
-            [composterResearch, refineryResearch, laserResearch, beeResearch],
+            [composterResearch, refineryResearch, laserResearch, beeResearch, this.upEfficiency],
             this
         )
 
