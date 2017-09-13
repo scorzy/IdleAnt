@@ -52,12 +52,22 @@ export class GameModel {
     maxAnt: Unit
     list = Array<Unit>()
 
+    //    Machinery
+    mine: Unit
+    laserStation: Unit
+    sandDigger: Unit
+    hydroFarm: Unit
+    loggingMachine: Unit
+    caterpillar: Unit
+    listMachinery = new Array<Unit>()
+
     //    Research
     up1: Research
     upEfficiency: Research
     rDirt: Research
     resList = Array<Research>()
     specialResearch: Research
+    othersResearch: Research
 
     //    Bee
     nectar: Unit
@@ -126,6 +136,7 @@ export class GameModel {
         this.prodJobs()
 
         this.initBee()
+        this.initMachinery()
 
         //    Fungus
         this.fungus.actions.push(new UpSpecial(this, this.fungus))
@@ -135,6 +146,7 @@ export class GameModel {
         this.lists.push(new TypeList("Jobs", this.listJobs))
         this.lists.push(new TypeList("Ants", this.list))
         this.lists.push(new TypeList("Bee", this.listBee))
+        this.lists.push(new TypeList("Machinery", this.listMachinery))
 
         this.initResearchs()
         this.initWorld()
@@ -507,7 +519,104 @@ export class GameModel {
         this.hiveBee.actions.push(new UpHire(this, this.hiveBee, [new Cost(this.science, Decimal(1E3), Decimal(10))]))
     }
 
+    initMachinery() {
+
+        this.listMachinery = new Array<Unit>()
+
+        //    Laser
+        this.laserStation = new Unit(this, "laserStation", "Laser Station", "Yeld cristal")
+        this.laserStation.types = [Type.Machinery]
+        this.laserStation.actions.push(new BuyAction(this,
+            this.laserStation,
+            [
+                new Cost(this.wood, Decimal(1E6), Decimal(1.01)),
+                new Cost(this.cristal, Decimal(1E6), Decimal(1.01))
+            ]
+        ))
+        this.cristal.addProductor(new Production(this.laserStation, Decimal(1E3)))
+        this.sand.addProductor(new Production(this.laserStation, Decimal(-5E2)))
+        this.listMachinery.push(this.laserStation)
+
+        //    Hydroponic Farm
+        this.hydroFarm = new Unit(this, "hydroFarm", "Hydroponic Farm", "Yeld fungus")
+        this.hydroFarm.types = [Type.Machinery]
+        this.hydroFarm.actions.push(new BuyAction(this,
+            this.hydroFarm,
+            [
+                new Cost(this.wood, Decimal(5E5), Decimal(1.01)),
+                new Cost(this.cristal, Decimal(1E6), Decimal(1.01)),
+                new Cost(this.fungus, Decimal(1E5), Decimal(1.01))
+            ]
+        ))
+        this.fungus.addProductor(new Production(this.hydroFarm, Decimal(1E3)))
+        this.listMachinery.push(this.hydroFarm)
+
+        //    Caterpillar
+        this.caterpillar = new Unit(this, "caterpillar", "Caterpillar", "Yeld soil")
+        this.caterpillar.types = [Type.Machinery]
+        this.caterpillar.actions.push(new BuyAction(this,
+            this.caterpillar,
+            [
+                new Cost(this.wood, Decimal(5E5), Decimal(1.01)),
+                new Cost(this.cristal, Decimal(1E6), Decimal(1.01)),
+                new Cost(this.soil, Decimal(1E5), Decimal(1.01))
+            ]
+        ))
+        this.wood.addProductor(new Production(this.caterpillar, Decimal(1E3)))
+        this.listMachinery.push(this.caterpillar)
+
+
+        //    Not always avaiable
+
+        //    Sand digger
+        this.sandDigger = new Unit(this, "sandDigger", "Sand Digger", "Yeld sand")
+        this.sandDigger.avabileBaseWorld = false
+        this.sandDigger.types = [Type.Machinery]
+        this.sandDigger.actions.push(new BuyAction(this,
+            this.sandDigger,
+            [new Cost(this.wood, Decimal(1E6), Decimal(1.01))]
+        ))
+        this.cristal.addProductor(new Production(this.sandDigger, Decimal(1E3)))
+        this.listMachinery.push(this.sandDigger)
+
+        //    Hydroponic Farm
+        this.loggingMachine = new Unit(this, "loggingMachine", "Logging Machine", "Yeld wood")
+        this.loggingMachine.avabileBaseWorld = false
+        this.loggingMachine.types = [Type.Machinery]
+        this.loggingMachine.actions.push(new BuyAction(this,
+            this.loggingMachine,
+            [
+                new Cost(this.wood, Decimal(5E5), Decimal(1.01)),
+                new Cost(this.cristal, Decimal(1E6), Decimal(1.01)),
+                new Cost(this.soil, Decimal(1E5), Decimal(1.01))
+            ]
+        ))
+        this.wood.addProductor(new Production(this.loggingMachine, Decimal(1E3)))
+        this.listMachinery.push(this.loggingMachine)
+
+        //    Mine
+        this.mine = new Unit(this, "mine", "Mine", "Yeld cristal")
+        this.mine.avabileBaseWorld = false
+        this.mine.types = [Type.Machinery]
+        this.mine.actions.push(new BuyAction(this,
+            this.mine,
+            [new Cost(this.wood, Decimal(1E6), Decimal(1.01))]
+        ))
+        this.cristal.addProductor(new Production(this.mine, Decimal(1E3)))
+        this.listMachinery.push(this.mine)
+
+    }
+
     initResearchs() {
+
+        //    Machinery
+        const machineryRes = new Research(
+            "machiRes",
+            "Machinery", "Unlock powerfull machinery",
+            [new Cost(this.science, Decimal(1))],
+            this.listMachinery,
+            this
+        )
 
         //    Bee
         const beeResearch = new Research(
@@ -515,6 +624,15 @@ export class GameModel {
             "Bee", "Unlock Bee !",
             [new Cost(this.science, Decimal(1))],
             [this.nectar, this.foragingBee, this.workerBee, this.honey],
+            this
+        )
+
+        //    Others
+        this.othersResearch = new Research(
+            "otherRes",
+            "Other Helers", "Unlock friendly units",
+            [new Cost(this.science, Decimal(1))],
+            [beeResearch],
             this
         )
 
@@ -559,7 +677,8 @@ export class GameModel {
             "speRes",
             "Special Jobs", "Unlock special Jobs",
             [new Cost(this.science, Decimal(1))],
-            [composterResearch, refineryResearch, laserResearch, beeResearch, this.upEfficiency],
+            [composterResearch, refineryResearch, laserResearch, 
+                this.othersResearch, this.upEfficiency, machineryRes],
             this
         )
 
@@ -695,7 +814,8 @@ export class GameModel {
             [this.crab, this.crabFarmer, this.crabQueen, this.shrimp],
             this
         )
-        this.specialResearch.toUnlock.push(this.seaRes)
+        this.seaRes.avabileBaseWorld = false
+        this.othersResearch.toUnlock.push(this.seaRes)
         this.lists.push(new TypeList("Beach", beachList))
     }
 

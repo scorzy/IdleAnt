@@ -9,7 +9,7 @@
         {{list.type}}
       </span>
             <clr-vertical-nav-group-children *clrIfExpanded="true">
-                <a clrVerticalNavLink routerLink="./unit/pidgey" [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax">
+                <a class="listLink" clrVerticalNavLink routerLink="./unit/pidgey" [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax">
 
                     <span class="text-capitalize">{{g.name}}</span>
                     <span style="float: right">

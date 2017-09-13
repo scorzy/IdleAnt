@@ -9,7 +9,8 @@ export enum Type {
     Soil,
     Fungus,
     Wood,
-    Sand
+    Sand,
+    Machinery
 }
 
 export class Base {

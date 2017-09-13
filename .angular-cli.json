@@ -1,68 +1,65 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "project": {
-    "name": "idle-ant"
-  },
-  "apps": [
-    {
-      "root": "src",
-      "outDir": "dist",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
-      "index": "index.html",
-      "main": "main.ts",
-      "polyfills": "polyfills.ts",
-      "test": "test.ts",
-      "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "tsconfig.spec.json",
-      "prefix": "app",
-      "styles": [
-        "styles.scss",
-        "../node_modules/clarity-icons/clarity-icons.min.css",
-        "../node_modules/clarity-ui/clarity-ui.min.css"
-      ],
-      "scripts": [
-        "../node_modules/mutationobserver-shim/dist/mutationobserver.min.js",
-        "../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
-        "../node_modules/clarity-icons/clarity-icons.min.js",
-        "../node_modules/decimal.js/decimal.min.js",
-        "../node_modules/lz-string/libs/lz-string.min.js"
-      ],
-      "environmentSource": "environments/environment.ts",
-      "environments": {
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
-      }
-    }
-  ],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
-  "lint": [
-    {
-      "project": "src/tsconfig.app.json",
-      "exclude": "**/node_modules/**"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+        "name": "idle-ant"
     },
-    {
-      "project": "src/tsconfig.spec.json",
-      "exclude": "**/node_modules/**"
+    "apps": [{
+        "root": "src",
+        "outDir": "dist",
+        "assets": [
+            "assets",
+            "favicon.ico"
+        ],
+        "index": "index.html",
+        "main": "main.ts",
+        "polyfills": "polyfills.ts",
+        "test": "test.ts",
+        "tsconfig": "tsconfig.app.json",
+        "testTsconfig": "tsconfig.spec.json",
+        "prefix": "app",
+        "styles": [
+            "../node_modules/clarity-icons/clarity-icons.min.css",
+            "../node_modules/clarity-ui/clarity-ui.min.css",
+            "styles.scss"
+        ],
+        "scripts": [
+            "../node_modules/mutationobserver-shim/dist/mutationobserver.min.js",
+            "../node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+            "../node_modules/clarity-icons/clarity-icons.min.js",
+            "../node_modules/decimal.js/decimal.min.js",
+            "../node_modules/lz-string/libs/lz-string.min.js"
+        ],
+        "environmentSource": "environments/environment.ts",
+        "environments": {
+            "dev": "environments/environment.ts",
+            "prod": "environments/environment.prod.ts"
+        }
+    }],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
     },
-    {
-      "project": "e2e/tsconfig.e2e.json",
-      "exclude": "**/node_modules/**"
+    "lint": [{
+            "project": "src/tsconfig.app.json",
+            "exclude": "**/node_modules/**"
+        },
+        {
+            "project": "src/tsconfig.spec.json",
+            "exclude": "**/node_modules/**"
+        },
+        {
+            "project": "e2e/tsconfig.e2e.json",
+            "exclude": "**/node_modules/**"
+        }
+    ],
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "scss",
+        "component": {}
     }
-  ],
-  "test": {
-    "karma": {
-      "config": "./karma.conf.js"
-    }
-  },
-  "defaults": {
-    "styleExt": "scss",
-    "component": {}
-  }
 }
