@@ -11,8 +11,10 @@
             <clr-vertical-nav-group-children *clrIfExpanded="true">
                 <a clrVerticalNavLink routerLink="./unit/pidgey" [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax"
                     class="text-capitalize">
+                    <clr-icon class="alert-icon" shape="pause" [style.visibility]="g.haveUp() ? 'visible' : 'hidden'"></clr-icon>
                     {{g.name}} - {{g.quantity | format}}                   
                     <clr-icon class="alert-icon is-error" shape="exclamation-triangle" [style.visibility]="g.isEnding() ? 'visible' : 'hidden'"></clr-icon>
+                    <clr-icon class="alert-icon" shape="pause" [style.visibility]="g.isStopped() ? 'visible' : 'hidden'"></clr-icon>
                 </a>
             </clr-vertical-nav-group-children>
         </clr-vertical-nav-group>

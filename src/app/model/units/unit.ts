@@ -102,4 +102,14 @@ export class Unit extends Base {
         }
     }
 
+    isStopped() {
+        return this.percentage < Number.EPSILON
+    }
+
+    haveUp() {
+        return (this.upSpecial ? this.upSpecial.getBuyMax().greaterThanOrEqualTo(1) : false) ||
+            (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false) ||
+            (this.upEfficiency ? this.upEfficiency.getBuyMax().greaterThanOrEqualTo(1) : false)
+    }
+
 }

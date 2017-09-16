@@ -56,4 +56,6 @@ export class Base {
     isEnding(): boolean {
         return this.endIn < Number.POSITIVE_INFINITY
     }
+    isStopped(){return false}
+    haveUp(){return false}
 }
