@@ -102,6 +102,9 @@ export class GameModel {
     pAntPower: Unit
     pAntFungus: Unit
     pAntNext: Unit
+    pGeologistNext: Unit
+    pScientistNext: Unit
+    pFarmerNext: Unit
 
 
     //    Special World Units
@@ -157,6 +160,8 @@ export class GameModel {
         this.world = World.getBaseWorld(this)
 
         World.initialize(this)
+        this.world.generateAction(this)
+
         this.generateRandomWorld()
         this.generatePrestige()
 
@@ -626,6 +631,7 @@ export class GameModel {
             [this.nectar, this.foragingBee, this.workerBee, this.honey],
             this
         )
+        beeResearch.avabileBaseWorld = false
 
         //    Others
         this.othersResearch = new Research(
@@ -677,7 +683,7 @@ export class GameModel {
             "speRes",
             "Special Jobs", "Unlock special Jobs",
             [new Cost(this.science, Decimal(1))],
-            [composterResearch, refineryResearch, laserResearch, 
+            [composterResearch, refineryResearch, laserResearch,
                 this.othersResearch, this.upEfficiency, machineryRes],
             this
         )
@@ -844,15 +850,25 @@ export class GameModel {
 
         //    Ant in next world
         this.pAntNext = new Unit(this, "pan", "Ant Next", "Ant Next", true)
-        this.allPrestigeUp.push(this.pAntNext)
-        this.pAntNext.unlocked = true
-        this.pAntNext.actions.push(new BuyAction(this, this.pAntNext,
-            [new Cost(this.experience, Decimal(1), Decimal(10))]))
-        this.expAnt.push(this.pAntNext)
-        this.littleAnt.prestigeBonusStart = [this.pAntNext]
+        this.pGeologistNext = new Unit(this, "pgn", "Geologist Next", "Geologist Next", true)
+        this.pScientistNext = new Unit(this, "psn", "Scientist Next", "Scientist Next", true)
+        this.pFarmerNext = new Unit(this, "pfn", "Farmer Next", "Farmer Next", true)
+
+        const listNext = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext]
+        listNext.forEach(n => {
+            this.allPrestigeUp.push(n)
+            n.unlocked = true
+            n.actions.push(new BuyAction(this, n,
+                [new Cost(this.experience, Decimal(1), Decimal(10))]))
+            n.buyAction.unlocked = true
+            this.expAnt.push(n)
+        })
+        this.littleAnt.prestigeBonusStart = this.pAntNext
+        this.geologist.prestigeBonusStart = this.pGeologistNext
+        this.scientist.prestigeBonusStart = this.pScientistNext
+        this.farmer.prestigeBonusStart = this.pFarmerNext
 
         this.expLists.push(new TypeList("Ant", this.expAnt))
-
     }
 
     setInitialStat() {
@@ -864,6 +880,7 @@ export class GameModel {
         this.food.unlocked = true
         this.food.quantity = Decimal(5E5)
         this.littleAnt.unlocked = true
+        this.littleAnt.buyAction.unlocked = true
         this.rDirt.unlocked = true
     }
 
@@ -980,17 +997,14 @@ export class GameModel {
 
     unlockUnits(units: Base[], message: string = null) {
         return () => {
-            let string = ""
             let ok = false
-            units.filter(u => !u.unlocked && u.avabileThisWorld).forEach(u => {
+            units.filter(u => u.avabileThisWorld).forEach(u => {
                 u.unlocked = true
-                string += " " + u.name
-                ok = true
-            })
-            if (ok)
-                this.alert = new Alert("info", message ? message : "unlocked:" + string)
+                if (u.buyAction)
+                    u.buyAction.unlocked = true
 
-            //console.log(string)
+            })
+
             this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>
                 p.productor.unlocked = p.productor.avabileThisWorld))
             return ok
@@ -1051,7 +1065,8 @@ export class GameModel {
     }
 
     getExperience(): decimal.Decimal {
-        return this.currentEarning.div(10E1).pow(1 / 3).times(this.world.expMulti)
+        return this.world.prestige.getBuyMax()
+        //  return this.currentEarning.div(10E1).pow(1 / 3).times(this.world.expMulti)
     }
 
     getUnits(types: Type[]): Unit[] {

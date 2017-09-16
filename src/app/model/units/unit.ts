@@ -23,7 +23,6 @@ export class Unit extends Base {
     worldBuyModifiers = Decimal(1)
 
     actions = Array<Action>()
-    buyAction: Action
     upAction: Action
     upSpecial: Action
     upHire: Action
@@ -32,7 +31,7 @@ export class Unit extends Base {
     btType = ""
 
     prestigeBonusProduction = Array<Unit>()
-    prestigeBonusStart = Array<Unit>()
+    prestigeBonusStart: Unit
 
     constructor(
         public model: GameModel,
@@ -96,11 +95,11 @@ export class Unit extends Base {
     initialize() {
         super.initialize()
 
-        let sum = Decimal(0)
-        for (let p of this.prestigeBonusStart)
-            sum = sum.plus(p.quantity)
-
-        this.quantity = sum.times(5)
+        if (this.prestigeBonusStart) {
+            this.quantity = Decimal(5)
+            if (this.quantity.greaterThan(0))
+                this.unlocked = true
+        }
     }
 
 }

@@ -1,4 +1,5 @@
 import { GameModel } from '../gameModel';
+import { Action } from './action';
 
 export enum Type {
     Material,
@@ -16,7 +17,8 @@ export enum Type {
 export class Base {
 
     endIn = 0
-
+    buyAction: Action
+    
     constructor(
         public game: GameModel,
         public id: string,

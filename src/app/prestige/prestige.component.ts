@@ -18,13 +18,16 @@ export class PrestigeComponent implements OnInit {
   }
 
   travelAv(): boolean {
-    try {
-      if (this.gameService.game.world.toUnlock.find(c => c.unit.quantity.lessThan(c.basePrice)))
-        return false
-      else
-        return true
-    } catch (ex) { }
-    return false
+
+    return this.gameService.game.world.prestige.getBuyMax().greaterThan(0)
+
+    // try {
+    //   if (this.gameService.game.world.toUnlock.find(c => c.unit.quantity.lessThan(c.basePrice)))
+    //     return false
+    //   else
+    //     return true
+    // } catch (ex) { }
+    // return false
   }
 
   goTo(world: World) {

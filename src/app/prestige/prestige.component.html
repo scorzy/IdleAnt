@@ -1,7 +1,6 @@
 <div class="content-container">
     <div class="content-area">
         <h1>Here you can travel to a new world.</h1>
-        {{gameService.game.currentEarning || format}}
         <div *ngIf="!travelAv()">
             <span>You need:</span>
 
@@ -45,6 +44,9 @@
                                     <li *ngFor="let p of world.avaiableUnits">
                                         {{p.name}}: {{p.description }}
                                     </li>
+                                    <li *ngFor="let p of world.unlockedUnits">
+                                        Start with {{p[1] | format }} {{p[0].name}}  
+                                    </li>
                                     <li *ngFor="let p of world.prodMod">
                                         Production of {{p[0].name}} x {{p[1] }}
                                     </li>
@@ -53,9 +55,6 @@
                                     </li>
                                     <li *ngFor="let p of world.unitPrice">
                                         {{p[0].name}} price x {{p[1] }}
-                                    </li>
-                                    <li *ngIf="world.expMulti.greaterThan(1)">
-                                        + {{world.expMulti.times(100)}}% experience
                                     </li>
                                 </ul>
                             </div>

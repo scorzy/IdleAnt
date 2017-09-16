@@ -2,6 +2,7 @@ import { Cost } from './cost';
 import { GameModel } from './gameModel';
 import { Unit } from './units/unit';
 import { Base } from './units/base';
+import { Action } from './units/action';
 
 export class World {
 
@@ -9,16 +10,17 @@ export class World {
     static worldTypes: World[]
     static worldSuffix: World[]
 
+    public prestige: Action
+
     constructor(
         public game: GameModel,
         public name: string,
         public avaiableUnits: Base[],
         public prodMod: [Unit, decimal.Decimal][],
         public toUnlock: Cost[],
-        public expMulti = Decimal(1),
         public unitMod: [Unit, decimal.Decimal][] = [],
         public unitPrice: [Unit, decimal.Decimal][] = [],
-        public unlockedUnits: Base[] = []
+        public unlockedUnits: [Base, decimal.Decimal][] = []
     ) {
     }
 
@@ -30,17 +32,21 @@ export class World {
         if (this.avaiableUnits)
             this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
         if (this.unlockedUnits) {
-            this.unlockedUnits.forEach(u => u.avabileThisWorld = true)
-            this.game.unlockUnits(this.unlockedUnits)()
+            this.unlockedUnits.forEach(u => {
+                u[0].avabileThisWorld = true
+                u[0].quantity = u[1]
+            })
+            this.game.unlockUnits(this.unlockedUnits.map(u => u[0]))()
         }
         if (this.prodMod)
             this.prodMod.forEach(p => p[0].worldProdModifiers = p[1])
         if (this.unitMod)
             this.unitMod.forEach(p => p[0].worldEffModifiers = p[1])
         if (this.unitPrice)
-            this.unitPrice.forEach(p => p[0].worldBuyModifiers = p[1])
+            this.unitPrice.forEach(p => p[0].worldBuyModifiers = p[1])       
 
         this.game.world = this
+        this.game.world.generateAction(this.game)
     }
 
     static getBaseWorld(game: GameModel): World {
@@ -94,7 +100,6 @@ export class World {
                     worldRet.toUnlock.push(new Cost(p.unit, p.basePrice))
             })
 
-            worldRet.expMulti = worldRet.expMulti.times(w.expMulti)
             worldRet.avaiableUnits = worldRet.avaiableUnits.concat(w.avaiableUnits)
         })
         worldRet.avaiableUnits = Array.from(new Set(worldRet.avaiableUnits))
@@ -123,6 +128,12 @@ export class World {
         this.toUnlock = data.t.map(c => this.game.getCost(c))
     }
 
+    generateAction(game: GameModel) {
+        this.prestige = new Action("pres", "", null, this.toUnlock, "", game)
+        this.prestige.priceF.forEach(pf => pf.growFactor = Decimal(10))
+        this.prestige.unlocked = true
+    }
+
     static initialize(game: GameModel) {
         World.worldTypes = [
             new World(game,
@@ -136,8 +147,8 @@ export class World {
                 [],
                 [[game.sand, Decimal(2)]],
                 [new Cost(game.crabQueen, Decimal(1000))],
-                Decimal(1), [], [],
-                [game.seaRes]
+                [], [],
+                [[game.seaRes, Decimal(0)]]
             )
         ]
 
@@ -145,13 +156,11 @@ export class World {
             new World(game, "Cold",
                 [],
                 [[game.food, Decimal(0.5)]],
-                [],
-                Decimal(1.2)),
+                []),
             new World(game, "Freezing",
                 [],
                 [[game.food, Decimal(0.25)]],
-                [],
-                Decimal(1.5)),
+                []),
             new World(game, "Hot",
                 [],
                 [[game.food, Decimal(2)]],
@@ -160,8 +169,7 @@ export class World {
             new World(game, "Arid",
                 [],
                 [[game.fungus, Decimal(0.5)]],
-                [],
-                Decimal(1.2)
+                []
             ),
             new World(game, "Wooded",
                 [],
@@ -186,7 +194,7 @@ export class World {
                     [game.honey, Decimal(0.6)],
                     [game.nectar, Decimal(0.6)]
                 ],
-                [], Decimal(2)
+                []
             ),
             new World(game, "Rainy",
                 [],
@@ -200,7 +208,7 @@ export class World {
                 [
                     [game.wood, Decimal(0.8)],
                     [game.fungus, Decimal(0.8)]
-                ], [], Decimal(1.3)
+                ], []
             ),
             new World(game, "Technological",
                 [],
@@ -218,31 +226,26 @@ export class World {
                 "of Fungus",
                 [],
                 [[game.fungus, Decimal(4)]],
-                [new Cost(game.fungus, Decimal(1000))],
-                Decimal(1.1)
+                [new Cost(game.fungus, Decimal(1000))]
             ),
             new World(game,
                 "of Bee",
                 [], [], [],
-                Decimal(1),
                 [[game.foragingBee, Decimal(2)]]
             ),
             new World(game,
                 "of Ant",
                 [], [], [],
-                Decimal(1),
                 [[game.foragingBee, Decimal(2)]]
             ),
             new World(game,
                 "of Scientist",
                 [], [], [],
-                Decimal(1),
                 [[game.scientist, Decimal(2)]]
             ),
             new World(game,
                 "of Farming",
                 [], [], [],
-                Decimal(1),
                 [[game.farmer, Decimal(2)]]
             ),
             new World(game,

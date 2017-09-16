@@ -2,21 +2,17 @@
     <div class="content-area">
         <router-outlet></router-outlet>
     </div>
-    <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [clr-nav-level]="2">
+    <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapsed" [clr-nav-level]="2">
         <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of typeLists | filterListNotEmpty">
             <span clrVerticalNavLink>
         <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
         {{list.type}}
       </span>
             <clr-vertical-nav-group-children *clrIfExpanded="true">
-                <a class="listLink" clrVerticalNavLink routerLink="./unit/pidgey" [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax">
-
-                    <span class="text-capitalize">{{g.name}}</span>
-                    <span style="float: right">
-                               <span>{{g.quantity | format}}</span>
+                <a clrVerticalNavLink routerLink="./unit/pidgey" [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax"
+                    class="text-capitalize">
+                    {{g.name}} - {{g.quantity | format}}                   
                     <clr-icon class="alert-icon is-error" shape="exclamation-triangle" [style.visibility]="g.isEnding() ? 'visible' : 'hidden'"></clr-icon>
-                    </span>
-
                 </a>
             </clr-vertical-nav-group-children>
         </clr-vertical-nav-group>

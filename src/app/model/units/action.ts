@@ -116,11 +116,10 @@ export class BuyAction extends Action {
             cost, "Hire", game, unit
         )
         unit.buyAction = this
-        this.unlocked = true
     }
     initialize() {
         super.initialize()
-        this.unlocked = true
+        this.unlocked = false
     }
 }
 
