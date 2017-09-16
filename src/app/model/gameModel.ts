@@ -53,13 +53,25 @@ export class GameModel {
     list = Array<Unit>()
 
     //    Machinery
-    mine: Unit
     laserStation: Unit
-    sandDigger: Unit
     hydroFarm: Unit
-    loggingMachine: Unit
     caterpillar: Unit
+
+    mine: Unit
+    sandDigger: Unit
+    loggingMachine: Unit
+
     listMachinery = new Array<Unit>()
+
+    //    Enginers
+    laserEnginer: Unit
+    hydroEnginer: Unit
+    soilEnginer: Unit
+    mineEnginer: Unit
+    sandEnginer: Unit
+    woodEnginer: Unit
+
+    listEnginer = new Array<Unit>()
 
     //    Research
     up1: Research
@@ -68,6 +80,7 @@ export class GameModel {
     resList = Array<Research>()
     specialResearch: Research
     othersResearch: Research
+    prestigeResearch: Research
 
     //    Bee
     nectar: Unit
@@ -94,11 +107,14 @@ export class GameModel {
     world: World
     nextWorlds: World[]
     experience: Unit
+    prestigeDone = Decimal(0)
 
     expLists = new Array<TypeList>()
     expAnt = new Array<Unit>()
+    expMachinery = new Array<Unit>()
     allPrestigeUp = new Array<Unit>()
 
+    //    Prestige Ant
     pAntPower: Unit
     pAntFungus: Unit
     pAntNext: Unit
@@ -106,6 +122,8 @@ export class GameModel {
     pScientistNext: Unit
     pFarmerNext: Unit
 
+    //    Prestige Machinery
+    pMachineryPower: Unit
 
     //    Special World Units
     crab: Unit
@@ -140,6 +158,7 @@ export class GameModel {
 
         this.initBee()
         this.initMachinery()
+        this.initEnginers()
 
         //    Fungus
         this.fungus.actions.push(new UpSpecial(this, this.fungus))
@@ -162,8 +181,8 @@ export class GameModel {
         World.initialize(this)
         this.world.generateAction(this)
 
-        this.generateRandomWorld()
         this.generatePrestige()
+        this.generateRandomWorld()
 
         this.list = this.list.reverse()
         this.setInitialStat()
@@ -256,13 +275,13 @@ export class GameModel {
         this.listJobs.push(this.scientist)
 
         this.carpenter = new Unit(this, "car")
-        this.carpenter.name = "carpenter"
+        this.carpenter.name = "Carpenter"
         this.carpenter.description = "carpenters yeld soil"
         this.carpenter.types = [Type.Ant]
         this.listJobs.push(this.carpenter)
 
         this.farmer = new Unit(this, "far")
-        this.farmer.name = "farmer"
+        this.farmer.name = "Farmer"
         this.farmer.description = "farmer yeld fungus"
         this.farmer.types = [Type.Ant]
         this.listJobs.push(this.farmer)
@@ -397,6 +416,7 @@ export class GameModel {
         this.food.addProductor(new Production(this.fungus))
 
         this.fungus.addProductor(new Production(this.farmer))
+        this.soil.addProductor(new Production(this.farmer, Decimal(-0.5)))
         this.cristal.addProductor(new Production(this.geologist))
         this.science.addProductor(new Production(this.scientist))
         this.soil.addProductor(new Production(this.carpenter))
@@ -584,7 +604,7 @@ export class GameModel {
         this.cristal.addProductor(new Production(this.sandDigger, Decimal(1E3)))
         this.listMachinery.push(this.sandDigger)
 
-        //    Hydroponic Farm
+        //    Wood
         this.loggingMachine = new Unit(this, "loggingMachine", "Logging Machine", "Yeld wood")
         this.loggingMachine.avabileBaseWorld = false
         this.loggingMachine.types = [Type.Machinery]
@@ -612,7 +632,49 @@ export class GameModel {
 
     }
 
+    initEnginers() {
+        this.listEnginer = new Array<Unit>()
+
+        this.laserEnginer = new Unit(this, "engLa", "Laser Engineer", "Yeld cristal")
+        this.hydroEnginer = new Unit(this, "engHy", "Hydro Engineer", "Yeld cristal")
+        this.soilEnginer = new Unit(this, "engSo", "Soil Engineer", "Yeld cristal")
+        this.mineEnginer = new Unit(this, "engMi", "Mining Engineer", "Yeld cristal")
+        this.sandEnginer = new Unit(this, "engSa", "Sand Engineer", "Yeld cristal")
+        this.woodEnginer = new Unit(this, "engWo", "Wood Engineer", "Yeld cristal")
+
+        this.sandEnginer.avabileBaseWorld = false
+        this.mineEnginer.avabileBaseWorld = false
+        this.woodEnginer.avabileBaseWorld = false
+
+        this.listEnginer.push(this.laserEnginer)
+        this.listEnginer.push(this.hydroEnginer)
+        this.listEnginer.push(this.soilEnginer)
+        this.listEnginer.push(this.mineEnginer)
+        this.listEnginer.push(this.sandEnginer)
+        this.listEnginer.push(this.woodEnginer)
+
+        this.listEnginer.forEach(e => {
+            e.actions.push(new BuyAction(this,
+                e,
+                [
+                    new Cost(this.wood, Decimal(1E6), Decimal(1.01)),
+                    new Cost(this.cristal, Decimal(1E6), Decimal(1.01))
+                ]
+            ))
+            
+        })
+
+    }
     initResearchs() {
+
+        //    Prestige
+        this.prestigeResearch = new Research(
+            "prestigeRes",
+            "Travel", "Move to new Worlds",
+            [new Cost(this.science, Decimal(1))],
+            [],
+            this
+        )
 
         //    Machinery
         const machineryRes = new Research(
@@ -638,7 +700,7 @@ export class GameModel {
             "otherRes",
             "Other Helers", "Unlock friendly units",
             [new Cost(this.science, Decimal(1))],
-            [beeResearch],
+            [beeResearch, this.prestigeResearch],
             this
         )
 
@@ -826,6 +888,8 @@ export class GameModel {
     }
 
     generatePrestige() {
+        const expIncrement = Decimal(1.3)
+
         this.experience = new Unit(this, "exp", "Experience", "Experience", true)
         this.expLists = new Array<TypeList>()
         this.expAnt = new Array<Unit>()
@@ -833,18 +897,16 @@ export class GameModel {
         //    Ant food
         this.pAntPower = new Unit(this, "pap", "Ant Power", "Ant yeld 100% more Food", true)
         this.allPrestigeUp.push(this.pAntPower)
-        this.pAntPower.unlocked = true
         this.pAntPower.actions.push(new BuyAction(this, this.pAntPower,
-            [new Cost(this.experience, Decimal(1), Decimal(10))]))
+            [new Cost(this.experience, Decimal(10), expIncrement)]))
         this.expAnt.push(this.pAntPower)
         this.littleAnt.prestigeBonusProduction.push(this.pAntPower)
 
         //    Ant fungus
         this.pAntFungus = new Unit(this, "paf", "Ant Fungus", "Farmer yeld 100% more Fungus", true)
         this.allPrestigeUp.push(this.pAntFungus)
-        this.pAntFungus.unlocked = true
         this.pAntFungus.actions.push(new BuyAction(this, this.pAntFungus,
-            [new Cost(this.experience, Decimal(1), Decimal(10))]))
+            [new Cost(this.experience, Decimal(10), expIncrement)]))
         this.expAnt.push(this.pAntFungus)
         this.farmer.prestigeBonusProduction.push(this.pAntFungus)
 
@@ -857,18 +919,33 @@ export class GameModel {
         const listNext = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext]
         listNext.forEach(n => {
             this.allPrestigeUp.push(n)
-            n.unlocked = true
             n.actions.push(new BuyAction(this, n,
-                [new Cost(this.experience, Decimal(1), Decimal(10))]))
-            n.buyAction.unlocked = true
+                [new Cost(this.experience, Decimal(10), expIncrement)]))
             this.expAnt.push(n)
         })
+
         this.littleAnt.prestigeBonusStart = this.pAntNext
         this.geologist.prestigeBonusStart = this.pGeologistNext
         this.scientist.prestigeBonusStart = this.pScientistNext
         this.farmer.prestigeBonusStart = this.pFarmerNext
 
         this.expLists.push(new TypeList("Ant", this.expAnt))
+
+        //    Machinery
+        this.expMachinery = new Array<Unit>()
+        this.pMachineryPower = new Unit(this, "pMach", "Machinery Power", "Machinery Power", true)
+        this.pMachineryPower.actions.push(new BuyAction(this, this.pMachineryPower,
+            [new Cost(this.experience, Decimal(10), expIncrement)]))
+        this.expMachinery.push(this.pMachineryPower)
+        this.listMachinery.forEach(m => m.prestigeBonusProduction.push(this.pMachineryPower))
+
+        this.expLists.push(new TypeList("Machinery", this.expMachinery))
+
+        this.expLists.map(l => l.list).forEach(al => al.forEach(l => {
+            l.unlocked = true
+            l.buyAction.unlocked = true
+        }))
+
     }
 
     setInitialStat() {
@@ -1029,6 +1106,7 @@ export class GameModel {
         save.nw = this.nextWorlds.map(w => w.getData())
         save.pre = this.allPrestigeUp.map(p => p.getData())
         save.res = this.resList.map(r => r.getData())
+        save.pd = this.prestigeDone
         return LZString.compressToUTF16(JSON.stringify(save))
 
     }
@@ -1054,6 +1132,8 @@ export class GameModel {
             for (const s of save.res)
                 this.resList.find(p => p.id == s.id).restore(s)
 
+            if (save.pd)
+                this.prestigeDone = Decimal(save.pd)
             return save.last
 
         }
@@ -1065,8 +1145,9 @@ export class GameModel {
     }
 
     getExperience(): decimal.Decimal {
-        return this.world.prestige.getBuyMax()
-        //  return this.currentEarning.div(10E1).pow(1 / 3).times(this.world.expMulti)
+        //return this.world.prestige.getBuyMax()
+        //return this.currentEarning.div(10E1).pow(1 / 3).times(this.world.expMulti)
+        return Decimal(this.world.experience)
     }
 
     getUnits(types: Type[]): Unit[] {

@@ -113,7 +113,7 @@ export class BuyAction extends Action {
                     this.doNext()
                 return true
             }),
-            cost, "Hire", game, unit
+            cost, "Get more units", game, unit
         )
         unit.buyAction = this
     }

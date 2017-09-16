@@ -96,7 +96,7 @@ export class Unit extends Base {
         super.initialize()
 
         if (this.prestigeBonusStart) {
-            this.quantity = Decimal(5)
+            this.quantity = Decimal(5).times(this.prestigeBonusStart.quantity)
             if (this.quantity.greaterThan(0))
                 this.unlocked = true
         }

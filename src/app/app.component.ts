@@ -8,6 +8,10 @@ import { Component } from '@angular/core';
   providers: [GameService]
 })
 export class AppComponent {
-  title = 'app';
+  constructor(
+    public gameService: GameService
+  ) {
+  }
+
 }
 

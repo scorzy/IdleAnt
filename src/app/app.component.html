@@ -10,11 +10,14 @@
         <div class="header-nav" [clr-nav-level]="1">
             <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/unit">Units</a>
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/lab">Laboratory</a>
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/lab" *ngIf="gameService.game.science.unlocked">Laboratory</a>
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige">Prestige</a>
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige" *ngIf="gameService.game.prestigeResearch.owned()">Travel</a>
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/exp">Experience</a>
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/exp" *ngIf="gameService.game.prestigeDone.greaterThan(0)">Experience</a>
+
+            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/world" *ngIf="gameService.game.prestigeDone.greaterThan(0)">Home</a>
+
         </div>
         <div class="header-actions">
             <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
