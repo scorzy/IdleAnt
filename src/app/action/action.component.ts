@@ -21,7 +21,7 @@ export class ActionComponent implements OnInit, AfterViewChecked {
   buyStringMax = ""
   priceString1 = ""
   priceStringHalf = ""
-  priceStringMax = ""
+  priceStringMax = "";
 
   constructor() {
 
@@ -33,42 +33,42 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     if (this.action)
-      this.refresh()
+      this.refresh();
   }
 
   refresh() {
-    this.maxBuy = this.action.getBuyMax()
-    this.prices1 = this.action.getCosts(Decimal(1))
-    this.pricesHalf = this.action.getCosts(this.maxBuy.div(2).ceil())
-    this.pricesMax = this.action.getCosts(this.maxBuy)
+    this.maxBuy = this.action.getBuyMax();
+    this.prices1 = this.action.getCosts(Decimal(1));
+    this.pricesHalf = this.action.getCosts(this.maxBuy.div(2).ceil());
+    this.pricesMax = this.action.getCosts(this.maxBuy);
 
-    const buyMulti = Decimal.pow(2, this.action.up ? this.action.up.quantity : 0)
+    const buyMulti = Decimal.pow(2, this.action.up ? this.action.up.quantity : 0);
 
     this.buyString1 = numberformat.formatShort(
-      buyMulti)
+      buyMulti);
 
     this.buyStringHalf = numberformat.formatShort(
-      buyMulti.times(this.maxBuy.div(2).ceil()))
+      buyMulti.times(this.maxBuy.div(2).ceil()));
 
     this.buyStringMax = numberformat.formatShort(
-      buyMulti.times(this.maxBuy))
+      buyMulti.times(this.maxBuy));
 
-    this.priceString1 = ""
+    this.priceString1 = '';
     for (const p of this.prices1) {
       this.priceString1 += numberformat.formatShort(p.basePrice) +
-        " " + p.unit.name + "\n"
+        ' ' + p.unit.name + '\n';
     }
 
-    this.priceStringHalf = ""
+    this.priceStringHalf = '';
     for (const p of this.pricesHalf) {
       this.priceStringHalf += numberformat.formatShort(p.basePrice) +
-        " " + p.unit.name + "\n"
+        ' ' + p.unit.name + '\n';
     }
 
-    this.priceStringMax = ""
+    this.priceStringMax = '';
     for (const p of this.pricesMax) {
       this.priceStringMax += numberformat.formatShort(p.basePrice) +
-        " " + p.unit.name + "\n"
+        ' ' + p.unit.name + '\n';
     }
   }
 
