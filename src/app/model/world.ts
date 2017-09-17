@@ -183,10 +183,16 @@ export class World {
             ),
             new World(game,
                 "Beach",
-                [game.seaRes,game.sandDigger],
+                [game.seaRes, game.sandDigger],
                 [[game.sand, Decimal(0.5)], [game.fungus, Decimal(-0.2)]],
                 [new Cost(game.crabQueen, Decimal(1000))],
                 [[game.fungus, Decimal(-0.2)]],
+                []
+            ),
+            new World(game,
+                "Forest",
+                [game.woodEnginer, game.loggingMachine, game.beetleResearch],
+                [[game.wood, Decimal(1)]],
                 []
             )
         ]
@@ -212,12 +218,12 @@ export class World {
                 []
             ),
             new World(game, "Wooded",
-                [],
+                [game.woodEnginer, game.loggingMachine],
                 [[game.wood, Decimal(1)]],
                 []
             ),
             new World(game, "Crystallized",
-                [],
+                [game.mine, game.mineEnginer],
                 [
                     [game.cristal, Decimal(1)],
                     [game.food, Decimal(-0.3)],
@@ -268,7 +274,7 @@ export class World {
             ),
             new World(game,
                 "of Bee",
-                [], [], [],
+                [game.beeResearch], [], [],
                 [[game.foragingBee, Decimal(1)]]
             ),
             new World(game,
@@ -288,7 +294,7 @@ export class World {
             ),
             new World(game,
                 "of Cristall",
-                [],
+                [game.mine, game.mineEnginer],
                 [[game.cristal, Decimal(1)]],
                 []
             )

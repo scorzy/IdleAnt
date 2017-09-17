@@ -44,13 +44,13 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
     const buyMulti = Decimal.pow(2, this.action.up ? this.action.up.quantity : 0)
 
-    this.buyString1 = "Get " + numberformat.formatShort(
+    this.buyString1 = numberformat.formatShort(
       buyMulti)
 
-    this.buyStringHalf = "Get " + numberformat.formatShort(
+    this.buyStringHalf = numberformat.formatShort(
       buyMulti.times(this.maxBuy.div(2).ceil()))
 
-    this.buyStringMax = "Get " + numberformat.formatShort(
+    this.buyStringMax = numberformat.formatShort(
       buyMulti.times(this.maxBuy))
 
     this.priceString1 = ""
