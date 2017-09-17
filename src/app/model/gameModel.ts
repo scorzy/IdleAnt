@@ -13,7 +13,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { isAsciiLetter } from 'codelyzer/angular/styles/chars';
 import { Logger } from 'protractor/built/logger'
 import * as decimal from 'decimal.js';
-import { Unit } from './units/unit'
+import { Unit } from './units/unit';
 import { Component, Injectable, Input } from '@angular/core'
 import * as LZString from 'lz-string';
 import * as strings from './strings';
@@ -109,11 +109,20 @@ export class GameModel {
   larva: Unit
   beetle: Unit
   ambrosiaBeetle: Unit
+  powderpostBeetle: Unit
   ladybird: Unit
   beetleNest: Unit
   beetleColony: Unit
   beetleResearch: Research
   listForest = new Array<Unit>()
+
+  //  Freezing
+  ice: Unit
+  iceAnt: Unit
+  iceCollector: Unit
+  iceCompacter: Unit
+  iceEngineer: Unit
+  listFreezig = new Array<Unit>()
 
   unitMap: Map<string, Unit> = new Map()
   all: Array<Unit>
@@ -193,10 +202,12 @@ export class GameModel {
     this.lists.push(new TypeList("Engineer", this.listEnginer))
     this.lists.push(new TypeList("Bee", this.listBee))
     this.lists.push(new TypeList("Beetle", this.listForest))
+    this.lists.push(new TypeList("Freezing", this.listForest))
 
     this.initResearchs()
     this.initWorld()
     this.initForest()
+    this.initFreezing()
 
     this.all = Array.from(this.unitMap.values()).filter(u => !u.prestige)
     this.alert = alertArray[0]
@@ -440,6 +451,7 @@ export class GameModel {
     this.soil.addProductor(new Production(this.farmer, Decimal(-0.5)))
     this.cristal.addProductor(new Production(this.geologist, Decimal(0.5)))
     this.science.addProductor(new Production(this.scientist))
+    this.cristal.addProductor(new Production(this.scientist, Decimal(-1)))
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
@@ -499,6 +511,8 @@ export class GameModel {
       l.actions.push(new UpAction(this, l, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
       l.actions.push(new UpHire(this, l, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
     })
+    this.scientist.actions.push(new UpEfficiency(this, this.scientist, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.farmer.actions.push(new UpEfficiency(this, this.farmer, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
   }
   initBee() {
     //    Foragging
@@ -786,11 +800,13 @@ export class GameModel {
     this.beetleNest = new Unit(this, "beetleNest", "Beetle Nest", "Yeld larvae")
     this.ladybird = new Unit(this, "ladybird", "Ladybird", "Yeld science")
     this.beetleColony = new Unit(this, "beetleColony", "Beetle Colony", "Yeld nest")
+    this.powderpostBeetle = new Unit(this, "powder", "Powderpost Beetle", "Powderpost beetles are a group of woodboring beetles.")
 
     this.listForest.push(this.beetleColony)
     this.listForest.push(this.beetleNest)
     this.listForest.push(this.beetle)
     this.listForest.push(this.larva)
+    this.listForest.push(this.powderpostBeetle)
     this.listForest.push(this.ambrosiaBeetle)
     this.listForest.push(this.ladybird)
 
@@ -799,11 +815,15 @@ export class GameModel {
     this.cristal.addProductor(new Production(this.beetle, Decimal(0.2)))
     this.soil.addProductor(new Production(this.beetle, Decimal(0.5)))
     this.food.addProductor(new Production(this.beetle))
+
     this.science.addProductor(new Production(this.ladybird, Decimal(0.01)))
     this.fungus.addProductor(new Production(this.ambrosiaBeetle, Decimal(-0.5)))
-    this.wood.addProductor(new Production(this.ambrosiaBeetle))
+    this.wood.addProductor(new Production(this.ambrosiaBeetle, Decimal(2)))
     this.larva.addProductor(new Production(this.beetleNest))
     this.beetleNest.addProductor(new Production(this.beetleColony))
+
+    this.food.addProductor(new Production(this.powderpostBeetle))
+    this.wood.addProductor(new Production(this.powderpostBeetle))
 
     //    Larva
     this.larva.actions.push(new BuyAndUnlockAction(this,
@@ -846,6 +866,8 @@ export class GameModel {
       this.beetleColony,
       [
         new Cost(this.beetleNest, Decimal(10), this.buyExp),
+        new Cost(this.powderpostBeetle, Decimal(100), this.buyExp),
+        new Cost(this.ambrosiaBeetle, Decimal(100), this.buyExp),
         new Cost(this.fungus, Decimal(1000000), this.buyExp),
         new Cost(this.wood, Decimal(1000000), this.buyExp),
         new Cost(this.soil, Decimal(1000000), this.buyExp),
@@ -885,6 +907,20 @@ export class GameModel {
     this.ambrosiaBeetle.actions.push(new UpHire(this, this.ambrosiaBeetle,
       [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
+    //    Powderpost
+    this.powderpostBeetle.actions.push(new BuyAction(this,
+      this.powderpostBeetle,
+      [
+        new Cost(this.larva, Decimal(1), this.buyExp),
+        new Cost(this.wood, Decimal(100), this.buyExp),
+        new Cost(this.food, Decimal(1000), this.buyExp)
+      ]
+    ))
+    this.powderpostBeetle.actions.push(new UpAction(this, this.powderpostBeetle,
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.powderpostBeetle.actions.push(new UpHire(this, this.powderpostBeetle,
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+
     const advancedBeetle = new Research("advBeetle",
       "Advanced Beetle Jobs", "More beetle jobs",
       [new Cost(this.science, Decimal(1))],
@@ -899,6 +935,26 @@ export class GameModel {
     )
     this.beetleResearch.avabileBaseWorld = false
     this.othersResearch.toUnlock.push(this.beetleResearch)
+  }
+  initFreezing() {
+    this.listFreezig = new Array<Unit>()
+
+    this.ice = new Unit(this, "ice", "Ice", "Ice")
+    this.ice = new Unit(this, "iceA", "Ice Provisioner", "Ice")
+    this.iceCompacter = new Unit(this, "iceC", "Ice Compacter", "Ice Compacter is a machine that compact ice into crystall.")
+    this.iceEngineer = new Unit(this, "iceE", "Ice Engineer", "Ice Engineer")
+
+    this.listMaterial.push(this.ice)
+    this.listFreezig.push(this.iceAnt)
+    this.listFreezig.push(this.iceCollector)
+    this.listFreezig.push(this.iceCompacter)
+    this.listFreezig.push(this.iceEngineer)
+
+    this.ice.addProductor(new Production(this.iceAnt))
+    this.ice.addProductor(new Production(this.iceCompacter, Decimal(-1)))
+    this.cristal.addProductor(new Production(this.iceCompacter, Decimal(0.5)))
+    this.iceCompacter.addProductor(new Production(this.iceEngineer, Decimal(0.01)))
+
   }
   initResearchs() {
 
@@ -1051,7 +1107,6 @@ export class GameModel {
     )
 
   }
-
   initWorld() {
     /**
      * Beach World
@@ -1132,7 +1187,6 @@ export class GameModel {
     this.othersResearch.toUnlock.push(this.seaRes)
     this.lists.push(new TypeList("Beach", beachList))
   }
-
   generatePrestige() {
     const expIncrement = Decimal(1.3)
 
@@ -1193,7 +1247,6 @@ export class GameModel {
     }))
 
   }
-
   setInitialStat() {
     this.all.forEach(u => {
       u.initialize()
@@ -1207,7 +1260,6 @@ export class GameModel {
 
     this.listMaterial.forEach(m => m.quantity = Decimal(1E8))
   }
-
   getProduction(prod: Production,
     level: decimal.Decimal,
     factorial: decimal.Decimal,
@@ -1404,5 +1456,4 @@ export class GameModel {
       return yes
     })
   }
-
 }

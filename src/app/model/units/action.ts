@@ -11,7 +11,7 @@ import { Cost } from '../cost';
 
 export class Action extends Base {
 
-    public oneTime: boolean = false
+    public oneTime = false
     public up: Action
 
     constructor(
@@ -36,7 +36,7 @@ export class Action extends Base {
     buy(number: decimal.Decimal = new Decimal(1)) {
         if (this.unlocked) {
             const prices = this.getCosts(number)
-            if (prices.filter(v => v.basePrice.greaterThan(v.unit.quantity)).length == 0) {
+            if (prices.filter(v => v.basePrice.greaterThan(v.unit.quantity)).length === 0) {
                 prices.forEach(p => {
                     p.unit.quantity = p.unit.quantity.minus(p.basePrice)
                     this.game.currentEarning = this.game.currentEarning.plus(p.basePrice)
@@ -200,10 +200,10 @@ export class UpSpecial extends Action {
             "Upgrade",
             null,
             [
-                new Cost(unit, Decimal(10), Decimal(10)),
-                new Cost(unit.model.science, Decimal(10), Decimal(100))
+                new Cost(unit, Decimal(100), Decimal(10)),
+                new Cost(unit.model.science, Decimal(100), Decimal(100))
             ],
-            "Double production",
+            "Double production.",
             game, unit
         )
         this.unit.upSpecial = this

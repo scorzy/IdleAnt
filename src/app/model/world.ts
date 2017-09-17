@@ -31,7 +31,7 @@ export class World {
       [],
       [
         new Cost(game.food, Decimal(1E1)),
-        //  new Cost(game.maxAnt,Decimal(100))
+        new Cost(game.maxAnt, Decimal(100))
       ]
     )
     baseWorld.experience = Decimal(10)
@@ -130,7 +130,7 @@ export class World {
         "Forest",
         [game.woodEnginer, game.loggingMachine, game.beetleResearch],
         [[game.wood, Decimal(2)]],
-        []
+        [new Cost(game.beetleColony, Decimal(1000))]
       )
     ]
 
@@ -305,5 +305,3 @@ export class World {
     this.prestige.unlocked = true
   }
 }
-
-
