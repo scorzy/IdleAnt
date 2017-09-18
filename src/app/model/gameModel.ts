@@ -939,21 +939,21 @@ export class GameModel {
   initFreezing() {
     this.listFreezig = new Array<Unit>()
 
-    this.ice = new Unit(this, "ice", "Ice", "Ice")
-    this.ice = new Unit(this, "iceA", "Ice Provisioner", "Ice")
-    this.iceCompacter = new Unit(this, "iceC", "Ice Compacter", "Ice Compacter is a machine that compact ice into crystall.")
-    this.iceEngineer = new Unit(this, "iceE", "Ice Engineer", "Ice Engineer")
+    // this.ice = new Unit(this, "ice", "Ice", "Ice")
+    // this.ice = new Unit(this, "iceA", "Ice Provisioner", "Ice")
+    // this.iceCompacter = new Unit(this, "iceC", "Ice Compacter", "Ice Compacter is a machine that compact ice into crystall.")
+    // this.iceEngineer = new Unit(this, "iceE", "Ice Engineer", "Ice Engineer")
 
-    this.listMaterial.push(this.ice)
-    this.listFreezig.push(this.iceAnt)
-    this.listFreezig.push(this.iceCollector)
-    this.listFreezig.push(this.iceCompacter)
-    this.listFreezig.push(this.iceEngineer)
+    // this.listMaterial.push(this.ice)
+    // this.listFreezig.push(this.iceAnt)
+    // this.listFreezig.push(this.iceCollector)
+    // this.listFreezig.push(this.iceCompacter)
+    // this.listFreezig.push(this.iceEngineer)
 
-    this.ice.addProductor(new Production(this.iceAnt))
-    this.ice.addProductor(new Production(this.iceCompacter, Decimal(-1)))
-    this.cristal.addProductor(new Production(this.iceCompacter, Decimal(0.5)))
-    this.iceCompacter.addProductor(new Production(this.iceEngineer, Decimal(0.01)))
+    // this.ice.addProductor(new Production(this.iceAnt))
+    // this.ice.addProductor(new Production(this.iceCompacter, Decimal(-1)))
+    // this.cristal.addProductor(new Production(this.iceCompacter, Decimal(0.5)))
+    // this.iceCompacter.addProductor(new Production(this.iceEngineer, Decimal(0.01)))
 
   }
   initResearchs() {

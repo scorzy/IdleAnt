@@ -28,7 +28,8 @@
 
         <div *ngIf="travelAv()">
             <p>
-                By going away you will earn {{gameService.game.getExperience() | format}} experience. High level worlds will yeild more experience but require more resource.
+                By going away you will earn {{gameService.game.getExperience() | format}} experience. High level worlds will yeild more experience
+                but require more resource.
             </p>
             <button class="btn btn-secondary" (click)="change()">
                 <clr-icon shape="world"></clr-icon>
@@ -44,6 +45,9 @@
                             Level: {{world.level}}<br/> {{world.experience}} experience
                         </div>
                         <div class="card-text">
+                            <p style="white-space: pre-wrap;">
+                                {{world.description}}
+                            </p>
                             <ul class="list">
                                 <li *ngFor="let p of world.avaiableUnits">
                                     {{p.name}}: {{p.description }}
