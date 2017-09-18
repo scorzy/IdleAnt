@@ -23,7 +23,8 @@ export class World {
     public unitMod: [Unit, decimal.Decimal][] = [],
     public unitPrice: [Unit, decimal.Decimal][] = [],
     public unlockedUnits: [Base, decimal.Decimal][] = [],
-    public experience = Decimal(2.5)
+    public experience = Decimal(2.5),
+    public toUnlockMax = new Array<Cost>()
   ) { }
 
   static getBaseWorld(game: GameModel): World {
@@ -32,13 +33,13 @@ export class World {
       [],
       [
         new Cost(game.food, Decimal(1E1)),
-        new Cost(game.maxAnt, Decimal(100))
+        // new Cost(game.maxAnt, Decimal(100))
       ]
     )
     baseWorld.experience = Decimal(10)
+    baseWorld.toUnlockMax = [new Cost(game.littleAnt, Decimal(1000))]
     return baseWorld
   }
-
   static getRandomWorld(game: GameModel): World {
     const worldRet = this.getBaseWorld(game)
     worldRet.experience = Decimal(0)
@@ -49,7 +50,9 @@ export class World {
 
     const worlds = [worldType, worldPrefix, worldSuffix, this.getBaseWorld(game)]
     worldRet.name = worldPrefix.name + " " + worldType.name + " " + worldSuffix.name
-    worldRet.description = worldPrefix.description + " " + worldType.description + " " + worldSuffix.description
+    worldRet.description = worldPrefix.description +
+      (!!worldType.description ? '\n' + worldType.description : "") +
+      (!!worldSuffix.description ? '\n' + worldSuffix.description : "")
 
     worlds.forEach(w => {
       w.prodMod.forEach(p => {
@@ -79,6 +82,13 @@ export class World {
           toUnlock.basePrice = toUnlock.basePrice.plus(p.basePrice)
         else
           worldRet.toUnlock.push(new Cost(p.unit, p.basePrice))
+      })
+      w.toUnlockMax.forEach(p => {
+        const toUnlockMax = worldRet.toUnlockMax.find(c => c.unit.id === p.unit.id)
+        if (toUnlockMax)
+          toUnlockMax.basePrice = toUnlockMax.basePrice.plus(p.basePrice)
+        else
+          worldRet.toUnlockMax.push(new Cost(p.unit, p.basePrice))
       })
       w.unlockedUnits.forEach(p => {
         const unlockedUnits = worldRet.unlockedUnits.find(p1 => p1[0].id === p[0].id)
@@ -111,7 +121,6 @@ export class World {
 
     return worldRet
   }
-
   static initialize(game: GameModel) {
     World.worldTypes = [
       new World(game,
@@ -145,7 +154,8 @@ export class World {
       new World(game, "Freezing", "",
         [],
         [[game.food, Decimal(0.4)]],
-        []),
+        [], [], [], [], Decimal(2.5),
+      ),
       new World(game, "Hot", "",
         [],
         [[game.food, Decimal(2)]],
@@ -241,11 +251,14 @@ export class World {
 
   }
 
-  goTo() {
+  goTo(skip = false) {
     const le = this.game.lifeEarning
     const exp = this.game.experience.quantity.plus(this.game.getExperience())
     this.game.setInitialStat()
-    this.game.experience.quantity = exp
+    if (!skip) {
+      this.game.experience.quantity = exp
+      this.game.prestigeDone = this.game.prestigeDone.plus(1)
+    }
     if (this.avaiableUnits)
       this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
     if (this.unlockedUnits) {
@@ -266,7 +279,7 @@ export class World {
     this.game.world = this
     this.game.world.generateAction(this.game)
 
-    this.game.prestigeDone = this.game.prestigeDone.plus(1)
+
   }
   getData() {
     const data: any = {}

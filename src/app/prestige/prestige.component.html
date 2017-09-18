@@ -1,9 +1,8 @@
 <div class="content-container">
     <div class="content-area">
-        <h1>Here you can travel to a new world.</h1>
+        <h2>{{getTitle()}}</h2>
         <div *ngIf="!travelAv()">
-            <span>You need:</span>
-
+            <p> You need at least: </p>
             <table class="nowrap" style="width:100%">
                 <tbody>
                     <tr *ngFor="let cost of gameService.game.world.toUnlock">
@@ -23,14 +22,44 @@
                     </tr>
                 </tbody>
             </table>
+            <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
+                <p>You must have less than:</p>
+                <table class="nowrap" style="width:100%">
+                    <tbody>
+                        <tr *ngFor="let cost of gameService.game.world.toUnlockMax">
+                            <td><span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span></td>
+                            <td style="width:100%">
+                                <div class="progress labeled">
+                                    <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
+                                </progress>
+                                    <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                                    {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
+                                </span>
+                                    <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                                   100%
+                                </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-primary" (click)="skipWorld()">Skip</button>
 
         </div>
 
         <div *ngIf="travelAv()">
-            <p>
-                By going away you will earn {{gameService.game.getExperience() | format}} experience. High level worlds will yeild more experience
-                but require more resource.
-            </p>
+            <div *ngIf="!skip">
+                <p>
+                    By going away you will earn {{gameService.game.getExperience() | format}} experience. High level worlds will yeild more experience but require more resource.
+                </p>
+            </div>
+            <div *ngIf="skip">
+                <p>
+                    By skipping this world you will not earn any experience! If you change your mind go to another tab.
+                </p>
+            </div>
             <button class="btn btn-secondary" (click)="change()">
                 <clr-icon shape="world"></clr-icon>
                 Change worlds
@@ -45,9 +74,7 @@
                             Level: {{world.level}}<br/> {{world.experience}} experience
                         </div>
                         <div class="card-text">
-                            <p style="white-space: pre-wrap;">
-                                {{world.description}}
-                            </p>
+                            {{world.description}}
                             <ul class="list">
                                 <li *ngFor="let p of world.avaiableUnits">
                                     {{p.name}}: {{p.description }}

@@ -10,16 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrestigeComponent implements OnInit {
 
+  skip = false
+
   constructor(
     public gameService: GameService,
     private router: Router) { }
 
   ngOnInit() {
   }
-
+  skipWorld() { this.skip = true }
+  getTitle() {
+    if (this.skip)
+      return "You are skipping this world!"
+    else {
+      if (!this.travelAv())
+        return "You cannot go to a new world yet"
+      else
+        return "Here you can travel to a brave new world"
+    }
+  }
   travelAv(): boolean {
 
-    return this.gameService.game.world.prestige.getBuyMax().greaterThan(0)
+    return this.skip || (this.gameService.game.world.prestige.getBuyMax().greaterThan(0) &&
+      !!this.gameService.game.world.toUnlockMax.find(tum => tum.basePrice.greaterThan(tum.unit.quantity)))
 
     // try {
     //   if (this.gameService.game.world.toUnlock.find(c => c.unit.quantity.lessThan(c.basePrice)))
@@ -29,13 +42,11 @@ export class PrestigeComponent implements OnInit {
     // } catch (ex) { }
     // return false
   }
-
   goTo(world: World) {
-    world.goTo()
+    world.goTo(this.skip)
     this.router.navigateByUrl('/')
   }
-
-  change(){
+  change() {
     this.gameService.game.generateRandomWorld()
   }
 }
