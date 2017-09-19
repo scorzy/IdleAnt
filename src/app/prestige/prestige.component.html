@@ -8,16 +8,12 @@
                     <tr *ngFor="let cost of gameService.game.world.toUnlock">
                         <td><span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span></td>
                         <td style="width:100%">
-                            <div class="progress labeled">
-                                <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
-                                </progress>
-                                <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                            <div class="progress labeled" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
+                                <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%"> </progress> <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
                                     {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
-                                </span>
-                                <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                                </span> <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
                                    100%
-                                </span>
-                            </div>
+                                </span> </div>
                         </td>
                     </tr>
                 </tbody>
@@ -29,76 +25,46 @@
                         <tr *ngFor="let cost of gameService.game.world.toUnlockMax">
                             <td><span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span></td>
                             <td style="width:100%">
-                                <div class="progress labeled">
-                                    <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
-                                </progress>
-                                    <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                                <div class="progress labeled" [ngClass]="{'success': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
+                                    <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%"> </progress> <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
                                     {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
-                                </span>
-                                    <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                                </span> <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
                                    100%
-                                </span>
-                                </div>
+                                </span> </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <button class="btn btn-primary" (click)="skipWorld()">Skip</button>
-
-        </div>
-
+            </div> <button class="btn btn-warning-outline" (click)="skipWorld()">Skip</button> </div>
         <div *ngIf="travelAv()">
             <div *ngIf="!skip">
-                <p>
-                    By going away you will earn {{gameService.game.getExperience() | format}} experience. High level worlds will yeild more experience but require more resource.
-                </p>
+                <p> By going away you will earn {{gameService.game.getExperience() | format}} experience. High level worlds will yeild more experience but require more resource. </p>
             </div>
             <div *ngIf="skip">
-                <p>
-                    By skipping this world you will not earn any experience! If you change your mind go to another tab.
-                </p>
-            </div>
-            <button class="btn btn-secondary" (click)="change()">
+                <p> By skipping this world you will not earn any experience! If you change your mind go to another tab. </p>
+            </div> <button class="btn btn-secondary" (click)="change()">
                 <clr-icon shape="world"></clr-icon>
                 Change worlds
               </button>
             <div class="card-columns">
                 <div class="card" *ngFor="let world of gameService.game.nextWorlds ">
-                    <div class="card-header text-capitalize">
-                        {{world.name}}
-                    </div>
+                    <div class="card-header text-capitalize"> {{world.name}} </div>
                     <div class="card-block">
-                        <div class="card-title">
-                            Level: {{world.level}}<br/> {{world.experience}} experience
-                        </div>
+                        <div class="card-title"> Level: {{world.level}}<br/> {{world.experience}} experience </div>
                         <div class="card-text">
                             {{world.description}}
                             <ul class="list">
-                                <li *ngFor="let p of world.avaiableUnits">
-                                    {{p.name}}: {{p.description }}
-                                </li>
-                                <li *ngFor="let p of world.unlockedUnits">
-                                    Start with {{p[1] | format }} {{p[0].name}}
-                                </li>
+                                <li *ngFor="let p of world.avaiableUnits"> {{p.name}}: {{p.description }} </li>
+                                <li *ngFor="let p of world.unlockedUnits"> Start with {{p[1] | format }} {{p[0].name}} </li>
                                 <li *ngFor="let p of world.prodMod">
-                                    Production of {{p[0].name}} x {{p[1] }}
-                                </li>
-                                <li *ngFor="let p of world.unitMod">
-                                    {{p[0].name}} production x {{p[1] }}
-                                </li>
-                                <li *ngFor="let p of world.unitPrice">
-                                    {{p[0].name}} price x {{p[1] }}
-                                </li>
+                                    Production of {{p[0].name}} x {{p[1] }} </li>
+                                <li *ngFor="let p of world.unitMod"> {{p[0].name}} production x {{p[1] }} </li>
+                                <li *ngFor="let p of world.unitPrice"> {{p[0].name}} price x {{p[1] }} </li>
                             </ul>
                         </div>
-                        <div class="card-footer">
-                            <button class="btn btn-primary" (click)="goTo(world)">Go to</button>
-                        </div>
+                        <div class="card-footer"> <button class="btn btn-primary" (click)="goTo(world)">Go to</button> </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

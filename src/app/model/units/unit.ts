@@ -16,7 +16,7 @@ export class Unit extends Base {
 
     producedBy = Array<Production>()
     produces = Array<Production>()
-    percentage: number = 100
+    percentage = 100
 
     worldProdModifiers = Decimal(1)
     worldEffModifiers = Decimal(1)
@@ -58,7 +58,7 @@ export class Unit extends Base {
     }
     getProduction() {
         let sum = Decimal(1)
-        for (let p of this.prestigeBonusProduction)
+        for (const p of this.prestigeBonusProduction)
             sum = sum.plus(p.quantity)
 
         return this.getBoost().plus(1).times(

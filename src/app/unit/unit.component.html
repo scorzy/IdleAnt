@@ -1,18 +1,18 @@
+<h1 class="text-capitalize no-mg-top">{{gen.name}}</h1>
+
 <div *ngIf="gen.isEnding()">
     <clr-alert [clrAlertType]="'alert-warning'">
         <div class="alert-item">
             <span class="alert-text">
-          Will end in {{endTime()  }}
-      </span>
+            Will end in {{endTime()  }}
+        </span>
         </div>
     </clr-alert>
 </div>
 
-<div class="text-left">
-    <h1 class="text-capitalize">{{gen.name}}</h1>
-    <p>{{gen.description}}</p>
-    <span>Owned: {{gen.quantity | format}}</span>
-</div>
+<p>{{gen.description}}</p>
+<span>Owned: {{gen.quantity | format}}</span>
+
 
 <div *ngIf="gen.produces.length >0">
     <p *ngIf="gen.buyAction">You bought {{gen.buyAction.quantity | format}} times

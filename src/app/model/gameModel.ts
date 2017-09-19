@@ -57,6 +57,8 @@ export class GameModel {
 
   //    Generators
   littleAnt: Unit
+  queenAnt: Unit
+  nestAnt: Unit
   maxAnt: Unit
   list = Array<Unit>()
 
@@ -282,15 +284,15 @@ export class GameModel {
   initGenerators() {
     //    Generators
     let current: Unit
-    for (let i = 1; i < strings.genNames.length; i++) {
+    for (let i = 1; i < strings.genNames.length + 1; i++) {
       current = new Unit(this, "G" + i)
       current.name = strings.genNames[i - 1][0]
       current.description = strings.genNames[i - 1][1]
-      current.types = [Type.Ant]
+      current.types = [Type.Ant, Type.Generator]
       this.list.push(current)
     }
     this.littleAnt = this.list[0]
-    this.littleAnt.types = [Type.Ant]
+    this.littleAnt.types = [Type.Ant, Type.Generator]
     this.littleAnt.unlocked = true
     this.maxAnt = this.list[this.list.length - 1]
   }
@@ -299,31 +301,31 @@ export class GameModel {
     this.geologist = new Unit(this, "geo")
     this.geologist.name = "Geologist"
     this.geologist.description = "Geologist yield cristal."
-    this.geologist.types = [Type.Ant]
+    this.geologist.types = [Type.Ant, Type.Mining]
     this.listJobs.push(this.geologist)
 
     this.scientist = new Unit(this, "scn")
     this.scientist.name = "Scientist"
     this.scientist.description = "Scientist yield science."
-    this.scientist.types = [Type.Ant]
+    this.scientist.types = [Type.Ant, Type.Scientist]
     this.listJobs.push(this.scientist)
 
     this.carpenter = new Unit(this, "car")
     this.carpenter.name = "Carpenter"
     this.carpenter.description = "carpenters yield soil."
-    this.carpenter.types = [Type.Ant]
+    this.carpenter.types = [Type.Ant, Type.SoilG]
     this.listJobs.push(this.carpenter)
 
     this.farmer = new Unit(this, "far")
     this.farmer.name = "Farmer"
     this.farmer.description = "farmer yield fungus."
-    this.farmer.types = [Type.Ant]
+    this.farmer.types = [Type.Ant, Type.Farmer]
     this.listJobs.push(this.farmer)
 
     this.lumberjack = new Unit(this, "lum")
     this.lumberjack.name = "Lumberjack"
     this.lumberjack.description = "Lumberjack yield wood."
-    this.lumberjack.types = [Type.Ant]
+    this.lumberjack.types = [Type.Ant, Type.WoodG]
     this.listJobs.push(this.lumberjack)
 
     this.level1 = [this.geologist, this.scientist, this.farmer, this.carpenter, this.lumberjack]
