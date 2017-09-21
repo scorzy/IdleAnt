@@ -6,7 +6,6 @@ import { any } from 'codelyzer/util/function';
 import * as decimal from 'decimal.js';
 import { GameModel } from '../gameModel';
 import { GameService } from '../../game.service';
-import * as strings from '../strings';
 import { Cost } from '../cost';
 import { Action, BuyAction } from './action';
 
@@ -73,15 +72,26 @@ export class Unit extends Base {
     data.w = this.worldProdModifiers
     data.e = this.worldEffModifiers
     data.b = this.worldBuyModifiers
+    data.p = this.producedBy.map(p => [p.unit.id, p.active])
     return data;
   }
   restore(data: any) {
     super.restore(data)
-    this.worldProdModifiers = new Decimal(data.w)
-    this.worldEffModifiers = new Decimal(data.e)
-    this.worldBuyModifiers = new Decimal(data.b)
-    for (const s of data.a)
-      this.actions.find(a => a.id === s.id).restore(s)
+    if (data.w)
+      this.worldProdModifiers = new Decimal(data.w)
+    if (data.e)
+      this.worldEffModifiers = new Decimal(data.e)
+    if (data.b)
+      this.worldBuyModifiers = new Decimal(data.b)
+    if (data.a)
+      for (const s of data.a)
+        this.actions.find(a => a.id === s.id).restore(s)
+    if (data.p)
+      data.p.forEach(e => {
+        const prod = this.producedBy.find(p => p.unit.id == e[0])
+        if (prod)
+          prod.active = e[1]
+      });
   }
 
   isEnding(): boolean {

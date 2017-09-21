@@ -7,14 +7,16 @@ import { Unit } from './units/unit';
 
 export class Production {
 
+    public productor: Unit = null
+
     constructor(
         public unit: Unit,    // who make
-        public efficiency: decimal.Decimal = Decimal(1),
-        public productor: Unit = null
+        public efficiency: decimal.Decimal = Decimal(1),        
+        public active = true
     ) { }
 
     getprodPerSec(): decimal.Decimal {
-        if (this.unit.unlocked) {
+        if (this.unit.unlocked && this.active) {
             let effBonus = Decimal(1)
             if (this.efficiency.lessThan(0) && this.unit.upEfficiency)
                 effBonus = Decimal.pow(0.98, this.unit.upEfficiency.quantity)

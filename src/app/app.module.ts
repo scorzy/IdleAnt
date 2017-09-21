@@ -1,4 +1,4 @@
-import { FilterUnlocked, UnitComponent } from './unit/unit.component';
+import { FilterUnlocked, UnitComponent, FilterActive } from './unit/unit.component';
 import { OptionsComponent } from './options/options.component';
 import { Unit } from './model/units/unit';
 import { PipeTransform } from '@angular/core/src/change_detection/pipe_transform';
@@ -81,7 +81,8 @@ export class FilterMax implements PipeTransform {
     PrestigeComponent,
     LabComponent,
     ResPipePipe,
-    HomeWorldComponent
+    HomeWorldComponent,
+    FilterActive
   ],
   imports: [
     BrowserModule,

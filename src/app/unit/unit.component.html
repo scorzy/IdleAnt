@@ -4,7 +4,7 @@
     <clr-alert [clrAlertType]="'alert-warning'">
         <div class="alert-item">
             <span class="alert-text">
-            Will end in {{endTime()  }}
+            Will end in {{endTime()}}
         </span>
         </div>
     </clr-alert>
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of gen.produces" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
+                <tr *ngFor="let item of gen.produces | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
                     <td class="w-33 text-capitalize">
                         <a [routerLink]="['/main/unit/unit/'+item.productor.id]">{{item.productor.name}}</a>
                     </td>
@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of gen.producedBy | filterUnlocked" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
+                    <tr *ngFor="let item of gen.producedBy | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
                         <td class="text-capitalize">
                             <a [routerLink]="['/main/unit/unit/'+item.unit.id]">{{item.unit.name}}</a>
                         </td>

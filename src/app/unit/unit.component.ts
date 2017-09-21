@@ -45,12 +45,12 @@ export class UnitComponent implements OnInit, OnDestroy {
   }
 
   showProducers(): boolean {
-    return this.gen.producedBy.filter(t => t.unit.unlocked).length > 0
+    return this.gen.producedBy.filter(t => t.active && t.unit.unlocked).length > 0
   }
 
 
 
-  endTime():string{
+  endTime(): string {
     moment.locale('en');
     return moment.duration(this.gen.endIn).humanize()
   }
@@ -60,5 +60,12 @@ export class UnitComponent implements OnInit, OnDestroy {
 export class FilterUnlocked implements PipeTransform {
   transform(items: Production[], filter: Object): any {
     return items.filter(item => item.unit.unlocked)
+  }
+}
+
+@Pipe({ name: 'filterActive', pure: false })
+export class FilterActive implements PipeTransform {
+  transform(items: Production[], filter: Object): any {
+    return items.filter(item => item.active && item.unit.unlocked)
   }
 }

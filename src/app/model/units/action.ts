@@ -6,7 +6,6 @@ import { any } from 'codelyzer/util/function';
 import * as decimal from 'decimal.js';
 import { GameModel } from '../gameModel';
 import { GameService } from '../../game.service';
-import * as strings from '../strings';
 import { Cost } from '../cost';
 
 export class Action extends Base {
@@ -32,7 +31,6 @@ export class Action extends Base {
         else
             return this.priceF
     }
-
     buy(number: decimal.Decimal = new Decimal(1)) {
         if (this.unlocked) {
             const prices = this.getCosts(number)
@@ -247,4 +245,24 @@ export class UpEfficiency extends Action {
             return Decimal(0)
         return Decimal.min(rem, max)
     }
+}
+
+export class UnlockProd extends Action {
+    constructor(
+        game: GameModel,
+        unit: Unit,
+        cost: Cost[],
+        prod: Production
+    ) {
+        super("uProd-" + prod.unit.id,
+            "Training",
+            n => { prod.active = true; return true },
+            cost,
+            "Train new units",
+            game
+        )
+        this.oneTime = true
+        this.unlocked = true
+    }
+
 }

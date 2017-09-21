@@ -234,7 +234,7 @@ export class World {
       new World(game,
         "of Scientist", "",
         [], [], [],
-        [[game.scientist, Decimal(2)]]
+        [[game.student, Decimal(2)]]
       ),
       new World(game,
         "of Farming", "",
