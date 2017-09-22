@@ -53,6 +53,7 @@ export class GameModel {
   farmer2: Unit
   lumberjack2: Unit
   level2 = Array<Unit>()
+  level2Actions = Array<Action>()
 
   //    Special Ants
   composterAnt: Unit
@@ -99,6 +100,11 @@ export class GameModel {
   specialResearch: Research
   othersResearch: Research
   prestigeResearch: Research
+  engineerRes: Research
+  machineryRes: Research
+  laserResearch: Research
+  refineryResearch: Research
+  composterResearch: Research
 
   //    Bee
   nectar: Unit
@@ -467,16 +473,17 @@ export class GameModel {
     this.student2.actions.push(new UpEfficiency(this, this.student2, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
     this.farmer2.actions.push(new UpEfficiency(this, this.farmer2, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
 
+    this.level2Actions = new Array<Action>()
     for (let n = 0; n < this.level2.length; n++) {
-      const level2 = this.level2[n]
-      const level1 = this.level1[n]
-      const prod = new Production(this.farmer2, Decimal(1), false)
-      level1.addProductor(prod)
-      const act = new UnlockProd(this, level2,
+      const producer = this.level2[n]
+      const product = this.level1[n]
+      const prod = new Production(producer, Decimal(1), false)
+      product.addProductor(prod)
+      const act = new UnlockProd(this, producer,
         [new Cost(this.science, Decimal(1E6))], prod
       )
-      //act.unlocked = true
-      level2.actions.push(act)
+      this.level2Actions.push(act)
+      producer.actions.push(act)
     }
 
 
@@ -1068,7 +1075,7 @@ export class GameModel {
     )
 
     //    Engineer
-    const engineerRes = new Research(
+    this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery",
       [new Cost(this.science, Decimal(1))],
@@ -1077,9 +1084,9 @@ export class GameModel {
     )
 
     let listM = new Array<Base>()
-    listM = listM.concat(this.listMachinery, [engineerRes])
+    listM = listM.concat(this.listMachinery, [this.engineerRes])
     //    Machinery
-    const machineryRes = new Research(
+    this.machineryRes = new Research(
       "machiRes",
       "Machinery", "Unlock powerfull machinery",
       [new Cost(this.science, Decimal(1))],
@@ -1107,7 +1114,7 @@ export class GameModel {
     )
 
     //    Compost
-    const laserResearch = new Research(
+    this.laserResearch = new Research(
       "lasRes",
       "Laser", "Unlock laser Ant",
       [new Cost(this.science, Decimal(1))],
@@ -1116,7 +1123,7 @@ export class GameModel {
     )
 
     //    Refinery
-    const refineryResearch = new Research(
+    this.refineryResearch = new Research(
       "refRes",
       "Refinery", "Unlock refinery Ant",
       [new Cost(this.science, Decimal(1))],
@@ -1125,7 +1132,7 @@ export class GameModel {
     )
 
     //    Compost
-    const composterResearch = new Research(
+    this.composterResearch = new Research(
       "compRes",
       "Compost", "Unlock composter Ant",
       [new Cost(this.science, Decimal(1))],
@@ -1147,18 +1154,26 @@ export class GameModel {
       "speRes",
       "Special Jobs", "Unlock special Jobs",
       [new Cost(this.science, Decimal(1))],
-      [composterResearch, refineryResearch, laserResearch,
-        this.othersResearch, this.upEfficiency, machineryRes],
+      [this.composterResearch, this.refineryResearch, this.laserResearch,
+      this.othersResearch, this.upEfficiency, this.machineryRes],
       this
     )
 
+    //    Level 2 generators
+    const level2ActResearch = new Research(
+      "lv2g",
+      "Special Jobs", "Unlock special Jobs",
+      [new Cost(this.science, Decimal(1))],
+      this.level2Actions,
+      this
+    )
     const tier2Unlock: Array<Base> = [this.specialResearch]
     //    Tier 2 Jobs
     const tier2Research = new Research(
       "tier2JRes",
       "Tier 2 Jobs", "Unlock tier 2 Jobs",
       [new Cost(this.science, Decimal(1))],
-      tier2Unlock.concat(this.level2),
+      tier2Unlock.concat(this.level2).concat(level2ActResearch),
       this
     )
 
@@ -1172,7 +1187,7 @@ export class GameModel {
       this
     )
 
-    //    Up
+    //    Up 2
     const allUp = Array.from(this.unitMap.values()).filter(u => u.upAction).map(u => u.upAction)
     allUp.push(r4)
     const r2 = new Research(
@@ -1183,7 +1198,7 @@ export class GameModel {
       this
     )
 
-    //    Up up
+    //    Up basic
     this.up1 = new Research(
       "RUp1",
       "Upgrade", "up",
