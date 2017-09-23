@@ -49,7 +49,7 @@ export class Unit extends Base {
   }
   getBoost(): decimal.Decimal {
     return this.model.up1.owned() && this.buyAction ?
-      this.buyAction.quantity.times(0.0005)
+      this.buyAction.quantity.times(0.001)
         .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(0))
       : Decimal(0)
   }
@@ -88,7 +88,7 @@ export class Unit extends Base {
         this.actions.find(a => a.id === s.id).restore(s)
     if (data.p)
       data.p.forEach(e => {
-        const prod = this.producedBy.find(p => p.unit.id == e[0])
+        const prod = this.producedBy.find(p => p.unit.id === e[0])
         if (prod)
           prod.active = e[1]
       });
