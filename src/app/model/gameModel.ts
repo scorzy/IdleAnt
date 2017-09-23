@@ -318,10 +318,10 @@ export class GameModel {
     this.food.addProductor(new Production(this.littleAnt))
     this.food.addProductor(new Production(this.fungus))
     this.fungus.addProductor(new Production(this.farmer))
-    this.soil.addProductor(new Production(this.farmer, Decimal(-1)))
-    this.cristal.addProductor(new Production(this.geologist, Decimal(1)))
+    //this.soil.addProductor(new Production(this.farmer, Decimal(-1)))
+    this.cristal.addProductor(new Production(this.geologist))
     this.science.addProductor(new Production(this.student))
-    this.cristal.addProductor(new Production(this.student, Decimal(-1)))
+    //this.cristal.addProductor(new Production(this.student, Decimal(-1)))
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
