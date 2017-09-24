@@ -124,13 +124,13 @@ export class World {
   static initialize(game: GameModel) {
     World.worldTypes = [
       new World(game,
-        "HomeWorld", "",
+        "Park", "",
         [],
         [],
         []
       ),
       new World(game,
-        "Beach", "",
+        "Beach", "A beach",
         [game.sandDigger, game.sandEnginer],
         [[game.sand, Decimal(1.5)], [game.fungus, Decimal(0.7)]],
         [new Cost(game.crabQueen, Decimal(200))],
@@ -140,7 +140,7 @@ export class World {
         Decimal(3.5)
       ),
       new World(game,
-        "Forest", "",
+        "Forest", "A forest",
         [game.woodEnginer, game.loggingMachine],
         [[game.wood, Decimal(2)]],
         [new Cost(game.beetleColony, Decimal(500))],
@@ -148,6 +148,16 @@ export class World {
         [],
         [[game.beetleResearch, Decimal(0)]],
         Decimal(4.5)
+      ),
+      new World(game,
+        "Mine", "A mine",
+        [game.mine, game.mineEnginer],
+        [
+          [game.cristal, Decimal(1.2)],
+          [game.wood, Decimal(0.8)],
+          [game.fungus, Decimal(0.8)]
+        ],
+        []
       )
     ]
 
@@ -155,8 +165,12 @@ export class World {
       new World(game, "", "", [], [], []),
       new World(game, "Cold", "",
         [],
-        [[game.food, Decimal(0.7)]],
-        []),
+        [[game.food, Decimal(0.7)], [game.ice, Decimal(0.5)]],
+        [],
+        [],
+        [],
+        [[game.iceResearch, Decimal(0)]]
+      ),
       new World(game, "Freezing", "",
         [
           game.iceCollector, game.iceCompacter,
@@ -189,7 +203,7 @@ export class World {
       new World(game, "Crystallized", "",
         [game.mine, game.mineEnginer],
         [
-          [game.cristal, Decimal(1)],
+          [game.cristal, Decimal(1.5)],
           [game.food, Decimal(0.4)],
           [game.fungus, Decimal(0.4)]
         ],
@@ -204,7 +218,11 @@ export class World {
           [game.honey, Decimal(0.5)],
           [game.nectar, Decimal(0.5)]
         ],
-        []
+        [],
+        [],
+        [],
+        [],
+        Decimal(3.5)
       ),
       new World(game, "Rainy", "",
         [],

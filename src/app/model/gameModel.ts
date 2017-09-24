@@ -111,7 +111,6 @@ export class GameModel {
   hydroResearch: Research
   planterResearch: Research
 
-
   //    Bee
   nectar: Unit
   honey: Unit
@@ -168,6 +167,7 @@ export class GameModel {
   expLists = new Array<TypeList>()
   expAnt = new Array<Unit>()
   expMachinery = new Array<Unit>()
+  expTech = new Array<Unit>()
   allPrestigeUp = new Array<Unit>()
 
   //    Prestige Ant
@@ -180,6 +180,13 @@ export class GameModel {
 
   //    Prestige Machinery
   pMachineryPower: Unit
+
+  //    Prestige Tecnology
+  pComposter: Unit
+  pRefinery: Unit
+  pLaser: Unit
+  pHydro: Unit
+  pPlanter: Unit
 
   //    Special World Units
   crab: Unit
@@ -207,7 +214,6 @@ export class GameModel {
     this.initJobs()
     this.initGenerators()
 
-    this.initBee()
     this.initMachinery()
     this.initEnginers()
 
@@ -217,6 +223,7 @@ export class GameModel {
     //  End of base World
 
     //  Other Worlds
+    this.initBee()
     this.initBeach()
     this.initForest()
     this.initFreezing()
@@ -1414,7 +1421,7 @@ export class GameModel {
     this.expAnt = new Array<Unit>()
 
     //    Ant food
-    this.pAntPower = new Unit(this, "pap", "Ant Power", "Ant yeld 100% more Food", true)
+    this.pAntPower = new Unit(this, "pap", "Ant Power", "Ant yeld 100% more Food.", true)
     this.allPrestigeUp.push(this.pAntPower)
     this.pAntPower.actions.push(new BuyAction(this, this.pAntPower,
       [new Cost(this.experience, Decimal(10), expIncrement)]))
@@ -1422,7 +1429,7 @@ export class GameModel {
     this.littleAnt.prestigeBonusProduction.push(this.pAntPower)
 
     //    Ant fungus
-    this.pAntFungus = new Unit(this, "paf", "Ant Fungus", "Farmer yeld 100% more Fungus", true)
+    this.pAntFungus = new Unit(this, "paf", "Farmer Power", "Farmer yeld 100% more Fungus.", true)
     this.allPrestigeUp.push(this.pAntFungus)
     this.pAntFungus.actions.push(new BuyAction(this, this.pAntFungus,
       [new Cost(this.experience, Decimal(10), expIncrement)]))
@@ -1430,10 +1437,14 @@ export class GameModel {
     this.farmer.prestigeBonusProduction.push(this.pAntFungus)
 
     //    Ant in next world
-    this.pAntNext = new Unit(this, "pan", "Ant Next", "Ant Next", true)
-    this.pGeologistNext = new Unit(this, "pgn", "Geologist Next", "Geologist Next", true)
-    this.pScientistNext = new Unit(this, "psn", "Scientist Next", "Scientist Next", true)
-    this.pFarmerNext = new Unit(this, "pfn", "Farmer Next", "Farmer Next", true)
+    this.pAntNext = new Unit(this, "pan", "Ant follower",
+      "Start new worlds with 5 more ants.", true)
+    this.pGeologistNext = new Unit(this, "pgn", "Geologist follower",
+      "Start new worlds with 5 more geologist.", true)
+    this.pScientistNext = new Unit(this, "psn", "Scientist follower",
+      "Start new worlds with 5 more scientist.", true)
+    this.pFarmerNext = new Unit(this, "pfn", "Farmer follower",
+      "Start new worlds with 5 more farmer.", true)
 
     const listNext = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext]
     listNext.forEach(n => {
@@ -1459,6 +1470,51 @@ export class GameModel {
     this.listMachinery.forEach(m => m.prestigeBonusProduction.push(this.pMachineryPower))
 
     this.expLists.push(new TypeList("Machinery", this.expMachinery))
+
+    this.expLists.map(l => l.list).forEach(al => al.forEach(l => {
+      l.unlocked = true
+      l.buyAction.unlocked = true
+    }))
+
+    //    Tecnology
+    this.expTech = new Array<Unit>()
+    this.pComposter = new Unit(this, "pComposter", "Compost",
+      "Composter units are 100% better.", true)
+    this.pRefinery = new Unit(this, "pRefinery", "Refinery",
+      "Refinery units are 100% better.", true)
+    this.pLaser = new Unit(this, "pLaser", "Laser",
+      "Laser units are 100% better.", true)
+    this.pHydro = new Unit(this, "pHydro", "Hydroponics",
+      "Hydroponics units are 100% better.", true)
+    this.pPlanter = new Unit(this, "pPlanter", "Planting",
+      "Planting units are 100% better.", true)
+
+    this.expTech.push(this.pComposter)
+    this.expTech.push(this.pRefinery)
+    this.expTech.push(this.pLaser)
+    this.expTech.push(this.pHydro)
+    this.expTech.push(this.pPlanter)
+
+    this.expTech.forEach(p => {
+      p.actions.push(new BuyAction(this, p,
+        [new Cost(this.experience, Decimal(10), expIncrement)]))
+    })
+    this.expLists.push(new TypeList("Tecnology", this.expTech))
+
+    this.composterStation.prestigeBonusProduction.push(this.pComposter)
+    this.composterAnt.prestigeBonusProduction.push(this.pComposter)
+
+    this.refineryStation.prestigeBonusProduction.push(this.pRefinery)
+    this.refineryAnt.prestigeBonusProduction.push(this.pRefinery)
+
+    this.laserStation.prestigeBonusProduction.push(this.pLaser)
+    this.hydroAnt.prestigeBonusProduction.push(this.pLaser)
+
+    this.hydroFarm.prestigeBonusProduction.push(this.pHydro)
+    this.hydroAnt.prestigeBonusProduction.push(this.pHydro)
+
+    this.plantingMachine.prestigeBonusProduction.push(this.pPlanter)
+    this.planterAnt.prestigeBonusProduction.push(this.pPlanter)
 
     this.expLists.map(l => l.list).forEach(al => al.forEach(l => {
       l.unlocked = true

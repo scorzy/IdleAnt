@@ -35,7 +35,7 @@ import * as numberformat from 'swarm-numberformat';
     this.paramsSub = this.activatedRoute.params.subscribe(params => {
       this.mioId = params['type']
       console.log(this.mioId)
-      if (this.mioId == "unit") {
+      if (this.mioId === "unit") {
         this.typeLists = this.gameService.game.lists
       } else {
         this.typeLists = this.gameService.game.expLists
