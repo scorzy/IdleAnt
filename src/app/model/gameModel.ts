@@ -5,7 +5,7 @@ import { Base, Type } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
 import { PrestigeList, TypeList } from './typeList';
-import { Action, BuyAction, BuyAndUnlockAction, Research, UpAction, UpEfficiency, UpHire, UpSpecial, UnlockProd } from './units/action';
+import { Action, BuyAction, BuyAndUnlockAction, Research, UpHire, UpSpecial, UnlockProd, UpAction } from './units/action';
 import { Production } from './production';
 import { Map } from 'rxjs/util/Map';
 import { Data } from '@angular/router';
@@ -23,7 +23,7 @@ export class GameModel {
   buyExp = Decimal(1.1)
   buyExpUnit = Decimal(1)
   scienceCost1 = Decimal(100)
-  scienceCost2 = Decimal(1E4)
+  scienceCost2 = Decimal(1E3)
   scienceCost3 = Decimal(1E6)
   scienceCost4 = Decimal(1E8)
   upgradeScienceExp = Decimal(10)
@@ -38,7 +38,7 @@ export class GameModel {
   sand: Unit
   listMaterial = Array<Unit>()
 
-  //    Jobs Tier 1
+  //    Tier 1
   geologist: Unit
   student: Unit
   carpenter: Unit
@@ -46,12 +46,13 @@ export class GameModel {
   lumberjack: Unit
   level1 = Array<Unit>()
 
-  //    Special Ants
+  //    Tier 2
   composterAnt: Unit
   refineryAnt: Unit
   laserAnt: Unit
   hydroAnt: Unit
   planterAnt: Unit
+  scientist: Unit
   level2 = Array<Unit>()
 
   jobMaterial: Unit[][]
@@ -69,36 +70,41 @@ export class GameModel {
   refineryStation: Unit
   laserStation: Unit
   hydroFarm: Unit
-  caterpillar: Unit
+  plantingMachine: Unit
 
   mine: Unit
   sandDigger: Unit
   loggingMachine: Unit
+  honeyMaker: Unit
+  burningGlass: Unit
 
   listMachinery = new Array<Unit>()
 
   //    Enginers
+  composterEnginer: Unit
   laserEnginer: Unit
   hydroEnginer: Unit
-  soilEnginer: Unit
+  plantingEnginer: Unit
   refineryEnginery: Unit
+
   mineEnginer: Unit
   sandEnginer: Unit
   woodEnginer: Unit
+  beeEnginer: Unit
+  lensEnginer: Unit
 
   listEnginer = new Array<Unit>()
 
   //    Research
   up1: Research
-  upEfficiency: Research
   rDirt: Research
   resList = Array<Research>()
   specialResearch: Research
-  othersResearch: Research
   prestigeResearch: Research
   engineerRes: Research
   machineryRes: Research
 
+  experimentResearch: Research
   composterResearch: Research
   refineryResearch: Research
   laserResearch: Research
@@ -134,9 +140,13 @@ export class GameModel {
   //  Freezing
   ice: Unit
   iceAnt: Unit
+  iceDrillAnt: Unit
+  iceMelter: Unit
   iceCollector: Unit
   iceCompacter: Unit
   iceEngineer: Unit
+  iceCompEngineer: Unit
+  iceResearch: Research
   listFreezig = new Array<Unit>()
 
   unitMap: Map<string, Unit> = new Map()
@@ -193,11 +203,9 @@ export class GameModel {
     this.lists = new Array<TypeList>()
 
     this.initMaterials()
-    this.initGenerators()
+    this.defineGenerators()
     this.initJobs()
-
-    //    Production
-    this.prodGenerators()
+    this.initGenerators()
 
     this.initBee()
     this.initMachinery()
@@ -205,6 +213,16 @@ export class GameModel {
 
     //    Fungus
     this.fungus.actions.push(new UpSpecial(this, this.fungus))
+
+    //  End of base World
+
+    //  Other Worlds
+    this.initBeach()
+    this.initForest()
+    this.initFreezing()
+
+    //  Researchs
+    this.initResearchs()
 
     //    Lists
     this.lists.push(new TypeList("Material", this.listMaterial))
@@ -215,17 +233,7 @@ export class GameModel {
     this.lists.push(new TypeList("Engineer", this.listEnginer))
     this.lists.push(new TypeList("Bee", this.listBee))
     this.lists.push(new TypeList("Beetle", this.listForest))
-    this.lists.push(new TypeList("Freezing", this.listForest))
-
-    //  Researchs
-    this.initResearchs()
-
-    //  End of base World
-
-    //  Other Worlds
-    this.initWorld()
-    this.initForest()
-    this.initFreezing()
+    this.lists.push(new TypeList("Freezing", this.listFreezig))
 
     this.all = Array.from(this.unitMap.values()).filter(u => !u.neverEnding)
     this.alert = alertArray[0]
@@ -277,20 +285,58 @@ export class GameModel {
     this.honey = new Unit(this, "honey", "Honey", "Honey is the main resource for bees.")
     this.listMaterial.push(this.honey)
 
+    this.ice = new Unit(this, "ice", "Ice",
+      "Ice")
+    this.listMaterial.push(this.ice)
+
     this.listMaterial.forEach(material => material.types = [Type.Material])
   }
-  initGenerators() {
+  defineGenerators() {
     this.littleAnt = new Unit(this, "G1", "Ant",
       "Ant are the lowest class of worker. They continuously gather food.")
     this.queenAnt = new Unit(this, "G2", "Queen",
       "Queen proces ants")
     this.nestAnt = new Unit(this, "G3", "Nest",
       "Nest proces queen")
-
+  }
+  initGenerators() {
     this.list.push(this.littleAnt, this.queenAnt, this.nestAnt)
     this.list.forEach(ant => ant.types = [Type.Ant, Type.Generator])
 
     this.littleAnt.unlocked = true
+
+    this.littleAnt.actions.push(new BuyAndUnlockAction(this,
+      this.littleAnt,
+      [new Cost(this.food, Decimal(10), Decimal(this.buyExp))],
+      [this.queenAnt]
+    ))
+
+    this.queenAnt.actions.push(new BuyAndUnlockAction(this,
+      this.queenAnt,
+      [
+        new Cost(this.food, Decimal(1E3), Decimal(this.buyExp)),
+        new Cost(this.littleAnt, Decimal(10), Decimal(this.buyExp))
+      ],
+      [this.nestAnt, this.geologist]
+    ))
+
+    this.nestAnt.actions.push(new BuyAction(this,
+      this.nestAnt,
+      [
+        new Cost(this.food, Decimal(1E9), Decimal(this.buyExp)),
+        new Cost(this.queenAnt, Decimal(1E3), Decimal(this.buyExp))
+      ],
+    ))
+
+    for (let i = 0; i < this.list.length - 1; i++)
+      this.list[i].addProductor(new Production(this.list[i + 1]))
+
+    for (let i = 0; i < this.list.length; i++) {
+      this.list[i].actions.push(new UpAction(this, this.list[i],
+        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
+      this.list[i].actions.push(new UpHire(this, this.list[i],
+        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
+    }
   }
   initJobs() {
     this.student = new Unit(this, "scn", "Student", "Student yield science.")
@@ -324,6 +370,17 @@ export class GameModel {
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
+    //    Student
+    this.student.actions.push(new BuyAndUnlockAction(this,
+      this.student,
+      [
+        new Cost(this.food, Decimal(1000), Decimal(this.buyExp)),
+        new Cost(this.cristal, Decimal(100), Decimal(this.buyExp)),
+        new Cost(this.littleAnt, Decimal(1), Decimal(this.buyExpUnit))
+      ],
+      [this.science]
+    ))
+
     //    Geologist
     this.geologist.actions.push(new BuyAndUnlockAction(this,
       this.geologist,
@@ -334,16 +391,7 @@ export class GameModel {
       [this.cristal, this.student]
     ))
 
-    //    Scientist
-    this.student.actions.push(new BuyAndUnlockAction(this,
-      this.student,
-      [
-        new Cost(this.food, Decimal(1000), Decimal(this.buyExp)),
-        new Cost(this.cristal, Decimal(100), Decimal(this.buyExp)),
-        new Cost(this.littleAnt, Decimal(1), Decimal(this.buyExpUnit))
-      ],
-      [this.science]
-    ))
+
 
     //    Carpenter
     this.carpenter.actions.push(new BuyAndUnlockAction(this,
@@ -381,8 +429,6 @@ export class GameModel {
       l.actions.push(new UpAction(this, l, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
       l.actions.push(new UpHire(this, l, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
     })
-    this.student.actions.push(new UpEfficiency(this, this.student, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
-    this.farmer.actions.push(new UpEfficiency(this, this.farmer, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
 
     //
@@ -390,8 +436,24 @@ export class GameModel {
     //
     const specialProduction = Decimal(10)
     const specialCost = Decimal(-5)
-    const specialFood = Decimal(1E6)
-    const specialRes2 = Decimal(1E3)
+    const specialFood = Decimal(1E7)
+    const specialRes2 = Decimal(1E4)
+
+    //  Scientist
+    this.scientist = new Unit(this, "scie2",
+      "Scientist Ant", "Transform cristal into science.")
+    this.scientist.types = [Type.Ant]
+    this.level2.push(this.scientist)
+    this.scientist.actions.push(new BuyAction(this,
+      this.scientist,
+      [
+        new Cost(this.food, specialFood, this.buyExp),
+        new Cost(this.cristal, specialRes2, this.buyExp),
+        new Cost(this.littleAnt, Decimal(1), this.buyExpUnit)
+      ]
+    ))
+    this.science.addProductor(new Production(this.scientist, specialProduction))
+    this.cristal.addProductor(new Production(this.scientist, specialCost))
 
     //  Composter
     this.composterAnt = new Unit(this, "com",
@@ -459,7 +521,7 @@ export class GameModel {
 
     //  Planter
     this.planterAnt = new Unit(this, "planterAnt",
-      "Laser Ant", "Transform cristal into fungus.")
+      "Planter Ant", "Transform fungus into wood.")
     this.planterAnt.types = [Type.Ant]
     this.level2.push(this.planterAnt)
     this.planterAnt.actions.push(new BuyAction(this,
@@ -473,70 +535,10 @@ export class GameModel {
     this.wood.addProductor(new Production(this.planterAnt, specialProduction))
     this.fungus.addProductor(new Production(this.planterAnt, specialCost))
 
-    const consumer = [this.composterAnt, this.refineryAnt, this.laserAnt]
-    consumer.forEach(l =>
-      l.actions.push(new UpEfficiency(this, l, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)])))
-  }
-  prodGenerators() {
-    const genBaseCost = Decimal(10)
-
-    this.list[0].actions.push(new BuyAndUnlockAction(this,
-      this.list[0],
-      [new Cost(
-        this.food,
-        Decimal.pow(genBaseCost, 2).div(10),
-        Decimal(this.buyExp))],
-      [this.list[1]]
-    ))
-
-    for (let i = 1; i < this.list.length; i++) {
-      const toUnlock = Array<Unit>()
-      if (i + 1 < this.list.length) toUnlock.push(this.list[i + 1])
-      if (this.list[i].id === "G2") toUnlock.push(this.geologist)
-
-      this.list[i].actions.push(new BuyAndUnlockAction(this,
-        this.list[i],
-        [
-          new Cost(
-            this.food,
-            Decimal.pow(genBaseCost, 2 * (1 + i)).div(10),
-            Decimal(this.buyExp)),
-          new Cost(
-            this.list[i - 1],
-            Decimal.pow(10, i),
-            Decimal(this.buyExpUnit)
-          )
-        ],
-        toUnlock
-      ))
-      if (i > 1) {
-        this.list[i].buyAction.priceF.push(new Cost(
-          this.fungus,
-          Decimal.pow(genBaseCost, 2 * (1 + i)).div(100),
-          Decimal(this.buyExp)))
-        this.list[i].buyAction.priceF.push(new Cost(
-          this.soil,
-          Decimal.pow(genBaseCost, 2 * (1 + i)).div(1000),
-          Decimal(this.buyExp)))
-        this.list[i].buyAction.priceF.push(new Cost(
-          this.wood,
-          Decimal.pow(genBaseCost, 2 * (1 + i)).div(10000),
-          Decimal(this.buyExp)))
-        this.list[i].buyAction.priceF.push(new Cost(
-          this.cristal,
-          Decimal.pow(genBaseCost, 2 * (1 + i)).div(100000),
-          Decimal(this.buyExp)))
-      }
-    }
-    for (let i = 0; i < this.list.length - 1; i++)
-      this.list[i].addProductor(new Production(this.list[i + 1], Decimal(i + 1)))
-
-    for (let i = 0; i < this.list.length; i++) {
-      this.list[i].actions.push(new UpAction(this, this.list[i],
-        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
-      this.list[i].actions.push(new UpHire(this, this.list[i],
-        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
-    }
+    this.level2.forEach(l => {
+      l.actions.push(new UpAction(this, l, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+      l.actions.push(new UpHire(this, l, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+    })
   }
   initBee() {
     //    Foragging
@@ -574,15 +576,14 @@ export class GameModel {
     this.honey.addProductor(new Production(this.workerBee, Decimal(1)))
     this.workerBee.actions.push(new UpAction(this, this.workerBee, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
     this.workerBee.actions.push(new UpHire(this, this.workerBee, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
-    this.workerBee.actions.push(new UpEfficiency(this, this.workerBee, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
 
     this.queenBee.actions.push(new BuyAndUnlockAction(this,
       this.queenBee,
       [
-        new Cost(this.foragingBee, Decimal(100), this.buyExpUnit),
-        new Cost(this.honey, Decimal(1E4), this.buyExp),
-        new Cost(this.food, Decimal(1E5), this.buyExp),
+        new Cost(this.foragingBee, Decimal(50), this.buyExpUnit),
+        new Cost(this.honey, Decimal(1E3), this.buyExp),
+        new Cost(this.food, Decimal(1E6), this.buyExp),
       ], [this.hiveBee]
     ))
     this.foragingBee.addProductor(new Production(this.queenBee))
@@ -590,9 +591,9 @@ export class GameModel {
     this.hiveBee.actions.push(new BuyAction(this,
       this.hiveBee,
       [
-        new Cost(this.queenBee, Decimal(10000), this.buyExpUnit),
-        new Cost(this.honey, Decimal(1E7), this.buyExp),
-        new Cost(this.food, Decimal(1E8), this.buyExp),
+        new Cost(this.queenBee, Decimal(1E3), this.buyExpUnit),
+        new Cost(this.honey, Decimal(1E6), this.buyExp),
+        new Cost(this.food, Decimal(1E9), this.buyExp),
       ]
     ))
     this.queenBee.addProductor(new Production(this.hiveBee))
@@ -604,7 +605,7 @@ export class GameModel {
     this.hiveBee.actions.push(new UpHire(this, this.hiveBee, [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
 
     //   Advanced Bee
-    this.scientistBee = new Unit(this, "scBee", "Scientist Bee", "Yeld science")
+    this.scientistBee = new Unit(this, "scBee", "Scientist Bee", "Scientist bee studies honey properties.")
     this.foodBee = new Unit(this, "foodBee", "Food Bee", "Convert honey to food")
 
     //    Scientist
@@ -613,14 +614,16 @@ export class GameModel {
       this.scientistBee,
       [
         new Cost(this.foragingBee, Decimal(1), this.buyExpUnit),
-        new Cost(this.honey, Decimal(100), this.buyExp),
-        new Cost(this.cristal, Decimal(100), this.buyExp),
+        new Cost(this.honey, Decimal(6E3), this.buyExp),
+        new Cost(this.cristal, Decimal(4E3), this.buyExp),
       ]
     ))
-    this.science.addProductor(new Production(this.scientistBee))
+    this.science.addProductor(new Production(this.scientistBee, Decimal(10)))
+    this.honey.addProductor(new Production(this.scientistBee, Decimal(-2)))
+    this.cristal.addProductor(new Production(this.scientistBee, Decimal(-1)))
+
     this.scientistBee.actions.push(new UpAction(this, this.scientistBee,
       [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
-
     this.scientistBee.actions.push(new UpHire(this, this.scientistBee,
       [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
@@ -630,15 +633,14 @@ export class GameModel {
       this.foodBee,
       [
         new Cost(this.foragingBee, Decimal(1), this.buyExpUnit),
-        new Cost(this.honey, Decimal(100), this.buyExp),
-        new Cost(this.cristal, Decimal(100), this.buyExp),
+        new Cost(this.honey, Decimal(1E3), this.buyExp)
       ]
     ))
-    this.food.addProductor(new Production(this.foodBee))
-    this.honey.addProductor(new Production(this.foodBee, Decimal(-0.5)))
+    this.food.addProductor(new Production(this.foodBee, Decimal(10)))
+    this.honey.addProductor(new Production(this.foodBee, Decimal(-5)))
     this.foodBee.actions.push(new UpAction(this, this.foodBee, [new Cost(this.science, Decimal(1E3), Decimal(10))]))
     this.foodBee.actions.push(new UpHire(this, this.foodBee, [new Cost(this.science, Decimal(1E3), Decimal(10))]))
-    this.foodBee.actions.push(new UpEfficiency(this, this.foodBee, [new Cost(this.science, Decimal(1), Decimal(10))]))
+
 
     this.advancedBee = new Research(
       "advBee",
@@ -655,6 +657,16 @@ export class GameModel {
     this.listBee.push(this.scientistBee)
     this.listBee.push(this.foodBee)
 
+    //    Bee
+    this.beeResearch = new Research(
+      "beeRes",
+      "Bee", "Unlock Bee !",
+      [new Cost(this.science, Decimal(1E3))],
+      [this.nectar, this.foragingBee, this.workerBee, this.honey, this.advancedBee],
+      this
+    )
+    this.beeResearch.avabileBaseWorld = false
+
   }
   initMachinery() {
 
@@ -662,9 +674,9 @@ export class GameModel {
     const machineryProd = Decimal(150)
     const machineryCost = Decimal(-10)
 
-    const price1 = Decimal(1E4)
-    const price2 = Decimal(6E3)
-    const price3 = Decimal(3E3)
+    const price1 = Decimal(1E5)
+    const price2 = Decimal(6E4)
+    const price3 = Decimal(3E4)
 
     //    Composter
     this.composterStation = new Unit(this, "composterStation", "Composter Station", "Turn wood into soil")
@@ -679,8 +691,6 @@ export class GameModel {
     ))
     this.soil.addProductor(new Production(this.composterStation, machineryProd))
     this.wood.addProductor(new Production(this.composterStation, machineryCost))
-    this.composterStation.actions.push(new UpEfficiency(this, this.composterStation,
-      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
     this.listMachinery.push(this.composterStation)
 
     //    Refinery
@@ -696,8 +706,7 @@ export class GameModel {
     ))
     this.sand.addProductor(new Production(this.refineryStation, machineryProd))
     this.soil.addProductor(new Production(this.refineryStation, machineryCost))
-    this.refineryStation.actions.push(new UpEfficiency(this, this.refineryStation,
-      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
+
     this.listMachinery.push(this.refineryStation)
 
     //    Laser
@@ -713,8 +722,7 @@ export class GameModel {
     ))
     this.cristal.addProductor(new Production(this.laserStation, machineryProd))
     this.sand.addProductor(new Production(this.laserStation, machineryCost))
-    this.laserStation.actions.push(new UpEfficiency(this, this.laserStation,
-      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
+
     this.listMachinery.push(this.laserStation)
 
     //    Hydroponic Farm
@@ -732,102 +740,195 @@ export class GameModel {
     this.cristal.addProductor(new Production(this.hydroFarm, machineryCost))
     this.listMachinery.push(this.hydroFarm)
 
-    //    Caterpillar
-    this.caterpillar = new Unit(this, "caterpillar", "Caterpillar", "Yeld soil")
-    this.caterpillar.types = [Type.Machinery]
-    this.caterpillar.actions.push(new BuyAction(this,
-      this.caterpillar,
+    //    Planting Machine
+    this.plantingMachine = new Unit(this, "plantingMac", "Planting Machine", "Yeld wood")
+    this.plantingMachine.types = [Type.Machinery]
+    this.plantingMachine.actions.push(new BuyAction(this,
+      this.plantingMachine,
       [
         new Cost(this.fungus, price1, this.buyExp),
         new Cost(this.cristal, price2, this.buyExp),
         new Cost(this.sand, price3, this.buyExp)
       ]
     ))
-    this.wood.addProductor(new Production(this.caterpillar, machineryProd))
-    this.fungus.addProductor(new Production(this.caterpillar, machineryCost))
-    this.listMachinery.push(this.caterpillar)
+    this.wood.addProductor(new Production(this.plantingMachine, machineryProd))
+    this.fungus.addProductor(new Production(this.plantingMachine, machineryCost))
+    this.listMachinery.push(this.plantingMachine)
 
 
     //    Not always avaiable
+    const machineryProd2 = machineryProd.div(2)
 
     //    Sand digger
-    this.sandDigger = new Unit(this, "sandDigger", "Sand Digger", "Yeld sand")
+    this.sandDigger = new Unit(this, "sandDigger", "Sand Digger",
+      "Yeld sand")
     this.sandDigger.avabileBaseWorld = false
     this.sandDigger.types = [Type.Machinery]
     this.sandDigger.actions.push(new BuyAction(this,
       this.sandDigger,
-      [new Cost(this.wood, Decimal(1E6), this.buyExp)]
+      [
+        new Cost(this.wood, price1, this.buyExp),
+        new Cost(this.cristal, price2, this.buyExp)
+      ]
     ))
-    this.cristal.addProductor(new Production(this.sandDigger, Decimal(1E3)))
+    this.cristal.addProductor(new Production(this.sandDigger, machineryProd2))
     this.listMachinery.push(this.sandDigger)
 
     //    Wood
-    this.loggingMachine = new Unit(this, "loggingMachine", "Logging Machine", "Yeld wood")
+    this.loggingMachine = new Unit(this, "loggingMachine", "Logging Machine",
+      "Yeld wood")
     this.loggingMachine.avabileBaseWorld = false
     this.loggingMachine.types = [Type.Machinery]
     this.loggingMachine.actions.push(new BuyAction(this,
       this.loggingMachine,
       [
-        new Cost(this.wood, Decimal(1E6), this.buyExp),
-        new Cost(this.cristal, Decimal(1E6), this.buyExp),
-        new Cost(this.soil, Decimal(1E7), this.buyExp)
+        new Cost(this.wood, price1, this.buyExp),
+        new Cost(this.cristal, price2, this.buyExp)
       ]
     ))
-    this.wood.addProductor(new Production(this.loggingMachine, Decimal(1E3)))
+    this.wood.addProductor(new Production(this.loggingMachine, machineryProd2))
     this.listMachinery.push(this.loggingMachine)
 
     //    Mine
-    this.mine = new Unit(this, "mine", "Mine", "Yeld cristal")
+    this.mine = new Unit(this, "mine", "Mine",
+      "Yeld cristal")
     this.mine.avabileBaseWorld = false
     this.mine.types = [Type.Machinery]
     this.mine.actions.push(new BuyAction(this,
       this.mine,
       [
-        new Cost(this.cristal, Decimal(1E6), this.buyExp),
-        new Cost(this.wood, Decimal(1E7), this.buyExp)
+        new Cost(this.wood, price1, this.buyExp),
+        new Cost(this.soil, price2, this.buyExp)
       ]
     ))
-    this.cristal.addProductor(new Production(this.mine, Decimal(1E3)))
+    this.cristal.addProductor(new Production(this.mine, machineryProd2))
     this.listMachinery.push(this.mine)
 
+    //    Honey
+    this.honeyMaker = new Unit(this, "honeyMaker", "Honey Maker",
+      "Automate the making of honey. Only bee know how it work.")
+    this.honeyMaker.avabileBaseWorld = false
+    this.honeyMaker.types = [Type.Machinery]
+    this.honeyMaker.actions.push(new BuyAction(this,
+      this.honeyMaker,
+      [
+        new Cost(this.nectar, price1, this.buyExp),
+        new Cost(this.honey, price2, this.buyExp)
+      ]
+    ))
+    this.honey.addProductor(new Production(this.honeyMaker, machineryProd))
+    this.nectar.addProductor(new Production(this.honeyMaker, machineryCost))
+    this.listMachinery.push(this.honeyMaker)
+
+    //    Ice Compacter
+    this.iceCompacter = new Unit(this, "iceC", "Ice Compacter",
+      "Ice Compacter is a machine that compact ice into crystall.")
+    this.iceCompacter.avabileBaseWorld = false
+    this.iceCompacter.types = [Type.Machinery]
+    this.iceCompacter.actions.push(new BuyAction(this,
+      this.iceCompacter,
+      [
+        new Cost(this.cristal, price1, this.buyExp),
+        new Cost(this.wood, price2, this.buyExp),
+        new Cost(this.soil, price3, this.buyExp)
+      ]
+    ))
+    this.cristal.addProductor(new Production(this.iceCompacter, machineryProd))
+    this.ice.addProductor(new Production(this.iceCompacter, machineryCost))
+    this.listMachinery.push(this.iceCompacter)
+
+    //    Ice Collector
+    this.iceCollector = new Unit(this, "iceK", "Water Tank",
+      "A tank of water.")
+    this.iceCollector.avabileBaseWorld = false
+    this.iceCollector.types = [Type.Machinery]
+    this.iceCollector.actions.push(new BuyAction(this,
+      this.iceCollector,
+      [
+        new Cost(this.wood, price1, this.buyExp),
+        new Cost(this.soil, price2, this.buyExp)
+      ]
+    ))
+    this.cristal.addProductor(new Production(this.iceCollector, machineryProd2))
+    this.listMachinery.push(this.iceCollector)
+
+    //    Ice Burning Glass
+    this.burningGlass = new Unit(this, "burningGlass", "Burning Lens",
+      "A large convex lens used to concentrate sun's rays. This machine melt ice faster than anything else.")
+    this.burningGlass.avabileBaseWorld = false
+    this.burningGlass.types = [Type.Machinery]
+    this.burningGlass.actions.push(new BuyAction(this,
+      this.iceCollector,
+      [
+        new Cost(this.cristal, price1, this.buyExp),
+        new Cost(this.wood, price2, this.buyExp)
+      ]
+    ))
+    this.ice.addProductor(new Production(this.iceCollector, machineryProd2.times(10)))
+    this.listMachinery.push(this.burningGlass)
   }
   initEnginers() {
     this.listEnginer = new Array<Unit>()
 
+    this.composterEnginer = new Unit(this, "engCo", "Composter Engineer",
+      "Slowly build laser stations.")
     this.laserEnginer = new Unit(this, "engLa", "Laser Engineer",
       "Slowly build laser stations.")
     this.hydroEnginer = new Unit(this, "engHy", "Hydro Engineer",
       "Slowly build hydroponic farms.")
-    this.soilEnginer = new Unit(this, "engSo", "Soil Engineer",
-      "Slowly build caterpillars.")
+    this.plantingEnginer = new Unit(this, "engSo", "Planting Engineer",
+      "Slowly build planting machines.")
+    this.refineryEnginery = new Unit(this, "engRef", "Refine Engineer",
+      "Slowly build refinery stations.")
+
     this.mineEnginer = new Unit(this, "engMi", "Mining Engineer",
       "Slowly build mines.")
     this.sandEnginer = new Unit(this, 'engSa', "Sand Engineer",
       'Slowly build sand diggers.')
     this.woodEnginer = new Unit(this, "engWo", "Wood Engineer",
       "Slowly build logging machines.")
-    this.refineryEnginery = new Unit(this, "engRef", "Refine Engineer",
-      "Slowly build refinery stations.")
+    this.beeEnginer = new Unit(this, "engBee", "Bee Engineer",
+      "Slowly build honey makers.")
+    this.iceEngineer = new Unit(this, "engIce", "Ice Engineer",
+      "Slowly build water tanks.")
+    this.iceCompEngineer = new Unit(this, "engIceComp", "Compacting Engineer",
+      "Slowly build ice compacters.")
+    this.lensEnginer = new Unit(this, "lensEnginer", "Burning Lens Engineer",
+      "Slowly build burning lens.")
 
     this.sandEnginer.avabileBaseWorld = false
     this.mineEnginer.avabileBaseWorld = false
     this.woodEnginer.avabileBaseWorld = false
+    this.beeEnginer.avabileBaseWorld = false
+    this.iceEngineer.avabileBaseWorld = false
+    this.iceCompEngineer.avabileBaseWorld = false
+    this.lensEnginer.avabileBaseWorld = false
 
+    this.listEnginer.push(this.composterEnginer)
+    this.listEnginer.push(this.refineryEnginery)
     this.listEnginer.push(this.laserEnginer)
     this.listEnginer.push(this.hydroEnginer)
-    this.listEnginer.push(this.soilEnginer)
+    this.listEnginer.push(this.plantingEnginer)
     this.listEnginer.push(this.mineEnginer)
     this.listEnginer.push(this.sandEnginer)
     this.listEnginer.push(this.woodEnginer)
-    this.listEnginer.push(this.refineryEnginery)
+    this.listEnginer.push(this.beeEnginer)
+    this.listEnginer.push(this.iceEngineer)
+    this.listEnginer.push(this.iceCompEngineer)
+    this.listEnginer.push(this.lensEnginer)
 
     this.laserStation.addProductor(new Production(this.laserEnginer, Decimal(0.01)))
     this.hydroFarm.addProductor(new Production(this.hydroEnginer, Decimal(0.01)))
-    this.caterpillar.addProductor(new Production(this.soilEnginer, Decimal(0.01)))
+    this.plantingMachine.addProductor(new Production(this.plantingEnginer, Decimal(0.01)))
     this.mine.addProductor(new Production(this.mineEnginer, Decimal(0.01)))
     this.sandDigger.addProductor(new Production(this.sandEnginer, Decimal(0.01)))
     this.loggingMachine.addProductor(new Production(this.woodEnginer, Decimal(0.01)))
     this.refineryStation.addProductor(new Production(this.refineryEnginery, Decimal(0.01)))
+    this.composterStation.addProductor(new Production(this.composterEnginer, Decimal(0.01)))
+    this.honeyMaker.addProductor(new Production(this.beeEnginer, Decimal(0.01)))
+    this.iceEngineer.addProductor(new Production(this.iceEngineer, Decimal(0.01)))
+    this.iceCompacter.addProductor(new Production(this.iceCompEngineer, Decimal(0.01)))
+    this.burningGlass.addProductor(new Production(this.lensEnginer, Decimal(0.01)))
 
     this.listEnginer.forEach(e => {
       e.actions.push(new BuyAction(this,
@@ -841,25 +942,36 @@ export class GameModel {
       e.actions.push(new UpHire(this, e, [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
     })
 
-    this.laserEnginer.buyAction.priceF.push(new Cost(this.laserStation, Decimal(100), this.buyExp))
-    this.hydroEnginer.buyAction.priceF.push(new Cost(this.hydroFarm, Decimal(100), this.buyExp))
-    this.soilEnginer.buyAction.priceF.push(new Cost(this.caterpillar, Decimal(100), this.buyExp))
-    this.mineEnginer.buyAction.priceF.push(new Cost(this.mine, Decimal(100), this.buyExp))
-    this.sandEnginer.buyAction.priceF.push(new Cost(this.sandDigger, Decimal(100), this.buyExp))
-    this.woodEnginer.buyAction.priceF.push(new Cost(this.loggingMachine, Decimal(100), this.buyExp))
-    this.refineryEnginery.buyAction.priceF.push(new Cost(this.refineryStation, Decimal(100), this.buyExp))
-
+    this.laserEnginer.buyAction.priceF.push(new Cost(this.laserStation, Decimal(10), this.buyExp))
+    this.hydroEnginer.buyAction.priceF.push(new Cost(this.hydroFarm, Decimal(10), this.buyExp))
+    this.plantingEnginer.buyAction.priceF.push(new Cost(this.plantingMachine, Decimal(10), this.buyExp))
+    this.mineEnginer.buyAction.priceF.push(new Cost(this.mine, Decimal(10), this.buyExp))
+    this.sandEnginer.buyAction.priceF.push(new Cost(this.sandDigger, Decimal(10), this.buyExp))
+    this.woodEnginer.buyAction.priceF.push(new Cost(this.loggingMachine, Decimal(10), this.buyExp))
+    this.refineryEnginery.buyAction.priceF.push(new Cost(this.refineryStation, Decimal(10), this.buyExp))
+    this.composterEnginer.buyAction.priceF.push(new Cost(this.composterStation, Decimal(10), this.buyExp))
+    this.beeEnginer.buyAction.priceF.push(new Cost(this.honeyMaker, Decimal(10), this.buyExp))
+    this.iceEngineer.buyAction.priceF.push(new Cost(this.iceCollector, Decimal(10), this.buyExp))
+    this.iceCompEngineer.buyAction.priceF.push(new Cost(this.iceCompacter, Decimal(10), this.buyExp))
+    this.lensEnginer.buyAction.priceF.push(new Cost(this.burningGlass, Decimal(10), this.buyExp))
   }
   initForest() {
-    this.listEnginer = new Array<Unit>()
+    this.listForest = new Array<Unit>()
 
-    this.larva = new Unit(this, "larva", "Larva", "Yeld food")
-    this.beetle = new Unit(this, "beetle", "Beetle", "Yeld soil and food")
-    this.ambrosiaBeetle = new Unit(this, "ambrosiaBeetle", "Ambrosia beetle", "Yeld wood")
-    this.beetleNest = new Unit(this, "beetleNest", "Beetle Nest", "Yeld larvae")
-    this.ladybird = new Unit(this, "ladybird", "Ladybird", "Yeld science")
-    this.beetleColony = new Unit(this, "beetleColony", "Beetle Colony", "Yeld nest")
-    this.powderpostBeetle = new Unit(this, "powder", "Powderpost Beetle", "Powderpost beetles are a group of woodboring beetles.")
+    this.larva = new Unit(this, "larva", "Larva",
+      "Larva is the juvenile form of many insect.")
+    this.beetle = new Unit(this, "beetle", "Beetle",
+      "Yield various resources.")
+    this.ambrosiaBeetle = new Unit(this, "ambrosiaBeetle", "Ambrosia beetle",
+      "Yield wood.")
+    this.beetleNest = new Unit(this, "beetleNest", "Beetle Nest",
+      "Yield larvae.")
+    this.ladybird = new Unit(this, "ladybird", "Ladybird",
+      "Yield science.")
+    this.beetleColony = new Unit(this, "beetleColony", "Beetle Colony",
+      "Yield nest.")
+    this.powderpostBeetle = new Unit(this, "powder", "Powderpost Beetle",
+      "Powderpost beetles are a group of woodboring beetles.")
 
     this.listForest.push(this.beetleColony)
     this.listForest.push(this.beetleNest)
@@ -869,15 +981,17 @@ export class GameModel {
     this.listForest.push(this.ambrosiaBeetle)
     this.listForest.push(this.ladybird)
 
-    this.food.addProductor(new Production(this.larva))
+    this.food.addProductor(new Production(this.larva, Decimal(0.1)))
 
     this.cristal.addProductor(new Production(this.beetle, Decimal(0.2)))
     this.soil.addProductor(new Production(this.beetle, Decimal(0.5)))
     this.food.addProductor(new Production(this.beetle))
 
-    this.science.addProductor(new Production(this.ladybird, Decimal(0.01)))
-    this.fungus.addProductor(new Production(this.ambrosiaBeetle, Decimal(-0.5)))
-    this.wood.addProductor(new Production(this.ambrosiaBeetle, Decimal(2)))
+    this.science.addProductor(new Production(this.ladybird, Decimal(5)))
+
+    this.fungus.addProductor(new Production(this.ambrosiaBeetle, Decimal(-6)))
+    this.wood.addProductor(new Production(this.ambrosiaBeetle, Decimal(15)))
+
     this.larva.addProductor(new Production(this.beetleNest))
     this.beetleNest.addProductor(new Production(this.beetleColony))
 
@@ -887,8 +1001,8 @@ export class GameModel {
     //    Larva
     this.larva.actions.push(new BuyAndUnlockAction(this,
       this.larva,
-      [new Cost(this.food, Decimal(10), Decimal(1.01))],
-      [this.beetle]
+      [new Cost(this.food, Decimal(10), this.buyExp)],
+      [this.beetle, this.powderpostBeetle]
     ))
     this.larva.actions.push(new UpAction(this, this.larva, [new Cost(this.science, this.scienceCost1, this.upgradeScienceExp)]))
     this.larva.actions.push(new UpHire(this, this.larva, [new Cost(this.science, this.scienceCost1, this.upgradeScienceExp)]))
@@ -897,9 +1011,9 @@ export class GameModel {
     this.beetle.actions.push(new BuyAndUnlockAction(this,
       this.beetle,
       [
-        new Cost(this.larva, Decimal(1), this.buyExp),
-        new Cost(this.soil, Decimal(100), this.buyExp),
-        new Cost(this.food, Decimal(1000), this.buyExp)
+        new Cost(this.larva, Decimal(1), this.buyExpUnit),
+        new Cost(this.wood, Decimal(200), this.buyExp),
+        new Cost(this.food, Decimal(2000), this.buyExp)
       ],
       [this.beetleNest]
     ))
@@ -910,45 +1024,45 @@ export class GameModel {
     this.beetleNest.actions.push(new BuyAndUnlockAction(this,
       this.beetleNest,
       [
-        new Cost(this.beetle, Decimal(10), this.buyExp),
-        new Cost(this.wood, Decimal(10000), this.buyExp),
-        new Cost(this.soil, Decimal(10000), this.buyExp),
-        new Cost(this.food, Decimal(100000), this.buyExp)
+        new Cost(this.beetle, Decimal(100), this.buyExpUnit),
+        new Cost(this.wood, Decimal(1E6), this.buyExp),
+        new Cost(this.soil, Decimal(1E3), this.buyExp),
+        new Cost(this.food, Decimal(1E3), this.buyExp)
       ],
       [this.beetleColony]
     ))
-    this.beetleNest.actions.push(new UpAction(this, this.beetleNest, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
-    this.beetleNest.actions.push(new UpHire(this, this.beetleNest, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.beetleNest.actions.push(new UpAction(this, this.beetleNest, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+    this.beetleNest.actions.push(new UpHire(this, this.beetleNest, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
 
     //    Beetle Colony
     this.beetleColony.actions.push(new BuyAction(this,
       this.beetleColony,
       [
-        new Cost(this.beetleNest, Decimal(10), this.buyExp),
-        new Cost(this.powderpostBeetle, Decimal(100), this.buyExp),
-        new Cost(this.ambrosiaBeetle, Decimal(100), this.buyExp),
-        new Cost(this.fungus, Decimal(1000000), this.buyExp),
-        new Cost(this.wood, Decimal(1000000), this.buyExp),
-        new Cost(this.soil, Decimal(1000000), this.buyExp),
-        new Cost(this.food, Decimal(10000000), this.buyExp)
+        new Cost(this.beetleNest, Decimal(10), this.buyExpUnit),
+        new Cost(this.powderpostBeetle, Decimal(10), this.buyExpUnit),
+        new Cost(this.ambrosiaBeetle, Decimal(10), this.buyExpUnit),
+        new Cost(this.fungus, Decimal(1E6), this.buyExp),
+        new Cost(this.wood, Decimal(1E9), this.buyExp),
+        new Cost(this.soil, Decimal(1E6), this.buyExp),
+        new Cost(this.food, Decimal(1E6), this.buyExp)
       ]
     ))
     this.beetleColony.actions.push(new UpAction(this, this.beetleColony,
-      [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
     this.beetleColony.actions.push(new UpHire(this, this.beetleColony,
-      [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
 
     //    Lady Beetle
     this.ladybird.actions.push(new BuyAction(this,
       this.ladybird,
       [
         new Cost(this.larva, Decimal(1), this.buyExp),
-        new Cost(this.cristal, Decimal(100), this.buyExp),
-        new Cost(this.food, Decimal(1000), this.buyExp)
+        new Cost(this.cristal, Decimal(1E4), this.buyExp),
+        new Cost(this.food, Decimal(1E6), this.buyExp)
       ]
     ))
-    this.ladybird.actions.push(new UpAction(this, this.ladybird, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
-    this.ladybird.actions.push(new UpHire(this, this.ladybird, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.ladybird.actions.push(new UpAction(this, this.ladybird, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+    this.ladybird.actions.push(new UpHire(this, this.ladybird, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
 
 
     //    Ambrosia Beetle
@@ -956,9 +1070,9 @@ export class GameModel {
       this.ambrosiaBeetle,
       [
         new Cost(this.larva, Decimal(1), this.buyExp),
-        new Cost(this.fungus, Decimal(100), this.buyExp),
-        new Cost(this.wood, Decimal(100), this.buyExp),
-        new Cost(this.food, Decimal(1000), this.buyExp)
+        new Cost(this.fungus, Decimal(1E4), this.buyExp),
+        new Cost(this.wood, Decimal(1E4), this.buyExp),
+        new Cost(this.food, Decimal(1E7), this.buyExp)
       ]
     ))
     this.ambrosiaBeetle.actions.push(new UpAction(this, this.ambrosiaBeetle,
@@ -971,8 +1085,8 @@ export class GameModel {
       this.powderpostBeetle,
       [
         new Cost(this.larva, Decimal(1), this.buyExp),
-        new Cost(this.wood, Decimal(100), this.buyExp),
-        new Cost(this.food, Decimal(1000), this.buyExp)
+        new Cost(this.wood, Decimal(1000), this.buyExp),
+        new Cost(this.food, Decimal(5000), this.buyExp)
       ]
     ))
     this.powderpostBeetle.actions.push(new UpAction(this, this.powderpostBeetle,
@@ -982,98 +1096,104 @@ export class GameModel {
 
     const advancedBeetle = new Research("advBeetle",
       "Advanced Beetle Jobs", "More beetle jobs",
-      [new Cost(this.science, Decimal(1))],
+      [new Cost(this.science, Decimal(30))],
       [this.ambrosiaBeetle, this.ladybird],
       this
     )
     this.beetleResearch = new Research("beetleRes",
       "Beetle", "Unlock Beetle",
-      [new Cost(this.science, Decimal(1))],
+      [new Cost(this.science, Decimal(600))],
       [this.larva, advancedBeetle],
       this
     )
     this.beetleResearch.avabileBaseWorld = false
-    this.othersResearch.toUnlock.push(this.beetleResearch)
   }
   initFreezing() {
     this.listFreezig = new Array<Unit>()
 
-    this.ice = new Unit(this, "ice", "Ice",
-      "Ice")
     this.iceAnt = new Unit(this, "iceA", "Ice Provisioner",
-      "Ice")
-    this.iceCompacter = new Unit(this, "iceC", "Ice Compacter",
-      "Ice Compacter is a machine that compact ice into crystall.")
-    this.iceEngineer = new Unit(this, "iceE", "Ice Engineer",
-      "Ice Engineer")
+      "Collect Ice")
+    this.iceDrillAnt = new Unit(this, "iceDrill", "Ice Drilling",
+      "Equip an ant with an ice drill to destroy ice.")
+    this.iceMelter = new Unit(this, "iceMelter", "Ice Melter",
+      "Equip an ant with a flametrower to destroy ice.")
 
-    this.listMaterial.push(this.ice)
     this.listFreezig.push(this.iceAnt)
-    this.listFreezig.push(this.iceCollector)
-    this.listFreezig.push(this.iceCompacter)
-    this.listFreezig.push(this.iceEngineer)
+    this.listFreezig.push(this.iceDrillAnt)
+    this.listFreezig.push(this.iceMelter)
 
+    //  Ice Provisioner
     this.ice.addProductor(new Production(this.iceAnt))
-    this.ice.addProductor(new Production(this.iceCompacter, Decimal(-1)))
-    this.cristal.addProductor(new Production(this.iceCompacter, Decimal(0.5)))
-    this.iceCompacter.addProductor(new Production(this.iceEngineer, Decimal(0.01)))
+    this.iceAnt.actions.push(new BuyAction(this,
+      this.iceAnt,
+      [
+        new Cost(this.food, Decimal(1000), Decimal(this.buyExp)),
+        new Cost(this.littleAnt, Decimal(1), Decimal(this.buyExpUnit))
+      ]
+    ))
+    this.iceAnt.actions.push(new UpAction(this, this.iceAnt, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.iceAnt.actions.push(new UpHire(this, this.iceAnt, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+
+    //  Ice Driller
+    this.ice.addProductor(new Production(this.iceDrillAnt, Decimal(-10)))
+    this.iceDrillAnt.actions.push(new BuyAction(this,
+      this.iceDrillAnt,
+      [
+        new Cost(this.food, Decimal(1000), Decimal(this.buyExp)),
+        new Cost(this.littleAnt, Decimal(1), Decimal(this.buyExpUnit))
+      ]
+    ))
+    this.iceDrillAnt.actions.push(new UpAction(this, this.iceDrillAnt, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.iceDrillAnt.actions.push(new UpHire(this, this.iceDrillAnt, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+
+    // Ice Melter
+    this.ice.addProductor(new Production(this.iceMelter, Decimal(-100)))
+    this.wood.addProductor(new Production(this.iceMelter, Decimal(-5)))
+    this.iceMelter.actions.push(new BuyAction(this,
+      this.iceMelter,
+      [
+        new Cost(this.food, Decimal(1E7), Decimal(this.buyExp)),
+        new Cost(this.wood, Decimal(1E4), Decimal(this.buyExp)),
+        new Cost(this.littleAnt, Decimal(1), Decimal(this.buyExpUnit))
+      ]
+    ))
+    this.iceMelter.actions.push(new UpAction(this, this.iceMelter, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+    this.iceMelter.actions.push(new UpHire(this, this.iceMelter, [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+
+    const iceResearch2 = new Research(
+      "iceRes2", "Flametrower",
+      "Use fire to melt ice.",
+      [new Cost(this.science, Decimal(800))],
+      [this.iceMelter],
+      this
+    )
+
+    this.iceResearch = new Research(
+      "iceRes", "Ice",
+      "Ice",
+      [new Cost(this.science, Decimal(30))],
+      [this.iceAnt, this.iceDrillAnt, iceResearch2],
+      this
+    )
+    this.iceResearch.avabileBaseWorld = false
 
   }
   initResearchs() {
 
-    //    Prestige
-    this.prestigeResearch = new Research(
-      "prestigeRes",
-      "Travel", "Move to new Worlds",
-      [new Cost(this.science, Decimal(1))],
-      [],
-      this
-    )
-
     //    Engineer
     this.engineerRes = new Research(
       "engineerRes",
-      "Engineer", "Engineer will slowly build machinery",
-      [new Cost(this.science, Decimal(1))],
+      "Engineer", "Engineer will slowly build machinery.",
+      [new Cost(this.science, Decimal(1E9))],
       this.listEnginer,
-      this
-    )
-
-    let listM = new Array<Base>()
-    listM = listM.concat(this.listMachinery, [this.engineerRes])
-    //    Machinery
-    this.machineryRes = new Research(
-      "machiRes",
-      "Machinery", "Unlock powerfull machinery",
-      [new Cost(this.science, Decimal(1))],
-      listM,
-      this
-    )
-
-    //    Bee
-    this.beeResearch = new Research(
-      "beeRes",
-      "Bee", "Unlock Bee !",
-      [new Cost(this.science, Decimal(1))],
-      [this.nectar, this.foragingBee, this.workerBee, this.honey, this.advancedBee],
-      this
-    )
-    this.beeResearch.avabileBaseWorld = false
-
-    //    Others
-    this.othersResearch = new Research(
-      "otherRes",
-      "Other Helers", "Unlock friendly units",
-      [new Cost(this.science, Decimal(1))],
-      [this.beeResearch, this.prestigeResearch],
       this
     )
 
     //    Planter
     this.planterResearch = new Research(
       "planRes",
-      "Planting", "Unlock planter Ant",
-      [new Cost(this.science, Decimal(1))],
+      "Planting", "Tree planting is the process of transplanting tree seedlings.",
+      [new Cost(this.science, Decimal(1E3))],
       [this.planterAnt],
       this
     )
@@ -1081,16 +1201,16 @@ export class GameModel {
     //    Hydro
     this.hydroResearch = new Research(
       "hydroRes",
-      "Hydroponics", "Unlock hydroponic farmer Ant",
-      [new Cost(this.science, Decimal(1))],
+      "Hydroponics", "Hydroponics is the art of growing plants without soil.",
+      [new Cost(this.science, Decimal(1E3))],
       [this.hydroAnt],
       this
     )
     //    Laser
     this.laserResearch = new Research(
       "lasRes",
-      "Laser", "Unlock laser Ant",
-      [new Cost(this.science, Decimal(1))],
+      "Laser", "Sand can be fused to cristal.",
+      [new Cost(this.science, Decimal(1E3))],
       [this.laserAnt],
       this
     )
@@ -1098,8 +1218,8 @@ export class GameModel {
     //    Refinery
     this.refineryResearch = new Research(
       "refRes",
-      "Refinery", "Unlock refinery Ant",
-      [new Cost(this.science, Decimal(1))],
+      "Refinery", "Soil can be refined to sand.",
+      [new Cost(this.science, Decimal(1E3))],
       [this.refineryAnt],
       this
     )
@@ -1107,29 +1227,49 @@ export class GameModel {
     //    Compost
     this.composterResearch = new Research(
       "compRes",
-      "Compost", "Unlock composter Ant",
-      [new Cost(this.science, Decimal(1))],
+      "Compost", "Wood can be degraded to fertile soil.",
+      [new Cost(this.science, Decimal(1E3))],
       [this.composterAnt],
       this
     )
 
-    //    Efficiency
-    const allUpEff = Array.from(this.unitMap.values()).filter(u => u.upEfficiency).map(u => u.upEfficiency)
-    this.upEfficiency = new Research(
-      "effiRes",
-      "Efficiency", "Unlock Efficiency Upgrade",
-      [new Cost(this.science, Decimal(1))],
-      allUpEff, this
+    //    Experiment
+    this.experimentResearch = new Research(
+      "experimentRes",
+      "Experiment", "Unlock scientist Ant",
+      [new Cost(this.science, Decimal(600))],
+      [this.scientist],
+      this
+    )
+
+    //    Prestige
+    this.prestigeResearch = new Research(
+      "prestigeRes",
+      "Travel", "Allow you to move to new worlds",
+      [new Cost(this.science, Decimal(1E12))],
+      [],
+      this
+    )
+
+    //    Machinery
+    let listM = new Array<Base>()
+    listM = listM.concat(this.listMachinery, [this.engineerRes])
+    this.machineryRes = new Research(
+      "machiRes",
+      "Machinery", "Unlock powerfull machinery.",
+      [new Cost(this.science, Decimal(1E6))],
+      listM,
+      this
     )
 
     //    Special
     this.specialResearch = new Research(
       "speRes",
-      "Tecnology", "Unlock special tecnology",
-      [new Cost(this.science, Decimal(1))],
+      "Tecnology", "Allow you to research new technologies.",
+      [new Cost(this.science, Decimal(1E3))],
       [this.composterResearch, this.refineryResearch, this.laserResearch, this.hydroResearch,
-      this.planterResearch,
-      this.othersResearch, this.upEfficiency, this.machineryRes],
+      this.planterResearch, this.experimentResearch,
+      this.machineryRes, this.beeResearch, this.prestigeResearch],
       this
     )
 
@@ -1137,8 +1277,8 @@ export class GameModel {
     const allUpH = Array.from(this.unitMap.values()).filter(u => u.upHire).map(u => u.upHire)
     const r4 = new Research(
       "R4",
-      "Upgrade", "Up hire",
-      [new Cost(this.science, Decimal(1))],
+      "Twin", "Allow you to get more units for the same price.",
+      [new Cost(this.science, Decimal(1E4))],
       allUpH,
       this
     )
@@ -1148,8 +1288,8 @@ export class GameModel {
     allUp.push(r4)
     const r2 = new Research(
       "R2",
-      "Upgrade", "Up desc",
-      [new Cost(this.science, Decimal(1))],
+      "Teamwork 2", "Upgrade even your unit's production bonus.",
+      [new Cost(this.science, Decimal(500))],
       allUp,
       this
     )
@@ -1157,8 +1297,8 @@ export class GameModel {
     //    Up basic
     this.up1 = new Research(
       "RUp1",
-      "Upgrade", "up",
-      [new Cost(this.science, Decimal(1))],
+      "Teamwork", "Give a production bonus based on how many times you have bought a unit.",
+      [new Cost(this.science, Decimal(50))],
       [r2],
       this
     )
@@ -1166,106 +1306,104 @@ export class GameModel {
     //    Fungus up
     const r3 = new Research(
       "R3",
-      "Fungus up", "Fungus up",
-      [new Cost(this.science, Decimal(1))],
+      "Fungus experiments", "Allow you to do experiments to increase fungus's food production.",
+      [new Cost(this.science, Decimal(1000))],
       [this.fungus.upSpecial], this
     )
 
     //    Farming
     const r1 = new Research(
       "R1",
-      "Farming", "Farming desc",
-      [new Cost(this.science, Decimal(1))],
+      "Ant–fungus symbiosis", "Allow you to cultivate fungus. Fungus is a source of food.",
+      [new Cost(this.science, Decimal(100))],
       [this.farmer, r3, this.lumberjack, this.specialResearch], this
     )
 
     //    Soil
     this.rDirt = new Research(
       "RDirt",
-      "Soil", "Soil",
-      [new Cost(this.science, Decimal(1))],
+      "Soil", "Allow you to collect soil for future usage.",
+      [new Cost(this.science, Decimal(50))],
       [this.soil, this.carpenter, r1, this.up1], this
     )
-
   }
-  initWorld() {
-    /**
-     * Beach World
-     */
+  initBeach() {
     //    Crab
     const beachList = new Array<Unit>()
-    this.crab = new Unit(this, "crab", "Crab", "Crab yeld sand")
+    this.crab = new Unit(this, "crab", "Crab", "Crab yield sand.")
     this.crab.actions.push(new BuyAction(this,
       this.crab,
-      [new Cost(this.food, Decimal(1), Decimal(1.01))]
+      [new Cost(this.food, Decimal(1E3), this.buyExp)]
     ))
     this.crab.actions.push(new UpAction(this, this.crab,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
     this.crab.actions.push(new UpHire(this, this.crab,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
-    beachList.push(this.crab)
     this.sand.addProductor(new Production(this.crab))
 
     //    Crab Farmer
-    this.crabFarmer = new Unit(this, "crabF", "Farmer Crab", "Farmer Crab yeld fungus")
+    this.crabFarmer = new Unit(this, "crabF", "Farmer Crab", "Farmer Crab yield fungus")
     this.crabFarmer.actions.push(new BuyAction(this,
       this.crabFarmer,
       [
-        new Cost(this.food, Decimal(1), Decimal(1.01)),
-        new Cost(this.crab, Decimal(1), Decimal(1.01))
+        new Cost(this.food, Decimal(15E3), this.buyExp),
+        new Cost(this.crab, Decimal(1), this.buyExpUnit)
       ]
     ))
     this.crabFarmer.actions.push(new UpAction(this, this.crabFarmer,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
     this.crabFarmer.actions.push(new UpHire(this, this.crabFarmer,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
-    beachList.push(this.crabFarmer)
     this.fungus.addProductor(new Production(this.crabFarmer))
 
-    //    Crab Queen ?
-    this.crabQueen = new Unit(this, "CrabQ", "Crab Queen", "Crab Queen yeld crab")
+    //    Crab Queen ?!
+    //    Not sure if really exists
+    this.crabQueen = new Unit(this, "CrabQ", "Crab Queen", "Crab Queen yield crab")
     this.crabQueen.actions.push(new BuyAction(this,
       this.crabQueen,
       [
-        new Cost(this.food, Decimal(1), Decimal(1.01)),
-        new Cost(this.crab, Decimal(1), Decimal(1.01))
+        new Cost(this.food, Decimal(1E5), this.buyExp),
+        new Cost(this.crab, Decimal(100), this.buyExpUnit)
       ]
     ))
     this.crabQueen.actions.push(new UpAction(this, this.crabQueen,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
     this.crabQueen.actions.push(new UpHire(this, this.crabQueen,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
 
-    beachList.push(this.crabQueen)
     this.crab.addProductor(new Production(this.crabQueen))
 
     //    Shrimp
-    this.shrimp = new Unit(this, "shrimp", "Shrimp", "Shrimp yeld sand and cristal")
+    this.shrimp = new Unit(this, "shrimp", "Shrimp",
+      "Shrimp yield sand and cristal")
     this.shrimp.actions.push(new BuyAction(this,
       this.shrimp,
-      [new Cost(this.food, Decimal(1), Decimal(1.01))]
+      [new Cost(this.food, Decimal(3E3), this.buyExp)]
     ))
     this.shrimp.actions.push(new UpAction(this, this.shrimp,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
     this.shrimp.actions.push(new UpHire(this, this.shrimp,
-      [new Cost(this.science, Decimal(1E3), Decimal(10))]))
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
-    beachList.push(this.shrimp)
     this.sand.addProductor(new Production(this.shrimp))
-    this.cristal.addProductor(new Production(this.shrimp, Decimal(0.1)))
+    this.cristal.addProductor(new Production(this.shrimp, Decimal(0.5)))
+
+    beachList.push(this.crabQueen)
+    beachList.push(this.crab)
+    beachList.push(this.crabFarmer)
+    beachList.push(this.shrimp)
 
     //    Research
     this.seaRes = new Research(
       "seaRes",
-      "Sea Helpers", "Sea Helpers",
-      [new Cost(this.science, Decimal(1))],
+      "Sea Helpers", "Unlock Sea Helpers",
+      [new Cost(this.science, Decimal(30))],
       [this.crab, this.crabFarmer, this.crabQueen, this.shrimp],
       this
     )
     this.seaRes.avabileBaseWorld = false
-    this.othersResearch.toUnlock.push(this.seaRes)
     this.lists.push(new TypeList("Beach", beachList))
   }
   generatePrestige() {
@@ -1342,7 +1480,7 @@ export class GameModel {
 
     this.food.quantity = Decimal(1E20)
 
-    // this.listMaterial.forEach(m => m.quantity = Decimal(1E8))
+    this.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
   getProduction(prod: Production,

@@ -111,7 +111,7 @@ export class BuyAction extends Action {
                     this.doNext()
                 return true
             }),
-            cost, "Get more units", game, unit
+            cost, "Get more units.", game, unit
         )
         unit.buyAction = this
     }
@@ -177,10 +177,10 @@ export class UpAction extends Action {
         costs: [Cost]
     ) {
         super("upA",
-            "Upgrade",
+            "Teamwork",
             null,
             costs,
-            "Dupplicate production bonus",
+            "Get a better production bonus.",
             game, unit
         )
         this.unit.upAction = this
@@ -195,13 +195,13 @@ export class UpSpecial extends Action {
 
     ) {
         super("upS",
-            "Upgrade",
+            "Experiment",
             null,
             [
                 new Cost(unit, Decimal(100), Decimal(10)),
                 new Cost(unit.model.science, Decimal(100), Decimal(100))
             ],
-            "Double production.",
+            "Do some experiment to increase the procuction.",
             game, unit
         )
         this.unit.upSpecial = this
@@ -216,10 +216,10 @@ export class UpHire extends Action {
         costs: [Cost]
     ) {
         super("upH",
-            "Upgrade buy",
+            "Twin",
             null,
             costs,
-            "Dupplicate hired units",
+            "Get more units for the same price.",
             game, unit
         )
         this.unit.upHire = this
@@ -228,24 +228,24 @@ export class UpHire extends Action {
     }
 }
 
-export class UpEfficiency extends Action {
-    constructor(
-        game: GameModel,
-        unit,
-        price: Array<Cost>
-    ) {
-        super("ef", "Upgrade efficiency", null, price, "Upgrade efficiency", game, unit)
-        this.unit.upEfficiency = this
-    }
+// export class UpEfficiency extends Action {
+//     constructor(
+//         game: GameModel,
+//         unit,
+//         price: Array<Cost>
+//     ) {
+//         super("ef", "Upgrade efficiency", null, price, "Upgrade efficiency", game, unit)
+//         this.unit.upEfficiency = this
+//     }
 
-    getBuyMax(): decimal.Decimal {
-        const max = super.getBuyMax()
-        const rem = Decimal(40).minus(max)
-        if (rem.lessThanOrEqualTo(0))
-            return Decimal(0)
-        return Decimal.min(rem, max)
-    }
-}
+//     getBuyMax(): decimal.Decimal {
+//         const max = super.getBuyMax()
+//         const rem = Decimal(40).minus(max)
+//         if (rem.lessThanOrEqualTo(0))
+//             return Decimal(0)
+//         return Decimal.min(rem, max)
+//     }
+// }
 
 export class UnlockProd extends Action {
     constructor(

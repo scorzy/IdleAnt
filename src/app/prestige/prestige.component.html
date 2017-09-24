@@ -55,7 +55,14 @@
                             {{world.description}}
                             <ul class="list">
                                 <li *ngFor="let p of world.avaiableUnits"> {{p.name}}: {{p.description }} </li>
-                                <li *ngFor="let p of world.unlockedUnits"> Start with {{p[1] | format }} {{p[0].name}} </li>
+                                <li *ngFor="let p of world.unlockedUnits">
+                                    <span *ngIf="!p[1].greaterThan(0)">
+                                        {{p[0].name}}: {{p[0].description }}
+                                    </span>
+                                    <span *ngIf="p[1].greaterThan(0)">
+                                        Start with {{p[1] | format }} {{p[0].name}}
+                                    </span>
+                                </li>
                                 <li *ngFor="let p of world.prodMod">
                                     Production of {{p[0].name}} x {{p[1] }} </li>
                                 <li *ngFor="let p of world.unitMod"> {{p[0].name}} production x {{p[1] }} </li>

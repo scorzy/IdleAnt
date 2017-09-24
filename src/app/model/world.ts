@@ -33,7 +33,7 @@ export class World {
       [],
       [
         new Cost(game.food, Decimal(1E1)),
-        // new Cost(game.maxAnt, Decimal(100))
+        new Cost(game.nestAnt, Decimal(100))
       ]
     )
     baseWorld.experience = Decimal(10)
@@ -124,24 +124,30 @@ export class World {
   static initialize(game: GameModel) {
     World.worldTypes = [
       new World(game,
-        "Park", "",
+        "HomeWorld", "",
         [],
         [],
         []
       ),
       new World(game,
         "Beach", "",
-        [game.seaRes, game.sandDigger],
+        [game.sandDigger, game.sandEnginer],
         [[game.sand, Decimal(1.5)], [game.fungus, Decimal(0.7)]],
-        [new Cost(game.crabQueen, Decimal(1000))],
+        [new Cost(game.crabQueen, Decimal(200))],
         [[game.fungus, Decimal(0.7)]],
-        []
+        [],
+        [[game.seaRes, Decimal(0)]],
+        Decimal(3.5)
       ),
       new World(game,
         "Forest", "",
-        [game.woodEnginer, game.loggingMachine, game.beetleResearch],
+        [game.woodEnginer, game.loggingMachine],
         [[game.wood, Decimal(2)]],
-        [new Cost(game.beetleColony, Decimal(1000))]
+        [new Cost(game.beetleColony, Decimal(500))],
+        [],
+        [],
+        [[game.beetleResearch, Decimal(0)]],
+        Decimal(4.5)
       )
     ]
 
@@ -149,12 +155,21 @@ export class World {
       new World(game, "", "", [], [], []),
       new World(game, "Cold", "",
         [],
-        [[game.food, Decimal(0.5)]],
+        [[game.food, Decimal(0.7)]],
         []),
       new World(game, "Freezing", "",
-        [],
+        [
+          game.iceCollector, game.iceCompacter,
+          game.iceCompEngineer, game.iceCompEngineer,
+          game.burningGlass, game.lensEnginer
+        ],
         [[game.food, Decimal(0.4)]],
-        [], [], [], [], Decimal(2.5),
+        [],
+        [],
+        [],
+        [[game.ice, Decimal(1E15)], [game.iceResearch, Decimal(0)]],
+        Decimal(4.5),
+        [new Cost(game.ice, Decimal(100))]
       ),
       new World(game, "Hot", "",
         [],
@@ -223,8 +238,9 @@ export class World {
       ),
       new World(game,
         "of Bee", "",
-        [game.beeResearch], [], [],
-        [[game.foragingBee, Decimal(2)]]
+        [], [], [],
+        [[game.foragingBee, Decimal(2)]], [],
+        [[game.beeResearch, Decimal(0)]]
       ),
       new World(game,
         "of Ant", "",

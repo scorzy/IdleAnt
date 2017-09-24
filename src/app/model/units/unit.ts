@@ -25,7 +25,7 @@ export class Unit extends Base {
   upAction: Action
   upSpecial: Action
   upHire: Action
-  upEfficiency: Action
+  // upEfficiency: Action
 
   prestigeBonusProduction = Array<Unit>()
   prestigeBonusStart: Unit
@@ -116,8 +116,8 @@ export class Unit extends Base {
 
   haveUp() {
     return (this.upSpecial ? this.upSpecial.getBuyMax().greaterThanOrEqualTo(1) : false) ||
-      (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false) ||
-      (this.upEfficiency ? this.upEfficiency.getBuyMax().greaterThanOrEqualTo(1) : false)
+      (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false)
+      //  || (this.upEfficiency ? this.upEfficiency.getBuyMax().greaterThanOrEqualTo(1) : false)
   }
 
 }
