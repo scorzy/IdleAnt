@@ -28,6 +28,7 @@ export class Unit extends Base {
 
   prestigeBonusProduction = Array<Unit>()
   prestigeBonusStart: Unit
+  alwaysOn = false
 
   constructor(
     public model: GameModel,

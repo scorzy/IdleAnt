@@ -37,7 +37,6 @@ export class World {
       ]
     )
     baseWorld.experience = Decimal(10)
-    baseWorld.toUnlockMax = [new Cost(game.littleAnt, Decimal(1000))]
     return baseWorld
   }
   static getRandomWorld(game: GameModel): World {
@@ -101,7 +100,7 @@ export class World {
       worldRet.avaiableUnits = worldRet.avaiableUnits.concat(w.avaiableUnits)
     })
 
-    //  remove defoult stat
+    //  remove default stat
     worldRet.prodMod = worldRet.prodMod.filter(pm => pm[1].minus(1).abs().greaterThan(Number.EPSILON))
     worldRet.unitMod = worldRet.unitMod.filter(pm => pm[1].minus(1).abs().greaterThan(Number.EPSILON))
     worldRet.unitPrice = worldRet.unitPrice.filter(pm => pm[1].minus(1).abs().greaterThan(Number.EPSILON))
@@ -111,7 +110,7 @@ export class World {
 
     //    Set the world level
     let maxLevel = game.allPrestigeUp.map(u => u.quantity).reduce((prev, prest) => prev.plus(prest)).plus(game.experience.quantity)
-    maxLevel = maxLevel.greaterThan(0) ? maxLevel.ln().floor() : maxLevel
+    maxLevel = maxLevel.greaterThan(7) ? Decimal(maxLevel.minus(6).div(2), 1.15).floor() : maxLevel
     worldRet.level = Math.min(maxLevel.times(Decimal.random()).floor().toNumber(), 100)
 
     const toUnlockMultiplier = Decimal.pow(1.07, worldRet.level)
@@ -123,14 +122,12 @@ export class World {
   }
   static initialize(game: GameModel) {
     World.worldTypes = [
-      new World(game,
-        "Park", "",
+      new World(game, "Park", "",
         [],
         [],
         []
       ),
-      new World(game,
-        "Beach", "A beach",
+      new World(game, "Beach", "A beach",
         [game.sandDigger, game.sandEnginer],
         [[game.sand, Decimal(1.5)], [game.fungus, Decimal(0.7)]],
         [new Cost(game.crabQueen, Decimal(200))],
@@ -139,9 +136,11 @@ export class World {
         [[game.seaRes, Decimal(0)]],
         Decimal(3.5)
       ),
-      new World(game,
-        "Forest", "A forest",
-        [game.woodEnginer, game.loggingMachine],
+      new World(game, "Forest", "A forest",
+        [
+          game.woodEnginer, game.loggingMachine,
+          game.disinfestationBeetle, game.flametrowerBeetle
+        ],
         [[game.wood, Decimal(2)]],
         [new Cost(game.beetleColony, Decimal(500))],
         [],
@@ -149,8 +148,7 @@ export class World {
         [[game.beetleResearch, Decimal(0)]],
         Decimal(4.5)
       ),
-      new World(game,
-        "Mine", "A mine",
+      new World(game, "Mine", "A mine",
         [game.mine, game.mineEnginer],
         [
           [game.cristal, Decimal(1.2)],
@@ -181,7 +179,7 @@ export class World {
         [],
         [],
         [],
-        [[game.ice, Decimal(1E15)], [game.iceResearch, Decimal(0)]],
+        [[game.ice, Decimal(1E12)], [game.iceResearch, Decimal(0)]],
         Decimal(4.5),
         [new Cost(game.ice, Decimal(100))]
       ),
@@ -244,42 +242,62 @@ export class World {
           [game.science, Decimal(1.5)]
         ], []
       ),
+      new World(game, "Infested", "",
+        [game.basicDisinfestationRes],
+        [],
+        [],
+        [],
+        [],
+        [
+          [game.poisonousPlant, Decimal(1E10)],
+          [game.poisonousPlant2, Decimal(1E3)]
+        ],
+        Decimal(5.5),
+        [new Cost(game.poisonousPlant, Decimal(100))]
+      )
     ]
 
     World.worldSuffix = [
       new World(game, "", "", [], [], []),
-      new World(game,
-        "of Fungus", "",
+      new World(game, "of Fungus", "",
         [],
         [[game.fungus, Decimal(2)]],
         [new Cost(game.fungus, Decimal(1000))]
       ),
-      new World(game,
-        "of Bee", "",
+      new World(game, "of Bee", "",
         [], [], [],
         [[game.foragingBee, Decimal(2)]], [],
         [[game.beeResearch, Decimal(0)]]
       ),
-      new World(game,
-        "of Ant", "",
+      new World(game, "of Ant", "",
         [], [], [],
         [[game.littleAnt, Decimal(2)]]
       ),
-      new World(game,
-        "of Scientist", "",
+      new World(game, "of Scientist", "",
         [], [], [],
         [[game.student, Decimal(2)]]
       ),
-      new World(game,
-        "of Farming", "",
+      new World(game, "of Farming", "",
         [], [], [],
         [[game.farmer, Decimal(2)]]
       ),
-      new World(game,
-        "of Cristall", "",
+      new World(game, "of Cristall", "",
         [game.mine, game.mineEnginer],
         [[game.cristal, Decimal(2)]],
         []
+      ),
+      new World(game, "of Infestation", "",
+        [game.basicDisinfestationRes],
+        [],
+        [],
+        [],
+        [],
+        [
+          [game.poisonousPlant, Decimal(1E10)],
+          [game.poisonousPlant2, Decimal(1E3)]
+        ],
+        Decimal(5.5),
+        [new Cost(game.poisonousPlant, Decimal(100))]
       )
     ]
 

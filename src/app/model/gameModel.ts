@@ -148,6 +148,26 @@ export class GameModel {
   iceResearch: Research
   listFreezig = new Array<Unit>()
 
+  //  Infestation
+  poisonousPlant: Unit
+  poisonousPlant2: Unit
+  weedkiller: Unit
+  chemistAnt: Unit
+  disinfestationAnt: Unit
+  flametrowerAnt: Unit
+
+  disinfestationBeetle: Unit
+  flametrowerBeetle: Unit
+
+  chemistBee: Unit
+
+  basicDisinfestationRes: Research
+  flametrowerRes: Research
+  weedkillerRes: Research
+
+  listInfestation = new Array<Unit>()
+
+
   unitMap: Map<string, Unit> = new Map()
   all: Array<Unit>
   allBase: Array<Base>
@@ -227,6 +247,7 @@ export class GameModel {
     this.initBeach()
     this.initForest()
     this.initFreezing()
+    this.initInfestation()
 
     //  Researchs
     this.initResearchs()
@@ -256,11 +277,11 @@ export class GameModel {
     this.list = this.list.reverse()
     this.setInitialStat()
 
-    // this.all.forEach(a => {
-    //   a.unlocked = true
-    //   if (a.buyAction)
-    //     a.buyAction.unlocked = true
-    // })
+    this.all.forEach(a => {
+      a.unlocked = true
+      if (a.buyAction)
+        a.buyAction.unlocked = true
+    })
 
   }
   initMaterials() {
@@ -1412,6 +1433,153 @@ export class GameModel {
     )
     this.seaRes.avabileBaseWorld = false
     this.lists.push(new TypeList("Beach", beachList))
+  }
+  initInfestation() {
+    this.listInfestation = new Array<Unit>()
+
+    this.poisonousPlant = new Unit(this, "poisPlant", "Poisonous Plant",
+      "This plant may kill them all.")
+    this.poisonousPlant2 = new Unit(this, "poisPlant2", "Old Poisonous Plant",
+      "Process poisonus plants!.")
+    this.disinfestationAnt = new Unit(this, "defAnt", "Disinfestation Ant",
+      "Destroy poisonus plants.")
+    this.flametrowerAnt = new Unit(this, "flameAnt", "Flamethrower Ant",
+      "Burn poisonus plants.")
+    this.weedkiller = new Unit(this, "weedkiller", "Weedkiller",
+      "Destroy poisonus plants efficently.")
+    this.chemistAnt = new Unit(this, "chemistAnt", "Chemist Ant",
+      "Proces weedkiller.")
+    this.disinfestationBeetle = new Unit(this, "disinfestationBeetle", "Disinfestation Beetle",
+      "Beetle are also good at killing plants.")
+    this.flametrowerBeetle = new Unit(this, "flametrowerBeetle", "flametrower Beetle",
+      "A beetle with a flametrower.")
+
+    this.poisonousPlant2.alwaysOn = true
+
+    this.poisonousPlant.addProductor(new Production(this.poisonousPlant2))
+    this.poisonousPlant.addProductor(new Production(this.disinfestationAnt, Decimal(-10)))
+    this.poisonousPlant.addProductor(new Production(this.disinfestationBeetle, Decimal(-12)))
+    this.poisonousPlant.addProductor(new Production(this.flametrowerBeetle, Decimal(-100)))
+    this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-120)))
+    this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
+    this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(0.01)))
+    this.chemistAnt.addProductor(new Production(this.fungus, Decimal(-10)))
+    this.chemistAnt.addProductor(new Production(this.soil, Decimal(-10)))
+    this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(1)))
+
+    this.listInfestation.push(this.poisonousPlant)
+    this.listInfestation.push(this.poisonousPlant2)
+    this.listInfestation.push(this.weedkiller)
+    this.listInfestation.push(this.chemistAnt)
+    this.listInfestation.push(this.disinfestationAnt)
+    this.listInfestation.push(this.flametrowerAnt)
+    this.listInfestation.push(this.disinfestationBeetle)
+    this.listInfestation.push(this.flametrowerBeetle)
+    this.listInfestation.push(this.chemistBee)
+
+
+    //  Disinfestation
+    this.disinfestationAnt.actions.push(new BuyAction(this, this.disinfestationAnt,
+      [
+        new Cost(this.littleAnt, Decimal(1), this.buyExpUnit),
+        new Cost(this.food, Decimal(1000), this.buyExp),
+        new Cost(this.cristal, Decimal(100), this.buyExp)
+      ]
+    ))
+    this.disinfestationAnt.actions.push(new UpAction(this, this.disinfestationAnt,
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.disinfestationAnt.actions.push(new UpHire(this, this.disinfestationAnt,
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+
+    //  Flametrower
+    this.flametrowerAnt.actions.push(new BuyAction(this, this.flametrowerAnt,
+      [
+        new Cost(this.littleAnt, Decimal(1), this.buyExpUnit),
+        new Cost(this.food, Decimal(12E3), this.buyExp),
+        new Cost(this.wood, Decimal(8E3), this.buyExp),
+        new Cost(this.cristal, Decimal(4E3), this.buyExp)
+      ]
+    ))
+    this.flametrowerAnt.actions.push(new UpAction(this, this.flametrowerAnt,
+      [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+    this.flametrowerAnt.actions.push(new UpHire(this, this.flametrowerAnt,
+      [new Cost(this.science, this.scienceCost3, this.upgradeScienceExp)]))
+
+    //  Chemist
+    this.chemistAnt.actions.push(new BuyAction(this, this.chemistAnt,
+      [
+        new Cost(this.littleAnt, Decimal(1), this.buyExpUnit),
+        new Cost(this.food, Decimal(12E3), this.buyExp),
+        new Cost(this.fungus, Decimal(1E5), this.buyExp),
+        new Cost(this.soil, Decimal(6E4), this.buyExp)
+      ]
+    ))
+    this.chemistAnt.actions.push(new UpAction(this, this.chemistAnt,
+      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
+    this.chemistAnt.actions.push(new UpHire(this, this.chemistAnt,
+      [new Cost(this.science, this.scienceCost4, this.upgradeScienceExp)]))
+
+    //    Beetle
+    this.disinfestationBeetle.actions.push(new BuyAction(this,
+      this.disinfestationBeetle,
+      [
+        new Cost(this.larva, Decimal(1), this.buyExpUnit),
+        new Cost(this.wood, Decimal(300), this.buyExp),
+        new Cost(this.food, Decimal(3000), this.buyExp)
+      ]
+    ))
+    this.disinfestationBeetle.actions.push(new UpAction(this,
+      this.disinfestationBeetle, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.disinfestationBeetle.actions.push(new UpHire(this,
+      this.disinfestationBeetle, [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.disinfestationBeetle.avabileBaseWorld = false
+
+    //  Flametrower  Beetle
+    this.flametrowerBeetle.actions.push(new BuyAction(this,
+      this.flametrowerBeetle,
+      [
+        new Cost(this.larva, Decimal(1), this.buyExp),
+        new Cost(this.wood, Decimal(15E3), this.buyExp),
+        new Cost(this.food, Decimal(5E3), this.buyExp),
+        new Cost(this.soil, Decimal(6E4), this.buyExp)
+      ]
+    ))
+    this.flametrowerBeetle.actions.push(new UpAction(this, this.flametrowerBeetle,
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+    this.flametrowerBeetle.actions.push(new UpHire(this, this.flametrowerBeetle,
+      [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
+
+    //    Disinfestation
+    this.weedkillerRes = new Research(
+      "weedkillerRes",
+      "Weedkiller", "Weedkiller.",
+      [new Cost(this.science, Decimal(1E4))],
+      [this.weedkiller, this.chemistAnt],
+      this
+    )
+
+    //    Disinfestation
+    this.flametrowerRes = new Research(
+      "flametrowerRes",
+      "Flametrower", "Burn poisonus plants.",
+      [new Cost(this.science, Decimal(1E3))],
+      [this.flametrowerAnt, this.flametrowerBeetle],
+      this
+    )
+
+    //    Disinfestation
+    this.basicDisinfestationRes = new Research(
+      "basicDisinfestationRes",
+      "Disinfestation", "Unlock basic bisinfestation units.",
+      [new Cost(this.science, Decimal(100))],
+      [
+        this.disinfestationAnt, this.disinfestationBeetle,
+        this.flametrowerRes, this.weedkillerRes
+      ],
+      this
+    )
+    this.basicDisinfestationRes.avabileBaseWorld = false
+
   }
   generatePrestige() {
     const expIncrement = Decimal(1.3)
