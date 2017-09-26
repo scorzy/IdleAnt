@@ -45,16 +45,25 @@ export class Base {
   //     Save and Load
   getData() {
     const data: any = {}
-    data.q = this.quantity
-    data.u = this.unlocked
+    if (this.quantity.greaterThan(0))
+      data.q = this.quantity
+    if (this.unlocked)
+      data.u = this.unlocked
     data.id = this.id
     data.atw = this.avabileThisWorld
     return data;
   }
   restore(data: any) {
-    this.quantity = new Decimal(data.q)
-    this.unlocked = data.u
-    this.avabileThisWorld = data.atw
+    if (data.q)
+      this.quantity = new Decimal(data.q)
+    else
+      this.quantity = Decimal(0)
+    if (data.u)
+      this.unlocked = data.u
+    else
+      this.unlocked = false
+    if (data.atw)
+      this.avabileThisWorld = data.atw
   }
 
   initialize() {

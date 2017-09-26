@@ -30,6 +30,8 @@ export class Unit extends Base {
   prestigeBonusStart: Unit
   alwaysOn = false
 
+  production = Decimal(0)
+
   constructor(
     public model: GameModel,
     id: string,
@@ -47,6 +49,17 @@ export class Unit extends Base {
     this.producedBy.push(prod)
     prod.unit.produces.push(prod)
   }
+  loadProduction() {
+    let sum = Decimal(1)
+    for (const p of this.prestigeBonusProduction)
+      sum = sum.plus(p.quantity)
+
+    this.production = this.getBoost().plus(1).times(
+      Decimal.pow(2,
+        this.upSpecial ? this.upSpecial.quantity : Decimal(0)
+      ).times(this.worldEffModifiers).times(sum)
+    )
+  }
   getBoost(): decimal.Decimal {
     return this.model.up1.owned() && this.buyAction ?
       this.buyAction.quantity.times(0.001)
@@ -54,21 +67,13 @@ export class Unit extends Base {
       : Decimal(0)
   }
   getProduction() {
-    let sum = Decimal(1)
-    for (const p of this.prestigeBonusProduction)
-      sum = sum.plus(p.quantity)
-
-    return this.getBoost().plus(1).times(
-      Decimal.pow(2,
-        this.upSpecial ? this.upSpecial.quantity : Decimal(0)
-      ).times(this.worldEffModifiers).times(sum)
-    )
+    return this.production
   }
 
   //     Save and Load
   getData() {
     const data: any = super.getData()
-    data.a = this.actions.map(a => a.getData())
+    data.a = this.actions.filter(a => a.unlocked).map(a => a.getData())
     data.w = this.worldProdModifiers
     data.e = this.worldEffModifiers
     data.b = this.worldBuyModifiers

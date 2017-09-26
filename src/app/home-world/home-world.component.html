@@ -1,25 +1,25 @@
 <div class="content-container">
-    <div class="content-area">
-        <h1>{{gameService.game.world.name}}</h1>
+  <div class="content-area">
+    <h1>{{gameService.game.world.name}}</h1>
+    <span>Level: {{gameService.game.world.level}}</span>
+    <ul class="list">
+      <li *ngFor="let p of gameService.game.world.avaiableUnits">
+        {{p.name}}: {{p.description }}
+      </li>
+      <li *ngFor="let p of gameService.game.world.unlockedUnits">
+        Start with {{p[1] | format }} {{p[0].name}}
+      </li>
+      <li *ngFor="let p of gameService.game.world.prodMod">
+        Production of {{p[0].name}} x {{p[1] }}
+      </li>
+      <li *ngFor="let p of gameService.game.world.unitMod">
+        {{p[0].name}} production x {{p[1] }}
+      </li>
+      <li *ngFor="let p of gameService.game.world.unitPrice">
+        {{p[0].name}} price x {{p[1] }}
+      </li>
+    </ul>
 
-        <ul class="list">
-            <li *ngFor="let p of gameService.game.world.avaiableUnits">
-                {{p.name}}: {{p.description }}
-            </li>
-            <li *ngFor="let p of gameService.game.world.unlockedUnits">
-                Start with {{p[1] | format }} {{p[0].name}}
-            </li>
-            <li *ngFor="let p of gameService.game.world.prodMod">
-                Production of {{p[0].name}} x {{p[1] }}
-            </li>
-            <li *ngFor="let p of gameService.game.world.unitMod">
-                {{p[0].name}} production x {{p[1] }}
-            </li>
-            <li *ngFor="let p of gameService.game.world.unitPrice">
-                {{p[0].name}} price x {{p[1] }}
-            </li>
-        </ul>
 
-
-    </div>
+  </div>
 </div>

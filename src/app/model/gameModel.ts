@@ -19,6 +19,8 @@ import * as LZString from 'lz-string';
 
 export class GameModel {
 
+  isChanged = true
+
   //    Cost
   buyExp = Decimal(1.1)
   buyExpUnit = Decimal(1)
@@ -262,6 +264,7 @@ export class GameModel {
     this.lists.push(new TypeList("Bee", this.listBee))
     this.lists.push(new TypeList("Beetle", this.listForest))
     this.lists.push(new TypeList("Freezing", this.listFreezig))
+    this.lists.push(new TypeList("Infestation", this.listInfestation))
 
     this.all = Array.from(this.unitMap.values()).filter(u => !u.neverEnding)
     this.alert = alertArray[0]
@@ -277,11 +280,11 @@ export class GameModel {
     this.list = this.list.reverse()
     this.setInitialStat()
 
-    this.all.forEach(a => {
-      a.unlocked = true
-      if (a.buyAction)
-        a.buyAction.unlocked = true
-    })
+    // this.all.forEach(a => {
+    //   a.unlocked = true
+    //   if (a.buyAction)
+    //     a.buyAction.unlocked = true
+    // })
 
   }
   initMaterials() {
@@ -343,7 +346,7 @@ export class GameModel {
       this.queenAnt,
       [
         new Cost(this.food, Decimal(1E3), Decimal(this.buyExp)),
-        new Cost(this.littleAnt, Decimal(10), Decimal(this.buyExp))
+        new Cost(this.littleAnt, Decimal(10), Decimal(this.buyExpUnit))
       ],
       [this.nestAnt, this.geologist]
     ))
@@ -352,7 +355,7 @@ export class GameModel {
       this.nestAnt,
       [
         new Cost(this.food, Decimal(1E9), Decimal(this.buyExp)),
-        new Cost(this.queenAnt, Decimal(1E3), Decimal(this.buyExp))
+        new Cost(this.queenAnt, Decimal(1E3), Decimal(this.buyExpUnit))
       ],
     ))
 
@@ -1453,6 +1456,8 @@ export class GameModel {
       "Beetle are also good at killing plants.")
     this.flametrowerBeetle = new Unit(this, "flametrowerBeetle", "flametrower Beetle",
       "A beetle with a flametrower.")
+    this.chemistBee = new Unit(this, "chemistBee", "Chemist Bee",
+      "A chemist bee.")
 
     this.poisonousPlant2.alwaysOn = true
 
@@ -1463,8 +1468,8 @@ export class GameModel {
     this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-120)))
     this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
     this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(0.01)))
-    this.chemistAnt.addProductor(new Production(this.fungus, Decimal(-10)))
-    this.chemistAnt.addProductor(new Production(this.soil, Decimal(-10)))
+    this.fungus.addProductor(new Production(this.chemistAnt, Decimal(-10)))
+    this.soil.addProductor(new Production(this.chemistAnt, Decimal(-10)))
     this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(1)))
 
     this.listInfestation.push(this.poisonousPlant)
@@ -1549,7 +1554,7 @@ export class GameModel {
     this.flametrowerBeetle.actions.push(new UpHire(this, this.flametrowerBeetle,
       [new Cost(this.science, this.scienceCost2, this.upgradeScienceExp)]))
 
-    //    Disinfestation
+    //    Weedkiller
     this.weedkillerRes = new Research(
       "weedkillerRes",
       "Weedkiller", "Weedkiller.",
@@ -1558,7 +1563,7 @@ export class GameModel {
       this
     )
 
-    //    Disinfestation
+    //    Flame
     this.flametrowerRes = new Research(
       "flametrowerRes",
       "Flametrower", "Burn poisonus plants.",
@@ -1738,6 +1743,12 @@ export class GameModel {
    * @param dif time elapsed in millisecond
    */
   longUpdate(dif: number) {
+
+    if (this.isChanged) {
+      this.reloadProduction()
+      this.isChanged = false
+    }
+
     const unl = this.all.filter(u => u.unlocked)
     let maxTime = dif
     let unitZero: Unit = null
@@ -1805,8 +1816,10 @@ export class GameModel {
     if (unitZero)
       unitZero.producedBy.filter(p => p.efficiency.lessThan(0)).forEach(p => p.unit.percentage = 0)
     const remaning = dif - maxTime
-    if (remaning > Number.EPSILON)
+    if (remaning > Number.EPSILON) {
+      this.isChanged = true
       this.longUpdate(remaning)
+    }
   }
 
   /**
@@ -1868,14 +1881,16 @@ export class GameModel {
    */
   getSave(): string {
     const save: any = {}
-    save.list = Array.from(this.unitMap.entries()).map(v => v[1].getData())
+    save.list = Array.from(this.unitMap.entries())
+      .filter(u => u[1].unlocked)
+      .map(v => v[1].getData())
     save.last = Date.now()
     save.cur = this.currentEarning
     save.life = this.lifeEarning
     save.w = this.world.getData()
     save.nw = this.nextWorlds.map(w => w.getData())
     save.pre = this.allPrestigeUp.map(p => p.getData())
-    save.res = this.resList.map(r => r.getData())
+    save.res = this.resList.filter(res => res.owned()).map(r => r.getData())
     save.pd = this.prestigeDone
     return LZString.compressToBase64(JSON.stringify(save))
 
@@ -1887,8 +1902,10 @@ export class GameModel {
    */
   load(saveRaw: string): number {
     if (saveRaw) {
+      this.setInitialStat()
       saveRaw = LZString.decompressFromBase64(saveRaw)
       const save = JSON.parse(saveRaw)
+      console.log(saveRaw)
       this.currentEarning = Decimal(save.cur)
       this.lifeEarning = Decimal(save.life)
       this.world.restore(save.w)
@@ -1917,12 +1934,16 @@ export class GameModel {
 
       if (save.pd)
         this.prestigeDone = Decimal(save.pd)
-      return save.last
 
+      this.reloadProduction()
+      return save.last
     }
     return null
   }
 
+  reloadProduction() {
+    this.all.forEach(u => u.loadProduction())
+  }
   getCost(data: any): Cost {
     return new Cost(this.all.find(u => u.id === data.u), Decimal(data.b), Decimal(data.g))
   }

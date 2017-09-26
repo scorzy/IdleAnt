@@ -32,7 +32,8 @@ export class PrestigeComponent implements OnInit {
   travelAv(): boolean {
 
     return this.skip || (this.gameService.game.world.prestige.getBuyMax().greaterThan(0) &&
-      !!this.gameService.game.world.toUnlockMax.find(tum => tum.basePrice.greaterThan(tum.unit.quantity)))
+      (this.gameService.game.world.toUnlockMax.length === 0 ||
+        !!this.gameService.game.world.toUnlockMax.find(tum => tum.basePrice.greaterThan(tum.unit.quantity))))
 
     // try {
     //   if (this.gameService.game.world.toUnlock.find(c => c.unit.quantity.lessThan(c.basePrice)))
