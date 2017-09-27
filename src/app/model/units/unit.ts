@@ -61,7 +61,7 @@ export class Unit extends Base {
     )
   }
   getBoost(): decimal.Decimal {
-    return this.model.up1.owned() && this.buyAction ?
+    return this.model.research.up1.owned() && this.buyAction ?
       this.buyAction.quantity.times(0.001)
         .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(0))
       : Decimal(0)

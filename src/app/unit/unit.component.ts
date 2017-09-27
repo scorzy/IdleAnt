@@ -27,7 +27,7 @@ export class UnitComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
     private router: Router) {
-    this.gen = this.gameService.game.list[0]
+    this.gen = this.gameService.game.baseWorld.littleAnt
   }
 
   ngOnInit() {

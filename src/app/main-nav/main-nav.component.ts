@@ -20,7 +20,7 @@ import * as numberformat from 'swarm-numberformat';
   mioId = ""
   paramsSub: any
   gen: Unit
-  list: Unit[] = this.gameService.game.list
+  list: Unit[] = this.gameService.game.baseWorld.list
   typeLists: TypeList[]
 
   constructor(
@@ -28,7 +28,7 @@ import * as numberformat from 'swarm-numberformat';
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
     private router: Router) {
-    this.gen = this.gameService.game.list[0]
+    this.gen = this.gameService.game.baseWorld.list[0]
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ import * as numberformat from 'swarm-numberformat';
       if (this.mioId === "unit") {
         this.typeLists = this.gameService.game.lists
       } else {
-        this.typeLists = this.gameService.game.expLists
+        this.typeLists = this.gameService.game.prestige.expLists
       }
       if (this.mioId === undefined) {
         this.mioId = "gen"

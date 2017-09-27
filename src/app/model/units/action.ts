@@ -201,7 +201,7 @@ export class UpSpecial extends Action {
       null,
       [
         new Cost(unit, Decimal(100), Decimal(10)),
-        new Cost(unit.model.science, Decimal(100), Decimal(100))
+        new Cost(unit.model.baseWorld.science, Decimal(100), Decimal(100))
       ],
       "Do some experiment to increase the procuction.",
       game, unit
@@ -229,25 +229,6 @@ export class UpHire extends Action {
     this.unlocked = false
   }
 }
-
-// export class UpEfficiency extends Action {
-//     constructor(
-//         game: GameModel,
-//         unit,
-//         price: Array<Cost>
-//     ) {
-//         super("ef", "Upgrade efficiency", null, price, "Upgrade efficiency", game, unit)
-//         this.unit.upEfficiency = this
-//     }
-
-//     getBuyMax(): decimal.Decimal {
-//         const max = super.getBuyMax()
-//         const rem = Decimal(40).minus(max)
-//         if (rem.lessThanOrEqualTo(0))
-//             return Decimal(0)
-//         return Decimal.min(rem, max)
-//     }
-// }
 
 export class UnlockProd extends Action {
   constructor(
