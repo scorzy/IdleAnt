@@ -6,18 +6,18 @@ import { GameService } from '../game.service';
 import { Unit } from './units/unit';
 
 export class Cost {
-    constructor(
-        public unit: Unit = null,
-        public basePrice: decimal.Decimal = Decimal(1),
-        public growFactor: decimal.Decimal = Decimal(1)) { }
+  constructor(
+    public unit: Unit = null,
+    public basePrice: decimal.Decimal = Decimal(1),
+    public growFactor: decimal.Decimal = Decimal(1)) { }
 
-        getData(){
-            const data:any = {}
-            data.u = this.unit.id
-            data.b = this.basePrice
-            data.g = this.growFactor
-            return data
-        }
+  getData() {
+    const data: any = {}
+    data.u = this.unit.id
+    data.b = this.basePrice
+    data.g = this.growFactor
+    return data
+  }
 
-        
+
 }

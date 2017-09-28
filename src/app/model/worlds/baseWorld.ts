@@ -50,6 +50,9 @@ export class BaseWorld implements WorldInterface {
   nestAnt: Unit
   list = Array<Unit>()
 
+  //  University
+  university: Unit
+
   constructor(public game: GameModel) { }
 
   declareStuff() {
@@ -135,6 +138,22 @@ export class BaseWorld implements WorldInterface {
     this.listJobs.push(this.lumberjack)
 
     this.level1 = [this.geologist, this.student, this.farmer, this.carpenter, this.lumberjack]
+
+    this.university = new Unit(this.game, "univ", "University", "University yield science.")
+
+    this.scientist = new Unit(this.game, "scie2",
+    "Scientist Ant", "Transform cristal into science.")
+    this.composterAnt = new Unit(this.game, "com",
+    "Composter Ant", "Transform wood into soil.")
+    this.refineryAnt = new Unit(this.game, "ref",
+    "Refinery Ant", "Transform soil into sand.")
+    this.laserAnt = new Unit(this.game, "las",
+    "Laser Ant", "Transform sand into cristal.")
+    this.hydroAnt = new Unit(this.game, "hydroFarmer",
+    "Hydroponic Ant", "Transform cristal into fungus.")
+    this.planterAnt = new Unit(this.game, "planterAnt",
+    "Planter Ant", "Transform fungus into wood.")
+
   }
   initGenerators() {
     this.list.push(this.littleAnt, this.queenAnt, this.nestAnt)
@@ -174,6 +193,8 @@ export class BaseWorld implements WorldInterface {
       this.list[i].actions.push(new UpHire(this.game, this.list[i],
         [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
     }
+
+    this.list = this.list.reverse()
   }
   initJobs() {
     //    Prices && Production
@@ -253,8 +274,6 @@ export class BaseWorld implements WorldInterface {
     const specialRes2 = Decimal(1E4)
 
     //  Scientist
-    this.scientist = new Unit(this.game, "scie2",
-      "Scientist Ant", "Transform cristal into science.")
     this.scientist.types = [Type.Ant]
     this.level2.push(this.scientist)
     this.scientist.actions.push(new BuyAction(this.game,
@@ -269,8 +288,6 @@ export class BaseWorld implements WorldInterface {
     this.cristal.addProductor(new Production(this.scientist, specialCost))
 
     //  Composter
-    this.composterAnt = new Unit(this.game, "com",
-      "Composter Ant", "Transform wood into soil.")
     this.composterAnt.types = [Type.Ant]
     this.level2.push(this.composterAnt)
     this.composterAnt.actions.push(new BuyAction(this.game,
@@ -285,8 +302,6 @@ export class BaseWorld implements WorldInterface {
     this.wood.addProductor(new Production(this.composterAnt, specialCost))
 
     //  Refinery
-    this.refineryAnt = new Unit(this.game, "ref",
-      "Refinery Ant", "Transform soil into sand.")
     this.refineryAnt.types = [Type.Ant]
     this.level2.push(this.refineryAnt)
     this.refineryAnt.actions.push(new BuyAction(this.game,
@@ -301,8 +316,6 @@ export class BaseWorld implements WorldInterface {
     this.soil.addProductor(new Production(this.refineryAnt, specialCost))
 
     //  Laser
-    this.laserAnt = new Unit(this.game, "las",
-      "Laser Ant", "Transform sand into cristal.")
     this.laserAnt.types = [Type.Ant]
     this.level2.push(this.laserAnt)
     this.laserAnt.actions.push(new BuyAction(this.game,
@@ -317,8 +330,6 @@ export class BaseWorld implements WorldInterface {
     this.sand.addProductor(new Production(this.laserAnt, specialCost))
 
     //  Hydro
-    this.hydroAnt = new Unit(this.game, "hydroFarmer",
-      "Hydroponic Ant", "Transform cristal into fungus.")
     this.hydroAnt.types = [Type.Ant]
     this.level2.push(this.hydroAnt)
     this.hydroAnt.actions.push(new BuyAction(this.game,
@@ -333,8 +344,6 @@ export class BaseWorld implements WorldInterface {
     this.cristal.addProductor(new Production(this.hydroAnt, specialCost))
 
     //  Planter
-    this.planterAnt = new Unit(this.game, "planterAnt",
-      "Planter Ant", "Transform fungus into wood.")
     this.planterAnt.types = [Type.Ant]
     this.level2.push(this.planterAnt)
     this.planterAnt.actions.push(new BuyAction(this.game,

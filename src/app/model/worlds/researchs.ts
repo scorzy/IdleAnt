@@ -56,6 +56,7 @@ export class Researchs implements WorldInterface {
       [this.game.baseWorld.hydroAnt],
       this.game
     )
+
     //    Laser
     this.laserResearch = new Research(
       "lasRes",
@@ -153,6 +154,14 @@ export class Researchs implements WorldInterface {
       this.game
     )
 
+    //    Wood
+    const woodcutting = new Research(
+      "WR1",
+      "Woodcutting", "Allow you to colect wood for future usage.",
+      [new Cost(this.game.baseWorld.science, Decimal(1000))],
+      [this.game.baseWorld.lumberjack], this.game
+    )
+
     //    Fungus up
     const r3 = new Research(
       "R3",
@@ -166,7 +175,7 @@ export class Researchs implements WorldInterface {
       "R1",
       "Ant–fungus symbiosis", "Allow you to cultivate fungus. Fungus is a source of food.",
       [new Cost(this.game.baseWorld.science, Decimal(100))],
-      [this.game.baseWorld.farmer, r3, this.game.baseWorld.lumberjack, this.specialResearch], this.game
+      [this.game.baseWorld.farmer, r3, woodcutting, this.specialResearch], this.game
     )
 
     //    Soil
@@ -176,6 +185,7 @@ export class Researchs implements WorldInterface {
       [new Cost(this.game.baseWorld.science, Decimal(50))],
       [this.game.baseWorld.soil, this.game.baseWorld.carpenter, r1, this.up1], this.game
     )
+
   }
 
   public addWorld() {
