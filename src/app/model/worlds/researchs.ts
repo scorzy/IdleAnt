@@ -6,6 +6,7 @@ import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } 
 import { Type, Base } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
+import { BaseWorld } from './baseWorld';
 
 export class Researchs implements WorldInterface {
 
@@ -24,11 +25,43 @@ export class Researchs implements WorldInterface {
   hydroResearch: Research
   planterResearch: Research
 
+  scientificMethod: Research
+  universityRes: Research
+  publicLesson: Research
+
   constructor(public game: GameModel) { }
 
   public declareStuff() { }
 
   public initStuff() {
+
+    //    University
+    this.publicLesson = new Research(
+      "publicLesson",
+      "Public Lesson", "University also produces students.",
+      [new Cost(this.game.baseWorld.science, Decimal(10000))],
+      [this.game.science.studentProduction],
+      this.game
+    )
+
+    //    University
+    this.universityRes = new Research(
+      "University",
+      "University", "Unlock university.",
+      [new Cost(this.game.baseWorld.science, Decimal(4800))],
+      [this.game.science.university, this.publicLesson],
+      this.game
+    )
+
+    //    Scientific Method
+    this.scientificMethod = new Research(
+      "scientificMethod",
+      "Scientific Method", "Science production +100%",
+      [new Cost(this.game.baseWorld.science, Decimal(1200))],
+      [this.universityRes],
+      this.game
+    )
+    this.game.baseWorld.science.bonusProduction.push([this.scientificMethod, Decimal(1)])
 
     //    Engineer
     this.engineerRes = new Research(
@@ -89,7 +122,7 @@ export class Researchs implements WorldInterface {
       "experimentRes",
       "Experiment", "Unlock scientist Ant",
       [new Cost(this.game.baseWorld.science, Decimal(600))],
-      [this.game.baseWorld.scientist],
+      [this.game.science.scientist, this.scientificMethod],
       this.game
     )
 

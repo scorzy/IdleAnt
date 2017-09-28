@@ -1,3 +1,4 @@
+import { Unlocable } from '../utils';
 import { Base } from './base';
 import { Unit } from './unit';
 import { Production } from '../production';
@@ -45,7 +46,7 @@ export class Action extends Base {
         if (this.oneTime)
           this.unlocked = false
 
-        this.game.isChanged = true
+        this.game.reloadProduction()
         return true
       }
     }
@@ -150,7 +151,7 @@ export class Research extends Action {
     name: string,
     description: string,
     cost: Cost[],
-    public toUnlock: Base[],
+    public toUnlock: Unlocable[],
     public game: GameModel,
     public doAfter: () => any = null
   ) {
@@ -239,7 +240,7 @@ export class UnlockProd extends Action {
   ) {
     super("uProd-" + prod.unit.id,
       "Training",
-      n => { prod.active = true; return true },
+      n => { prod.unlocked = true; return true },
       cost,
       "Train new units",
       game

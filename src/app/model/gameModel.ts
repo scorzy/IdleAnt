@@ -1,7 +1,7 @@
 import { Engineers } from './worlds/engineer';
 import { World } from './world';
 import { DefaultUrlHandlingStrategy } from '@angular/router/src/url_handling_strategy';
-import { Utils } from './utils';
+import { Utils, Unlocable } from './utils';
 import { Base, Type } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
@@ -27,6 +27,7 @@ import { Frozen } from './worlds/frozen';
 import { Researchs } from './worlds/researchs';
 import { Prestige } from './worlds/prestige';
 import { Infestation } from './worlds/inferstation';
+import { Science } from './worlds/science';
 
 export class GameModel {
 
@@ -43,6 +44,7 @@ export class GameModel {
 
   //  Worlds
   baseWorld: BaseWorld
+  science: Science
   machines: Machine
   engineers: Engineers
   bee: Bee
@@ -85,6 +87,7 @@ export class GameModel {
     this.worldList = Array<WorldInterface>()
 
     this.baseWorld = new BaseWorld(this)
+    this.science = new Science(this)
     this.machines = new Machine(this)
     this.engineers = new Engineers(this)
     this.bee = new Bee(this)
@@ -96,7 +99,9 @@ export class GameModel {
     this.prestige = new Prestige(this)
 
     this.worldList.push(this.baseWorld)
+    this.worldList.push(this.science)
     this.worldList.push(this.machines)
+    this.worldList.push(this.forest)
     this.worldList.push(this.engineers)
     this.worldList.push(this.bee)
     this.worldList.push(this.beach)
@@ -151,13 +156,13 @@ export class GameModel {
   ): decimal.Decimal {
 
     let ret = Decimal(0)
-    if (prod.active)
+    if (prod.unlocked)
       ret = Decimal.pow(fraction, level)                    //    exponential
         .times(prod.unit.quantity)                          //    time
         .times(prod.getprodPerSec())                        //    efficenty
         .div(factorial)
 
-    const prod2 = prod.unit.producedBy.filter(p => p.active && p.unit.quantity.greaterThan(Decimal(0)))
+    const prod2 = prod.unit.producedBy.filter(p => p.unlocked && p.unit.quantity.greaterThan(Decimal(0)))
     for (const p2 of prod2)
       ret = ret.plus(
         this.getProduction(p2, level.plus(1),
@@ -201,15 +206,15 @@ export class GameModel {
       let c = Decimal(0)
       const d = res.quantity
 
-      for (const prod1 of res.producedBy.filter(r => r.active)) {
+      for (const prod1 of res.producedBy.filter(r => r.unlocked)) {
         // x
         const prodX = prod1.getprodPerSec()
         c = c.plus(prodX.times(prod1.unit.quantity))
-        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.active)) {
+        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.unlocked)) {
           // x^2
           const prodX2 = prod2.getprodPerSec().times(prodX)
           b = b.plus(prodX2.times(prod2.unit.quantity))
-          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.active)) {
+          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.unlocked)) {
             // x^3
             const prodX3 = prod3.getprodPerSec().times(prodX2)
             a = a.plus(prodX3.times(prod3.unit.quantity))
@@ -270,7 +275,7 @@ export class GameModel {
     const fraction = Decimal(dif / 1000)
     const all = Array.from(this.unitMap.values())
     for (const res of all)
-      for (const prod of res.producedBy.filter(p => p.active))
+      for (const prod of res.producedBy.filter(p => p.unlocked))
         res.toAdd = res.toAdd.plus(this.getProduction(prod, Decimal(1), Decimal(1), fraction))
 
     all.forEach(u => {
@@ -282,13 +287,15 @@ export class GameModel {
   /**
    * Unlock units and recheck dependencies.
    */
-  unlockUnits(units: Base[], message: string = null) {
+  unlockUnits(units: Unlocable[], message: string = null) {
     return () => {
       const ok = false
       units.filter(u => u.avabileThisWorld).forEach(u => {
         u.unlocked = true
-        if (u.buyAction)
-          u.buyAction.unlocked = true
+        if (u instanceof Unit) {
+          if (u.buyAction)
+            u.buyAction.unlocked = true
+        }
       })
 
       this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>

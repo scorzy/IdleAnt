@@ -86,7 +86,7 @@ export class Prestige implements WorldInterface {
 
     this.game.baseWorld.littleAnt.prestigeBonusStart = this.pAntNext
     this.game.baseWorld.geologist.prestigeBonusStart = this.pGeologistNext
-    this.game.baseWorld.student.prestigeBonusStart = this.pScientistNext
+    this.game.science.student.prestigeBonusStart = this.pScientistNext
     this.game.baseWorld.farmer.prestigeBonusStart = this.pFarmerNext
 
     this.expLists.push(new TypeList("Ant", this.expAnt))

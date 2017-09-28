@@ -26,7 +26,8 @@ export class Unit extends Base {
   upSpecial: Action
   upHire: Action
 
-  prestigeBonusProduction = Array<Unit>()
+  bonusProduction = Array<[Base, decimal.Decimal]>()
+  prestigeBonusProduction = Array<Base>()
   prestigeBonusStart: Unit
   alwaysOn = false
 
@@ -77,7 +78,7 @@ export class Unit extends Base {
     data.w = this.worldProdModifiers
     data.e = this.worldEffModifiers
     data.b = this.worldBuyModifiers
-    data.p = this.producedBy.map(p => [p.unit.id, p.active])
+    data.p = this.producedBy.map(p => [p.unit.id, p.unlocked])
     return data;
   }
   restore(data: any) {
@@ -95,7 +96,7 @@ export class Unit extends Base {
       data.p.forEach(e => {
         const prod = this.producedBy.find(p => p.unit.id === e[0])
         if (prod)
-          prod.active = e[1]
+          prod.unlocked = e[1]
       });
   }
 

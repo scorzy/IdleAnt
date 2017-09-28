@@ -1,3 +1,4 @@
+import { Unlocable } from '../utils';
 import { GameModel } from '../gameModel';
 import { Action } from './action';
 
@@ -23,7 +24,7 @@ export enum Type {
   WoodG
 }
 
-export class Base {
+export class Base extends Unlocable {
 
   endIn = 0
   buyAction: Action
@@ -34,11 +35,12 @@ export class Base {
     public name = "",
     public description = "",
     public types: Type[] = [],
-    public unlocked = false,
+    unlocked = false,
     public quantity = Decimal(0),
     public avabileBaseWorld = true,
     public avabileThisWorld = true
   ) {
+    super(unlocked)
     this.game.allBase.push(this)
   }
 

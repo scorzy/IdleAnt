@@ -20,6 +20,10 @@ export class Forest implements WorldInterface {
   beetleResearch: Research
   listForest = new Array<Unit>()
 
+  beetleCristalProduction: Production
+  beetleSoilProduction: Production
+  beetleWoodProduction: Production
+
   constructor(public game: GameModel) { }
 
   declareStuff() {
@@ -50,16 +54,39 @@ export class Forest implements WorldInterface {
 
     this.game.lists.push(new TypeList("Beetle", this.listForest))
 
+    this.beetleWoodProduction = new Production(this.beetle, Decimal(0.8), false)
+    this.beetleSoilProduction = new Production(this.beetle, Decimal(0.4), false)
+    this.beetleCristalProduction = new Production(this.beetle, Decimal(0.2), false)
+
+    const beetleWood = new Research("beetleWood", "Woodcutting training",
+      "Beetle also produces wood",
+      [new Cost(this.game.baseWorld.science, Decimal(100))],
+      [this.beetleWoodProduction],
+      this.game
+    )
+    const beetleSoil = new Research("beetleSoil", "Soil training",
+      "Beetle also produces soil",
+      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [this.beetleSoilProduction],
+      this.game
+    )
+    const beetleCristal = new Research("beetleCristal", "Mining training",
+      "Beetle also produces cristal",
+      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
+      [this.beetleCristalProduction],
+      this.game
+    )
+
     const advancedBeetle = new Research("advBeetle",
       "Advanced Beetle Jobs", "More beetle jobs",
-      [new Cost(this.game.baseWorld.science, Decimal(30))],
+      [new Cost(this.game.baseWorld.science, Decimal(3E3))],
       [this.ambrosiaBeetle, this.ladybird],
       this.game
     )
     this.beetleResearch = new Research("beetleRes",
       "Beetle", "Unlock Beetle",
       [new Cost(this.game.baseWorld.science, Decimal(600))],
-      [this.larva, advancedBeetle],
+      [this.larva, advancedBeetle, beetleWood, beetleSoil, beetleCristal],
       this.game
     )
     this.beetleResearch.avabileBaseWorld = false
@@ -69,9 +96,10 @@ export class Forest implements WorldInterface {
 
     this.game.baseWorld.food.addProductor(new Production(this.larva, Decimal(0.1)))
 
-    this.game.baseWorld.cristal.addProductor(new Production(this.beetle, Decimal(0.2)))
-    this.game.baseWorld.soil.addProductor(new Production(this.beetle, Decimal(0.5)))
     this.game.baseWorld.food.addProductor(new Production(this.beetle))
+    this.game.baseWorld.cristal.addProductor(this.beetleCristalProduction)
+    this.game.baseWorld.soil.addProductor(this.beetleSoilProduction)
+    this.game.baseWorld.wood.addProductor(this.beetleWoodProduction)
 
     this.game.baseWorld.science.addProductor(new Production(this.ladybird, Decimal(5)))
 

@@ -25,7 +25,6 @@ export class BaseWorld implements WorldInterface {
 
   //    Tier 1
   geologist: Unit
-  student: Unit
   carpenter: Unit
   farmer: Unit
   lumberjack: Unit
@@ -37,7 +36,6 @@ export class BaseWorld implements WorldInterface {
   laserAnt: Unit
   hydroAnt: Unit
   planterAnt: Unit
-  scientist: Unit
   level2 = Array<Unit>()
 
   jobMaterial: Unit[][]
@@ -50,25 +48,22 @@ export class BaseWorld implements WorldInterface {
   nestAnt: Unit
   list = Array<Unit>()
 
-  //  University
-  university: Unit
-
   constructor(public game: GameModel) { }
 
   declareStuff() {
     this.declareMaterials()
     this.declareGenerators()
     this.declareJobs()
-  }
-
-  initStuff() {
-    this.initGenerators()
-    this.initJobs()
 
     this.game.lists.push(new TypeList("Material", this.listMaterial))
     this.game.lists.push(new TypeList("Jobs", this.level1))
     this.game.lists.push(new TypeList("Advanced Jobs", this.level2))
     this.game.lists.push(new TypeList("Ants", this.list))
+  }
+
+  initStuff() {
+    this.initGenerators()
+    this.initJobs()
   }
 
   declareMaterials() {
@@ -117,10 +112,6 @@ export class BaseWorld implements WorldInterface {
       "Nest proces queen")
   }
   declareJobs() {
-    this.student = new Unit(this.game, "scn", "Student", "Student yield science.")
-    this.student.types = [Type.Ant, Type.Scientist]
-    this.listJobs.push(this.student)
-
     this.geologist = new Unit(this.game, "geo", "Geologist", "Geologist yield cristal.")
     this.geologist.types = [Type.Ant, Type.Mining]
     this.listJobs.push(this.geologist)
@@ -137,22 +128,18 @@ export class BaseWorld implements WorldInterface {
     this.lumberjack.types = [Type.Ant, Type.WoodG]
     this.listJobs.push(this.lumberjack)
 
-    this.level1 = [this.geologist, this.student, this.farmer, this.carpenter, this.lumberjack]
+    this.level1 = [this.geologist, this.farmer, this.carpenter, this.lumberjack]
 
-    this.university = new Unit(this.game, "univ", "University", "University yield science.")
-
-    this.scientist = new Unit(this.game, "scie2",
-    "Scientist Ant", "Transform cristal into science.")
     this.composterAnt = new Unit(this.game, "com",
-    "Composter Ant", "Transform wood into soil.")
+      "Composter Ant", "Transform wood into soil.")
     this.refineryAnt = new Unit(this.game, "ref",
-    "Refinery Ant", "Transform soil into sand.")
+      "Refinery Ant", "Transform soil into sand.")
     this.laserAnt = new Unit(this.game, "las",
-    "Laser Ant", "Transform sand into cristal.")
+      "Laser Ant", "Transform sand into cristal.")
     this.hydroAnt = new Unit(this.game, "hydroFarmer",
-    "Hydroponic Ant", "Transform cristal into fungus.")
+      "Hydroponic Ant", "Transform cristal into fungus.")
     this.planterAnt = new Unit(this.game, "planterAnt",
-    "Planter Ant", "Transform fungus into wood.")
+      "Planter Ant", "Transform fungus into wood.")
 
   }
   initGenerators() {
@@ -202,20 +189,8 @@ export class BaseWorld implements WorldInterface {
     this.food.addProductor(new Production(this.fungus))
     this.fungus.addProductor(new Production(this.farmer))
     this.cristal.addProductor(new Production(this.geologist))
-    this.science.addProductor(new Production(this.student))
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
-
-    //    Student
-    this.student.actions.push(new BuyAndUnlockAction(this.game,
-      this.student,
-      [
-        new Cost(this.food, Decimal(1000), Decimal(this.game.buyExp)),
-        new Cost(this.cristal, Decimal(100), Decimal(this.game.buyExp)),
-        new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
-      ],
-      [this.science]
-    ))
 
     //    Geologist
     this.geologist.actions.push(new BuyAndUnlockAction(this.game,
@@ -224,7 +199,7 @@ export class BaseWorld implements WorldInterface {
         new Cost(this.food, Decimal(1000), this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ],
-      [this.cristal, this.student]
+      [this.cristal, this.game.science.student]
     ))
 
     //    Carpenter
@@ -272,20 +247,6 @@ export class BaseWorld implements WorldInterface {
     const specialCost = Decimal(-5)
     const specialFood = Decimal(1E7)
     const specialRes2 = Decimal(1E4)
-
-    //  Scientist
-    this.scientist.types = [Type.Ant]
-    this.level2.push(this.scientist)
-    this.scientist.actions.push(new BuyAction(this.game,
-      this.scientist,
-      [
-        new Cost(this.food, specialFood, this.game.buyExp),
-        new Cost(this.cristal, specialRes2, this.game.buyExp),
-        new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
-      ]
-    ))
-    this.science.addProductor(new Production(this.scientist, specialProduction))
-    this.cristal.addProductor(new Production(this.scientist, specialCost))
 
     //  Composter
     this.composterAnt.types = [Type.Ant]
@@ -459,7 +420,7 @@ export class BaseWorld implements WorldInterface {
       ),
       new World(this.game, "of Scientist", "",
         [], [], [],
-        [[this.student, Decimal(2)]]
+        [[this.game.science.scientist, Decimal(2)]]
       ),
       new World(this.game, "of Farming", "",
         [], [], [],

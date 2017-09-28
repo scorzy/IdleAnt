@@ -45,7 +45,7 @@ export class UnitComponent implements OnInit, OnDestroy {
   }
 
   showProducers(): boolean {
-    return this.gen.producedBy.filter(t => t.active && t.unit.unlocked).length > 0
+    return this.gen.producedBy.filter(t => t.unlocked && t.unit.unlocked).length > 0
   }
 
 
@@ -66,6 +66,6 @@ export class FilterUnlocked implements PipeTransform {
 @Pipe({ name: 'filterActive', pure: false })
 export class FilterActive implements PipeTransform {
   transform(items: Production[], filter: Object): any {
-    return items.filter(item => item.active && item.unit.unlocked)
+    return items.filter(item => item.unlocked && item.unit.unlocked)
   }
 }
