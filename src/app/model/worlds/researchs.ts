@@ -39,7 +39,7 @@ export class Researchs implements WorldInterface {
     this.publicLesson = new Research(
       "publicLesson",
       "Public Lesson", "University also produces students.",
-      [new Cost(this.game.baseWorld.science, Decimal(10000))],
+      [new Cost(this.game.baseWorld.science, Decimal(2E5))],
       [this.game.science.studentProduction],
       this.game
     )
@@ -48,7 +48,7 @@ export class Researchs implements WorldInterface {
     this.universityRes = new Research(
       "University",
       "University", "Unlock university.",
-      [new Cost(this.game.baseWorld.science, Decimal(4800))],
+      [new Cost(this.game.baseWorld.science, Decimal(5000))],
       [this.game.science.university, this.publicLesson],
       this.game
     )
@@ -57,7 +57,7 @@ export class Researchs implements WorldInterface {
     this.scientificMethod = new Research(
       "scientificMethod",
       "Scientific Method", "Science production +100%",
-      [new Cost(this.game.baseWorld.science, Decimal(1200))],
+      [new Cost(this.game.baseWorld.science, Decimal(1600))],
       [this.universityRes],
       this.game
     )
@@ -121,7 +121,7 @@ export class Researchs implements WorldInterface {
     this.experimentResearch = new Research(
       "experimentRes",
       "Experiment", "Unlock scientist Ant",
-      [new Cost(this.game.baseWorld.science, Decimal(600))],
+      [new Cost(this.game.baseWorld.science, Decimal(800))],
       [this.game.science.scientist, this.scientificMethod],
       this.game
     )

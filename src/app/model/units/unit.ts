@@ -56,14 +56,13 @@ export class Unit extends Base {
       sum = sum.plus(p.quantity)
 
     this.production = this.getBoost().plus(1).times(
-      Decimal.pow(2,
-        this.upSpecial ? this.upSpecial.quantity : Decimal(0)
-      ).times(this.worldEffModifiers).times(sum)
-    )
+      (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
+    ).times(this.worldEffModifiers).times(sum)
+
   }
   getBoost(): decimal.Decimal {
     return this.model.research.up1.owned() && this.buyAction ?
-      this.buyAction.quantity.times(0.001)
+      this.buyAction.quantity.times(0.005)
         .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(0))
       : Decimal(0)
   }

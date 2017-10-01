@@ -26,8 +26,8 @@ export class Machine implements WorldInterface {
 
   listMachinery = new Array<Unit>()
 
-  machineryProd = Decimal(150)
-  machineryCost = Decimal(-10)
+  machineryProd = Decimal(500)
+  machineryCost = Decimal(-150)
 
   price1 = Decimal(1E5)
   price2 = Decimal(6E4)

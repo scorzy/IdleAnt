@@ -185,8 +185,8 @@ export class BaseWorld implements WorldInterface {
   }
   initJobs() {
     //    Prices && Production
-    this.food.addProductor(new Production(this.littleAnt))
-    this.food.addProductor(new Production(this.fungus))
+    this.food.addProductor(new Production(this.littleAnt, Decimal(0.5)))
+    this.food.addProductor(new Production(this.fungus, Decimal(2)))
     this.fungus.addProductor(new Production(this.farmer))
     this.cristal.addProductor(new Production(this.geologist))
     this.soil.addProductor(new Production(this.carpenter))
@@ -243,8 +243,8 @@ export class BaseWorld implements WorldInterface {
     //
     //    Special
     //
-    const specialProduction = Decimal(10)
-    const specialCost = Decimal(-5)
+    const specialProduction = Decimal(100)
+    const specialCost = Decimal(-40)
     const specialFood = Decimal(1E7)
     const specialRes2 = Decimal(1E4)
 

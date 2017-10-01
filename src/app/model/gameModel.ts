@@ -40,7 +40,7 @@ export class GameModel {
   scienceCost2 = Decimal(1E3)
   scienceCost3 = Decimal(1E6)
   scienceCost4 = Decimal(1E8)
-  upgradeScienceExp = Decimal(10)
+  upgradeScienceExp = Decimal(5)
 
   //  Worlds
   baseWorld: BaseWorld
@@ -126,12 +126,6 @@ export class GameModel {
 
     this.setInitialStat()
 
-    // this.all.forEach(a => {
-    //   a.unlocked = true
-    //   if (a.buyAction)
-    //     a.buyAction.unlocked = true
-    // })
-
   }
   setInitialStat() {
     this.all.forEach(u => {
@@ -144,9 +138,9 @@ export class GameModel {
     this.baseWorld.littleAnt.buyAction.unlocked = true
     this.research.rDirt.unlocked = true
 
-    this.baseWorld.food.quantity = Decimal(1E20)
+    this.baseWorld.food.quantity = Decimal(100)
 
-    this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
+    // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
   getProduction(prod: Production,
@@ -320,15 +314,14 @@ export class GameModel {
    */
   getSave(): string {
     const save: any = {}
-    save.list = Array.from(this.unitMap.entries())
-      .filter(u => u[1].unlocked || u[1].avabileThisWorld).map(v => v[1].getData())
+    save.list = Array.from(this.unitMap.entries()).map(v => v[1].getData())
     save.last = Date.now()
     save.cur = this.currentEarning
     save.life = this.lifeEarning
     save.w = this.world.getData()
     save.nw = this.nextWorlds.map(w => w.getData())
     save.pre = this.prestige.allPrestigeUp.map(p => p.getData())
-    save.res = this.resList.filter(res => res.owned()).map(r => r.getData())
+    save.res = this.resList.map(r => r.getData())
     save.pd = this.prestigeDone
     return LZString.compressToBase64(JSON.stringify(save))
 

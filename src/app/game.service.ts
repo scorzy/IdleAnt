@@ -8,45 +8,46 @@ import { Injectable, OnInit } from '@angular/core';
 @Injectable()
 export class GameService {
 
-    game: GameModel;
-    last: number;
-    selectedGen: string;
-    list: any
+  game: GameModel;
+  last: number;
+  selectedGen: string;
+  list: any
 
-    constructor() {
-        this.game = new GameModel()
-        this.last = Date.now()
-        const l = this.load()
-        if (l)
-            this.last = l
+  constructor() {
+    this.game = new GameModel()
+    this.last = Date.now()
+    const l = this.load()
+    if (l)
+      this.last = l
 
-         setInterval(this.update.bind(this), 1000 / 20)
-        // window.requestAnimationFrame(this.update.bind(this))
+    setInterval(this.update.bind(this), 1000 / 20)
+    // window.requestAnimationFrame(this.update.bind(this))
+  }
+
+  update() {
+    const now = new Date().getTime()
+    this.game.longUpdate(10 * (now - this.last))
+    // this.game.longUpdate(now - this.last)
+    this.last = now
+
+    // window.requestAnimationFrame(this.update.bind(this))
+  }
+
+  clear() {
+    localStorage.clear()
+    this.game = new GameModel()
+  }
+
+  save() {
+    if (typeof (Storage) !== 'undefined') {
+      localStorage.setItem('save', this.game.getSave())
     }
-
-    update() {
-        const now = new Date().getTime()
-        this.game.longUpdate(now - this.last)
-        this.last = now
-
-        // window.requestAnimationFrame(this.update.bind(this))
+  }
+  load(): number {
+    if (typeof (Storage) !== 'undefined') {
+      const saveRaw = localStorage.getItem('save')
+      return this.game.load(saveRaw)
     }
-
-    clear() {
-        localStorage.clear()
-        this.game = new GameModel()
-    }
-
-    save() {
-        if (typeof (Storage) !== 'undefined') {
-            localStorage.setItem('save', this.game.getSave())
-        }
-    }
-    load(): number {
-        if (typeof (Storage) !== 'undefined') {
-            const saveRaw = localStorage.getItem('save')
-            return this.game.load(saveRaw)
-        }
-    }
+  }
 
 }
