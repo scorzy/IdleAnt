@@ -40,9 +40,10 @@ export class Science implements WorldInterface {
   public initStuff() {
 
     this.game.baseWorld.science.addProductor(new Production(this.student))
+    this.game.baseWorld.cristal.addProductor(new Production(this.student, Decimal(-0.5)))
 
-    const specialProduction = Decimal(10)
-    const specialCost = Decimal(-5)
+    const specialProduction = Decimal(15)
+    const specialCost = Decimal(-4)
     const specialFood = Decimal(1E7)
     const specialRes2 = Decimal(1E4)
 
@@ -60,7 +61,7 @@ export class Science implements WorldInterface {
     this.student.actions.push(new UpAction(this.game, this.student,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
     this.student.actions.push(new UpHire(this.game, this.student,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceHireExp)]))
 
     //  Scientist
     this.scientist.types = [Type.Ant]
@@ -78,7 +79,7 @@ export class Science implements WorldInterface {
     this.scientist.actions.push(new UpAction(this.game, this.scientist,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
     this.scientist.actions.push(new UpHire(this.game, this.scientist,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceHireExp)]))
 
     //  University
     this.university.actions.push(new BuyAction(this.game,
@@ -86,10 +87,10 @@ export class Science implements WorldInterface {
       [
         new Cost(this.game.baseWorld.wood, this.game.machines.price2, this.game.buyExp),
         new Cost(this.game.baseWorld.cristal, this.game.machines.price3, this.game.buyExp),
-        new Cost(this.scientist, Decimal(100), this.game.buyExpUnit)
+        new Cost(this.scientist, Decimal(30), this.game.buyExpUnit)
       ]
     ))
-    this.game.baseWorld.science.addProductor(new Production(this.university, specialProduction.times(12)))
+    this.game.baseWorld.science.addProductor(new Production(this.university, specialProduction.times(15)))
     this.game.baseWorld.cristal.addProductor(new Production(this.university, specialCost.times(10)))
 
     this.student.addProductor(this.studentProduction)

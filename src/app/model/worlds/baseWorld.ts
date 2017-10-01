@@ -42,6 +42,11 @@ export class BaseWorld implements WorldInterface {
 
   listJobs = Array<Unit>()
 
+  specialProduction = Decimal(100)
+  specialCost = Decimal(-40)
+  specialFood = Decimal(1E7)
+  specialRes2 = Decimal(1E4)
+
   //    Generators
   littleAnt: Unit
   queenAnt: Unit
@@ -158,7 +163,7 @@ export class BaseWorld implements WorldInterface {
       this.queenAnt,
       [
         new Cost(this.food, Decimal(1E3), Decimal(this.game.buyExp)),
-        new Cost(this.littleAnt, Decimal(10), Decimal(this.game.buyExpUnit))
+        new Cost(this.littleAnt, Decimal(20), Decimal(this.game.buyExpUnit))
       ],
       [this.nestAnt, this.geologist]
     ))
@@ -166,8 +171,10 @@ export class BaseWorld implements WorldInterface {
     this.nestAnt.actions.push(new BuyAction(this.game,
       this.nestAnt,
       [
-        new Cost(this.food, Decimal(1E9), Decimal(this.game.buyExp)),
-        new Cost(this.queenAnt, Decimal(1E3), Decimal(this.game.buyExpUnit))
+        new Cost(this.food, Decimal(1E12), Decimal(this.game.buyExp)),
+        new Cost(this.wood, Decimal(1E10), Decimal(this.game.buyExp)),
+        new Cost(this.soil, Decimal(1E9), Decimal(this.game.buyExp)),
+        new Cost(this.queenAnt, Decimal(2E3), Decimal(this.game.buyExpUnit))
       ],
     ))
 
@@ -176,9 +183,9 @@ export class BaseWorld implements WorldInterface {
 
     for (let i = 0; i < this.list.length; i++) {
       this.list[i].actions.push(new UpAction(this.game, this.list[i],
-        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
+        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), this.game.upgradeScienceExp)]))
       this.list[i].actions.push(new UpHire(this.game, this.list[i],
-        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), Decimal(10))]))
+        [new Cost(this.science, Decimal(Decimal(100).times(Decimal.pow(10, Decimal(i)))), this.game.upgradeScienceHireExp)]))
     }
 
     this.list = this.list.reverse()
@@ -188,7 +195,8 @@ export class BaseWorld implements WorldInterface {
     this.food.addProductor(new Production(this.littleAnt, Decimal(0.5)))
     this.food.addProductor(new Production(this.fungus, Decimal(2)))
     this.fungus.addProductor(new Production(this.farmer))
-    this.cristal.addProductor(new Production(this.geologist))
+    this.soil.addProductor(new Production(this.farmer, Decimal(-1)))
+    this.cristal.addProductor(new Production(this.geologist, Decimal(0.2)))
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
@@ -235,18 +243,16 @@ export class BaseWorld implements WorldInterface {
     ))
 
     this.level1.forEach(l => {
-      l.actions.push(new UpAction(this.game, l, [new Cost(this.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
-      l.actions.push(new UpHire(this.game, l, [new Cost(this.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
+      l.actions.push(new UpAction(this.game, l,
+        [new Cost(this.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
+      l.actions.push(new UpHire(this.game, l,
+        [new Cost(this.science, this.game.scienceCost2, this.game.upgradeScienceHireExp)]))
     })
 
 
     //
     //    Special
     //
-    const specialProduction = Decimal(100)
-    const specialCost = Decimal(-40)
-    const specialFood = Decimal(1E7)
-    const specialRes2 = Decimal(1E4)
 
     //  Composter
     this.composterAnt.types = [Type.Ant]
@@ -254,13 +260,13 @@ export class BaseWorld implements WorldInterface {
     this.composterAnt.actions.push(new BuyAction(this.game,
       this.composterAnt,
       [
-        new Cost(this.food, specialFood, this.game.buyExp),
-        new Cost(this.wood, specialRes2, this.game.buyExp),
+        new Cost(this.food, this.specialFood, this.game.buyExp),
+        new Cost(this.wood, this.specialRes2, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.soil.addProductor(new Production(this.composterAnt, specialProduction))
-    this.wood.addProductor(new Production(this.composterAnt, specialCost))
+    this.soil.addProductor(new Production(this.composterAnt, this.specialProduction))
+    this.wood.addProductor(new Production(this.composterAnt, this.specialCost))
 
     //  Refinery
     this.refineryAnt.types = [Type.Ant]
@@ -268,13 +274,13 @@ export class BaseWorld implements WorldInterface {
     this.refineryAnt.actions.push(new BuyAction(this.game,
       this.refineryAnt,
       [
-        new Cost(this.food, specialFood, this.game.buyExp),
-        new Cost(this.soil, specialRes2, this.game.buyExp),
+        new Cost(this.food, this.specialFood, this.game.buyExp),
+        new Cost(this.soil, this.specialRes2, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.sand.addProductor(new Production(this.refineryAnt, specialProduction))
-    this.soil.addProductor(new Production(this.refineryAnt, specialCost))
+    this.sand.addProductor(new Production(this.refineryAnt, this.specialProduction))
+    this.soil.addProductor(new Production(this.refineryAnt, this.specialCost))
 
     //  Laser
     this.laserAnt.types = [Type.Ant]
@@ -282,13 +288,13 @@ export class BaseWorld implements WorldInterface {
     this.laserAnt.actions.push(new BuyAction(this.game,
       this.laserAnt,
       [
-        new Cost(this.food, specialFood, this.game.buyExp),
-        new Cost(this.sand, specialRes2, this.game.buyExp),
+        new Cost(this.food, this.specialFood, this.game.buyExp),
+        new Cost(this.sand, this.specialRes2, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.cristal.addProductor(new Production(this.laserAnt, specialProduction))
-    this.sand.addProductor(new Production(this.laserAnt, specialCost))
+    this.cristal.addProductor(new Production(this.laserAnt, this.specialProduction))
+    this.sand.addProductor(new Production(this.laserAnt, this.specialCost))
 
     //  Hydro
     this.hydroAnt.types = [Type.Ant]
@@ -296,13 +302,13 @@ export class BaseWorld implements WorldInterface {
     this.hydroAnt.actions.push(new BuyAction(this.game,
       this.hydroAnt,
       [
-        new Cost(this.food, specialFood, this.game.buyExp),
-        new Cost(this.cristal, specialRes2, this.game.buyExp),
+        new Cost(this.food, this.specialFood, this.game.buyExp),
+        new Cost(this.cristal, this.specialRes2, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.fungus.addProductor(new Production(this.hydroAnt, specialProduction))
-    this.cristal.addProductor(new Production(this.hydroAnt, specialCost))
+    this.fungus.addProductor(new Production(this.hydroAnt, this.specialProduction))
+    this.cristal.addProductor(new Production(this.hydroAnt, this.specialCost))
 
     //  Planter
     this.planterAnt.types = [Type.Ant]
@@ -310,17 +316,19 @@ export class BaseWorld implements WorldInterface {
     this.planterAnt.actions.push(new BuyAction(this.game,
       this.planterAnt,
       [
-        new Cost(this.food, specialFood, this.game.buyExp),
-        new Cost(this.fungus, specialRes2, this.game.buyExp),
+        new Cost(this.food, this.specialFood, this.game.buyExp),
+        new Cost(this.fungus, this.specialRes2, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.wood.addProductor(new Production(this.planterAnt, specialProduction))
-    this.fungus.addProductor(new Production(this.planterAnt, specialCost))
+    this.wood.addProductor(new Production(this.planterAnt, this.specialProduction))
+    this.fungus.addProductor(new Production(this.planterAnt, this.specialCost))
 
     this.level2.forEach(l => {
-      l.actions.push(new UpAction(this.game, l, [new Cost(this.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
-      l.actions.push(new UpHire(this.game, l, [new Cost(this.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
+      l.actions.push(new UpAction(this.game, l,
+        [new Cost(this.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
+      l.actions.push(new UpHire(this.game, l,
+        [new Cost(this.science, this.game.scienceCost3, this.game.upgradeScienceHireExp)]))
     })
   }
   addWorld() {

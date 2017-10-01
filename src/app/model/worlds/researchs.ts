@@ -39,7 +39,7 @@ export class Researchs implements WorldInterface {
     this.publicLesson = new Research(
       "publicLesson",
       "Public Lesson", "University also produces students.",
-      [new Cost(this.game.baseWorld.science, Decimal(2E5))],
+      [new Cost(this.game.baseWorld.science, Decimal(5E5))],
       [this.game.science.studentProduction],
       this.game
     )
@@ -48,7 +48,7 @@ export class Researchs implements WorldInterface {
     this.universityRes = new Research(
       "University",
       "University", "Unlock university.",
-      [new Cost(this.game.baseWorld.science, Decimal(5000))],
+      [new Cost(this.game.baseWorld.science, Decimal(15E3))],
       [this.game.science.university, this.publicLesson],
       this.game
     )
@@ -67,7 +67,7 @@ export class Researchs implements WorldInterface {
     this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E9))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E7))],
       this.game.engineers.listEnginer,
       this.game
     )
@@ -76,7 +76,7 @@ export class Researchs implements WorldInterface {
     this.planterResearch = new Research(
       "planRes",
       "Planting", "Tree planting is the process of transplanting tree seedlings.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.game.baseWorld.planterAnt],
       this.game
     )
@@ -85,7 +85,7 @@ export class Researchs implements WorldInterface {
     this.hydroResearch = new Research(
       "hydroRes",
       "Hydroponics", "Hydroponics is the art of growing plants without soil.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.game.baseWorld.hydroAnt],
       this.game
     )
@@ -94,7 +94,7 @@ export class Researchs implements WorldInterface {
     this.laserResearch = new Research(
       "lasRes",
       "Laser", "Sand can be fused to cristal.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.game.baseWorld.laserAnt],
       this.game
     )
@@ -103,7 +103,7 @@ export class Researchs implements WorldInterface {
     this.refineryResearch = new Research(
       "refRes",
       "Refinery", "Soil can be refined to sand.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.game.baseWorld.refineryAnt],
       this.game
     )
@@ -112,7 +112,7 @@ export class Researchs implements WorldInterface {
     this.composterResearch = new Research(
       "compRes",
       "Compost", "Wood can be degraded to fertile soil.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.game.baseWorld.composterAnt],
       this.game
     )
@@ -162,7 +162,7 @@ export class Researchs implements WorldInterface {
     const r4 = new Research(
       "R4",
       "Twin", "Allow you to get more units for the same price.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E5))],
       allUpH,
       this.game
     )

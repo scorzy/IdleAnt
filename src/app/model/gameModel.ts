@@ -41,6 +41,7 @@ export class GameModel {
   scienceCost3 = Decimal(1E6)
   scienceCost4 = Decimal(1E8)
   upgradeScienceExp = Decimal(5)
+  upgradeScienceHireExp = Decimal(15)
 
   //  Worlds
   baseWorld: BaseWorld
