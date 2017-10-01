@@ -39,7 +39,7 @@ export class Researchs implements WorldInterface {
     this.publicLesson = new Research(
       "publicLesson",
       "Public Lesson", "University also produces students.",
-      [new Cost(this.game.baseWorld.science, Decimal(5E5))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E5))],
       [this.game.science.studentProduction],
       this.game
     )
@@ -48,7 +48,7 @@ export class Researchs implements WorldInterface {
     this.universityRes = new Research(
       "University",
       "University", "Unlock university.",
-      [new Cost(this.game.baseWorld.science, Decimal(15E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(1.5E4))],
       [this.game.science.university, this.publicLesson],
       this.game
     )
@@ -67,7 +67,7 @@ export class Researchs implements WorldInterface {
     this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E7))],
+      [new Cost(this.game.baseWorld.science, Decimal(3E6))],
       this.game.engineers.listEnginer,
       this.game
     )
@@ -130,7 +130,7 @@ export class Researchs implements WorldInterface {
     this.prestigeResearch = new Research(
       "prestigeRes",
       "Travel", "Allow you to move to new worlds",
-      [new Cost(this.game.baseWorld.science, Decimal(1E12))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E7))],
       [],
       this.game
     )
@@ -162,7 +162,7 @@ export class Researchs implements WorldInterface {
     const r4 = new Research(
       "R4",
       "Twin", "Allow you to get more units for the same price.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E5))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
       allUpH,
       this.game
     )

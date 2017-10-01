@@ -76,6 +76,8 @@ export class Engineers implements WorldInterface {
     this.listEnginer.push(this.iceEngineer)
     this.listEnginer.push(this.iceCompEngineer)
     this.listEnginer.push(this.lensEnginer)
+
+    this.game.lists.push(new TypeList("Engineers", this.listEnginer))
   }
   initStuff() {
     this.game.machines.laserStation.addProductor(new Production(this.laserEnginer, Decimal(0.01)))
@@ -96,27 +98,27 @@ export class Engineers implements WorldInterface {
         e,
         [
           new Cost(this.game.baseWorld.littleAnt, Decimal(1E3), this.game.buyExpUnit),
-          new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)
+          new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.buyExp)
         ]
       ))
       e.actions.push(new UpAction(this.game, e,
         [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
       e.actions.push(new UpHire(this.game, e,
-        [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
+        [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceHireExp)]))
     })
 
-    this.laserEnginer.buyAction.priceF.push(new Cost(this.game.machines.laserStation, Decimal(10), this.game.buyExp))
-    this.hydroEnginer.buyAction.priceF.push(new Cost(this.game.machines.hydroFarm, Decimal(10), this.game.buyExp))
-    this.plantingEnginer.buyAction.priceF.push(new Cost(this.game.machines.plantingMachine, Decimal(10), this.game.buyExp))
-    this.mineEnginer.buyAction.priceF.push(new Cost(this.game.machines.mine, Decimal(10), this.game.buyExp))
-    this.sandEnginer.buyAction.priceF.push(new Cost(this.game.machines.sandDigger, Decimal(10), this.game.buyExp))
-    this.woodEnginer.buyAction.priceF.push(new Cost(this.game.machines.loggingMachine, Decimal(10), this.game.buyExp))
-    this.refineryEnginery.buyAction.priceF.push(new Cost(this.game.machines.refineryStation, Decimal(10), this.game.buyExp))
-    this.composterEnginer.buyAction.priceF.push(new Cost(this.game.machines.composterStation, Decimal(10), this.game.buyExp))
-    this.beeEnginer.buyAction.priceF.push(new Cost(this.game.machines.honeyMaker, Decimal(10), this.game.buyExp))
-    this.iceEngineer.buyAction.priceF.push(new Cost(this.game.machines.iceCollector, Decimal(10), this.game.buyExp))
-    this.iceCompEngineer.buyAction.priceF.push(new Cost(this.game.machines.iceCompacter, Decimal(10), this.game.buyExp))
-    this.lensEnginer.buyAction.priceF.push(new Cost(this.game.machines.burningGlass, Decimal(10), this.game.buyExp))
+    this.laserEnginer.buyAction.priceF.push(new Cost(this.game.machines.laserStation, Decimal(1), this.game.buyExpUnit))
+    this.hydroEnginer.buyAction.priceF.push(new Cost(this.game.machines.hydroFarm, Decimal(1), this.game.buyExpUnit))
+    this.plantingEnginer.buyAction.priceF.push(new Cost(this.game.machines.plantingMachine, Decimal(1), this.game.buyExpUnit))
+    this.mineEnginer.buyAction.priceF.push(new Cost(this.game.machines.mine, Decimal(1), this.game.buyExpUnit))
+    this.sandEnginer.buyAction.priceF.push(new Cost(this.game.machines.sandDigger, Decimal(1), this.game.buyExpUnit))
+    this.woodEnginer.buyAction.priceF.push(new Cost(this.game.machines.loggingMachine, Decimal(1), this.game.buyExpUnit))
+    this.refineryEnginery.buyAction.priceF.push(new Cost(this.game.machines.refineryStation, Decimal(1), this.game.buyExpUnit))
+    this.composterEnginer.buyAction.priceF.push(new Cost(this.game.machines.composterStation, Decimal(1), this.game.buyExpUnit))
+    this.beeEnginer.buyAction.priceF.push(new Cost(this.game.machines.honeyMaker, Decimal(1), this.game.buyExpUnit))
+    this.iceEngineer.buyAction.priceF.push(new Cost(this.game.machines.iceCollector, Decimal(1), this.game.buyExpUnit))
+    this.iceCompEngineer.buyAction.priceF.push(new Cost(this.game.machines.iceCompacter, Decimal(1), this.game.buyExpUnit))
+    this.lensEnginer.buyAction.priceF.push(new Cost(this.game.machines.burningGlass, Decimal(1), this.game.buyExpUnit))
   }
   addWorld() {
   }

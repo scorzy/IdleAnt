@@ -20,13 +20,13 @@ export class GameService {
     if (l)
       this.last = l
 
-    setInterval(this.update.bind(this), 1000 / 20)
+    setInterval(this.update.bind(this), 1000 / 18)
     // window.requestAnimationFrame(this.update.bind(this))
   }
 
   update() {
     const now = new Date().getTime()
-    this.game.longUpdate(10 * (now - this.last))
+    this.game.longUpdate( (now - this.last))
     // this.game.longUpdate(now - this.last)
     this.last = now
 

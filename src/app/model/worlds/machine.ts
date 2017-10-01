@@ -146,7 +146,7 @@ export class Machine implements WorldInterface {
         new Cost(this.game.baseWorld.cristal, this.price2, this.game.buyExp)
       ]
     ))
-    this.game.baseWorld.cristal.addProductor(new Production(this.sandDigger, machineryProd2))
+    this.game.baseWorld.sand.addProductor(new Production(this.sandDigger, machineryProd2))
     this.listMachinery.push(this.sandDigger)
 
     //    Wood
@@ -221,13 +221,13 @@ export class Machine implements WorldInterface {
     this.burningGlass.avabileBaseWorld = false
     this.burningGlass.types = [Type.Machinery]
     this.burningGlass.actions.push(new BuyAction(this.game,
-      this.iceCollector,
+      this.burningGlass,
       [
         new Cost(this.game.baseWorld.cristal, this.price1, this.game.buyExp),
         new Cost(this.game.baseWorld.wood, this.price2, this.game.buyExp)
       ]
     ))
-    this.game.baseWorld.ice.addProductor(new Production(this.iceCollector, machineryProd2.times(10)))
+    this.game.baseWorld.ice.addProductor(new Production(this.burningGlass, machineryProd2.times(-10)))
     this.listMachinery.push(this.burningGlass)
 
     this.game.lists.push(new TypeList("Machinery", this.listMachinery))

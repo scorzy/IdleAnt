@@ -162,8 +162,8 @@ export class BaseWorld implements WorldInterface {
     this.queenAnt.actions.push(new BuyAndUnlockAction(this.game,
       this.queenAnt,
       [
-        new Cost(this.food, Decimal(1E3), Decimal(this.game.buyExp)),
-        new Cost(this.littleAnt, Decimal(20), Decimal(this.game.buyExpUnit))
+        new Cost(this.food, Decimal(4E2), Decimal(this.game.buyExp)),
+        new Cost(this.littleAnt, Decimal(15), Decimal(this.game.buyExpUnit))
       ],
       [this.nestAnt, this.geologist]
     ))
@@ -171,10 +171,10 @@ export class BaseWorld implements WorldInterface {
     this.nestAnt.actions.push(new BuyAction(this.game,
       this.nestAnt,
       [
-        new Cost(this.food, Decimal(1E12), Decimal(this.game.buyExp)),
-        new Cost(this.wood, Decimal(1E10), Decimal(this.game.buyExp)),
-        new Cost(this.soil, Decimal(1E9), Decimal(this.game.buyExp)),
-        new Cost(this.queenAnt, Decimal(2E3), Decimal(this.game.buyExpUnit))
+        new Cost(this.food, Decimal(1E10), Decimal(this.game.buyExp)),
+        new Cost(this.wood, Decimal(1E8), Decimal(this.game.buyExp)),
+        new Cost(this.soil, Decimal(1E8), Decimal(this.game.buyExp)),
+        new Cost(this.queenAnt, Decimal(1E3), Decimal(this.game.buyExpUnit))
       ],
     ))
 
@@ -192,7 +192,7 @@ export class BaseWorld implements WorldInterface {
   }
   initJobs() {
     //    Prices && Production
-    this.food.addProductor(new Production(this.littleAnt, Decimal(0.5)))
+    this.food.addProductor(new Production(this.littleAnt, Decimal(1)))
     this.food.addProductor(new Production(this.fungus, Decimal(2)))
     this.fungus.addProductor(new Production(this.farmer))
     this.soil.addProductor(new Production(this.farmer, Decimal(-1)))
@@ -204,7 +204,7 @@ export class BaseWorld implements WorldInterface {
     this.geologist.actions.push(new BuyAndUnlockAction(this.game,
       this.geologist,
       [
-        new Cost(this.food, Decimal(1000), this.game.buyExp),
+        new Cost(this.food, Decimal(600), this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ],
       [this.cristal, this.game.science.student]
@@ -214,7 +214,7 @@ export class BaseWorld implements WorldInterface {
     this.carpenter.actions.push(new BuyAndUnlockAction(this.game,
       this.carpenter,
       [
-        new Cost(this.food, Decimal(1000), Decimal(this.game.buyExp)),
+        new Cost(this.food, Decimal(600), Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
       ],
       [this.science]
@@ -224,7 +224,7 @@ export class BaseWorld implements WorldInterface {
     this.lumberjack.actions.push(new BuyAndUnlockAction(this.game,
       this.lumberjack,
       [
-        new Cost(this.food, Decimal(1000), Decimal(this.game.buyExp)),
+        new Cost(this.food, Decimal(600), Decimal(this.game.buyExp)),
         new Cost(this.soil, Decimal(100), Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
       ],
@@ -235,7 +235,7 @@ export class BaseWorld implements WorldInterface {
     this.farmer.actions.push(new BuyAndUnlockAction(this.game,
       this.farmer,
       [
-        new Cost(this.food, Decimal(1000), Decimal(this.game.buyExp)),
+        new Cost(this.food, Decimal(600), Decimal(this.game.buyExp)),
         new Cost(this.soil, Decimal(100), Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
       ],

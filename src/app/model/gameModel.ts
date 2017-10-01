@@ -38,10 +38,10 @@ export class GameModel {
   buyExpUnit = Decimal(1)
   scienceCost1 = Decimal(100)
   scienceCost2 = Decimal(1E3)
-  scienceCost3 = Decimal(1E6)
-  scienceCost4 = Decimal(1E8)
+  scienceCost3 = Decimal(1E4)
+  scienceCost4 = Decimal(1E5)
   upgradeScienceExp = Decimal(4)
-  upgradeScienceHireExp = Decimal(8)
+  upgradeScienceHireExp = Decimal(6)
 
   //  Worlds
   baseWorld: BaseWorld
@@ -101,9 +101,9 @@ export class GameModel {
 
     this.worldList.push(this.baseWorld)
     this.worldList.push(this.science)
-    this.worldList.push(this.machines)
-    this.worldList.push(this.forest)
     this.worldList.push(this.engineers)
+    this.worldList.push(this.machines)
+    this.worldList.push(this.forest)    
     this.worldList.push(this.bee)
     this.worldList.push(this.beach)
     this.worldList.push(this.frozen)
