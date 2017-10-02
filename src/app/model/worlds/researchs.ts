@@ -150,7 +150,7 @@ export class Researchs implements WorldInterface {
     this.specialResearch = new Research(
       "speRes",
       "Tecnology", "Allow you to research new technologies.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(3E3))],
       [this.composterResearch, this.refineryResearch, this.laserResearch, this.hydroResearch,
       this.planterResearch, this.experimentResearch,
       this.machineryRes, this.game.bee.beeResearch, this.prestigeResearch],
@@ -162,7 +162,7 @@ export class Researchs implements WorldInterface {
     const r4 = new Research(
       "R4",
       "Twin", "Allow you to get more units for the same price.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(7E3))],
       allUpH,
       this.game
     )

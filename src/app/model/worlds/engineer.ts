@@ -69,29 +69,17 @@ export class Engineers implements WorldInterface {
     this.listEnginer.push(this.laserEnginer)
     this.listEnginer.push(this.hydroEnginer)
     this.listEnginer.push(this.plantingEnginer)
-    this.listEnginer.push(this.mineEnginer)
     this.listEnginer.push(this.sandEnginer)
     this.listEnginer.push(this.woodEnginer)
+    this.listEnginer.push(this.mineEnginer)
     this.listEnginer.push(this.beeEnginer)
-    this.listEnginer.push(this.iceEngineer)
     this.listEnginer.push(this.iceCompEngineer)
+    this.listEnginer.push(this.iceEngineer)
     this.listEnginer.push(this.lensEnginer)
 
     this.game.lists.push(new TypeList("Engineers", this.listEnginer))
   }
   initStuff() {
-    this.game.machines.laserStation.addProductor(new Production(this.laserEnginer, Decimal(0.01)))
-    this.game.machines.hydroFarm.addProductor(new Production(this.hydroEnginer, Decimal(0.01)))
-    this.game.machines.plantingMachine.addProductor(new Production(this.plantingEnginer, Decimal(0.01)))
-    this.game.machines.mine.addProductor(new Production(this.mineEnginer, Decimal(0.01)))
-    this.game.machines.sandDigger.addProductor(new Production(this.sandEnginer, Decimal(0.01)))
-    this.game.machines.loggingMachine.addProductor(new Production(this.woodEnginer, Decimal(0.01)))
-    this.game.machines.refineryStation.addProductor(new Production(this.refineryEnginery, Decimal(0.01)))
-    this.game.machines.composterStation.addProductor(new Production(this.composterEnginer, Decimal(0.01)))
-    this.game.machines.honeyMaker.addProductor(new Production(this.beeEnginer, Decimal(0.01)))
-    this.game.machines.iceCollector.addProductor(new Production(this.iceEngineer, Decimal(0.01)))
-    this.game.machines.iceCompacter.addProductor(new Production(this.iceCompEngineer, Decimal(0.01)))
-    this.game.machines.burningGlass.addProductor(new Production(this.lensEnginer, Decimal(0.01)))
 
     this.listEnginer.forEach(e => {
       e.actions.push(new BuyAction(this.game,
@@ -107,18 +95,21 @@ export class Engineers implements WorldInterface {
         [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceHireExp)]))
     })
 
-    this.laserEnginer.buyAction.priceF.push(new Cost(this.game.machines.laserStation, Decimal(1), this.game.buyExpUnit))
-    this.hydroEnginer.buyAction.priceF.push(new Cost(this.game.machines.hydroFarm, Decimal(1), this.game.buyExpUnit))
-    this.plantingEnginer.buyAction.priceF.push(new Cost(this.game.machines.plantingMachine, Decimal(1), this.game.buyExpUnit))
-    this.mineEnginer.buyAction.priceF.push(new Cost(this.game.machines.mine, Decimal(1), this.game.buyExpUnit))
-    this.sandEnginer.buyAction.priceF.push(new Cost(this.game.machines.sandDigger, Decimal(1), this.game.buyExpUnit))
-    this.woodEnginer.buyAction.priceF.push(new Cost(this.game.machines.loggingMachine, Decimal(1), this.game.buyExpUnit))
-    this.refineryEnginery.buyAction.priceF.push(new Cost(this.game.machines.refineryStation, Decimal(1), this.game.buyExpUnit))
-    this.composterEnginer.buyAction.priceF.push(new Cost(this.game.machines.composterStation, Decimal(1), this.game.buyExpUnit))
-    this.beeEnginer.buyAction.priceF.push(new Cost(this.game.machines.honeyMaker, Decimal(1), this.game.buyExpUnit))
-    this.iceEngineer.buyAction.priceF.push(new Cost(this.game.machines.iceCollector, Decimal(1), this.game.buyExpUnit))
-    this.iceCompEngineer.buyAction.priceF.push(new Cost(this.game.machines.iceCompacter, Decimal(1), this.game.buyExpUnit))
-    this.lensEnginer.buyAction.priceF.push(new Cost(this.game.machines.burningGlass, Decimal(1), this.game.buyExpUnit))
+
+    for (let i = 0; i < this.listEnginer.length; i++) {
+      const engineer = this.listEnginer[i]
+      const machine = this.game.machines.listMachinery[i]
+
+      machine.addProductor(new Production(engineer, Decimal(0.01)))
+      this.game.baseWorld.science.addProductor(new Production(engineer, Decimal(-50)))
+
+      machine.buyAction.priceF.forEach(price =>
+        price.unit.addProductor(new Production(engineer, price.basePrice.div(-20))))
+
+      engineer.buyAction.priceF.push(new Cost(machine, Decimal(5), this.game.buyExpUnit))
+
+    }
+
   }
   addWorld() {
   }

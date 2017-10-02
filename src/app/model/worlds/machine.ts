@@ -55,10 +55,27 @@ export class Machine implements WorldInterface {
       "A tank of water.")
     this.burningGlass = new Unit(this.game, "burningGlass", "Burning Lens",
       "A large convex lens used to concentrate sun's rays. This machine melt ice faster than anything else.")
+
+    this.listMachinery = new Array<Unit>()
+
+    this.listMachinery.push(this.composterStation)
+    this.listMachinery.push(this.refineryStation)
+    this.listMachinery.push(this.laserStation)
+    this.listMachinery.push(this.hydroFarm)
+    this.listMachinery.push(this.plantingMachine)
+    this.listMachinery.push(this.sandDigger)
+    this.listMachinery.push(this.loggingMachine)
+    this.listMachinery.push(this.mine)
+    this.listMachinery.push(this.honeyMaker)
+    this.listMachinery.push(this.iceCompacter)
+    this.listMachinery.push(this.iceCollector)
+    this.listMachinery.push(this.burningGlass)
+
+    this.game.lists.push(new TypeList("Machinery", this.listMachinery))
   }
 
   public initStuff() {
-    this.listMachinery = new Array<Unit>()
+
 
     //    Composter
     this.composterStation.types = [Type.Machinery]
@@ -72,7 +89,6 @@ export class Machine implements WorldInterface {
     ))
     this.game.baseWorld.soil.addProductor(new Production(this.composterStation, this.machineryProd))
     this.game.baseWorld.wood.addProductor(new Production(this.composterStation, this.machineryCost))
-    this.listMachinery.push(this.composterStation)
 
     //    Refinery
     this.refineryStation.types = [Type.Machinery]
@@ -87,7 +103,6 @@ export class Machine implements WorldInterface {
     this.game.baseWorld.sand.addProductor(new Production(this.refineryStation, this.machineryProd))
     this.game.baseWorld.soil.addProductor(new Production(this.refineryStation, this.machineryCost))
 
-    this.listMachinery.push(this.refineryStation)
 
     //    Laser
     this.laserStation.types = [Type.Machinery]
@@ -102,7 +117,6 @@ export class Machine implements WorldInterface {
     this.game.baseWorld.cristal.addProductor(new Production(this.laserStation, this.machineryProd))
     this.game.baseWorld.sand.addProductor(new Production(this.laserStation, this.machineryCost))
 
-    this.listMachinery.push(this.laserStation)
 
     //    Hydroponic Farm
     this.hydroFarm.types = [Type.Machinery]
@@ -116,7 +130,6 @@ export class Machine implements WorldInterface {
     ))
     this.game.baseWorld.fungus.addProductor(new Production(this.hydroFarm, this.machineryProd))
     this.game.baseWorld.cristal.addProductor(new Production(this.hydroFarm, this.machineryCost))
-    this.listMachinery.push(this.hydroFarm)
 
     //    Planting Machine
     this.plantingMachine.types = [Type.Machinery]
@@ -130,7 +143,6 @@ export class Machine implements WorldInterface {
     ))
     this.game.baseWorld.wood.addProductor(new Production(this.plantingMachine, this.machineryProd))
     this.game.baseWorld.fungus.addProductor(new Production(this.plantingMachine, this.machineryCost))
-    this.listMachinery.push(this.plantingMachine)
 
 
     //    Not always avaiable
@@ -147,7 +159,6 @@ export class Machine implements WorldInterface {
       ]
     ))
     this.game.baseWorld.sand.addProductor(new Production(this.sandDigger, machineryProd2))
-    this.listMachinery.push(this.sandDigger)
 
     //    Wood
     this.loggingMachine.avabileBaseWorld = false
@@ -160,7 +171,6 @@ export class Machine implements WorldInterface {
       ]
     ))
     this.game.baseWorld.wood.addProductor(new Production(this.loggingMachine, machineryProd2))
-    this.listMachinery.push(this.loggingMachine)
 
     //    Mine
     this.mine.avabileBaseWorld = false
@@ -173,7 +183,6 @@ export class Machine implements WorldInterface {
       ]
     ))
     this.game.baseWorld.cristal.addProductor(new Production(this.mine, machineryProd2))
-    this.listMachinery.push(this.mine)
 
     //    Honey
     this.honeyMaker.avabileBaseWorld = false
@@ -187,7 +196,6 @@ export class Machine implements WorldInterface {
     ))
     this.game.baseWorld.honey.addProductor(new Production(this.honeyMaker, this.machineryProd))
     this.game.baseWorld.nectar.addProductor(new Production(this.honeyMaker, this.machineryCost))
-    this.listMachinery.push(this.honeyMaker)
 
     //    Ice Compacter
     this.iceCompacter.avabileBaseWorld = false
@@ -202,7 +210,6 @@ export class Machine implements WorldInterface {
     ))
     this.game.baseWorld.cristal.addProductor(new Production(this.iceCompacter, this.machineryProd))
     this.game.baseWorld.ice.addProductor(new Production(this.iceCompacter, this.machineryCost))
-    this.listMachinery.push(this.iceCompacter)
 
     //    Ice Collector
     this.iceCollector.avabileBaseWorld = false
@@ -215,7 +222,6 @@ export class Machine implements WorldInterface {
       ]
     ))
     this.game.baseWorld.cristal.addProductor(new Production(this.iceCollector, machineryProd2))
-    this.listMachinery.push(this.iceCollector)
 
     //    Ice Burning Glass
     this.burningGlass.avabileBaseWorld = false
@@ -228,9 +234,7 @@ export class Machine implements WorldInterface {
       ]
     ))
     this.game.baseWorld.ice.addProductor(new Production(this.burningGlass, machineryProd2.times(-10)))
-    this.listMachinery.push(this.burningGlass)
 
-    this.game.lists.push(new TypeList("Machinery", this.listMachinery))
   }
 
   public addWorld() {

@@ -5,7 +5,7 @@ import { Utils, Unlocable } from './utils';
 import { Base, Type } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
-import { PrestigeList, TypeList } from './typeList';
+import { TypeList } from './typeList';
 import { Action, BuyAction, BuyAndUnlockAction, Research, UpHire, UpSpecial, UnlockProd, UpAction } from './units/action';
 import { Production } from './production';
 import { Map } from 'rxjs/util/Map';
@@ -101,9 +101,9 @@ export class GameModel {
 
     this.worldList.push(this.baseWorld)
     this.worldList.push(this.science)
-    this.worldList.push(this.engineers)
     this.worldList.push(this.machines)
-    this.worldList.push(this.forest)    
+    this.worldList.push(this.engineers)
+    this.worldList.push(this.forest)
     this.worldList.push(this.bee)
     this.worldList.push(this.beach)
     this.worldList.push(this.frozen)
@@ -141,7 +141,7 @@ export class GameModel {
 
     this.baseWorld.food.quantity = Decimal(100)
 
-    // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
+     this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
   getProduction(prod: Production,

@@ -23,6 +23,8 @@ export class ActionComponent implements OnInit, AfterViewChecked {
   priceStringHalf = ""
   priceStringMax = "";
 
+  numberformat = numberformat
+
   constructor() {
 
   }
@@ -56,7 +58,7 @@ export class ActionComponent implements OnInit, AfterViewChecked {
     this.priceString1 = '';
     for (const p of this.prices1) {
       this.priceString1 += numberformat.formatShort(p.basePrice) +
-        ' ' + p.unit.name + '\n';
+        ' ' + p.unit.name + '\n'
     }
 
     this.priceStringHalf = '';

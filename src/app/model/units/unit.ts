@@ -77,6 +77,7 @@ export class Unit extends Base {
     data.w = this.worldProdModifiers
     data.e = this.worldEffModifiers
     data.b = this.worldBuyModifiers
+    data.r = this.percentage
     data.p = this.producedBy.map(p => [p.unit.id, p.unlocked])
     return data;
   }
@@ -97,6 +98,8 @@ export class Unit extends Base {
         if (prod)
           prod.unlocked = e[1]
       });
+    if (data.hasOwnProperty('r') && data.r && data.r != null && data.r !== undefined)
+      this.percentage = data.r
   }
 
   isEnding(): boolean {
