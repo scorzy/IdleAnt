@@ -14,13 +14,19 @@ export class Prestige implements WorldInterface {
 
   expLists = new Array<TypeList>()
   expAnt = new Array<Unit>()
+  expFollower = new Array<Unit>()
   expMachinery = new Array<Unit>()
   expTech = new Array<Unit>()
   allPrestigeUp = new Array<Unit>()
 
-  //    Prestige Ant
+  //  Ant Follower
   pAntPower: Unit
+  pAntGeo: Unit
+  pAntHunter1: Unit
+  pAntHunter2: Unit
   pAntFungus: Unit
+
+  //  Ant Power
   pAntNext: Unit
   pGeologistNext: Unit
   pScientistNext: Unit
@@ -46,25 +52,37 @@ export class Prestige implements WorldInterface {
   public initStuff() {
     const expIncrement = Decimal(1.3)
 
-    this.experience = new Unit(this.game, "exp", "Experience", "Experience", true)
+    this.experience = new Unit(this.game, "exp", "Exp", "Experience", true)
     this.expLists = new Array<TypeList>()
     this.expAnt = new Array<Unit>()
 
     //    Ant food
-    this.pAntPower = new Unit(this.game, "pap", "Ant Power", "Ant yeld 100% more Food.", true)
-    this.allPrestigeUp.push(this.pAntPower)
-    this.pAntPower.actions.push(new BuyAction(this.game, this.pAntPower,
-      [new Cost(this.experience, Decimal(10), expIncrement)]))
-    this.expAnt.push(this.pAntPower)
-    this.game.baseWorld.littleAnt.prestigeBonusProduction.push(this.pAntPower)
+    this.pAntPower = new Unit(this.game, "pap", "Ant Power", "Ants yield 30% more food.", true)
+    this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power", "Geologists yield 30% more cristal.", true)
+    this.pAntHunter1 = new Unit(this.game, "phunt1", "Hunter Power", "Hunters are 30% more powerfull.", true)
+    this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter", "Farmer are 30% more powerfull.", true)
+    this.pAntFungus = new Unit(this.game, "paf", "Farmer Power", "Farmers are 30% more powerfull.", true)
 
-    //    Ant fungus
-    this.pAntFungus = new Unit(this.game, "paf", "Farmer Power", "Farmer yeld 100% more Fungus.", true)
-    this.allPrestigeUp.push(this.pAntFungus)
-    this.pAntFungus.actions.push(new BuyAction(this.game, this.pAntFungus,
-      [new Cost(this.experience, Decimal(10), expIncrement)]))
+    this.expAnt.push(this.pAntPower)
+    this.expAnt.push(this.pAntGeo)
+    this.expAnt.push(this.pAntHunter1)
+    this.expAnt.push(this.pAntHunter2)
     this.expAnt.push(this.pAntFungus)
+
+    this.expAnt.forEach(p => {
+      this.allPrestigeUp.push(p)
+      p.actions.push(new BuyAction(this.game, p,
+        [new Cost(this.experience, Decimal(10), expIncrement)]))
+      p.unlocked = true
+    })
+
+    this.game.baseWorld.littleAnt.prestigeBonusProduction.push(this.pAntPower)
+    this.game.baseWorld.geologist.prestigeBonusProduction.push(this.pAntGeo)
+    this.game.baseWorld.hunter.prestigeBonusProduction.push(this.pAntHunter1)
+    this.game.baseWorld.advancedHunter.prestigeBonusProduction.push(this.pAntHunter2)
     this.game.baseWorld.farmer.prestigeBonusProduction.push(this.pAntFungus)
+
+    this.expLists.push(new TypeList("Ant", this.expAnt))
 
     //    Ant in next world
     this.pAntNext = new Unit(this.game, "pan", "Ant follower",
@@ -76,12 +94,11 @@ export class Prestige implements WorldInterface {
     this.pFarmerNext = new Unit(this.game, "pfn", "Farmer follower",
       "Start new worlds with 5 more farmer.", true)
 
-    const listNext = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext]
-    listNext.forEach(n => {
+    this.expFollower = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext]
+    this.expFollower.forEach(n => {
       this.allPrestigeUp.push(n)
       n.actions.push(new BuyAction(this.game, n,
         [new Cost(this.experience, Decimal(10), expIncrement)]))
-      this.expAnt.push(n)
     })
 
     this.game.baseWorld.littleAnt.prestigeBonusStart = this.pAntNext
@@ -89,7 +106,8 @@ export class Prestige implements WorldInterface {
     this.game.science.student.prestigeBonusStart = this.pScientistNext
     this.game.baseWorld.farmer.prestigeBonusStart = this.pFarmerNext
 
-    this.expLists.push(new TypeList("Ant", this.expAnt))
+    this.expLists.push(new TypeList("Ant Follower", this.expFollower))
+
 
     //    Machinery
     this.expMachinery = new Array<Unit>()

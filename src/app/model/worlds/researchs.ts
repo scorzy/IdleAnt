@@ -29,13 +29,56 @@ export class Researchs implements WorldInterface {
   universityRes: Research
   publicLesson: Research
 
+  hereAndNow: Research
+  adaptation: Research
+  evolution: Research
+
   constructor(public game: GameModel) { }
 
   public declareStuff() { }
 
   public initStuff() {
 
-    //    University
+    //    Evolution
+    this.evolution = new Research(
+      "evolution",
+      "Evolution", "Increase the resources need to travel to a new world (x10) and also increase the experience you will gain (x3).",
+      [new Cost(this.game.baseWorld.science, Decimal(1E10))],
+      [],
+      this.game,
+      () => {
+        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.times(10))
+        this.game.world.experience = this.game.world.experience.times(3)
+      }
+    )
+
+    //    Adaptation
+    this.adaptation = new Research(
+      "adaptation",
+      "Adaptation", "Reduce the resources need to travel to a new world.",
+      [new Cost(this.game.baseWorld.science, Decimal(5E8))],
+      [],
+      this.game,
+      () => {
+        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(2))
+        this.game.world.toUnlockMax.forEach(t => t.basePrice = t.basePrice.times(4))
+      }
+    )
+
+    //    Here and Now
+    this.hereAndNow = new Research(
+      "hereAndNow",
+      "Here and Now", "Get 10 experience.",
+      [new Cost(this.game.baseWorld.science, Decimal(1E9))],
+      [],
+      this.game,
+      () => {
+        this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(10)
+        this.game.expTabAv = true
+      }
+    )
+
+    //    University 2
     this.publicLesson = new Research(
       "publicLesson",
       "Public Lesson", "University also produces students.",
@@ -131,8 +174,9 @@ export class Researchs implements WorldInterface {
       "prestigeRes",
       "Travel", "Allow you to move to new worlds",
       [new Cost(this.game.baseWorld.science, Decimal(1E7))],
-      [],
-      this.game
+      [this.hereAndNow, this.adaptation, this.evolution],
+      this.game,
+      () => { this.game.worldTabAv = true }
     )
 
     //    Machinery
@@ -187,12 +231,28 @@ export class Researchs implements WorldInterface {
       this.game
     )
 
+    //    Hunter 2
+    const hunting2 = new Research(
+      "HuntR2",
+      "Advanced Hunting", "Equip an ants with better weapons.",
+      [new Cost(this.game.baseWorld.science, Decimal(4000))],
+      [this.game.baseWorld.advancedHunter], this.game
+    )
+
+    //    Hunter
+    const hunting = new Research(
+      "HuntR1",
+      "Hunting", "Equip an ant with a weapon to get food.",
+      [new Cost(this.game.baseWorld.science, Decimal(2000))],
+      [this.game.baseWorld.hunter, hunting2, this.specialResearch], this.game
+    )
+
     //    Wood
     const woodcutting = new Research(
       "WR1",
       "Woodcutting", "Allow you to colect wood for future usage.",
       [new Cost(this.game.baseWorld.science, Decimal(1000))],
-      [this.game.baseWorld.lumberjack], this.game
+      [this.game.baseWorld.lumberjack, hunting], this.game
     )
 
     //    Fungus up
@@ -208,7 +268,7 @@ export class Researchs implements WorldInterface {
       "R1",
       "Ant–fungus symbiosis", "Allow you to cultivate fungus. Fungus is a source of food.",
       [new Cost(this.game.baseWorld.science, Decimal(100))],
-      [this.game.baseWorld.farmer, r3, woodcutting, this.specialResearch], this.game
+      [this.game.baseWorld.farmer, r3, woodcutting], this.game
     )
 
     //    Soil

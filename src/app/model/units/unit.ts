@@ -53,7 +53,7 @@ export class Unit extends Base {
   loadProduction() {
     let sum = Decimal(1)
     for (const p of this.prestigeBonusProduction)
-      sum = sum.plus(p.quantity)
+      sum = sum.plus(p.quantity.times(0.3))
 
     this.production = this.getBoost().plus(1).times(
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)

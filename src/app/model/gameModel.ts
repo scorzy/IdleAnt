@@ -76,6 +76,9 @@ export class GameModel {
   nextWorlds: World[]
   prestigeDone = Decimal(0)
 
+  worldTabAv = false
+  expTabAv = false
+
   constructor() { this.initialize() }
 
   initialize() {
@@ -141,7 +144,7 @@ export class GameModel {
 
     this.baseWorld.food.quantity = Decimal(100)
 
-     this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
+    this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
   getProduction(prod: Production,
@@ -324,6 +327,8 @@ export class GameModel {
     save.pre = this.prestige.allPrestigeUp.map(p => p.getData())
     save.res = this.resList.map(r => r.getData())
     save.pd = this.prestigeDone
+    save.worldTabAv = this.worldTabAv
+    save.expTabAv = this.expTabAv
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -366,6 +371,12 @@ export class GameModel {
 
       if (save.pd)
         this.prestigeDone = Decimal(save.pd)
+
+      if (save.worldTabAv)
+        this.worldTabAv = save.worldTabAv
+
+      if (save.expTabAv)
+        this.expTabAv = save.expTabAv
 
       this.reloadProduction()
       return save.last

@@ -26,11 +26,11 @@ export class GameService {
 
   update() {
     const now = new Date().getTime()
-    this.game.longUpdate( (now - this.last))
+    this.game.longUpdate((now - this.last))
     // this.game.longUpdate(now - this.last)
     this.last = now
 
-     window.requestAnimationFrame(this.update.bind(this))
+    window.requestAnimationFrame(this.update.bind(this))
   }
 
   clear() {

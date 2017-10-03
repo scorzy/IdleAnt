@@ -1,31 +1,33 @@
 <clr-main-container>
 
-    <clr-header class="header-5">
-        <div class="branding">
-            <a href="javascript://" class="nav-link" routerLink="/main/unit">
-                <clr-icon shape="vm-bug"></clr-icon>
-                <span class="title">Idle Ant</span>
-            </a>
-        </div>
-        <div class="header-nav" [clr-nav-level]="1">
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/unit">Units</a>
+  <clr-header class="header-5">
+    <div class="branding">
+      <img src="/assets/img/ant.png" />
+      <a href="javascript://" class="nav-link" routerLink="/main/unit">
+        <!-- <clr-icon shape="vm-bug"></clr-icon> -->
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/lab" *ngIf="gameService.game.baseWorld.science.unlocked">Laboratory</a>
+        <span class="title">Idle Ant</span>
+      </a>
+    </div>
+    <div class="header-nav" [clr-nav-level]="1">
+      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/unit">Units</a>
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige" *ngIf="gameService.game.research.prestigeResearch.owned()">Travel</a>
+      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/lab" *ngIf="gameService.game.baseWorld.science.unlocked">Laboratory</a>
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/exp" *ngIf="gameService.game.prestigeDone.greaterThan(0)">Experience</a>
+      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige" *ngIf="gameService.game.worldTabAv">Travel</a>
 
-            <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/world" *ngIf="gameService.game.prestigeDone.greaterThan(0)">Home</a>
+      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/exp" *ngIf="gameService.game.expTabAv">Experience</a>
 
-        </div>
-        <div class="header-actions">
-            <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
-                <clr-icon shape="cog"></clr-icon>
-            </a>
-        </div>
-    </clr-header>
+      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/world" *ngIf="gameService.game.prestigeDone.greaterThan(0).g">World</a>
 
-    <router-outlet></router-outlet>
+    </div>
+    <div class="header-actions">
+      <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
+        <clr-icon shape="cog"></clr-icon>
+      </a>
+    </div>
+  </clr-header>
+
+  <router-outlet></router-outlet>
 
 </clr-main-container>

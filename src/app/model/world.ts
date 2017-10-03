@@ -150,6 +150,9 @@ export class World {
     this.game.world = this
     this.game.world.generateAction(this.game)
 
+    this.game.worldTabAv = true
+    this.game.expTabAv = true
+
 
   }
   getData() {

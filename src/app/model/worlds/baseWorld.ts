@@ -23,6 +23,10 @@ export class BaseWorld implements WorldInterface {
   ice: Unit
   listMaterial = Array<Unit>()
 
+  //  Hunting
+  hunter: Unit
+  advancedHunter: Unit
+
   //    Tier 1
   geologist: Unit
   carpenter: Unit
@@ -41,6 +45,9 @@ export class BaseWorld implements WorldInterface {
   jobMaterial: Unit[][]
 
   listJobs = Array<Unit>()
+
+  baseFood = Decimal(800)
+  price2 = Decimal(100)
 
   specialProduction = Decimal(100)
   specialCost = Decimal(-40)
@@ -133,18 +140,25 @@ export class BaseWorld implements WorldInterface {
     this.lumberjack.types = [Type.Ant, Type.WoodG]
     this.listJobs.push(this.lumberjack)
 
-    this.level1 = [this.geologist, this.farmer, this.carpenter, this.lumberjack]
 
-    this.composterAnt = new Unit(this.game, "com",
-      "Composter Ant", "Transform wood into soil.")
-    this.refineryAnt = new Unit(this.game, "ref",
-      "Refinery Ant", "Transform soil into sand.")
-    this.laserAnt = new Unit(this.game, "las",
-      "Laser Ant", "Transform sand into cristal.")
-    this.hydroAnt = new Unit(this.game, "hydroFarmer",
-      "Hydroponic Ant", "Transform cristal into fungus.")
-    this.planterAnt = new Unit(this.game, "planterAnt",
-      "Planter Ant", "Transform fungus into wood.")
+    this.composterAnt = new Unit(this.game, "com", "Composter Ant",
+      "Transform wood into soil.")
+    this.refineryAnt = new Unit(this.game, "ref", "Refinery Ant",
+      "Transform soil into sand.")
+    this.laserAnt = new Unit(this.game, "las", "Laser Ant",
+      "Transform sand into cristal.")
+    this.hydroAnt = new Unit(this.game, "hydroFarmer", "Hydroponic Ant",
+      "Transform cristal into fungus.")
+    this.planterAnt = new Unit(this.game, "planterAnt", "Planter Ant",
+      "Transform fungus into wood.")
+
+
+    this.hunter = new Unit(this.game, "hunter", "Hunter",
+      "Hunter yield food.")
+    this.advancedHunter = new Unit(this.game, "advhunter", "Advanced Hunter",
+      "Advanced Hunter yield food.")
+
+    this.level1 = [this.geologist, this.farmer, this.carpenter, this.lumberjack, this.hunter, this.advancedHunter]
 
   }
   initGenerators() {
@@ -155,14 +169,14 @@ export class BaseWorld implements WorldInterface {
 
     this.littleAnt.actions.push(new BuyAndUnlockAction(this.game,
       this.littleAnt,
-      [new Cost(this.food, Decimal(10), Decimal(this.game.buyExp))],
+      [new Cost(this.food, Decimal(15), Decimal(this.game.buyExp))],
       [this.queenAnt]
     ))
 
     this.queenAnt.actions.push(new BuyAndUnlockAction(this.game,
       this.queenAnt,
       [
-        new Cost(this.food, Decimal(4E2), Decimal(this.game.buyExp)),
+        new Cost(this.food, Decimal(6E2), Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(15), Decimal(this.game.buyExpUnit))
       ],
       [this.nestAnt, this.geologist]
@@ -200,11 +214,18 @@ export class BaseWorld implements WorldInterface {
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
+    this.food.addProductor(new Production(this.hunter, Decimal(10)))
+    this.wood.addProductor(new Production(this.hunter, Decimal(-2)))
+
+    this.food.addProductor(new Production(this.advancedHunter, Decimal(50)))
+    this.wood.addProductor(new Production(this.advancedHunter, Decimal(-10)))
+    this.cristal.addProductor(new Production(this.advancedHunter, Decimal(-5)))
+
     //    Geologist
     this.geologist.actions.push(new BuyAndUnlockAction(this.game,
       this.geologist,
       [
-        new Cost(this.food, Decimal(600), this.game.buyExp),
+        new Cost(this.food, this.baseFood, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ],
       [this.cristal, this.game.science.student]
@@ -214,7 +235,7 @@ export class BaseWorld implements WorldInterface {
     this.carpenter.actions.push(new BuyAndUnlockAction(this.game,
       this.carpenter,
       [
-        new Cost(this.food, Decimal(600), Decimal(this.game.buyExp)),
+        new Cost(this.food, this.baseFood, Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
       ],
       [this.science]
@@ -224,8 +245,8 @@ export class BaseWorld implements WorldInterface {
     this.lumberjack.actions.push(new BuyAndUnlockAction(this.game,
       this.lumberjack,
       [
-        new Cost(this.food, Decimal(600), Decimal(this.game.buyExp)),
-        new Cost(this.soil, Decimal(100), Decimal(this.game.buyExp)),
+        new Cost(this.food, this.baseFood, Decimal(this.game.buyExp)),
+        new Cost(this.soil, this.price2, Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
       ],
       [this.wood]
@@ -235,11 +256,32 @@ export class BaseWorld implements WorldInterface {
     this.farmer.actions.push(new BuyAndUnlockAction(this.game,
       this.farmer,
       [
-        new Cost(this.food, Decimal(600), Decimal(this.game.buyExp)),
-        new Cost(this.soil, Decimal(100), Decimal(this.game.buyExp)),
+        new Cost(this.food, this.baseFood, Decimal(this.game.buyExp)),
+        new Cost(this.soil, this.price2, Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
       ],
       [this.fungus]
+    ))
+
+    //    Hunter
+    this.hunter.actions.push(new BuyAction(this.game,
+      this.hunter,
+      [
+        new Cost(this.food, this.baseFood.div(1.5), Decimal(this.game.buyExp)),
+        new Cost(this.wood, this.price2.div(1.5), Decimal(this.game.buyExp)),
+        new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
+      ]
+    ))
+
+    //    Hunter 2
+    this.advancedHunter.actions.push(new BuyAction(this.game,
+      this.advancedHunter,
+      [
+        new Cost(this.food, this.baseFood, Decimal(this.game.buyExp)),
+        new Cost(this.wood, this.price2, Decimal(this.game.buyExp)),
+        new Cost(this.cristal, this.price2.div(1.5), Decimal(this.game.buyExp)),
+        new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
+      ]
     ))
 
     this.level1.forEach(l => {

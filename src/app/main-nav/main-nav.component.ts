@@ -22,6 +22,7 @@ import * as numberformat from 'swarm-numberformat';
   gen: Unit
   list: Unit[] = this.gameService.game.baseWorld.list
   typeLists: TypeList[]
+  showPrestige = false
 
   constructor(
     public gameService: GameService,
@@ -40,6 +41,7 @@ import * as numberformat from 'swarm-numberformat';
       } else {
         this.typeLists = this.gameService.game.prestige.expLists
       }
+      this.showPrestige = this.mioId !== "unit"
       if (this.mioId === undefined) {
         this.mioId = "gen"
         return;

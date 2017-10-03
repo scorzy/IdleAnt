@@ -20,6 +20,7 @@
         </tbody>
       </table>
       <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
+
         <p>You must have less than:</p>
         <table class="nowrap" style="width:100%">
           <tbody>
@@ -37,7 +38,12 @@
             </tr>
           </tbody>
         </table>
-      </div> <button class="btn btn-warning-outline" (click)="skipWorld()">Skip</button> </div>
+      </div>
+      <button class="btn btn-warning-outline" (click)="skipWorld()">Skip</button>
+      <p> By skipping you will be able to change world, but you will not get {{gameService.game.getExperience()
+        | format}} experience.</p>
+    </div>
+
     <div *ngIf="travelAv()">
       <div *ngIf="!skip">
         <p> By going away you will earn {{gameService.game.getExperience() | format}} experience. High level

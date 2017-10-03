@@ -190,14 +190,15 @@ export class Infestation implements WorldInterface {
   public addWorld() {
     World.worldPrefix.push(
       new World(this.game, "Infested", "",
-        [this.basicDisinfestationRes],
+        [],
         [],
         [],
         [],
         [],
         [
-          [this.poisonousPlant, Decimal(1E10)],
-          [this.poisonousPlant2, Decimal(1E3)]
+          [this.poisonousPlant, Decimal(1E6)],
+          [this.poisonousPlant2, Decimal(1E2)],
+          [this.basicDisinfestationRes, Decimal(0)]
         ],
         Decimal(5.5),
         [new Cost(this.poisonousPlant, Decimal(100))]
@@ -213,8 +214,9 @@ export class Infestation implements WorldInterface {
         [],
         [],
         [
-          [this.poisonousPlant, Decimal(1E10)],
-          [this.poisonousPlant2, Decimal(1E3)]
+          [this.poisonousPlant, Decimal(1E6)],
+          [this.poisonousPlant2, Decimal(1E2)],
+          [this.basicDisinfestationRes, Decimal(0)]
         ],
         Decimal(5.5),
         [new Cost(this.poisonousPlant, Decimal(100))]

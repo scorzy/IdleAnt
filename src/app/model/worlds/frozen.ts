@@ -130,7 +130,7 @@ export class Frozen implements WorldInterface {
         [],
         [],
         [],
-        [[this.game.baseWorld.ice, Decimal(1E12)], [this.iceResearch, Decimal(0)]],
+        [[this.game.baseWorld.ice, Decimal(1E11)], [this.iceResearch, Decimal(0)]],
         Decimal(4.5),
         [new Cost(this.game.baseWorld.ice, Decimal(100))]
       ),
