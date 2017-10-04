@@ -144,7 +144,7 @@ export class GameModel {
 
     this.baseWorld.food.quantity = Decimal(100)
 
-    this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
+    // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
   getProduction(prod: Production,

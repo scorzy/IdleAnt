@@ -12,6 +12,7 @@ export class GameService {
   last: number;
   selectedGen: string;
   list: any
+  interval = 1000 / 20
 
   constructor() {
     this.game = new GameModel()
@@ -20,16 +21,18 @@ export class GameService {
     if (l)
       this.last = l
 
-    //setInterval(this.update.bind(this), 1000 / 18)
+    // setInterval(this.update.bind(this), 1000 / 18)
     window.requestAnimationFrame(this.update.bind(this))
   }
 
   update() {
     const now = new Date().getTime()
-    this.game.longUpdate((now - this.last))
-    // this.game.longUpdate(now - this.last)
-    this.last = now
-
+    const delta = now - this.last
+    if (delta > this.interval) {
+      this.game.longUpdate(10 * (now - this.last))
+      // this.game.longUpdate(now - this.last)
+      this.last = now
+    }
     window.requestAnimationFrame(this.update.bind(this))
   }
 

@@ -101,10 +101,10 @@ export class Engineers implements WorldInterface {
       const machine = this.game.machines.listMachinery[i]
 
       machine.addProductor(new Production(engineer, Decimal(0.01)))
-      this.game.baseWorld.science.addProductor(new Production(engineer, Decimal(-50)))
+      this.game.baseWorld.science.addProductor(new Production(engineer, Decimal(-100)))
 
       machine.buyAction.priceF.forEach(price =>
-        price.unit.addProductor(new Production(engineer, price.basePrice.div(-20))))
+        price.unit.addProductor(new Production(engineer, price.basePrice.div(-50))))
 
       engineer.buyAction.priceF.push(new Cost(machine, Decimal(5), this.game.buyExpUnit))
 

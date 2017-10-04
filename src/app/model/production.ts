@@ -16,15 +16,16 @@ export class Production extends Unlocable {
     unlocked = true
   ) { super(unlocked) }
 
-  getprodPerSec(): decimal.Decimal {
+  getprodPerSec(eff = true): decimal.Decimal {
     if (this.unit.unlocked && this.unlocked) {
 
       let sum = Decimal(1)
       for (const p of this.productor.bonusProduction)
         sum = sum.plus(p[0].quantity.times(p[1]))
 
-      return this.efficiency.times(this.unit.getProduction())
-        .times(this.unit.percentage).div(100)
+      return this.efficiency
+        .times(this.unit.getProduction())
+        .times(eff ? this.unit.percentage : Decimal(100)).div(100)
         .times(this.productor.worldProdModifiers)
         .times(sum)
     } else
