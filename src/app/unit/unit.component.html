@@ -47,7 +47,7 @@
     </table>
   </div>
 
-  <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6">
+  <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6" *ngIf="gameService.game.research.bi.owned()">
     <div *ngIf="showProducers()">
       <h5><span class="text-capitalize">{{gen.name}}</span> is made by:</h5>
       <table class="table  table-compact">
@@ -61,8 +61,8 @@
         <tfoot>
           <tr class="bg-info text-white">
             <td>Total</td>
-            <td>456</td>
-            <td>10</td>
+            <td>{{gen.totalProducers | format}}</td>
+            <td>{{gen.totalPerSec | format}}</td>
           </tr>
         </tfoot>
         <tbody>

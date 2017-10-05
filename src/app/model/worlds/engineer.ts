@@ -85,7 +85,7 @@ export class Engineers implements WorldInterface {
       e.actions.push(new BuyAction(this.game,
         e,
         [
-          new Cost(this.game.baseWorld.littleAnt, Decimal(1E3), this.game.buyExpUnit),
+          new Cost(this.game.baseWorld.littleAnt, Decimal(1E4), this.game.buyExpUnit),
           new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.buyExp)
         ]
       ))
@@ -101,12 +101,14 @@ export class Engineers implements WorldInterface {
       const machine = this.game.machines.listMachinery[i]
 
       machine.addProductor(new Production(engineer, Decimal(0.01)))
-      this.game.baseWorld.science.addProductor(new Production(engineer, Decimal(-100)))
+      this.game.baseWorld.science.addProductor(new Production(engineer, Decimal(-200)))
 
-      machine.buyAction.priceF.forEach(price =>
-        price.unit.addProductor(new Production(engineer, price.basePrice.div(-50))))
+      machine.buyAction.priceF.forEach(price => {
+        price.unit.addProductor(new Production(engineer, price.basePrice.div(-50)))
+        engineer.buyAction.priceF.push(new Cost(price.unit, price.basePrice.times(5), this.game.buyExpUnit))
+      })
 
-      engineer.buyAction.priceF.push(new Cost(machine, Decimal(5), this.game.buyExpUnit))
+
 
     }
 

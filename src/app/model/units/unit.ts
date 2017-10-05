@@ -33,6 +33,9 @@ export class Unit extends Base {
 
   production = Decimal(0)
 
+  totalPerSec = Decimal(0)
+  totalProducers = Decimal(0)
+
   constructor(
     public model: GameModel,
     id: string,
@@ -58,6 +61,14 @@ export class Unit extends Base {
     this.production = this.getBoost().plus(1).times(
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
     ).times(this.worldEffModifiers).times(sum)
+
+    this.totalProducers = Decimal(0)
+    this.totalPerSec = Decimal(0)
+
+    this.producedBy.filter(p => p.unlocked).forEach(p => {
+      this.totalPerSec = this.totalPerSec.plus(p.getprodPerSec().times(p.unit.quantity))
+      this.totalProducers = this.totalProducers.plus(p.unit.quantity)
+    })
 
   }
   getBoost(): decimal.Decimal {

@@ -52,4 +52,5 @@ import * as numberformat from 'swarm-numberformat';
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
   }
+
 }

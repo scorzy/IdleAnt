@@ -49,10 +49,15 @@ export class BaseWorld implements WorldInterface {
   baseFood = Decimal(800)
   price2 = Decimal(100)
 
+  //  Prices
   specialProduction = Decimal(100)
   specialCost = Decimal(-40)
   specialFood = Decimal(1E7)
   specialRes2 = Decimal(1E4)
+
+  prestigeFood = Decimal(1E12)
+  prestigeOther1 = Decimal(1E8)
+  prestigeOther2 = Decimal(1E7)
 
   //    Generators
   littleAnt: Unit
@@ -176,8 +181,8 @@ export class BaseWorld implements WorldInterface {
     this.queenAnt.actions.push(new BuyAndUnlockAction(this.game,
       this.queenAnt,
       [
-        new Cost(this.food, Decimal(6E2), Decimal(this.game.buyExp)),
-        new Cost(this.littleAnt, Decimal(15), Decimal(this.game.buyExpUnit))
+        new Cost(this.food, Decimal(8E2), Decimal(this.game.buyExp)),
+        new Cost(this.littleAnt, Decimal(20), Decimal(this.game.buyExpUnit))
       ],
       [this.nestAnt, this.geologist]
     ))
@@ -185,9 +190,9 @@ export class BaseWorld implements WorldInterface {
     this.nestAnt.actions.push(new BuyAction(this.game,
       this.nestAnt,
       [
-        new Cost(this.food, Decimal(1E10), Decimal(this.game.buyExp)),
-        new Cost(this.wood, Decimal(1E8), Decimal(this.game.buyExp)),
-        new Cost(this.soil, Decimal(1E8), Decimal(this.game.buyExp)),
+        new Cost(this.food, this.prestigeFood, Decimal(this.game.buyExp)),
+        new Cost(this.soil, this.prestigeOther1, Decimal(this.game.buyExp)),
+        new Cost(this.wood, this.prestigeOther2, Decimal(this.game.buyExp)),
         new Cost(this.queenAnt, Decimal(1E3), Decimal(this.game.buyExpUnit))
       ],
     ))
@@ -214,10 +219,10 @@ export class BaseWorld implements WorldInterface {
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
-    this.food.addProductor(new Production(this.hunter, Decimal(10)))
+    this.food.addProductor(new Production(this.hunter, Decimal(15)))
     this.wood.addProductor(new Production(this.hunter, Decimal(-2)))
 
-    this.food.addProductor(new Production(this.advancedHunter, Decimal(50)))
+    this.food.addProductor(new Production(this.advancedHunter, Decimal(80)))
     this.wood.addProductor(new Production(this.advancedHunter, Decimal(-10)))
     this.cristal.addProductor(new Production(this.advancedHunter, Decimal(-5)))
 

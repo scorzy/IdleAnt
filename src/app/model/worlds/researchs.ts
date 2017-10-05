@@ -33,11 +33,22 @@ export class Researchs implements WorldInterface {
   adaptation: Research
   evolution: Research
 
+  bi: Research
+
   constructor(public game: GameModel) { }
 
   public declareStuff() { }
 
   public initStuff() {
+
+    //    Bi
+    this.bi = new Research(
+      "biResea",
+      "Business Intelligence", "",
+      [new Cost(this.game.baseWorld.science, Decimal(2E3))],
+      [],
+      this.game
+    )
 
     //    Evolution
     this.evolution = new Research(
@@ -100,7 +111,7 @@ export class Researchs implements WorldInterface {
     this.scientificMethod = new Research(
       "scientificMethod",
       "Scientific Method", "Science production +100%",
-      [new Cost(this.game.baseWorld.science, Decimal(1600))],
+      [new Cost(this.game.baseWorld.science, Decimal(4E3))],
       [this.universityRes],
       this.game
     )
@@ -197,7 +208,8 @@ export class Researchs implements WorldInterface {
       [new Cost(this.game.baseWorld.science, Decimal(3E3))],
       [this.composterResearch, this.refineryResearch, this.laserResearch, this.hydroResearch,
       this.planterResearch, this.experimentResearch,
-      this.machineryRes, this.game.bee.beeResearch, this.prestigeResearch],
+      this.machineryRes, this.game.bee.beeResearch, this.prestigeResearch,
+      this.bi],
       this.game
     )
 
