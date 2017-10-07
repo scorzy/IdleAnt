@@ -13,7 +13,7 @@
         {{list.type}}
       </span>
 
-      <clr-vertical-nav-group-children *clrIfExpanded="true">
+      <!-- <clr-vertical-nav-group-children *clrIfExpanded="true">
         <table class="table-noborder table-compact">
           <tr *ngFor="let g of list.list | filterMax">
             <td>
@@ -39,13 +39,25 @@
             </a>
             </td>
         </table>
-      </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group-children> -->
 
-      <!-- <clr-vertical-nav-group-children *clrIfExpanded="true">
+      <clr-vertical-nav-group-children *clrIfExpanded="true">
         <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax"
           class="text-capitalize">
+          <span class="resName">
+          <clr-icon class="is-info" shape="angle-double" *ngIf="g.haveUp()"></clr-icon>
+          <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
+          <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
+
+          {{g.name}}</span>
+          <span *ngIf="g.totalPerSec.abs().greaterThan(0.1)">
+            {{g.totalPerSec | format}}/s
+          </span>
+          <span style="float:right">{{g.quantity | format}}</span>
+
+
         </a>
-      </clr-vertical-nav-group-children> -->
+      </clr-vertical-nav-group-children>
 
     </clr-vertical-nav-group>
 

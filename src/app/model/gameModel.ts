@@ -150,22 +150,30 @@ export class GameModel {
   getProduction(prod: Production,
     level: decimal.Decimal,
     factorial: decimal.Decimal,
-    fraction: decimal.Decimal
+    fraction: decimal.Decimal,
+    previous = Decimal(1)
   ): decimal.Decimal {
 
     let ret = Decimal(0)
+
+    const production = prod.getprodPerSec()
+
     if (prod.unlocked)
       ret = Decimal.pow(fraction, level)                    //    exponential
         .times(prod.unit.quantity)                          //    time
-        .times(prod.getprodPerSec())                        //    efficenty
+        .times(production)                        //    efficenty
         .div(factorial)
+        .times(previous)
 
-    const prod2 = prod.unit.producedBy.filter(p => p.unlocked && p.unit.quantity.greaterThan(Decimal(0)))
+    const prod2 = prod.unit.producedBy.filter(p => p.unlocked)
     for (const p2 of prod2)
       ret = ret.plus(
-        this.getProduction(p2, level.plus(1),
+        this.getProduction(p2,
+          level.plus(1),
           factorial.times(level.plus(1)),
-          fraction)
+          fraction,
+          production.times(previous)
+        )
       )
     return ret
   }
@@ -179,10 +187,7 @@ export class GameModel {
    */
   longUpdate(dif: number) {
 
-    if (this.isChanged) {
-      this.reloadProduction()
-      this.isChanged = false
-    }
+    this.reloadProduction()
 
     const unl = this.all.filter(u => u.unlocked)
     let maxTime = dif
@@ -196,7 +201,7 @@ export class GameModel {
     this.all.forEach(a => a.endIn = Number.POSITIVE_INFINITY)
 
     for (const res of unl.filter(u =>
-      u.quantity.greaterThan(0.1) &&
+      // u.quantity.greaterThan(Number.EPSILON) &&
       u.producedBy.filter(p => p.efficiency.lessThan(0)).length > 0)) {
 
       let a = Decimal(0)
@@ -204,21 +209,23 @@ export class GameModel {
       let c = Decimal(0)
       const d = res.quantity
 
-      for (const prod1 of res.producedBy.filter(r => r.unlocked)) {
+      for (const prod1 of res.producedBy.filter(r => r.unlocked && r.unit.unlocked)) {
         // x
         const prodX = prod1.getprodPerSec()
         c = c.plus(prodX.times(prod1.unit.quantity))
-        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.unlocked)) {
+        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.unlocked && r2.unit.unlocked)) {
           // x^2
           const prodX2 = prod2.getprodPerSec().times(prodX)
           b = b.plus(prodX2.times(prod2.unit.quantity))
-          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.unlocked)) {
+          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.unlocked && r3.unit.unlocked)) {
             // x^3
             const prodX3 = prod3.getprodPerSec().times(prodX2)
             a = a.plus(prodX3.times(prod3.unit.quantity))
           }
         }
       }
+      a = a.div(6)
+      b = b.div(2)
 
       // console.log(res.name + " " +
       // a.toString() + "x^3 " + b.toString() + "x^2 " + c.toString() + "x " + d.toString())
@@ -228,18 +235,23 @@ export class GameModel {
         || c.lessThan(0)
         || d.lessThan(Number.EPSILON)) {
 
-        let solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThan(0))
+        // console.log(res.name + " " +
+        //   a.toString() + "x^3 " + b.toString() + "x^2 " + c.toString() + "x " + d.toString())
+
+        const solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThanOrEqualTo(0))
+
         if (d.lessThan(Number.EPSILON)) {
-          solution = [Decimal(0)]
+          // solution = [Decimal(0)]
           res.quantity = Decimal(0)
         }
 
         for (const s of solution) {
-          // console.log("sol " + s.toString() )
+
+          // console.log("solution " + s.toString())
           if (maxTime > s.toNumber() * 1000) {
             maxTime = s.toNumber() * 1000
             unitZero = res
-            console.log(unitZero.name + " stop " + maxTime)
+            // console.log(unitZero.name + " stop " + maxTime)
           }
           res.endIn = Math.min(s.toNumber() * 1000, res.endIn)
         }
@@ -253,8 +265,11 @@ export class GameModel {
     const remaning = dif - maxTime
     if (remaning > Number.EPSILON) {
       this.isChanged = true
+      this.reloadProduction()
       this.longUpdate(remaning)
     }
+
+    this.reloadProduction()
   }
 
   /**
@@ -273,7 +288,7 @@ export class GameModel {
     const fraction = Decimal(dif / 1000)
     const all = Array.from(this.unitMap.values())
     for (const res of all)
-      for (const prod of res.producedBy.filter(p => p.unlocked))
+      for (const prod of res.producedBy.filter(p => p.unlocked && p.unit.unlocked))
         res.toAdd = res.toAdd.plus(this.getProduction(prod, Decimal(1), Decimal(1), fraction))
 
     all.forEach(u => {

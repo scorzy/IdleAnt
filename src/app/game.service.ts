@@ -20,20 +20,23 @@ export class GameService {
     const l = this.load()
     if (l)
       this.last = l
-
-    // setInterval(this.update.bind(this), 1000 / 18)
-    window.requestAnimationFrame(this.update.bind(this))
+    this.game.isChanged = true
+    setInterval(this.update.bind(this), 1000 / 18)
+    // window.requestAnimationFrame(this.update.bind(this))
+    this.update()
   }
 
   update() {
     const now = new Date().getTime()
     const delta = now - this.last
+
     if (delta > this.interval) {
-      this.game.longUpdate(1 * (now - this.last))
-      // this.game.longUpdate(now - this.last)
+      // this.game.longUpdate(32 * 60 * 1000)
+      // this.game.longUpdate(1)
+      this.game.longUpdate(now - this.last)
       this.last = now
     }
-    window.requestAnimationFrame(this.update.bind(this))
+    // window.requestAnimationFrame(this.update.bind(this))
   }
 
   clear() {
