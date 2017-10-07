@@ -186,7 +186,6 @@ export class GameModel {
    * @param dif time elapsed in millisecond
    */
   longUpdate(dif: number) {
-
     this.reloadProduction()
 
     const unl = this.all.filter(u => u.unlocked)
@@ -226,16 +225,10 @@ export class GameModel {
       a = a.div(6)
       b = b.div(2)
 
-      // console.log(res.name + " " +
-      // a.toString() + "x^3 " + b.toString() + "x^2 " + c.toString() + "x " + d.toString())
-
       if (a.lessThan(0)
         || b.lessThan(0)
         || c.lessThan(0)
-        || d.lessThan(Number.EPSILON)) {
-
-        // console.log(res.name + " " +
-        //   a.toString() + "x^3 " + b.toString() + "x^2 " + c.toString() + "x " + d.toString())
+        || d.lessThan(0)) {
 
         const solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThan(0))
 
