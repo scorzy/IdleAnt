@@ -201,7 +201,6 @@ export class GameModel {
     this.all.forEach(a => a.endIn = Number.POSITIVE_INFINITY)
 
     for (const res of unl.filter(u =>
-      // u.quantity.greaterThan(Number.EPSILON) &&
       u.producedBy.filter(p => p.efficiency.lessThan(0)).length > 0)) {
 
       let a = Decimal(0)
@@ -238,20 +237,16 @@ export class GameModel {
         // console.log(res.name + " " +
         //   a.toString() + "x^3 " + b.toString() + "x^2 " + c.toString() + "x " + d.toString())
 
-        const solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThanOrEqualTo(0))
+        const solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThan(0))
 
         if (d.lessThan(Number.EPSILON)) {
-          // solution = [Decimal(0)]
           res.quantity = Decimal(0)
         }
 
         for (const s of solution) {
-
-          // console.log("solution " + s.toString())
           if (maxTime > s.toNumber() * 1000) {
             maxTime = s.toNumber() * 1000
             unitZero = res
-            // console.log(unitZero.name + " stop " + maxTime)
           }
           res.endIn = Math.min(s.toNumber() * 1000, res.endIn)
         }

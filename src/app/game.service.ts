@@ -21,9 +21,8 @@ export class GameService {
     if (l)
       this.last = l
     this.game.isChanged = true
+    // this.update()
     setInterval(this.update.bind(this), 1000 / 18)
-    // window.requestAnimationFrame(this.update.bind(this))
-    this.update()
   }
 
   update() {
@@ -31,8 +30,6 @@ export class GameService {
     const delta = now - this.last
 
     if (delta > this.interval) {
-      // this.game.longUpdate(32 * 60 * 1000)
-      // this.game.longUpdate(1)
       this.game.longUpdate(now - this.last)
       this.last = now
     }
