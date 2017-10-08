@@ -1,8 +1,9 @@
 <div class="content-container">
   <div class="content-area">
     <h2>{{getTitle()}}</h2>
+
     <div *ngIf="!travelAv()">
-      <p> You need at least: </p>
+      <p> You need the travel research and: </p>
       <table class="nowrap" style="width:100%">
         <tbody>
           <tr *ngFor="let cost of gameService.game.world.toUnlock">
@@ -85,4 +86,5 @@
       </div>
     </div>
   </div>
+
 </div>

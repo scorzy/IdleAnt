@@ -28,6 +28,7 @@ export class Researchs implements WorldInterface {
   scientificMethod: Research
   universityRes: Research
   publicLesson: Research
+  advancedLesson: Research
 
   hereAndNow: Research
   adaptation: Research
@@ -85,8 +86,18 @@ export class Researchs implements WorldInterface {
       this.game,
       () => {
         this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(10)
+        this.game.maxLevel = this.game.maxLevel.plus(10)
         this.game.expTabAv = true
       }
+    )
+
+    //    University 3
+    this.advancedLesson = new Research(
+      "advancedLesson",
+      "Advanced Lesson", "University also produces scientist and generate more science.",
+      [new Cost(this.game.baseWorld.science, Decimal(3E6))],
+      [this.game.science.science2Production, this.game.science.scientistProduction],
+      this.game, () => { this.game.science.science1Production.unlocked = false }
     )
 
     //    University 2
@@ -94,7 +105,7 @@ export class Researchs implements WorldInterface {
       "publicLesson",
       "Public Lesson", "University also produces students.",
       [new Cost(this.game.baseWorld.science, Decimal(1E5))],
-      [this.game.science.studentProduction],
+      [this.game.science.studentProduction, this.advancedLesson],
       this.game
     )
 
@@ -102,7 +113,7 @@ export class Researchs implements WorldInterface {
     this.universityRes = new Research(
       "University",
       "University", "Unlock university.",
-      [new Cost(this.game.baseWorld.science, Decimal(1.5E4))],
+      [new Cost(this.game.baseWorld.science, Decimal(6E4))],
       [this.game.science.university, this.publicLesson],
       this.game
     )
@@ -208,7 +219,7 @@ export class Researchs implements WorldInterface {
       [new Cost(this.game.baseWorld.science, Decimal(3E3))],
       [this.composterResearch, this.refineryResearch, this.laserResearch, this.hydroResearch,
       this.planterResearch, this.experimentResearch,
-      this.machineryRes, this.game.bee.beeResearch, this.prestigeResearch,
+      this.machineryRes, this.prestigeResearch,
       this.bi],
       this.game
     )

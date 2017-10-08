@@ -107,13 +107,14 @@ export class Frozen implements WorldInterface {
       new World(this.game, "Cold", "",
         [],
         [
-          [this.game.baseWorld.food, Decimal(0.7)],
+          [this.game.baseWorld.food, Decimal(0.6)],
           [this.game.baseWorld.ice, Decimal(0.5)]
         ],
         [],
         [],
         [],
-        [[this.iceResearch, Decimal(0)]]
+        [[this.iceResearch, Decimal(0)]],
+        Decimal(3)
       ),
       new World(this.game, "Freezing", "",
         [
@@ -130,7 +131,8 @@ export class Frozen implements WorldInterface {
         [],
         [],
         [],
-        [[this.game.baseWorld.ice, Decimal(1E11)], [this.iceResearch, Decimal(0)]],
+        [[this.game.baseWorld.ice, Decimal(1E11)],
+        [this.iceResearch, Decimal(0)]],
         Decimal(4.5),
         [new Cost(this.game.baseWorld.ice, Decimal(100))]
       ),

@@ -8,7 +8,7 @@ $height: 24px;
 }
 
 .clr-vertical-nav {
-     width: 280px !important;
+     width: 320px !important;
     padding-top: 12px;
 }
 
@@ -16,5 +16,9 @@ $height: 24px;
 
 .resName{
   display: inline-block;
-  width: 45%;
+  width: 50%;
+}
+.perSec{
+  width: 25%;
+  display: inline-block;
 }

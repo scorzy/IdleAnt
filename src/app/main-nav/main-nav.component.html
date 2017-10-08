@@ -50,10 +50,12 @@
           <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
 
           {{g.name}}</span>
-          <span *ngIf="g.totalPerSec.abs().greaterThan(0.1)">
-            {{g.totalPerSec | format}}/s
+          <span class="perSec" >
+            <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
+                {{g.totalPerSec | format}}/s
+            </span>
           </span>
-          <span style="float:right">{{g.quantity | format}}</span>
+          <span>{{g.quantity | format}}</span>
 
 
         </a>

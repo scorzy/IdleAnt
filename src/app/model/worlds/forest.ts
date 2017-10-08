@@ -106,6 +106,7 @@ export class Forest implements WorldInterface {
     this.game.baseWorld.fungus.addProductor(new Production(this.ambrosiaBeetle, Decimal(-6)))
     this.game.baseWorld.wood.addProductor(new Production(this.ambrosiaBeetle, Decimal(15)))
 
+    this.beetle.addProductor(new Production(this.beetleNest, Decimal(0.01)))
     this.larva.addProductor(new Production(this.beetleNest))
     this.beetleNest.addProductor(new Production(this.beetleColony))
 
@@ -128,7 +129,6 @@ export class Forest implements WorldInterface {
       this.beetle,
       [
         new Cost(this.larva, Decimal(1), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.wood, Decimal(200), this.game.buyExp),
         new Cost(this.game.baseWorld.food, Decimal(2000), this.game.buyExp)
       ],
       [this.beetleNest]
@@ -143,7 +143,7 @@ export class Forest implements WorldInterface {
       this.beetleNest,
       [
         new Cost(this.beetle, Decimal(100), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.wood, Decimal(1E6), this.game.buyExp),
+        new Cost(this.game.baseWorld.wood, Decimal(1E4), this.game.buyExp),
         new Cost(this.game.baseWorld.soil, Decimal(1E3), this.game.buyExp),
         new Cost(this.game.baseWorld.food, Decimal(1E3), this.game.buyExp)
       ],
@@ -158,13 +158,11 @@ export class Forest implements WorldInterface {
     this.beetleColony.actions.push(new BuyAction(this.game,
       this.beetleColony,
       [
-        new Cost(this.beetleNest, Decimal(10), this.game.buyExpUnit),
-        new Cost(this.powderpostBeetle, Decimal(10), this.game.buyExpUnit),
-        new Cost(this.ambrosiaBeetle, Decimal(10), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.fungus, Decimal(1E6), this.game.buyExp),
-        new Cost(this.game.baseWorld.wood, Decimal(1E9), this.game.buyExp),
-        new Cost(this.game.baseWorld.soil, Decimal(1E6), this.game.buyExp),
-        new Cost(this.game.baseWorld.food, Decimal(1E6), this.game.buyExp)
+        new Cost(this.beetleNest, Decimal(200), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.food, Decimal(1E10), this.game.buyExp),
+        new Cost(this.game.baseWorld.wood, Decimal(1E6), this.game.buyExp),
+        new Cost(this.game.baseWorld.soil, Decimal(1E5), this.game.buyExp),
+        new Cost(this.game.baseWorld.fungus, Decimal(5E4), this.game.buyExp),
       ]
     ))
     this.beetleColony.actions.push(new UpAction(this.game, this.beetleColony,
@@ -226,12 +224,28 @@ export class Forest implements WorldInterface {
           this.game.infestation.disinfestationBeetle, this.game.infestation.flametrowerBeetle
         ],
         [[this.game.baseWorld.wood, Decimal(2)]],
-        [new Cost(this.beetleColony, Decimal(500))],
+        [new Cost(this.beetleColony, Decimal(50))],
         [],
         [],
         [[this.beetleResearch, Decimal(0)]],
-        Decimal(4.5)
+        Decimal(3.5)
+      )
+    )
 
+    World.worldSuffix.push(
+      new World(this.game, "Of Beetle", "",
+        [
+          this.game.infestation.disinfestationBeetle, this.game.infestation.flametrowerBeetle
+        ],
+        [
+          [this.larva, Decimal(2)]
+        ]
+        ,
+        [new Cost(this.beetleColony, Decimal(50))],
+        [],
+        [],
+        [[this.beetleResearch, Decimal(0)]],
+        Decimal(4)
       )
     )
 

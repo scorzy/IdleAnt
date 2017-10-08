@@ -44,7 +44,7 @@ export class ActionComponent implements OnInit, AfterViewChecked {
     this.pricesHalf = this.action.getCosts(this.maxBuy.div(2).ceil());
     this.pricesMax = this.action.getCosts(this.maxBuy);
 
-    const buyMulti = Decimal.pow(2, this.action.up ? this.action.up.quantity : 0);
+    const buyMulti = Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
 
     this.buyString1 = numberformat.formatShort(
       buyMulti);

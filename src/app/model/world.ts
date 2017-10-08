@@ -32,15 +32,15 @@ export class World {
       [],
       [],
       [
-        new Cost(game.baseWorld.food, Decimal(1E1)),
-        new Cost(game.baseWorld.nestAnt, Decimal(100))
+        new Cost(game.baseWorld.food, Decimal(1E12)),
+        new Cost(game.baseWorld.nestAnt, Decimal(40))
       ]
     )
     baseWorld.experience = Decimal(10)
     return baseWorld
   }
   static getRandomWorld(game: GameModel): World {
-    const worldRet = this.getBaseWorld(game)
+    const worldRet = new World(game, "", "", [], [], [])
     worldRet.experience = Decimal(0)
 
     const worldType = World.worldTypes[Math.floor(Math.random() * (World.worldTypes.length))]
@@ -108,16 +108,21 @@ export class World {
     worldRet.avaiableUnits = Array.from(new Set(worldRet.avaiableUnits))
     worldRet.experience = worldRet.experience.minus(7.5)
 
-    //    Set the world level
-    let maxLevel = game.prestige.allPrestigeUp.map(u => u.quantity)
-      .reduce((prev, prest) => prev.plus(prest)).plus(game.prestige.experience.quantity)
+    //    Scale the world level
+    let maxLevel = game.maxLevel
     maxLevel = maxLevel.greaterThan(7) ? Decimal(maxLevel.minus(6).div(2), 1.15).floor() : maxLevel
     worldRet.level = Math.min(maxLevel.times(Decimal.random()).floor().toNumber(), 100)
 
-    const toUnlockMultiplier = Decimal.pow(1.07, worldRet.level)
-    const expMultiplier = Decimal.pow(1.075, worldRet.level)
-    worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier))
-    worldRet.experience = worldRet.experience.times(expMultiplier)
+    const linear = 1 / 6.5
+
+    const toUnlockMultiplier = Decimal.pow(1.07, worldRet.level).times(worldRet.level + 1 / linear)
+      .times(linear)
+    const expMultiplier = Decimal.pow(1.075, worldRet.level).times(worldRet.level + 1 / linear)
+      .times(linear)
+
+    worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
+    worldRet.unlockedUnits.forEach(t => t[1] = t[1].times(toUnlockMultiplier.times(2)).floor())
+    worldRet.experience = worldRet.experience.times(expMultiplier).plus(0.5).floor()
 
     return worldRet
   }
@@ -126,10 +131,13 @@ export class World {
     const le = this.game.lifeEarning
     const exp = this.game.prestige.experience.quantity.plus(this.game.getExperience())
     this.game.setInitialStat()
+
     if (!skip) {
       this.game.prestige.experience.quantity = exp
+      this.game.maxLevel = this.game.maxLevel.plus(exp)
       this.game.prestigeDone = this.game.prestigeDone.plus(1)
     }
+
     if (this.avaiableUnits)
       this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
     if (this.unlockedUnits) {
@@ -139,6 +147,7 @@ export class World {
       })
       this.game.unlockUnits(this.unlockedUnits.map(u => u[0]))()
     }
+
     if (this.prodMod)
       this.prodMod.forEach(p => p[0].worldProdModifiers = p[1])
     if (this.unitMod)
@@ -151,6 +160,7 @@ export class World {
     this.game.world.generateAction(this.game)
 
     this.game.worldTabAv = true
+    this.game.homeTabAv = true
     this.game.expTabAv = true
 
 
@@ -163,6 +173,7 @@ export class World {
     if (this.prodMod)
       data.p = this.prodMod.map(p => [p[0].id, p[1]])
     data.t = this.toUnlock.map(c => c.getData())
+    data.m = this.toUnlockMax.map(c => c.getData())
     data.um = this.unitMod.map(up => [up[0].id, up[1]])
     data.up = this.unitPrice.map(up => [up[0].id, up[1]])
     data.uu = this.unlockedUnits.map(up => [up[0].id, up[1]])
@@ -179,6 +190,8 @@ export class World {
       this.prodMod = data.p.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
     if (typeof data.t !== "undefined" && data.t != null && data.t.length > 0)
       this.toUnlock = data.t.map(c => this.game.getCost(c))
+    if (typeof data.m !== "undefined" && data.m != null && data.m.length > 0)
+      this.toUnlockMax = data.m.map(c => this.game.getCost(c))
     if (typeof data.um !== "undefined" && data.um != null && data.um.length > 0)
       this.unitMod = data.um.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
     if (typeof data.up !== "undefined" && data.up != null && data.up.length > 0)

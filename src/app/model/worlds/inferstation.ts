@@ -48,15 +48,15 @@ export class Infestation implements WorldInterface {
       "Proces weedkiller.")
     this.disinfestationBeetle = new Unit(this.game, "disinfestationBeetle", "Disinfestation Beetle",
       "Beetle are also good at killing plants.")
-    this.flametrowerBeetle = new Unit(this.game, "flametrowerBeetle", "flametrower Beetle",
+    this.flametrowerBeetle = new Unit(this.game, "flametrowerBeetle", "Flametrower Beetle",
       "A beetle with a flametrower.")
     this.chemistBee = new Unit(this.game, "chemistBee", "Chemist Bee",
       "A chemist bee.")
 
     this.poisonousPlant2.alwaysOn = true
 
-    this.listInfestation.push(this.poisonousPlant)
     this.listInfestation.push(this.poisonousPlant2)
+    this.listInfestation.push(this.poisonousPlant)
     this.listInfestation.push(this.weedkiller)
     this.listInfestation.push(this.chemistAnt)
     this.listInfestation.push(this.disinfestationAnt)
@@ -108,7 +108,7 @@ export class Infestation implements WorldInterface {
     this.poisonousPlant.addProductor(new Production(this.flametrowerBeetle, Decimal(-100)))
     this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-120)))
     this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
-    this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(0.01)))
+    this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(-0.01)))
     this.game.baseWorld.fungus.addProductor(new Production(this.chemistAnt, Decimal(-10)))
     this.game.baseWorld.soil.addProductor(new Production(this.chemistAnt, Decimal(-10)))
     this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(1)))
@@ -185,6 +185,7 @@ export class Infestation implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
     this.flametrowerBeetle.actions.push(new UpHire(this.game, this.flametrowerBeetle,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
+    this.flametrowerBeetle.avabileBaseWorld = false
   }
 
   public addWorld() {
@@ -196,7 +197,7 @@ export class Infestation implements WorldInterface {
         [],
         [],
         [
-          [this.poisonousPlant, Decimal(1E6)],
+          [this.poisonousPlant, Decimal(1E7)],
           [this.poisonousPlant2, Decimal(1E2)],
           [this.basicDisinfestationRes, Decimal(0)]
         ],
@@ -214,7 +215,7 @@ export class Infestation implements WorldInterface {
         [],
         [],
         [
-          [this.poisonousPlant, Decimal(1E6)],
+          [this.poisonousPlant, Decimal(1E7)],
           [this.poisonousPlant2, Decimal(1E2)],
           [this.basicDisinfestationRes, Decimal(0)]
         ],

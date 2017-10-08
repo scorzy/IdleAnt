@@ -17,6 +17,10 @@ export class Science implements WorldInterface {
   listScience = Array<Unit>()
 
   studentProduction: Production
+  scientistProduction: Production
+  science1Production: Production
+  science2Production: Production
+
 
   constructor(public game: GameModel) { }
 
@@ -34,7 +38,10 @@ export class Science implements WorldInterface {
     this.listScience = [this.student, this.scientist, this.university]
     this.game.lists.push(new TypeList("Science", this.listScience))
 
-    this.studentProduction = new Production(this.university, Decimal(0.1), false)
+    this.studentProduction = new Production(this.university, Decimal(0.2), false)
+    this.scientistProduction = new Production(this.university, Decimal(0.1), false)
+    this.science1Production = new Production(this.university, Decimal(450))
+    this.science2Production = new Production(this.university, Decimal(1000), false)
   }
 
   public initStuff() {
@@ -89,10 +96,13 @@ export class Science implements WorldInterface {
         new Cost(this.game.baseWorld.cristal, this.game.machines.price2.times(2), this.game.buyExp)
       ]
     ))
-    this.game.baseWorld.science.addProductor(new Production(this.university, specialProduction.times(15)))
+    this.game.baseWorld.science.addProductor(this.science1Production)
+    this.game.baseWorld.science.addProductor(this.science2Production)
+
     this.game.baseWorld.cristal.addProductor(new Production(this.university, specialCost.times(10)))
 
     this.student.addProductor(this.studentProduction)
+    this.scientist.addProductor(this.scientistProduction)
   }
 
   public addWorld() {

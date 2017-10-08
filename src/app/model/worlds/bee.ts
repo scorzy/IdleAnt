@@ -15,10 +15,13 @@ export class Bee implements WorldInterface {
   queenBee: Unit
   hiveBee: Unit
   beeResearch: Research
+  universityBee: Unit
 
   scientistBee: Unit
   foodBee: Unit
   advancedBee: Research
+  universityResBee: Research
+
   listBee = new Array<Unit>()
 
   constructor(public game: GameModel) { }
@@ -39,13 +42,18 @@ export class Bee implements WorldInterface {
 
     this.scientistBee = new Unit(this.game, "scBee", "Scientist Bee",
       "Scientist bee studies honey properties.")
+
     this.foodBee = new Unit(this.game, "foodBee", "Food Bee",
       "Convert honey to food")
+
+    this.universityBee = new Unit(this.game, "universityBee", "University of Bee",
+      "Instruct new Scientist Bee")
 
     this.listBee.push(this.hiveBee)
     this.listBee.push(this.queenBee)
     this.listBee.push(this.foragingBee)
     this.listBee.push(this.workerBee)
+    this.listBee.push(this.universityBee)
     this.listBee.push(this.scientistBee)
     this.listBee.push(this.foodBee)
 
@@ -102,12 +110,13 @@ export class Bee implements WorldInterface {
     ))
     this.foragingBee.addProductor(new Production(this.queenBee))
 
+    //  Hive
     this.hiveBee.actions.push(new BuyAction(this.game,
       this.hiveBee,
       [
-        new Cost(this.queenBee, Decimal(1E3), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.honey, Decimal(1E6), beeTeamUp),
-        new Cost(this.game.baseWorld.food, Decimal(1E9), this.game.buyExp),
+        new Cost(this.queenBee, Decimal(100), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeOther1.times(2), beeTeamUp),
+        new Cost(this.game.baseWorld.food, this.game.baseWorld.prestigeFood.times(0.5), this.game.buyExp),
       ]
     ))
     this.queenBee.addProductor(new Production(this.hiveBee))
@@ -157,12 +166,37 @@ export class Bee implements WorldInterface {
     this.foodBee.actions.push(new UpHire(this.game, this.foodBee,
       [new Cost(this.game.baseWorld.science, Decimal(1E3), Decimal(10))]))
 
+    //    University
+    this.universityBee.actions.push(new BuyAction(this.game,
+      this.universityBee,
+      [
+        new Cost(this.foragingBee, Decimal(1E3), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.wood, this.game.machines.price1, this.game.buyExp),
+        new Cost(this.game.baseWorld.cristal, this.game.machines.price2, this.game.buyExp),
+        new Cost(this.game.baseWorld.honey, this.game.machines.price2, this.game.buyExp)
+      ]
+    ))
+
+    this.game.baseWorld.science.addProductor(new Production(this.universityBee, Decimal(600)))
+    this.game.baseWorld.honey.addProductor(new Production(this.foodBee, Decimal(-5)))
+    this.scientistBee.addProductor(new Production(this.universityBee, Decimal(0.01)))
+
+
+    //  Research
+    this.universityResBee = new Research(
+      "universityResBee",
+      "University of Bee", "Get an university of bee",
+      [new Cost(this.game.baseWorld.science, Decimal(6E6))],
+      [this.universityBee],
+      this.game
+    )
+
     //  Research
     this.advancedBee = new Research(
       "advBee",
       "Advanced Bee", "More jobs for bees",
-      [new Cost(this.game.baseWorld.science, Decimal(1))],
-      [this.scientistBee, this.foodBee],
+      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [this.scientistBee, this.foodBee, this.universityResBee],
       this.game
     )
 
@@ -170,7 +204,7 @@ export class Bee implements WorldInterface {
     this.beeResearch = new Research(
       "beeRes",
       "Bee", "Unlock Bee !",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, Decimal(0))],
       [this.game.baseWorld.nectar, this.foragingBee, this.workerBee, this.game.baseWorld.honey, this.advancedBee],
       this.game
     )
@@ -178,14 +212,35 @@ export class Bee implements WorldInterface {
   }
 
   addWorld() {
-    World.worldSuffix.push(
 
-      new World(this.game, "of Bee", "",
-        [], [], [],
-        [[this.foragingBee, Decimal(2)]], [],
-        [[this.beeResearch, Decimal(0)]]
+    World.worldPrefix.push(
+      new World(this.game, "Apian", "",
+        [this.game.machines.honeyMaker, this.game.engineers.beeEnginer],
+        [],
+        [
+          new Cost(this.hiveBee, Decimal(40)),
+          new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeFood)
+        ],
+        [],
+        [],
+        [[this.beeResearch, Decimal(0)]],
+        Decimal(3)
       )
+    )
 
+    World.worldSuffix.push(
+      new World(this.game, "of Bee", "",
+        [this.game.machines.honeyMaker, this.game.engineers.beeEnginer],
+        [],
+        [
+          new Cost(this.hiveBee, Decimal(50)),
+          new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeFood)
+        ],
+        [[this.foragingBee, Decimal(2)]],
+        [],
+        [[this.beeResearch, Decimal(0)]],
+        Decimal(3)
+      )
     )
   }
 }

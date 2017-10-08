@@ -107,9 +107,8 @@ export class BuyAction extends Action {
       (n => {
         this.unit.quantity = this.unit.quantity.plus(
           n.times(
-            Decimal.pow(2,
-              this.unit.upHire ? this.unit.upHire.quantity : Decimal(0)
-            )))
+            this.unit.upHire ? this.unit.upHire.quantity.plus(1) : Decimal(1)
+          ))
         if (this.doNext)
           this.doNext()
         return true

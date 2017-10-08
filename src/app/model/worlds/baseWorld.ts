@@ -55,9 +55,10 @@ export class BaseWorld implements WorldInterface {
   specialFood = Decimal(1E7)
   specialRes2 = Decimal(1E4)
 
-  prestigeFood = Decimal(1E12)
-  prestigeOther1 = Decimal(1E8)
-  prestigeOther2 = Decimal(1E7)
+  prestigeFood = Decimal(1E10)
+  prestigeOther1 = Decimal(1E6)
+  prestigeOther2 = Decimal(1E5)
+  prestigeUnit = Decimal(200)
 
   //    Generators
   littleAnt: Unit
@@ -193,7 +194,7 @@ export class BaseWorld implements WorldInterface {
         new Cost(this.food, this.prestigeFood, Decimal(this.game.buyExp)),
         new Cost(this.soil, this.prestigeOther1, Decimal(this.game.buyExp)),
         new Cost(this.wood, this.prestigeOther2, Decimal(this.game.buyExp)),
-        new Cost(this.queenAnt, Decimal(1E3), Decimal(this.game.buyExpUnit))
+        new Cost(this.queenAnt, this.prestigeUnit, Decimal(this.game.buyExpUnit))
       ],
     ))
 
@@ -402,17 +403,20 @@ export class BaseWorld implements WorldInterface {
       new World(this.game, "Hot", "",
         [],
         [[this.game.baseWorld.food, Decimal(2)]],
-        []
+        [], [], [], [],
+        Decimal(2)
       ),
       new World(this.game, "Arid", "",
         [],
         [[this.game.baseWorld.fungus, Decimal(0.5)]],
-        []
+        [], [], [], [],
+        Decimal(3)
       ),
       new World(this.game, "Wooded", "",
         [this.game.engineers.woodEnginer, this.game.machines.loggingMachine],
         [[this.game.baseWorld.wood, Decimal(2)]],
-        []
+        [], [], [], [],
+        Decimal(1.5)
       ),
       new World(this.game, "Crystallized", "",
         [this.game.machines.mine, this.game.engineers.mineEnginer],
@@ -436,27 +440,30 @@ export class BaseWorld implements WorldInterface {
         [],
         [],
         [],
-        Decimal(3.5)
+        Decimal(4.5)
       ),
       new World(this.game, "Rainy", "",
         [],
         [
           [this.wood, Decimal(1.5)],
           [this.fungus, Decimal(1.5)]
-        ], []
+        ], [], [], [], [],
+        Decimal(1.5)
       ),
       new World(this.game, "Foggy", "",
         [],
         [
           [this.wood, Decimal(0.7)],
           [this.fungus, Decimal(0.7)]
-        ], []
+        ], [], [], [], [],
+        Decimal(3)
       ),
       new World(this.game, "Technological", "",
         [],
         [
           [this.science, Decimal(1.5)]
-        ], []
+        ], [], [], [], [],
+        Decimal(1.5)
       ),
     )
 
@@ -466,25 +473,34 @@ export class BaseWorld implements WorldInterface {
       new World(this.game, "of Fungus", "",
         [],
         [[this.game.baseWorld.fungus, Decimal(2)]],
-        [new Cost(this.game.baseWorld.fungus, Decimal(1000))]
+        [new Cost(this.game.baseWorld.fungus, Decimal(1E7))],
+        [], [], [],
+        Decimal(3.5)
       ),
 
       new World(this.game, "of Ant", "",
         [], [], [],
-        [[this.littleAnt, Decimal(2)]]
+        [[this.littleAnt, Decimal(2)]],
+        [], [],
+        Decimal(2)
       ),
       new World(this.game, "of Scientist", "",
         [], [], [],
-        [[this.game.science.scientist, Decimal(2)]]
+        [[this.game.science.scientist, Decimal(2)]],
+        [], [],
+        Decimal(2)
       ),
       new World(this.game, "of Farming", "",
         [], [], [],
-        [[this.farmer, Decimal(2)]]
+        [[this.farmer, Decimal(2)]],
+        [], [],
+        Decimal(2)
       ),
       new World(this.game, "of Cristall", "",
         [this.game.machines.mine, this.game.engineers.mineEnginer],
         [[this.cristal, Decimal(2)]],
-        []
+        [], [], [], [],
+        Decimal(2)
       ),
 
     )

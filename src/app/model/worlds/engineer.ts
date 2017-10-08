@@ -107,10 +107,13 @@ export class Engineers implements WorldInterface {
         price.unit.addProductor(new Production(engineer, price.basePrice.div(-50)))
         engineer.buyAction.priceF.push(new Cost(price.unit, price.basePrice.times(5), this.game.buyExpUnit))
       })
-
-
-
     }
+
+    //  Bee engineer should actually be a Bee
+    this.beeEnginer.buyAction.priceF = [
+      new Cost(this.game.bee.foragingBee, Decimal(1E4), this.game.buyExpUnit),
+      new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.buyExp)
+    ]
 
   }
   addWorld() {

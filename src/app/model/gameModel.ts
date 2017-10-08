@@ -75,9 +75,11 @@ export class GameModel {
   world: World
   nextWorlds: World[]
   prestigeDone = Decimal(0)
+  maxLevel = Decimal(0)
 
   worldTabAv = false
   expTabAv = false
+  homeTabAv = false
 
   constructor() { this.initialize() }
 
@@ -142,6 +144,7 @@ export class GameModel {
     this.baseWorld.littleAnt.buyAction.unlocked = true
     this.research.rDirt.unlocked = true
 
+    // this.research.advancedLesson.unlocked = true
     this.baseWorld.food.quantity = Decimal(100)
 
     // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
@@ -332,6 +335,8 @@ export class GameModel {
     save.pd = this.prestigeDone
     save.worldTabAv = this.worldTabAv
     save.expTabAv = this.expTabAv
+    save.ml = this.maxLevel
+    save.htv = this.homeTabAv
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -349,6 +354,7 @@ export class GameModel {
       this.currentEarning = Decimal(save.cur)
       this.lifeEarning = Decimal(save.life)
       this.world.restore(save.w)
+      this.maxLevel = Decimal(save.ml)
 
       for (const s of save.list) {
         const unit = this.unitMap.get(s.id)
@@ -380,6 +386,9 @@ export class GameModel {
 
       if (save.expTabAv)
         this.expTabAv = save.expTabAv
+
+      if (save.htv)
+        this.homeTabAv = save.htv
 
       this.reloadProduction()
       return save.last

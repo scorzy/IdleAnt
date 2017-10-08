@@ -78,7 +78,7 @@ export class Unit extends Base {
       : Decimal(0)
   }
   getProduction() {
-   // this.loadProduction()
+    // this.loadProduction()
     return this.production
   }
 
@@ -110,8 +110,8 @@ export class Unit extends Base {
         if (prod)
           prod.unlocked = e[1]
       });
-    if (data.hasOwnProperty('r') && data.r && data.r != null && data.r !== undefined)
-      this.percentage = data.r
+    // if (data.r)
+    this.percentage = data.r
   }
 
   isEnding(): boolean {
