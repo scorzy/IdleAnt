@@ -70,7 +70,7 @@ export class Infestation implements WorldInterface {
     //    Weedkiller
     this.weedkillerRes = new Research(
       "weedkillerRes",
-      "Weedkiller", "Weedkiller.",
+      "Weedkiller", "Weedkiller will slowly kill poisonus plants.",
       [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.weedkiller, this.chemistAnt],
       this.game

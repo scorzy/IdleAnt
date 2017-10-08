@@ -6,7 +6,7 @@
             <label for="toggle_1">Show research done</label>
         </div>
 
-        <div class="card-columns">
+        <div class="card-columns card-columns-2">
             <app-action [action]="res" *ngFor="let res of gameService.game.resList | resPipe: resDone"></app-action>
         </div>
 

@@ -36,17 +36,22 @@ export class Machine implements WorldInterface {
   constructor(public game: GameModel) { }
 
   public declareStuff() {
-    this.composterStation = new Unit(this.game, "composterStation", "Composter Station", "Turn wood into soil")
-    this.refineryStation = new Unit(this.game, "refineryStation", "Refinery Station", "Turn soil into sand")
-    this.laserStation = new Unit(this.game, "laserStation", "Laser Station", "Yeld cristal")
-    this.hydroFarm = new Unit(this.game, "hydroFarm", "Hydroponic Farm", "Yeld fungus")
-    this.plantingMachine = new Unit(this.game, "plantingMac", "Planting Machine", "Yeld wood")
+    this.composterStation = new Unit(this.game, "composterStation", "Composter Station",
+      "Turn wood into soil.")
+    this.refineryStation = new Unit(this.game, "refineryStation", "Refinery Station",
+      "Turn soil into sand.")
+    this.laserStation = new Unit(this.game, "laserStation", "Laser Station",
+      "Yeld cristal.")
+    this.hydroFarm = new Unit(this.game, "hydroFarm", "Hydroponic Farm",
+      "Yeld fungus.")
+    this.plantingMachine = new Unit(this.game, "plantingMac", "Planting Machine",
+      "Yeld wood.")
     this.sandDigger = new Unit(this.game, "sandDigger", "Sand Digger",
-      "Yeld sand")
+      "Yeld sand.")
     this.loggingMachine = new Unit(this.game, "loggingMachine", "Logging Machine",
-      "Yeld wood")
+      "Yeld wood.")
     this.mine = new Unit(this.game, "mine", "Mine",
-      "Yeld cristal")
+      "Yeld cristal.")
     this.honeyMaker = new Unit(this.game, "honeyMaker", "Honey Maker",
       "Automate the making of honey. Only bee know how it work.")
     this.iceCompacter = new Unit(this.game, "iceC", "Ice Compacter",

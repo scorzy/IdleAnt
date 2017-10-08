@@ -1,5 +1,12 @@
 <div class="content-container">
   <div class="content-area">
+
+    <p>
+      Game autosave every 3 minutes. You can also maually save, load and export savegames. Save are stored
+      in localstorage.
+    </p>
+    <strong>Clear button delete everything !</strong>
+
     <div class="form-group">
       <button class="btn btn-success" (click)="save($event)">Save</button>
       <button class="btn btn-primary" (click)="load($event)">Load</button>
@@ -12,5 +19,9 @@
       <button class="btn btn-success" (click)="export($event)">Export</button>
       <button class="btn btn-primary" (click)="import($event)">Import</button>
     </div>
+
+    <p>
+      Game version: (beta) 0.0.1
+    </p>
   </div>
 </div>

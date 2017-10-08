@@ -337,6 +337,8 @@ export class GameModel {
     save.expTabAv = this.expTabAv
     save.ml = this.maxLevel
     save.htv = this.homeTabAv
+
+    save.gameVers = "0.0.1"
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -350,7 +352,7 @@ export class GameModel {
       this.setInitialStat()
       saveRaw = LZString.decompressFromBase64(saveRaw)
       const save = JSON.parse(saveRaw)
-      console.log(saveRaw)
+      // console.log(saveRaw)
       this.currentEarning = Decimal(save.cur)
       this.lifeEarning = Decimal(save.life)
       this.world.restore(save.w)

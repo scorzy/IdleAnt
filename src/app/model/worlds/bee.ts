@@ -35,7 +35,7 @@ export class Bee implements WorldInterface {
       "Yeld Foraging Bee.")
 
     this.hiveBee = new Unit(this.game, "hBee", "Hive Bee",
-      "Yeld Queen")
+      "Hives yeld queens.")
 
     this.workerBee = new Unit(this.game, "worBee", "Worker Bee",
       "Worker Bee converts nectar to honey.")
@@ -44,7 +44,7 @@ export class Bee implements WorldInterface {
       "Scientist bee studies honey properties.")
 
     this.foodBee = new Unit(this.game, "foodBee", "Food Bee",
-      "Convert honey to food")
+      "Convert honey to food.")
 
     this.universityBee = new Unit(this.game, "universityBee", "University of Bee",
       "Instruct new Scientist Bee")
@@ -185,7 +185,7 @@ export class Bee implements WorldInterface {
     //  Research
     this.universityResBee = new Research(
       "universityResBee",
-      "University of Bee", "Get an university of bee",
+      "University of Bee", "Get an university of bee.",
       [new Cost(this.game.baseWorld.science, Decimal(6E6))],
       [this.universityBee],
       this.game
@@ -194,7 +194,7 @@ export class Bee implements WorldInterface {
     //  Research
     this.advancedBee = new Research(
       "advBee",
-      "Advanced Bee", "More jobs for bees",
+      "Advanced Bee", "More jobs for bees.",
       [new Cost(this.game.baseWorld.science, Decimal(1E3))],
       [this.scientistBee, this.foodBee, this.universityResBee],
       this.game

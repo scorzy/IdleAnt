@@ -52,7 +52,8 @@ export class Prestige implements WorldInterface {
   public initStuff() {
     const expIncrement = Decimal(1.3)
 
-    this.experience = new Unit(this.game, "exp", "Exp", "Experience", true)
+    this.experience = new Unit(this.game, "exp", "Exp",
+      "Experience. Experience upgrade do not reset when changing worlds.", true)
     this.expLists = new Array<TypeList>()
     this.expAnt = new Array<Unit>()
 
@@ -72,7 +73,7 @@ export class Prestige implements WorldInterface {
     this.expAnt.forEach(p => {
       this.allPrestigeUp.push(p)
       p.actions.push(new BuyAction(this.game, p,
-        [new Cost(this.experience, Decimal(10), expIncrement)]))
+        [new Cost(this.experience, Decimal(15), expIncrement)]))
       p.unlocked = true
     })
 
@@ -113,7 +114,7 @@ export class Prestige implements WorldInterface {
     this.expMachinery = new Array<Unit>()
     this.pMachineryPower = new Unit(this.game, "pMach", "Machinery Power", "Machinery Power", true)
     this.pMachineryPower.actions.push(new BuyAction(this.game, this.pMachineryPower,
-      [new Cost(this.experience, Decimal(10), expIncrement)]))
+      [new Cost(this.experience, Decimal(20), expIncrement)]))
     this.expMachinery.push(this.pMachineryPower)
     this.game.machines.listMachinery.forEach(m => m.prestigeBonusProduction.push(this.pMachineryPower))
 
@@ -145,7 +146,7 @@ export class Prestige implements WorldInterface {
 
     this.expTech.forEach(p => {
       p.actions.push(new BuyAction(this.game, p,
-        [new Cost(this.experience, Decimal(10), expIncrement)]))
+        [new Cost(this.experience, Decimal(30), expIncrement)]))
     })
     this.expLists.push(new TypeList("Tecnology", this.expTech))
 

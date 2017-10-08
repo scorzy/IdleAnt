@@ -45,7 +45,8 @@ export class Researchs implements WorldInterface {
     //    Bi
     this.bi = new Research(
       "biResea",
-      "Business Intelligence", "",
+      "Business Intelligence",
+      "See who produce or consume your resources.",
       [new Cost(this.game.baseWorld.science, Decimal(2E3))],
       [],
       this.game
@@ -54,7 +55,8 @@ export class Researchs implements WorldInterface {
     //    Evolution
     this.evolution = new Research(
       "evolution",
-      "Evolution", "Increase the resources need to travel to a new world (x10) and also increase the experience you will gain (x3).",
+      "Evolution",
+      "Increase the resources need to travel to a new world (x10) and also increase the experience you will gain (x3).",
       [new Cost(this.game.baseWorld.science, Decimal(1E10))],
       [],
       this.game,

@@ -2,7 +2,8 @@
   <div class="content-area">
     <router-outlet></router-outlet>
   </div>
-  <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapsed" [clr-nav-level]="2">
+  <clr-vertical-nav [clrVerticalNavCollapsible]="false"
+  [clr-nav-level]="2">
 
     <a clrVerticalNavLink routerLinkActive="active" *ngIf="showPrestige" routerLink="./unit/exp">
       Experience - {{gameService.game.prestige.experience.quantity | format}}
@@ -12,34 +13,6 @@
       <span clrVerticalNavLink>
         {{list.type}}
       </span>
-
-      <!-- <clr-vertical-nav-group-children *clrIfExpanded="true">
-        <table class="table-noborder table-compact">
-          <tr *ngFor="let g of list.list | filterMax">
-            <td>
-              <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" class="text-capitalize">
-                <clr-icon class="is-info" shape="angle-double" *ngIf="g.haveUp()"></clr-icon>
-                <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-                <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
-
-                <span>{{g.name}}</span>
-              </a>
-
-            </td>
-            <td>
-              <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" class="text-capitalize">
-              <span>{{g.quantity | format}}</span>
-              </a>
-            </td>
-            <td>
-              <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" class="text-capitalize">
-              <span style="float:right" *ngIf="g.totalPerSec.abs().greaterThan(0.1)">
-                {{g.totalPerSec | format}}/S
-            </span>
-            </a>
-            </td>
-        </table>
-      </clr-vertical-nav-group-children> -->
 
       <clr-vertical-nav-group-children *clrIfExpanded="true">
         <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax"

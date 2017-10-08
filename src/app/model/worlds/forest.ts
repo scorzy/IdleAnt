@@ -34,13 +34,13 @@ export class Forest implements WorldInterface {
     this.beetle = new Unit(this.game, "beetle", "Beetle",
       "Yield various resources.")
     this.ambrosiaBeetle = new Unit(this.game, "ambrosiaBeetle", "Ambrosia beetle",
-      "Yield wood.")
+      "Ambrosia beetle yield wood.")
     this.beetleNest = new Unit(this.game, "beetleNest", "Beetle Nest",
-      "Yield larvae.")
+      "Beetle Nest yield larvae.")
     this.ladybird = new Unit(this.game, "ladybird", "Ladybird",
-      "Yield science.")
+      "Ladybird yield science.")
     this.beetleColony = new Unit(this.game, "beetleColony", "Beetle Colony",
-      "Yield nest.")
+      "Beetle Colony yield nest.")
     this.powderpostBeetle = new Unit(this.game, "powder", "Powderpost Beetle",
       "Powderpost beetles are a group of woodboring beetles.")
 

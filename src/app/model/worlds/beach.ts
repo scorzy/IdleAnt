@@ -30,11 +30,11 @@ export class Beach implements WorldInterface {
   declareStuff() {
     const beachList = new Array<Unit>()
     this.crab = new Unit(this.game, "crab", "Crab", "Crab yield sand.")
-    this.crabFarmer = new Unit(this.game, "crabF", "Farmer Crab", "Farmer Crab yield fungus")
-    this.crabQueen = new Unit(this.game, "CrabQ", "Crab Queen", "Crab Queen yield crab")
-    this.crabNest = new Unit(this.game, "CrabN", "Crab Nest", "Crab Nest yield crab queens")
+    this.crabFarmer = new Unit(this.game, "crabF", "Farmer Crab", "Farmer Crab yield fungus.")
+    this.crabQueen = new Unit(this.game, "CrabQ", "Crab Queen", "Crab Queen yield crab.")
+    this.crabNest = new Unit(this.game, "CrabN", "Crab Nest", "Crab Nest yield crab queens.")
     this.shrimp = new Unit(this.game, "shrimp", "Shrimp",
-      "Shrimp yield sand and cristal")
+      "Shrimp yield sand and cristal.")
     this.lobster = new Unit(this.game, "lobster", "Lobster",
       "Lobster yield sand, and cristal for food.")
     this.crabScientist = new Unit(this.game, "crabScientist", "Scientist Crab",
@@ -51,7 +51,7 @@ export class Beach implements WorldInterface {
     //    lobster
     this.lobsterRes = new Research(
       "lobsterRes",
-      "Lobsters", "Unlock lobsters",
+      "Lobsters", "Unlock lobsters.",
       [new Cost(this.game.baseWorld.science, Decimal(1E5))],
       [this.lobster],
       this.game
@@ -60,7 +60,7 @@ export class Beach implements WorldInterface {
     //    shrimp
     this.shrimpRes = new Research(
       "shrimpRes",
-      "Shrimps", "Unlock shrimps",
+      "Shrimps", "Unlock shrimps.",
       [new Cost(this.game.baseWorld.science, Decimal(2E3))],
       [this.shrimp],
       this.game
@@ -69,7 +69,7 @@ export class Beach implements WorldInterface {
     //    Crab Jobs
     this.crabJobRes = new Research(
       "crabJobRes",
-      "Crab Jobs", "Unlock more jobs for your crab",
+      "Crab Jobs", "Unlock more jobs for your crab.",
       [new Cost(this.game.baseWorld.science, Decimal(1.5E3))],
       [this.crabFarmer, this.crabScientist],
       this.game
@@ -78,7 +78,7 @@ export class Beach implements WorldInterface {
     //    Research
     this.seaRes = new Research(
       "seaRes",
-      "Sea Helpers", "Unlock Sea Helpers",
+      "Sea Helpers", "Unlock Sea Helpers.",
       [new Cost(this.game.baseWorld.science, Decimal(30))],
       [this.crab, this.crabQueen, this.crabJobRes, this.shrimpRes, this.lobsterRes],
       this.game

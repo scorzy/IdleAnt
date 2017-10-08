@@ -24,7 +24,7 @@ export class Frozen implements WorldInterface {
     this.listFreezig = new Array<Unit>()
 
     this.iceAnt = new Unit(this.game, "iceA", "Ice Provisioner",
-      "Collect Ice")
+      "Collect Ice.")
     this.iceDrillAnt = new Unit(this.game, "iceDrill", "Ice Drilling",
       "Equip an ant with an ice drill to destroy ice.")
     this.iceMelter = new Unit(this.game, "iceMelter", "Ice Melter",

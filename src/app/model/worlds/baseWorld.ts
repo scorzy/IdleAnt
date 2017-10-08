@@ -125,9 +125,9 @@ export class BaseWorld implements WorldInterface {
     this.littleAnt = new Unit(this.game, "G1", "Ant",
       "Ant are the lowest class of worker. They continuously gather food.")
     this.queenAnt = new Unit(this.game, "G2", "Queen",
-      "Queen proces ants")
+      "Queen proces ants.")
     this.nestAnt = new Unit(this.game, "G3", "Nest",
-      "Nest proces queen")
+      "Nest proces queen.")
   }
   declareJobs() {
     this.geologist = new Unit(this.game, "geo", "Geologist", "Geologist yield cristal.")

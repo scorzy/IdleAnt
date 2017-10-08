@@ -4,6 +4,7 @@ import { log } from 'util';
 import { Logger } from 'jasmine-spec-reporter/built/display/logger';
 import { Injectable, OnInit } from '@angular/core';
 
+declare let kongregate;
 
 @Injectable()
 export class GameService {
@@ -13,6 +14,10 @@ export class GameService {
   selectedGen: string;
   list: any
   interval = 1000 / 20
+  saveFreq = 1000 * 3 * 60
+  kongFreq = 1000 * 10 * 60
+
+  kongregate: any
 
   constructor() {
     this.game = new GameModel()
@@ -21,11 +26,23 @@ export class GameService {
     if (l)
       this.last = l
 
-    // this.last = this.last - 24 * 3600
-
     this.game.isChanged = true
     // this.update()
     setInterval(this.update.bind(this), 1000 / 18)
+
+    setInterval(this.save.bind(this), this.saveFreq)
+
+    setTimeout(() => {
+      try {
+        this.initKong()
+        this.sendKong()
+        setInterval(this.sendKong.bind(this), this.kongFreq)
+      } catch (e) {
+        console.log("Error: " + e.message)
+      }
+    }, 15 * 1000)
+
+
   }
 
   update() {
@@ -54,6 +71,22 @@ export class GameService {
       const saveRaw = localStorage.getItem('save')
       return this.game.load(saveRaw)
     }
+  }
+
+
+  initKong() {
+    // this.kongregate = window.kongregateAPI.getAPI()
+    // this.kongregate.services.connect()
+    console.log("Connected to kong")
+  }
+  sendKong() {
+    try {
+      kongregate.stats.submit('Prestige', this.game.maxLevel.toNumber())
+      console.log("Prestige sent: " + this.game.maxLevel.toNumber())
+    } catch (e) {
+      console.log("Error: " + e.message)
+    }
+
   }
 
 }
