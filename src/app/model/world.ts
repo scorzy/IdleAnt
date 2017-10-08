@@ -184,20 +184,35 @@ export class World {
   restore(data: any) {
     this.name = data.n
 
+    this.avaiableUnits = []
     if (typeof data.a !== "undefined" && data.a != null && data.a.length > 0)
       this.avaiableUnits = data.a.map(a => this.game.allBase.find(u => u.id === a))
+
+    this.prodMod = []
     if (typeof data.p !== "undefined" && data.p != null && data.p.length > 0)
       this.prodMod = data.p.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
+
+    this.toUnlock = []
     if (typeof data.t !== "undefined" && data.t != null && data.t.length > 0)
       this.toUnlock = data.t.map(c => this.game.getCost(c))
+
+    this.toUnlockMax = []
     if (typeof data.m !== "undefined" && data.m != null && data.m.length > 0)
       this.toUnlockMax = data.m.map(c => this.game.getCost(c))
+
+    this.unitMod = []
     if (typeof data.um !== "undefined" && data.um != null && data.um.length > 0)
       this.unitMod = data.um.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
+
+    this.unitPrice = []
     if (typeof data.up !== "undefined" && data.up != null && data.up.length > 0)
       this.unitPrice = data.up.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
+
+    this.unlockedUnits = []
     if (typeof data.uu !== "undefined" && data.uu != null && data.uu.length > 0)
       this.unlockedUnits = data.uu.map(p => [this.game.allBase.find(u => u.id === p[0]), Decimal(p[1])])
+
+    this.experience = new Decimal(10)
     if (data.e)
       this.experience = new Decimal(data.e)
 

@@ -3,6 +3,7 @@ import { GameModel } from './model/gameModel';
 import { log } from 'util';
 import { Logger } from 'jasmine-spec-reporter/built/display/logger';
 import { Injectable, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 declare let kongregate;
 
@@ -19,7 +20,9 @@ export class GameService {
 
   kongregate: any
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     this.game = new GameModel()
     this.last = Date.now()
     const l = this.load()
@@ -42,6 +45,7 @@ export class GameService {
       }
     }, 15 * 1000)
 
+    this.router.navigateByUrl('/')
 
   }
 

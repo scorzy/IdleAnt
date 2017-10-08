@@ -202,7 +202,7 @@ export class Infestation implements WorldInterface {
           [this.basicDisinfestationRes, Decimal(0)]
         ],
         Decimal(5.5),
-        [new Cost(this.poisonousPlant, Decimal(100))]
+        [new Cost(this.poisonousPlant, Decimal(5E3))]
       )
     )
 
@@ -220,7 +220,7 @@ export class Infestation implements WorldInterface {
           [this.basicDisinfestationRes, Decimal(0)]
         ],
         Decimal(5.5),
-        [new Cost(this.poisonousPlant, Decimal(100))]
+        [new Cost(this.poisonousPlant, Decimal(5E3))]
       )
     )
 
