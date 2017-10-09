@@ -54,7 +54,7 @@ export class GameService {
     const delta = now - this.last
 
     if (delta > this.interval) {
-      this.game.longUpdate(100 * (now - this.last))
+      this.game.longUpdate(1 * (now - this.last))
       this.last = now
     }
     // window.requestAnimationFrame(this.update.bind(this))

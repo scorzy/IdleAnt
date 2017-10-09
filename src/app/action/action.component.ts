@@ -74,4 +74,12 @@ export class ActionComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  buyFirefox() {
+    if (this.action) {
+      const b = this.maxBuy.toNumber()
+      return b >= 1
+    }
+    return false
+  }
+
 }
