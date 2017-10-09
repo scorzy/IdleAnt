@@ -117,7 +117,9 @@ export class World {
 
     const toUnlockMultiplier = Decimal.pow(1.07, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
-    const expMultiplier = Decimal.pow(1.075, worldRet.level).times(worldRet.level + 1 / linear)
+    // const expMultiplier = Decimal.pow(1.075, worldRet.level).times(worldRet.level + 1 / linear)
+    //   .times(linear)
+        const expMultiplier = Decimal.pow(1.008, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())

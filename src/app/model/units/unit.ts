@@ -128,6 +128,8 @@ export class Unit extends Base {
       if (this.quantity.greaterThan(0))
         this.unlocked = true
     }
+
+    this.producedBy.forEach(p => p.unlocked = p.defaultUnlocked)
   }
 
   isStopped() {

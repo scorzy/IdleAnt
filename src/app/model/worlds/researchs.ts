@@ -99,7 +99,7 @@ export class Researchs implements WorldInterface {
       "Advanced Lesson", "University also produces scientist and generate more science.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
       [this.game.science.science2Production, this.game.science.scientistProduction],
-      this.game, () => { this.game.science.science1Production.unlocked = false }
+      this.game
     )
 
     //    University 2

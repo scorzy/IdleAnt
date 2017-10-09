@@ -9,12 +9,16 @@ import { Unlocable } from './utils';
 export class Production extends Unlocable {
 
   public productor: Unit = null
+  defaultUnlocked = true
 
   constructor(
     public unit: Unit,    // who make
     public efficiency: decimal.Decimal = Decimal(1),
     unlocked = true
-  ) { super(unlocked) }
+  ) {
+    super(unlocked)
+    this.defaultUnlocked = unlocked
+  }
 
   getprodPerSec(eff = true): decimal.Decimal {
     if (this.unit.unlocked && this.unlocked) {

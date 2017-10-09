@@ -115,8 +115,8 @@ export class Bee implements WorldInterface {
       this.hiveBee,
       [
         new Cost(this.queenBee, Decimal(100), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeOther1.times(2), beeTeamUp),
-        new Cost(this.game.baseWorld.food, this.game.baseWorld.prestigeFood.times(0.5), this.game.buyExp),
+        new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeOther1.times(0.6), beeTeamUp),
+        new Cost(this.game.baseWorld.food, this.game.baseWorld.prestigeFood.times(0.8), this.game.buyExp),
       ]
     ))
     this.queenBee.addProductor(new Production(this.hiveBee))

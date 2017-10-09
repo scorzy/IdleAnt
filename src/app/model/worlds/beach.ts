@@ -160,7 +160,7 @@ export class Beach implements WorldInterface {
       [
         new Cost(this.game.baseWorld.food, this.game.baseWorld.prestigeFood.div(1.5), this.game.buyExp),
         new Cost(this.game.baseWorld.sand, this.game.baseWorld.prestigeOther1.times(2), this.game.buyExp),
-        new Cost(this.crabNest, Decimal(250), this.game.buyExpUnit)
+        new Cost(this.crabQueen, Decimal(250), this.game.buyExpUnit)
       ]
     ))
     this.crabNest.actions.push(new UpAction(this.game, this.crabNest,
