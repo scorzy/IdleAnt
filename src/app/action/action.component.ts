@@ -33,9 +33,21 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
   }
 
+  getPriceString1() {
+    return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1))
+  }
+  getBuyStringHalf() {
+    return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
+      .times(this.action.getBuyMax().div(2).ceil()))
+  }
+  getBuyStringMax() {
+    return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
+      .times(this.action.getBuyMax()))
+  }
+
   ngAfterViewChecked(): void {
-    if (this.action)
-      this.refresh();
+    // if (this.action)
+    //   this.refresh();
   }
 
   refresh() {

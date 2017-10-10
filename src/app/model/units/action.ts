@@ -14,6 +14,8 @@ export class Action extends Base {
   public oneTime = false
   public up: Action
 
+  realPriceNow = new Array<Cost>()
+
   constructor(
     id: string,
     name: string,
@@ -24,6 +26,7 @@ export class Action extends Base {
     public unit: Unit = null
   ) {
     super(game, id, name, description)
+    this.realPriceNow = this.getCosts()
   }
 
   getRealPrices() {
@@ -47,6 +50,7 @@ export class Action extends Base {
           this.unlocked = false
 
         this.game.reloadProduction()
+        this.realPriceNow = this.getCosts()
         return true
       }
     }

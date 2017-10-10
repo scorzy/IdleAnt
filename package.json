@@ -28,6 +28,7 @@
     "clarity-angular": "^0.10.1",
     "clarity-icons": "^0.10.1",
     "clarity-ui": "^0.10.1",
+    "core-js": "^2.5.1",
     "decimal.js": "^7.2.3",
     "lz-string": "^1.4.4",
     "moment": "^2.18.1",

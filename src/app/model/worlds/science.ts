@@ -30,7 +30,7 @@ export class Science implements WorldInterface {
     this.student.types = [Type.Ant, Type.Scientist]
 
     this.scientist = new Unit(this.game, "scie2", "Scientist Ant",
-      "Transform cristal into science.")
+      "Transform crystal into science.")
 
     this.university = new Unit(this.game, "univ", "University",
       "University yield science.")
@@ -96,8 +96,9 @@ export class Science implements WorldInterface {
         new Cost(this.game.baseWorld.cristal, this.game.machines.price2.times(2), this.game.buyExp)
       ]
     ))
+
     this.game.baseWorld.science.addProductor(this.science1Production)
-    this.game.baseWorld.science.addProductor(this.science2Production)
+    // this.game.baseWorld.science.addProductor(this.science2Production)
 
     this.game.baseWorld.cristal.addProductor(new Production(this.university, specialCost.times(10)))
 

@@ -34,9 +34,9 @@ export class Beach implements WorldInterface {
     this.crabQueen = new Unit(this.game, "CrabQ", "Crab Queen", "Crab Queen yield crab.")
     this.crabNest = new Unit(this.game, "CrabN", "Crab Nest", "Crab Nest yield crab queens.")
     this.shrimp = new Unit(this.game, "shrimp", "Shrimp",
-      "Shrimp yield sand and cristal.")
+      "Shrimp yield sand and crystal.")
     this.lobster = new Unit(this.game, "lobster", "Lobster",
-      "Lobster yield sand, and cristal for food.")
+      "Lobster yield sand, and crystal for food.")
     this.crabScientist = new Unit(this.game, "crabScientist", "Scientist Crab",
       "Scientist Crab will get science for sand.")
 

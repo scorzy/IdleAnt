@@ -105,15 +105,17 @@ export class Infestation implements WorldInterface {
     this.poisonousPlant.addProductor(new Production(this.poisonousPlant2))
     this.poisonousPlant.addProductor(new Production(this.disinfestationAnt, Decimal(-10)))
     this.poisonousPlant.addProductor(new Production(this.disinfestationBeetle, Decimal(-12)))
+
     this.poisonousPlant.addProductor(new Production(this.flametrowerBeetle, Decimal(-100)))
+    this.game.baseWorld.wood.addProductor(new Production(this.flametrowerBeetle, Decimal(-5)))
+
     this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-120)))
-    this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
+    this.game.baseWorld.wood.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
+
     this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(-0.01)))
     this.game.baseWorld.fungus.addProductor(new Production(this.chemistAnt, Decimal(-10)))
     this.game.baseWorld.soil.addProductor(new Production(this.chemistAnt, Decimal(-10)))
     this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(1)))
-
-
 
     //  Disinfestation
     this.disinfestationAnt.actions.push(new BuyAction(this.game, this.disinfestationAnt,

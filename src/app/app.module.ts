@@ -17,6 +17,7 @@ import { PrestigeComponent } from './prestige/prestige.component';
 import { LabComponent } from './lab/lab.component';
 import { ResPipePipe } from './res-pipe.pipe';
 import { HomeWorldComponent } from './home-world/home-world.component';
+import { PricePipePipe } from './price-pipe.pipe';
 
 const appRoutes: Routes = [
   {
@@ -82,7 +83,8 @@ export class FilterMax implements PipeTransform {
     LabComponent,
     ResPipePipe,
     HomeWorldComponent,
-    FilterActive
+    FilterActive,
+    PricePipePipe
   ],
   imports: [
     BrowserModule,

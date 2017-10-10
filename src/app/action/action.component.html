@@ -7,32 +7,35 @@
     <span>{{action.description}} &nbsp;</span><br/>
     <span *ngIf="!action.oneTime">Getting one will costs:</span>
     <span *ngIf="action.oneTime">Costs:</span>
-    <span *ngFor="let p of action.getCosts()" [ngClass]="{'notEnought': p.basePrice.greaterThan(p.unit.quantity)}">
+    <span *ngFor="let p of action.realPriceNow"
+    [ngClass]="{'notEnought': p.basePrice.greaterThan(p.unit.quantity)}">
          {{numberformat.formatShort(p.basePrice)}}
          {{p.unit.name}},
     </span>
     <br/>
   </p>
 
-  <div *ngIf="maxBuy.greaterThanOrEqualTo(1)">
+  <div *ngIf="action.getBuyMax().greaterThanOrEqualTo(1)">
     <div class="btn-group w-100" role="group">
-      <button type="button" class="btn btn-secondary w-100" (click)="action.buy()" [disabled]="!maxBuy.greaterThanOrEqualTo(1)">
-                <span *ngIf="!action.oneTime">{{buyString1}}</span>
+      <button type="button" class="btn btn-secondary w-100" (click)="action.buy()" [disabled]="!action.getBuyMax().greaterThanOrEqualTo(1)">
+                <span *ngIf="!action.oneTime">{{getPriceString1()}}</span>
                 <span *ngIf="action.oneTime">Get</span>
-            </button>
-      <button type="button " class="btn btn-secondary w-100" (click)="action.buy(maxBuy.div(2).ceil())" *ngIf="maxBuy.greaterThanOrEqualTo(3)">
-              <span>{{buyStringHalf}}</span>
-            </button>
-      <button type="button" class="btn btn-secondary w-100" (click)="action.buy(maxBuy)" *ngIf="maxBuy.greaterThanOrEqualTo(2)">
-              <span>{{buyStringMax}}</span>
+      </button>
+      <button type="button " class="btn btn-secondary w-100" (click)="action.buy(action.getBuyMax().div(2).ceil())"
+        *ngIf="action.getBuyMax().greaterThanOrEqualTo(3)">
+              <span>{{getBuyStringHalf()}}</span>
+      </button>
+      <button type="button" class="btn btn-secondary w-100" (click)="action.buy(action.getBuyMax())" *ngIf="action.getBuyMax().greaterThanOrEqualTo(2)">
+              <span>{{getBuyStringMax()}}</span>
     </button>
     </div>
   </div>
 
-  <div *ngIf="!maxBuy.greaterThanOrEqualTo(1) && !(action.oneTime && action.owned())">
-    <div class="progress-block" *ngFor="let cost of prices1">
+  <div *ngIf="!action.getBuyMax().greaterThanOrEqualTo(1) && !(action.oneTime && action.owned())">
+    <div class="progress-block" *ngFor="let cost of action.realPriceNow">
       <label>{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</label>
-      <div class="progress" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
+      <div class="progress"
+      [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
         <progress class="progress-meter" max="100" [attr.value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()"
           data-displayval="0%"></progress>
       </div>

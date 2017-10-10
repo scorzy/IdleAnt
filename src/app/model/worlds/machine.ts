@@ -41,15 +41,15 @@ export class Machine implements WorldInterface {
     this.refineryStation = new Unit(this.game, "refineryStation", "Refinery Station",
       "Turn soil into sand.")
     this.laserStation = new Unit(this.game, "laserStation", "Laser Station",
-      "Yeld cristal.")
+      "Yield cristal.")
     this.hydroFarm = new Unit(this.game, "hydroFarm", "Hydroponic Farm",
-      "Yeld fungus.")
+      "Yield fungus.")
     this.plantingMachine = new Unit(this.game, "plantingMac", "Planting Machine",
-      "Yeld wood.")
+      "Yield wood.")
     this.sandDigger = new Unit(this.game, "sandDigger", "Sand Digger",
-      "Yeld sand.")
+      "Yield sand.")
     this.loggingMachine = new Unit(this.game, "loggingMachine", "Logging Machine",
-      "Yeld wood.")
+      "Yield wood.")
     this.mine = new Unit(this.game, "mine", "Mine",
       "Yeld cristal.")
     this.honeyMaker = new Unit(this.game, "honeyMaker", "Honey Maker",

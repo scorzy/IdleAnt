@@ -56,12 +56,12 @@ export class Researchs implements WorldInterface {
     this.evolution = new Research(
       "evolution",
       "Evolution",
-      "Increase the resources need to travel to a new world (x10) and also increase the experience you will gain (x3).",
+      "Increase the resources need to travel to a new world (x5) and also increase the experience you will gain (x3).",
       [new Cost(this.game.baseWorld.science, Decimal(1E10))],
       [],
       this.game,
       () => {
-        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.times(10))
+        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.times(5))
         this.game.world.experience = this.game.world.experience.times(3)
       }
     )
@@ -160,7 +160,7 @@ export class Researchs implements WorldInterface {
     //    Laser
     this.laserResearch = new Research(
       "lasRes",
-      "Laser", "Sand can be fused to cristal.",
+      "Laser", "Sand can be fused to crystal.",
       [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.game.baseWorld.laserAnt],
       this.game

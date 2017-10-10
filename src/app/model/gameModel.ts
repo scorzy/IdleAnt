@@ -393,6 +393,9 @@ export class GameModel {
         this.homeTabAv = save.htv
 
       this.reloadProduction()
+
+      this.science.science1Production.unlocked = true
+
       return save.last
     }
     return null
