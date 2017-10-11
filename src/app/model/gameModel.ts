@@ -394,6 +394,7 @@ export class GameModel {
 
       this.reloadProduction()
 
+
       this.science.science1Production.unlocked = true
 
       return save.last
@@ -402,7 +403,11 @@ export class GameModel {
   }
 
   reloadProduction() {
-    this.all.forEach(u => u.loadProduction())
+    this.all.forEach(u => {
+      u.loadProduction()
+      u.reloadtAct()
+    })
+
   }
   getCost(data: any): Cost {
     return new Cost(this.all.find(u => u.id === data.u), Decimal(data.b), Decimal(data.g))

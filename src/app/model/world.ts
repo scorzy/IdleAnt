@@ -119,7 +119,7 @@ export class World {
       .times(linear)
     // const expMultiplier = Decimal.pow(1.075, worldRet.level).times(worldRet.level + 1 / linear)
     //   .times(linear)
-        const expMultiplier = Decimal.pow(1.008, worldRet.level).times(worldRet.level + 1 / linear)
+    const expMultiplier = Decimal.pow(1.008, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
@@ -160,6 +160,7 @@ export class World {
 
     this.game.world = this
     this.game.world.generateAction(this.game)
+    this.game.all.forEach(u => u.reloadtAct())
 
     this.game.worldTabAv = true
     this.game.homeTabAv = true

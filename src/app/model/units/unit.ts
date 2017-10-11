@@ -141,4 +141,10 @@ export class Unit extends Base {
       (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false)
   }
 
+  reloadtAct() {
+    this.actions.forEach(a => {
+      a.realPriceNow = a.getCosts()
+    })
+  }
+
 }
