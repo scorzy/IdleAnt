@@ -27,6 +27,8 @@ export class Action extends Base {
   ) {
     super(game, id, name, description)
     this.realPriceNow = this.getCosts()
+
+    this.game.actionList.push(this)
   }
 
   getRealPrices() {
@@ -97,6 +99,9 @@ export class Action extends Base {
   }
   owned(): boolean {
     return this.quantity.greaterThan(0)
+  }
+  reload() {
+    this.realPriceNow = this.getCosts()
   }
 }
 

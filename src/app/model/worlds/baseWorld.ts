@@ -89,7 +89,7 @@ export class BaseWorld implements WorldInterface {
     this.food.unlocked = true
     this.listMaterial.push(this.food)
 
-    this.cristal = new Unit(this.game, "cri", "Cristal", "Cristals are needed to get science.")
+    this.cristal = new Unit(this.game, "cri", "Crystal", "Crystals are needed to get science.")
     this.listMaterial.push(this.cristal)
 
     this.soil = new Unit(this.game, "soil", "Soil", "Soil is used to make nests.")

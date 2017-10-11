@@ -43,6 +43,8 @@ export class GameModel {
   upgradeScienceExp = Decimal(4)
   upgradeScienceHireExp = Decimal(6)
 
+  actionList = new Array<Action>()
+
   //  Worlds
   baseWorld: BaseWorld
   science: Science
@@ -405,8 +407,10 @@ export class GameModel {
   reloadProduction() {
     this.all.forEach(u => {
       u.loadProduction()
-      u.reloadtAct()
+      // u.reloadtAct()
     })
+
+    this.actionList.forEach(a => a.reload())
 
   }
   getCost(data: any): Cost {
