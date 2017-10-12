@@ -8,8 +8,9 @@ $height: 24px;
 }
 
 .clr-vertical-nav {
-     width: 320px !important;
-    padding-top: 12px;
+   width: 320px !important;
+   padding-top: 12px;
+   height: calc(100vh - 60px) !important;
 }
 
 //clr-vertical-nav[_ngcontent-c1]
@@ -22,3 +23,5 @@ $height: 24px;
   width: 25%;
   display: inline-block;
 }
+
+

@@ -154,7 +154,7 @@ export class BaseWorld implements WorldInterface {
     this.laserAnt = new Unit(this.game, "las", "Laser Ant",
       "Transform sand into cristal.")
     this.hydroAnt = new Unit(this.game, "hydroFarmer", "Hydroponic Ant",
-      "Transform cristal into fungus.")
+      "Transform crystal into fungus.")
     this.planterAnt = new Unit(this.game, "planterAnt", "Planter Ant",
       "Transform fungus into wood.")
 

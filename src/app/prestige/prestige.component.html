@@ -3,6 +3,15 @@
     <h2>{{getTitle()}}</h2>
 
     <div *ngIf="!travelAv()">
+      <div *ngIf="!this.gameService.game.research.prestigeResearch.owned()">
+        <clr-alert [clrAlertType]="'alert-warning'">
+          <div class="alert-item">
+            <span class="alert-text">
+                You will not be able to travel without the Travel research !
+            </span>
+          </div>
+        </clr-alert>
+      </div>
       <p> You need the travel research and: </p>
       <table class="nowrap" style="width:100%">
         <tbody>

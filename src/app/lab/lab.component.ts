@@ -8,7 +8,7 @@ import { GameService } from '../game.service';
 })
 export class LabComponent implements OnInit {
 
-  resDone: boolean = false
+  resDone = false
 
   constructor(public gameService: GameService) { }
 

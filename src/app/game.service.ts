@@ -35,15 +35,14 @@ export class GameService {
 
     setInterval(this.save.bind(this), this.saveFreq)
 
-    setTimeout(() => {
-      try {
-        this.initKong()
-        this.sendKong()
-        setInterval(this.sendKong.bind(this), this.kongFreq)
-      } catch (e) {
-        console.log("Error: " + e.message)
-      }
-    }, 15 * 1000)
+    // setTimeout(() => {
+    //   try {
+    //     this.sendKong()
+    //     setInterval(this.sendKong.bind(this), this.kongFreq)
+    //   } catch (e) {
+    //     console.log("Error: " + e.message)
+    //   }
+    // }, 15 * 1000)
 
     this.router.navigateByUrl('/')
 
@@ -77,12 +76,6 @@ export class GameService {
     }
   }
 
-
-  initKong() {
-    // this.kongregate = window.kongregateAPI.getAPI()
-    // this.kongregate.services.connect()
-    console.log("Connected to kong")
-  }
   sendKong() {
     try {
       kongregate.stats.submit('Prestige', this.game.maxLevel.toNumber())

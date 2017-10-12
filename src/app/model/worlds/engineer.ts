@@ -31,7 +31,7 @@ export class Engineers implements WorldInterface {
     this.listEnginer = new Array<Unit>()
 
     this.composterEnginer = new Unit(this.game, "engCo", "Composter Engineer",
-      "Slowly build laser stations.")
+      "Slowly build composter stations.")
     this.laserEnginer = new Unit(this.game, "engLa", "Laser Engineer",
       "Slowly build laser stations.")
     this.hydroEnginer = new Unit(this.game, "engHy", "Hydro Engineer",

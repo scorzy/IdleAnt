@@ -128,15 +128,15 @@ export class Prestige implements WorldInterface {
     //    Tecnology
     this.expTech = new Array<Unit>()
     this.pComposter = new Unit(this.game, "pComposter", "Compost",
-      "Composter units are 100% better.", true)
+      "Composter units are 30% better.", true)
     this.pRefinery = new Unit(this.game, "pRefinery", "Refinery",
-      "Refinery units are 100% better.", true)
+      "Refinery units are 30% better.", true)
     this.pLaser = new Unit(this.game, "pLaser", "Laser",
-      "Laser units are 100% better.", true)
+      "Laser units are 30% better.", true)
     this.pHydro = new Unit(this.game, "pHydro", "Hydroponics",
-      "Hydroponics units are 100% better.", true)
+      "Hydroponics units are 30% better.", true)
     this.pPlanter = new Unit(this.game, "pPlanter", "Planting",
-      "Planting units are 100% better.", true)
+      "Planting units are 30% better.", true)
 
     this.expTech.push(this.pComposter)
     this.expTech.push(this.pRefinery)

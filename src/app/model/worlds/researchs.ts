@@ -96,7 +96,7 @@ export class Researchs implements WorldInterface {
     //    University 3
     this.advancedLesson = new Research(
       "advancedLesson",
-      "Advanced Lesson", "University also produces scientist and generate more science.",
+      "Advanced Lesson", "University also produces scientist.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
       [this.game.science.science2Production, this.game.science.scientistProduction],
       this.game
@@ -275,7 +275,7 @@ export class Researchs implements WorldInterface {
     //    Wood
     const woodcutting = new Research(
       "WR1",
-      "Woodcutting", "Allow you to colect wood for future usage.",
+      "Woodcutting", "Allow you to collect wood for future usage.",
       [new Cost(this.game.baseWorld.science, Decimal(1000))],
       [this.game.baseWorld.lumberjack, hunting], this.game
     )

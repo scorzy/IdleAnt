@@ -36,6 +36,8 @@ export class PrestigeComponent implements OnInit {
       (this.gameService.game.world.toUnlockMax.length === 0 ||
         !!this.gameService.game.world.toUnlockMax.find(tum => tum.basePrice.greaterThan(tum.unit.quantity))))
 
+
+
   }
   goTo(world: World) {
     world.goTo(this.skip)
