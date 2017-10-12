@@ -115,7 +115,7 @@ export class World {
 
     const linear = 1 / 6.5
 
-    const toUnlockMultiplier = Decimal.pow(1.07, worldRet.level).times(worldRet.level + 1 / linear)
+    const toUnlockMultiplier = Decimal.pow(1.05, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
     // const expMultiplier = Decimal.pow(1.075, worldRet.level).times(worldRet.level + 1 / linear)
     //   .times(linear)

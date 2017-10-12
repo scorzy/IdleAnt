@@ -31,7 +31,7 @@ export class GameService {
 
     this.game.isChanged = true
     // this.update()
-    setInterval(this.update.bind(this), 1000 / 18)
+    setInterval(this.update.bind(this), 1000 / 10)
 
     setInterval(this.save.bind(this), this.saveFreq)
 

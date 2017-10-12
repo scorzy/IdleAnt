@@ -262,7 +262,7 @@ export class GameModel {
       this.longUpdate(remaning)
     }
 
-    this.reloadProduction()
+  //  this.reloadProduction()
   }
 
   /**
