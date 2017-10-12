@@ -24,4 +24,6 @@ $height: 24px;
   display: inline-block;
 }
 
-
+.content-area {
+  max-height: calc(100vh - 60px) !important;
+}
