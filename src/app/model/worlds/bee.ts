@@ -35,7 +35,7 @@ export class Bee implements WorldInterface {
       "Yeld Foraging Bee.")
 
     this.hiveBee = new Unit(this.game, "hBee", "Hive Bee",
-      "Hives yeld queens.")
+      "Hives yeld queens and instruct foraggin bee to become workers.")
 
     this.workerBee = new Unit(this.game, "worBee", "Worker Bee",
       "Worker Bee converts nectar to honey.")
@@ -120,6 +120,8 @@ export class Bee implements WorldInterface {
       ]
     ))
     this.queenBee.addProductor(new Production(this.hiveBee))
+    this.foragingBee.addProductor(new Production(this.hiveBee, Decimal(-5)))
+    this.workerBee.addProductor(new Production(this.hiveBee, Decimal(5)))
 
     this.queenBee.actions.push(new UpAction(this.game, this.queenBee,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost3, beeTeamUp)]))
