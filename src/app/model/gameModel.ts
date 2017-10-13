@@ -410,8 +410,26 @@ export class GameModel {
 
       this.reloadProduction()
 
-
+      //  Fixes for older savegame, corrupted...
       this.science.science1Production.unlocked = true
+
+      if (this.world.avaiableUnits)
+        this.world.avaiableUnits.forEach(u => u.avabileThisWorld = true)
+      if (this.world.unlockedUnits) {
+        this.world.unlockedUnits.forEach(u => {
+          u[0].avabileThisWorld = true
+          u[0].quantity = u[1]
+        })
+        this.unlockUnits(this.world.unlockedUnits.map(u => u[0]))()
+      }
+
+      if (this.world.prodMod)
+        this.world.prodMod.forEach(p => p[0].worldProdModifiers = p[1])
+      if (this.world.unitMod)
+        this.world.unitMod.forEach(p => p[0].worldEffModifiers = p[1])
+      if (this.world.unitPrice)
+        this.world.unitPrice.forEach(p => p[0].worldBuyModifiers = p[1])
+
       this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
 
       return save.last

@@ -129,6 +129,7 @@ export class World {
   }
 
   goTo(skip = false) {
+
     const le = this.game.lifeEarning
     const exp = this.game.prestige.experience.quantity.plus(this.game.getExperience())
     this.game.setInitialStat()
