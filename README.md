@@ -1,6 +1,19 @@
 # IdleAnt
+Idle Ant is an incremental game about ants.
 
+The game uses [Angular 4](https://angular.io/), [Clarity Design System](https://vmware.github.io/clarity/) and some other library.
+
+Links:
+
+https://scorzy.github.io/IdleAnt
+
+http://www.kongregate.com/games/scorzy88/idle-ants
+
+
+## To Compile
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.4.
+
+Run `npm install` than override the content of node_modules/@types/decimal.js/index.d.ts with the content decimalJsTypes.js
 
 ## Development server
 
