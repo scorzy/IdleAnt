@@ -262,7 +262,7 @@ export class GameModel {
       this.longUpdate(remaning)
     }
 
-  //  this.reloadProduction()
+    //  this.reloadProduction()
   }
 
   /**
@@ -405,9 +405,10 @@ export class GameModel {
   }
 
   reloadProduction() {
-    this.all.forEach(u => {
+    this.all.filter(un => un.unlocked).forEach(u => {
       u.loadProduction()
       // u.reloadtAct()
+      u.reloadAtcMaxBuy()
     })
 
     this.actionList.forEach(a => a.reload())

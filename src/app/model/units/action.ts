@@ -15,6 +15,7 @@ export class Action extends Base {
   public up: Action
 
   realPriceNow = new Array<Cost>()
+  maxBuy = new Decimal(0)
 
   constructor(
     id: string,
@@ -102,6 +103,9 @@ export class Action extends Base {
   }
   reload() {
     this.realPriceNow = this.getCosts()
+  }
+  setMaxBuy() {
+    this.maxBuy = this.getBuyMax()
   }
 }
 

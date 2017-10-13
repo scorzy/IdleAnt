@@ -137,14 +137,21 @@ export class Unit extends Base {
   }
 
   haveUp() {
-    return (this.upSpecial ? this.upSpecial.getBuyMax().greaterThanOrEqualTo(1) : false) ||
-      (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false)
+    return (this.upSpecial ? this.upSpecial.maxBuy.greaterThanOrEqualTo(1) : false) ||
+    (this.upHire ? this.upHire.maxBuy.greaterThanOrEqualTo(1) : false)
+
+    // return (this.upSpecial ? this.upSpecial.getBuyMax().greaterThanOrEqualTo(1) : false) ||
+    //   (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false)
   }
 
   reloadtAct() {
     this.actions.forEach(a => {
       a.realPriceNow = a.getCosts()
     })
+  }
+
+  reloadAtcMaxBuy() {
+    this.actions.forEach(a => a.setMaxBuy())
   }
 
 }
