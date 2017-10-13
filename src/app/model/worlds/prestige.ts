@@ -59,7 +59,7 @@ export class Prestige implements WorldInterface {
 
     //    Ant food
     this.pAntPower = new Unit(this.game, "pap", "Ant Power", "Ants yield 30% more food.", true)
-    this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power", "Geologists yield 30% more cristal.", true)
+    this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power", "Geologists yield 30% more crystal.", true)
     this.pAntHunter1 = new Unit(this.game, "phunt1", "Hunter Power", "Hunters are 30% more powerfull.", true)
     this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter", "Farmer are 30% more powerfull.", true)
     this.pAntFungus = new Unit(this.game, "paf", "Farmer Power", "Farmers are 30% more powerfull.", true)

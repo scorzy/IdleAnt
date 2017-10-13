@@ -140,12 +140,12 @@ export class Bee implements WorldInterface {
       [
         new Cost(this.foragingBee, Decimal(1), this.game.buyExpUnit),
         new Cost(this.game.baseWorld.honey, Decimal(6E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.cristal, Decimal(4E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, Decimal(4E3), this.game.buyExp),
       ]
     ))
     this.game.baseWorld.science.addProductor(new Production(this.scientistBee, Decimal(10)))
     this.game.baseWorld.honey.addProductor(new Production(this.scientistBee, Decimal(-2)))
-    this.game.baseWorld.cristal.addProductor(new Production(this.scientistBee, Decimal(-1)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.scientistBee, Decimal(-1)))
 
     this.scientistBee.actions.push(new UpAction(this.game, this.scientistBee,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, beeTeamUp)]))
@@ -174,7 +174,7 @@ export class Bee implements WorldInterface {
       [
         new Cost(this.foragingBee, Decimal(1E3), this.game.buyExpUnit),
         new Cost(this.game.baseWorld.wood, this.game.machines.price1, this.game.buyExp),
-        new Cost(this.game.baseWorld.cristal, this.game.machines.price2, this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, this.game.machines.price2, this.game.buyExp),
         new Cost(this.game.baseWorld.honey, this.game.machines.price2, this.game.buyExp)
       ]
     ))

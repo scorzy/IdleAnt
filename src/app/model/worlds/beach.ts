@@ -181,7 +181,7 @@ export class Beach implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceHireExp)]))
 
     this.game.baseWorld.sand.addProductor(new Production(this.shrimp))
-    this.game.baseWorld.cristal.addProductor(new Production(this.shrimp, Decimal(0.5)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.shrimp, Decimal(0.5)))
 
     //    lobster
     const lobsterScience = this.game.scienceCost3.times(1.5)
@@ -200,7 +200,7 @@ export class Beach implements WorldInterface {
 
     this.game.baseWorld.food.addProductor(new Production(this.lobster, this.game.machines.machineryProd.times(-10)))
     this.game.baseWorld.sand.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(5)))
-    this.game.baseWorld.cristal.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(10)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(10)))
   }
   addWorld() {
 

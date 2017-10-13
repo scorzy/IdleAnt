@@ -88,7 +88,7 @@ export class Infestation implements WorldInterface {
     //    Disinfestation
     this.basicDisinfestationRes = new Research(
       "basicDisinfestationRes",
-      "Disinfestation", "Unlock basic bisinfestation units.",
+      "Disinfestation", "Unlock basic disinfestation units.",
       [new Cost(this.game.baseWorld.science, Decimal(100))],
       [
         this.disinfestationAnt, this.disinfestationBeetle,
@@ -122,7 +122,7 @@ export class Infestation implements WorldInterface {
       [
         new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit),
         new Cost(this.game.baseWorld.food, Decimal(1000), this.game.buyExp),
-        new Cost(this.game.baseWorld.cristal, Decimal(100), this.game.buyExp)
+        new Cost(this.game.baseWorld.crystal, Decimal(100), this.game.buyExp)
       ]
     ))
     this.disinfestationAnt.actions.push(new UpAction(this.game, this.disinfestationAnt,
@@ -136,7 +136,7 @@ export class Infestation implements WorldInterface {
         new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit),
         new Cost(this.game.baseWorld.food, Decimal(12E3), this.game.buyExp),
         new Cost(this.game.baseWorld.wood, Decimal(8E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.cristal, Decimal(4E3), this.game.buyExp)
+        new Cost(this.game.baseWorld.crystal, Decimal(4E3), this.game.buyExp)
       ]
     ))
     this.flametrowerAnt.actions.push(new UpAction(this.game, this.flametrowerAnt,
