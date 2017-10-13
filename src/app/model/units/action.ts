@@ -105,7 +105,22 @@ export class Action extends Base {
     this.realPriceNow = this.getCosts()
   }
   setMaxBuy() {
-    this.maxBuy = this.getBuyMax()
+    if (this.oneTime) {
+      this.maxBuy = this.checkBuy() ? Decimal(1) : Decimal(0)
+    } else {
+      this.maxBuy = this.getBuyMax()
+    }
+  }
+  checkBuy() {
+    if (!this.unlocked)
+      return false
+    this.realPriceNow = this.getCosts()
+    const size1 = this.realPriceNow.length
+    for (let i = 0; i < size1; i++)
+      if (this.realPriceNow[i].basePrice.greaterThan(this.realPriceNow[i].unit.quantity))
+        return false
+
+    return true
   }
 }
 

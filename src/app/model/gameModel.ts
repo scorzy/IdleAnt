@@ -67,9 +67,7 @@ export class GameModel {
   all: Array<Unit>
   allBase: Array<Base>
   lists = new Array<TypeList>()
-
-  @Input()
-  public alert: IAlert
+  unitWithUp = new Array<Unit>()
 
   //    Prestige
   currentEarning = Decimal(0)
@@ -82,6 +80,11 @@ export class GameModel {
   worldTabAv = false
   expTabAv = false
   homeTabAv = false
+
+  // ui stuff
+  isLab = false
+  activeUnit: Unit
+
 
   constructor() { this.initialize() }
 
@@ -124,11 +127,10 @@ export class GameModel {
     this.worldList.forEach(w => w.addWorld())
 
     this.all = Array.from(this.unitMap.values()).filter(u => !u.neverEnding)
-    this.alert = alertArray[0]
 
     this.world = World.getBaseWorld(this)
 
-    this.world.generateAction(this)
+    // this.world.generateAction(this)
 
     this.generateRandomWorld()
 
@@ -145,6 +147,9 @@ export class GameModel {
     this.baseWorld.littleAnt.unlocked = true
     this.baseWorld.littleAnt.buyAction.unlocked = true
     this.research.rDirt.unlocked = true
+
+    this.unitWithUp = new Array<Unit>()
+    this.unitWithUp.push(this.baseWorld.littleAnt)
 
     // this.research.advancedLesson.unlocked = true
     this.baseWorld.food.quantity = Decimal(100)
@@ -270,6 +275,12 @@ export class GameModel {
    */
   postUpdate() {
     this.all.filter(u => u.quantity.lessThan(Number.EPSILON)).forEach(u => u.quantity = Decimal(0))
+
+    if (this.isLab)
+      this.checkResearch()
+
+    if (this.activeUnit)
+      this.activeUnit.reloadAtcMaxBuy()
   }
 
   /**
@@ -306,6 +317,9 @@ export class GameModel {
 
       this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>
         p.productor.unlocked = p.productor.avabileThisWorld))
+
+      this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
+
       return ok
     }
   }
@@ -398,6 +412,7 @@ export class GameModel {
 
 
       this.science.science1Production.unlocked = true
+      this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
 
       return save.last
     }
@@ -407,8 +422,6 @@ export class GameModel {
   reloadProduction() {
     this.all.filter(un => un.unlocked).forEach(u => {
       u.loadProduction()
-      // u.reloadtAct()
-      u.reloadAtcMaxBuy()
     })
 
     this.actionList.forEach(a => a.reload())
@@ -430,4 +443,12 @@ export class GameModel {
     })
   }
 
+  reloadUpIcons() {
+    this.unitWithUp.forEach(u => u.checkUp())
+  }
+
+  checkResearch() {
+    this.resList.filter(r => r.unlocked && r.avabileThisWorld)
+      .forEach(res => res.setMaxBuy())
+  }
 }

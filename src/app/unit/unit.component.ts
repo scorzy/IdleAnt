@@ -37,11 +37,13 @@ export class UnitComponent implements OnInit, OnDestroy {
         this.mioId = "food"
       }
       this.gen = this.gameService.game.unitMap.get(this.mioId)
+      this.gameService.game.activeUnit = this.gen
     });
   }
 
   ngOnDestroy() {
-    this.paramsSub.unsubscribe();
+    this.paramsSub.unsubscribe()
+    this.gameService.game.activeUnit = null
   }
 
   showProducers(): boolean {

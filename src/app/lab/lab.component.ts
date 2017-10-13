@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from '../game.service';
 
 @Component({
@@ -6,13 +6,18 @@ import { GameService } from '../game.service';
   templateUrl: './lab.component.html',
   styleUrls: ['./lab.component.scss']
 })
-export class LabComponent implements OnInit {
+export class LabComponent implements OnInit, OnDestroy {
 
   resDone = false
 
   constructor(public gameService: GameService) { }
 
   ngOnInit() {
+    this.gameService.game.isLab = true
+  }
+
+  ngOnDestroy() {
+    this.gameService.game.isLab = false
   }
 
 }

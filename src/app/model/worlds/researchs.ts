@@ -208,7 +208,7 @@ export class Researchs implements WorldInterface {
     listM = listM.concat(this.game.machines.listMachinery, [this.engineerRes])
     this.machineryRes = new Research(
       "machiRes",
-      "Machinery", "Unlock powerfull machinery.",
+      "Machinery", "Unlock powerful machinery.",
       [new Cost(this.game.baseWorld.science, Decimal(1E6))],
       listM,
       this.game
@@ -217,7 +217,7 @@ export class Researchs implements WorldInterface {
     //    Special
     this.specialResearch = new Research(
       "speRes",
-      "Tecnology", "Allow you to research new technologies.",
+      "Technology", "Allow you to research new technologies.",
       [new Cost(this.game.baseWorld.science, Decimal(3E3))],
       [this.composterResearch, this.refineryResearch, this.laserResearch, this.hydroResearch,
       this.planterResearch, this.experimentResearch,

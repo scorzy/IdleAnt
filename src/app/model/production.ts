@@ -30,7 +30,7 @@ export class Production extends Unlocable {
       return this.efficiency
         .times(this.unit.getProduction())
         .times(eff ? this.unit.percentage : Decimal(100)).div(100)
-        .times(this.productor.worldProdModifiers)
+        .times(this.efficiency.greaterThan(0) ? this.productor.worldProdModifiers : Decimal(1))
         .times(sum)
     } else
       return Decimal(0)

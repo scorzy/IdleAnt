@@ -35,7 +35,7 @@ export class Prestige implements WorldInterface {
   //    Prestige Machinery
   pMachineryPower: Unit
 
-  //    Prestige Tecnology
+  //    Prestige Technology
   pComposter: Unit
   pRefinery: Unit
   pLaser: Unit
@@ -57,11 +57,10 @@ export class Prestige implements WorldInterface {
     this.expLists = new Array<TypeList>()
     this.expAnt = new Array<Unit>()
 
-    //    Ant food
     this.pAntPower = new Unit(this.game, "pap", "Ant Power", "Ants yield 30% more food.", true)
     this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power", "Geologists yield 30% more crystal.", true)
     this.pAntHunter1 = new Unit(this.game, "phunt1", "Hunter Power", "Hunters are 30% more powerfull.", true)
-    this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter", "Farmer are 30% more powerfull.", true)
+    this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter", "Advanced Hunters are 30% more powerfull.", true)
     this.pAntFungus = new Unit(this.game, "paf", "Farmer Power", "Farmers are 30% more powerfull.", true)
 
     this.expAnt.push(this.pAntPower)
@@ -125,7 +124,7 @@ export class Prestige implements WorldInterface {
       l.buyAction.unlocked = true
     }))
 
-    //    Tecnology
+    //    Technology
     this.expTech = new Array<Unit>()
     this.pComposter = new Unit(this.game, "pComposter", "Compost",
       "Composter units are 30% better.", true)
@@ -148,7 +147,7 @@ export class Prestige implements WorldInterface {
       p.actions.push(new BuyAction(this.game, p,
         [new Cost(this.experience, Decimal(30), expIncrement)]))
     })
-    this.expLists.push(new TypeList("Tecnology", this.expTech))
+    this.expLists.push(new TypeList("Technology", this.expTech))
 
     this.game.machines.composterStation.prestigeBonusProduction.push(this.pComposter)
     this.game.baseWorld.composterAnt.prestigeBonusProduction.push(this.pComposter)

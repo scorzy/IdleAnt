@@ -14,7 +14,7 @@ export class GameService {
   last: number;
   selectedGen: string;
   list: any
-  interval = 1000 / 20
+  interval = 1000 / 10
   saveFreq = 1000 * 3 * 60
   kongFreq = 1000 * 10 * 60
 
@@ -31,18 +31,20 @@ export class GameService {
 
     this.game.isChanged = true
     // this.update()
-    setInterval(this.update.bind(this), 1000 / 10)
+    setInterval(this.update.bind(this), this.interval)
+
+    setInterval(this.checkUpgrades.bind(this), 1000 )
 
     setInterval(this.save.bind(this), this.saveFreq)
 
-    setTimeout(() => {
-      try {
-        this.sendKong()
-        setInterval(this.sendKong.bind(this), this.kongFreq)
-      } catch (e) {
-        console.log("Error: " + e.message)
-      }
-    }, 15 * 1000)
+    // setTimeout(() => {
+    //   try {
+    //     this.sendKong()
+    //     setInterval(this.sendKong.bind(this), this.kongFreq)
+    //   } catch (e) {
+    //     console.log("Error: " + e.message)
+    //   }
+    // }, 15 * 1000)
 
     this.router.navigateByUrl('/')
 
@@ -56,7 +58,12 @@ export class GameService {
       this.game.longUpdate(1 * (now - this.last))
       this.last = now
     }
+    this.game.postUpdate()
     // window.requestAnimationFrame(this.update.bind(this))
+  }
+
+  checkUpgrades() {
+    this.game.reloadUpIcons()
   }
 
   clear() {

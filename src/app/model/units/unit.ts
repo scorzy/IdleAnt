@@ -30,6 +30,7 @@ export class Unit extends Base {
   prestigeBonusProduction = Array<Base>()
   prestigeBonusStart: Unit
   alwaysOn = false
+  showUp = false
 
   production = Decimal(0)
 
@@ -136,12 +137,11 @@ export class Unit extends Base {
     return this.percentage < Number.EPSILON
   }
 
-  haveUp() {
-    return (this.upSpecial ? this.upSpecial.maxBuy.greaterThanOrEqualTo(1) : false) ||
-    (this.upHire ? this.upHire.maxBuy.greaterThanOrEqualTo(1) : false)
-
-    // return (this.upSpecial ? this.upSpecial.getBuyMax().greaterThanOrEqualTo(1) : false) ||
-    //   (this.upHire ? this.upHire.getBuyMax().greaterThanOrEqualTo(1) : false)
+  checkUp() {
+    this.showUp =
+      (this.upHire && this.upHire.checkBuy()) ||
+      (this.upAction && this.upAction.checkBuy()) ||
+      (this.upSpecial && this.upSpecial.checkBuy())
   }
 
   reloadtAct() {

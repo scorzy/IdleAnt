@@ -10,7 +10,6 @@ export class World {
   static worldTypes = new Array<World>()
   static worldSuffix = new Array<World>()
 
-  public prestige: Action
   public level = 1
 
   constructor(
@@ -159,7 +158,6 @@ export class World {
 
 
     this.game.world = this
-    this.game.world.generateAction(this.game)
     this.game.all.forEach(u => u.reloadtAct())
 
     this.game.worldTabAv = true
@@ -222,9 +220,5 @@ export class World {
     if (data.l)
       this.level = data.l
   }
-  generateAction(game: GameModel) {
-    this.prestige = new Action("pres", "", null, this.toUnlock, "", game)
-    this.prestige.priceF.forEach(pf => pf.growFactor = Decimal(10))
-    this.prestige.unlocked = true
-  }
+
 }
