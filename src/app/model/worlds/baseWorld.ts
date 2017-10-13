@@ -130,7 +130,7 @@ export class BaseWorld implements WorldInterface {
       "Nest produces queen.")
   }
   declareJobs() {
-    this.geologist = new Unit(this.game, "geo", "Geologist", "Geologist yield cristal.")
+    this.geologist = new Unit(this.game, "geo", "Geologist", "Geologist yield crystal.")
     this.geologist.types = [Type.Ant, Type.Mining]
     this.listJobs.push(this.geologist)
 
