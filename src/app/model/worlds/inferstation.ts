@@ -88,7 +88,7 @@ export class Infestation implements WorldInterface {
     //    Disinfestation
     this.basicDisinfestationRes = new Research(
       "basicDisinfestationRes",
-      "Disinfestation", "Unlock basic bisinfestation units.",
+      "Disinfestation", "Unlock basic disinfestation units.",
       [new Cost(this.game.baseWorld.science, Decimal(100))],
       [
         this.disinfestationAnt, this.disinfestationBeetle,
