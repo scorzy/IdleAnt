@@ -54,6 +54,7 @@ export class Action extends Base {
 
         this.game.reloadProduction()
         this.realPriceNow = this.getCosts()
+        this.setMaxBuy()
         return true
       }
     }
@@ -106,7 +107,7 @@ export class Action extends Base {
   }
   setMaxBuy() {
     if (this.oneTime) {
-      this.maxBuy = this.checkBuy() ? Decimal(1) : Decimal(0)
+      this.maxBuy = !this.owned() && this.checkBuy() ? Decimal(1) : Decimal(0)
     } else {
       this.maxBuy = this.getBuyMax()
     }
