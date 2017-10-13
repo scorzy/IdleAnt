@@ -47,7 +47,7 @@ export class Science implements WorldInterface {
   public initStuff() {
 
     this.game.baseWorld.science.addProductor(new Production(this.student))
-    this.game.baseWorld.cristal.addProductor(new Production(this.student, Decimal(-0.5)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.student, Decimal(-0.5)))
 
     const specialProduction = Decimal(15)
     const specialCost = Decimal(-4)
@@ -59,7 +59,7 @@ export class Science implements WorldInterface {
       this.student,
       [
         new Cost(this.game.baseWorld.food, Decimal(1000), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.cristal, Decimal(100), Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.crystal, Decimal(100), Decimal(this.game.buyExp)),
         new Cost(this.game.baseWorld.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
       ],
       [this.game.baseWorld.science]
@@ -76,12 +76,12 @@ export class Science implements WorldInterface {
       this.scientist,
       [
         new Cost(this.game.baseWorld.food, specialFood.div(5), this.game.buyExp),
-        new Cost(this.game.baseWorld.cristal, specialRes2.div(5), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, specialRes2.div(5), this.game.buyExp),
         new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
     this.game.baseWorld.science.addProductor(new Production(this.scientist, specialProduction))
-    this.game.baseWorld.cristal.addProductor(new Production(this.scientist, specialCost))
+    this.game.baseWorld.crystal.addProductor(new Production(this.scientist, specialCost))
 
     this.scientist.actions.push(new UpAction(this.game, this.scientist,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
@@ -93,14 +93,14 @@ export class Science implements WorldInterface {
       this.university,
       [
         new Cost(this.game.baseWorld.wood, this.game.machines.price1.times(2), this.game.buyExp),
-        new Cost(this.game.baseWorld.cristal, this.game.machines.price2.times(2), this.game.buyExp)
+        new Cost(this.game.baseWorld.crystal, this.game.machines.price2.times(2), this.game.buyExp)
       ]
     ))
 
     this.game.baseWorld.science.addProductor(this.science1Production)
     // this.game.baseWorld.science.addProductor(this.science2Production)
 
-    this.game.baseWorld.cristal.addProductor(new Production(this.university, specialCost.times(10)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.university, specialCost.times(10)))
 
     this.student.addProductor(this.studentProduction)
     this.scientist.addProductor(this.scientistProduction)

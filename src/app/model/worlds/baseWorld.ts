@@ -12,7 +12,7 @@ export class BaseWorld implements WorldInterface {
 
   //    Materials
   food: Unit
-  cristal: Unit
+  crystal: Unit
   soil: Unit
   science: Unit
   fungus: Unit
@@ -89,8 +89,8 @@ export class BaseWorld implements WorldInterface {
     this.food.unlocked = true
     this.listMaterial.push(this.food)
 
-    this.cristal = new Unit(this.game, "cri", "Crystal", "Crystals are needed to get science.")
-    this.listMaterial.push(this.cristal)
+    this.crystal = new Unit(this.game, "cri", "Crystal", "Crystals are needed to get science.")
+    this.listMaterial.push(this.crystal)
 
     this.soil = new Unit(this.game, "soil", "Soil", "Soil is used to make nests.")
     this.listMaterial.push(this.soil)
@@ -104,7 +104,7 @@ export class BaseWorld implements WorldInterface {
     this.wood = new Unit(this.game, "wood", "Wood", "Wood is used to make better nest and machinery.")
     this.listMaterial.push(this.wood)
 
-    this.sand = new Unit(this.game, "sand", "Sand", "Sand can be used to make cristals.")
+    this.sand = new Unit(this.game, "sand", "Sand", "Sand can be used to make crystals.")
     this.listMaterial.push(this.sand)
 
     this.nectar = new Unit(this.game, "nectar", "Nectar", "Nectar is used to make honey.")
@@ -152,7 +152,7 @@ export class BaseWorld implements WorldInterface {
     this.refineryAnt = new Unit(this.game, "ref", "Refinery Ant",
       "Transform soil into sand.")
     this.laserAnt = new Unit(this.game, "las", "Laser Ant",
-      "Transform sand into cristal.")
+      "Transform sand into crystal.")
     this.hydroAnt = new Unit(this.game, "hydroFarmer", "Hydroponic Ant",
       "Transform crystal into fungus.")
     this.planterAnt = new Unit(this.game, "planterAnt", "Planter Ant",
@@ -216,7 +216,7 @@ export class BaseWorld implements WorldInterface {
     this.food.addProductor(new Production(this.fungus, Decimal(2)))
     this.fungus.addProductor(new Production(this.farmer))
     this.soil.addProductor(new Production(this.farmer, Decimal(-1)))
-    this.cristal.addProductor(new Production(this.geologist, Decimal(0.2)))
+    this.crystal.addProductor(new Production(this.geologist, Decimal(0.2)))
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
@@ -225,7 +225,7 @@ export class BaseWorld implements WorldInterface {
 
     this.food.addProductor(new Production(this.advancedHunter, Decimal(80)))
     this.wood.addProductor(new Production(this.advancedHunter, Decimal(-10)))
-    this.cristal.addProductor(new Production(this.advancedHunter, Decimal(-5)))
+    this.crystal.addProductor(new Production(this.advancedHunter, Decimal(-5)))
 
     //    Geologist
     this.geologist.actions.push(new BuyAndUnlockAction(this.game,
@@ -234,7 +234,7 @@ export class BaseWorld implements WorldInterface {
         new Cost(this.food, this.baseFood, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ],
-      [this.cristal, this.game.science.student]
+      [this.crystal, this.game.science.student]
     ))
 
     //    Carpenter
@@ -285,7 +285,7 @@ export class BaseWorld implements WorldInterface {
       [
         new Cost(this.food, this.baseFood, Decimal(this.game.buyExp)),
         new Cost(this.wood, this.price2, Decimal(this.game.buyExp)),
-        new Cost(this.cristal, this.price2.div(1.5), Decimal(this.game.buyExp)),
+        new Cost(this.crystal, this.price2.div(1.5), Decimal(this.game.buyExp)),
         new Cost(this.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit)),
       ]
     ))
@@ -341,7 +341,7 @@ export class BaseWorld implements WorldInterface {
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.cristal.addProductor(new Production(this.laserAnt, this.specialProduction))
+    this.crystal.addProductor(new Production(this.laserAnt, this.specialProduction))
     this.sand.addProductor(new Production(this.laserAnt, this.specialCost))
 
     //  Hydro
@@ -351,12 +351,12 @@ export class BaseWorld implements WorldInterface {
       this.hydroAnt,
       [
         new Cost(this.food, this.specialFood, this.game.buyExp),
-        new Cost(this.cristal, this.specialRes2, this.game.buyExp),
+        new Cost(this.crystal, this.specialRes2, this.game.buyExp),
         new Cost(this.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
     this.fungus.addProductor(new Production(this.hydroAnt, this.specialProduction))
-    this.cristal.addProductor(new Production(this.hydroAnt, this.specialCost))
+    this.crystal.addProductor(new Production(this.hydroAnt, this.specialCost))
 
     //  Planter
     this.planterAnt.types = [Type.Ant]
@@ -390,7 +390,7 @@ export class BaseWorld implements WorldInterface {
       new World(this.game, "Mine", "A mine",
         [this.game.machines.mine, this.game.engineers.mineEnginer],
         [
-          [this.game.baseWorld.cristal, Decimal(1.2)],
+          [this.game.baseWorld.crystal, Decimal(1.2)],
           [this.game.baseWorld.wood, Decimal(0.8)],
           [this.game.baseWorld.fungus, Decimal(0.8)]
         ],
@@ -421,7 +421,7 @@ export class BaseWorld implements WorldInterface {
       new World(this.game, "Crystallized", "",
         [this.game.machines.mine, this.game.engineers.mineEnginer],
         [
-          [this.game.baseWorld.cristal, Decimal(1.5)],
+          [this.game.baseWorld.crystal, Decimal(1.5)],
           [this.game.baseWorld.food, Decimal(0.4)],
           [this.game.baseWorld.fungus, Decimal(0.4)]
         ],
@@ -496,9 +496,9 @@ export class BaseWorld implements WorldInterface {
         [], [],
         Decimal(2)
       ),
-      new World(this.game, "of Cristall", "",
+      new World(this.game, "of Crystall", "",
         [this.game.machines.mine, this.game.engineers.mineEnginer],
-        [[this.cristal, Decimal(2)]],
+        [[this.crystal, Decimal(2)]],
         [], [], [], [],
         Decimal(2)
       ),
