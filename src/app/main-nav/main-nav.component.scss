@@ -13,8 +13,6 @@ $height: 24px;
    height: calc(100vh - 60px) !important;
 }
 
-//clr-vertical-nav[_ngcontent-c1]
-
 .resName{
   display: inline-block;
   width: 50%;
@@ -26,4 +24,16 @@ $height: 24px;
 
 .content-area {
   max-height: calc(100vh - 60px) !important;
+}
+
+.unit-group{
+  margin-left: -21px !important;
+}
+
+.clr-treenode-link.active{
+  background-color: #fafafa;
+}
+
+.experience{
+  margin-left: 30px !important;
 }

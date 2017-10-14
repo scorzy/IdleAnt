@@ -33,6 +33,7 @@ export class GameModel {
 
   isChanged = true
 
+  //#region
   //    Cost
   buyExp = Decimal(1.1)
   buyExpUnit = Decimal(1)
@@ -84,7 +85,7 @@ export class GameModel {
   // ui stuff
   isLab = false
   activeUnit: Unit
-
+  //#endregion
 
   constructor() { this.initialize() }
 
@@ -466,7 +467,7 @@ export class GameModel {
   }
 
   checkResearch() {
-    this.resList.filter(r => r.unlocked && r.avabileThisWorld)
+    this.resList// .filter(r => r.unlocked && r.avabileThisWorld)
       .forEach(res => res.setMaxBuy())
   }
 }

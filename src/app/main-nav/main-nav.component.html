@@ -2,8 +2,46 @@
   <div class="content-area">
     <router-outlet></router-outlet>
   </div>
-  <clr-vertical-nav [clrVerticalNavCollapsible]="false"
-  [clr-nav-level]="2">
+
+  <clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
+
+    <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" *ngIf="showPrestige" routerLink="./unit/exp">
+      Experience - {{gameService.game.prestige.experience.quantity | format}}
+    </a>
+
+    <clr-tree-node *ngFor="let list of typeLists | filterListNotEmpty">
+      <span class="font-weight-bold">
+        {{list.type}}
+      </span>
+
+      <ng-template [(clrIfExpanded)]="list.isCollapsed">
+
+        <div class="unit-group">
+          <clr-tree-node *ngFor="let g of list.list | filterMax">
+            <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link text-capitalize" routerLinkActive="active">
+              <span class="resName">
+                <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
+                <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
+                <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
+
+                {{g.name}}</span>
+              <span class="perSec">
+                <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
+                  {{g.totalPerSec | format}}/s
+                </span>
+              </span>
+              <span>{{g.quantity | format}}</span>
+            </a>
+          </clr-tree-node>
+        </div>
+
+      </ng-template>
+    </clr-tree-node>
+
+  </clr-vertical-nav>
+
+
+  <!-- <clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
 
     <a clrVerticalNavLink routerLinkActive="active" *ngIf="showPrestige" routerLink="./unit/exp">
       Experience - {{gameService.game.prestige.experience.quantity | format}}
@@ -18,14 +56,14 @@
         <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax"
           class="text-capitalize">
           <span class="resName">
-          <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
-          <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-          <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
+            <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
+            <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
+            <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
 
-          {{g.name}}</span>
-          <span class="perSec" >
+            {{g.name}}</span>
+          <span class="perSec">
             <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
-                {{g.totalPerSec | format}}/s
+              {{g.totalPerSec | format}}/s
             </span>
           </span>
           <span>{{g.quantity | format}}</span>
@@ -36,5 +74,5 @@
 
     </clr-vertical-nav-group>
 
-  </clr-vertical-nav>
+  </clr-vertical-nav> -->
 </div>
