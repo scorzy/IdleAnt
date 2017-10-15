@@ -30,6 +30,7 @@ export class Unit extends Base {
   bonusProduction = Array<[Base, decimal.Decimal]>()
   prestigeBonusProduction = Array<Base>()
   prestigeBonusStart: Unit
+  prestigeBonusQuantityValue = Decimal(5)
   alwaysOn = false
   showUp = false
 
@@ -60,7 +61,7 @@ export class Unit extends Base {
   loadProduction() {
     let sum = Decimal(1)
     for (const p of this.prestigeBonusProduction)
-      sum = sum.plus(p.quantity.times(0.3))
+      sum = sum.plus(p.quantity.times(0.3))  //  hardcoded +30% prestige bonus...
 
     this.production = this.getBoost().plus(1).times(
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
@@ -135,8 +136,12 @@ export class Unit extends Base {
   initialize() {
     super.initialize()
 
+    this.worldProdModifiers = Decimal(1)
+    this.worldEffModifiers = Decimal(1)
+    this.worldBuyModifiers = Decimal(1)
+
     if (this.prestigeBonusStart) {
-      this.quantity = Decimal(5).times(this.prestigeBonusStart.quantity)
+      this.quantity = this.prestigeBonusQuantityValue.times(this.prestigeBonusStart.quantity)
       if (this.quantity.greaterThan(0))
         this.unlocked = true
     }

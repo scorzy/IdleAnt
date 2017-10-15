@@ -436,10 +436,7 @@ export class BaseWorld implements WorldInterface {
           [this.honey, Decimal(0.5)],
           [this.nectar, Decimal(0.5)]
         ],
-        [],
-        [],
-        [],
-        [],
+        [], [], [], [],
         Decimal(4.5)
       ),
       new World(this.game, "Rainy", "",
@@ -464,6 +461,13 @@ export class BaseWorld implements WorldInterface {
           [this.science, Decimal(1.5)]
         ], [], [], [], [],
         Decimal(1.5)
+      ),
+      new World(this.game, "Starving", "",
+        [],
+        [
+          [this.food, Decimal(0.3)]
+        ], [], [], [], [],
+        Decimal(3.5)
       ),
     )
 

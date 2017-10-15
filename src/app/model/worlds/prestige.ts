@@ -31,6 +31,7 @@ export class Prestige implements WorldInterface {
   pGeologistNext: Unit
   pScientistNext: Unit
   pFarmerNext: Unit
+  pCarpenterNext: Unit
 
   //    Prestige Machinery
   pMachineryPower: Unit
@@ -41,6 +42,9 @@ export class Prestige implements WorldInterface {
   pLaser: Unit
   pHydro: Unit
   pPlanter: Unit
+
+  //  Supply
+  supplyList: Array<Unit>
 
   constructor(public game: GameModel) { }
 
@@ -57,11 +61,17 @@ export class Prestige implements WorldInterface {
     this.expLists = new Array<TypeList>()
     this.expAnt = new Array<Unit>()
 
-    this.pAntPower = new Unit(this.game, "pap", "Ant Power", "Ants yield 30% more food.", true)
-    this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power", "Geologists yield 30% more crystal.", true)
-    this.pAntHunter1 = new Unit(this.game, "phunt1", "Hunter Power", "Hunters are 30% more powerfull.", true)
-    this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter", "Advanced Hunters are 30% more powerfull.", true)
-    this.pAntFungus = new Unit(this.game, "paf", "Farmer Power", "Farmers are 30% more powerfull.", true)
+    //#region Ants Power
+    this.pAntPower = new Unit(this.game, "pap", "Ant Power",
+      "Ants yield 30% more food.", true)
+    this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power",
+      "Geologists yield 30% more crystal.", true)
+    this.pAntHunter1 = new Unit(this.game, "phunt1", "Hunter Power",
+      "Hunters yeild and consume 30% more resources.", true)
+    this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter",
+      "Advanced Hunters yeild and consume 30% more resources.", true)
+    this.pAntFungus = new Unit(this.game, "paf", "Farmer Power",
+      "Farmers yeild and consume 30% more resources", true)
 
     this.expAnt.push(this.pAntPower)
     this.expAnt.push(this.pAntGeo)
@@ -84,7 +94,9 @@ export class Prestige implements WorldInterface {
 
     this.expLists.push(new TypeList("Ant", this.expAnt))
 
-    //    Ant in next world
+    //#endregion
+
+    //#region Ants in next world
     this.pAntNext = new Unit(this.game, "pan", "Ant follower",
       "Start new worlds with 5 more ants.", true)
     this.pGeologistNext = new Unit(this.game, "pgn", "Geologist follower",
@@ -93,8 +105,10 @@ export class Prestige implements WorldInterface {
       "Start new worlds with 5 more scientist.", true)
     this.pFarmerNext = new Unit(this.game, "pfn", "Farmer follower",
       "Start new worlds with 5 more farmer.", true)
+    this.pCarpenterNext = new Unit(this.game, "pcarn", "Carpenter follower",
+      "Start new worlds with 5 more carpenter.", true)
 
-    this.expFollower = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext]
+    this.expFollower = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext, this.pCarpenterNext]
     this.expFollower.forEach(n => {
       this.allPrestigeUp.push(n)
       n.actions.push(new BuyAction(this.game, n,
@@ -106,12 +120,14 @@ export class Prestige implements WorldInterface {
     this.game.science.student.prestigeBonusStart = this.pScientistNext
     this.game.baseWorld.farmer.prestigeBonusStart = this.pFarmerNext
 
-    this.expLists.push(new TypeList("Ant Follower", this.expFollower))
+    this.expLists.push(new TypeList("Ant Followers", this.expFollower))
 
+    //#endregion
 
-    //    Machinery
+    //#region  Machinery
     this.expMachinery = new Array<Unit>()
-    this.pMachineryPower = new Unit(this.game, "pMach", "Machinery Power", "Machinery Power", true)
+    this.pMachineryPower = new Unit(this.game, "pMach", "Machinery Power",
+      "Machinery yeild and consume 30% more resources.", true)
     this.pMachineryPower.actions.push(new BuyAction(this.game, this.pMachineryPower,
       [new Cost(this.experience, Decimal(20), expIncrement)]))
     this.expMachinery.push(this.pMachineryPower)
@@ -119,23 +135,20 @@ export class Prestige implements WorldInterface {
 
     this.expLists.push(new TypeList("Machinery", this.expMachinery))
 
-    this.expLists.map(l => l.list).forEach(al => al.forEach(l => {
-      l.unlocked = true
-      l.buyAction.unlocked = true
-    }))
+    //#endregion
 
-    //    Technology
+    //#region Technology
     this.expTech = new Array<Unit>()
     this.pComposter = new Unit(this.game, "pComposter", "Compost",
-      "Composter units are 30% better.", true)
+      "Composter units yeild and consume 30% more resources.", true)
     this.pRefinery = new Unit(this.game, "pRefinery", "Refinery",
-      "Refinery units are 30% better.", true)
+      "Refinery units yeild and consume 30% more resources.", true)
     this.pLaser = new Unit(this.game, "pLaser", "Laser",
-      "Laser units are 30% better.", true)
+      "Laser units yeild and consume 30% more resources.", true)
     this.pHydro = new Unit(this.game, "pHydro", "Hydroponics",
-      "Hydroponics units are 30% better.", true)
+      "Hydroponics units yeild and consume 30% more resources.", true)
     this.pPlanter = new Unit(this.game, "pPlanter", "Planting",
-      "Planting units are 30% better.", true)
+      "Planting units yeild and consume 30% more resources.", true)
 
     this.expTech.push(this.pComposter)
     this.expTech.push(this.pRefinery)
@@ -163,6 +176,34 @@ export class Prestige implements WorldInterface {
 
     this.game.machines.plantingMachine.prestigeBonusProduction.push(this.pPlanter)
     this.game.baseWorld.planterAnt.prestigeBonusProduction.push(this.pPlanter)
+
+    //#endregion
+
+    //#region
+    const supplyMaterials = [
+      this.game.baseWorld.food,
+      this.game.baseWorld.crystal,
+      this.game.baseWorld.soil,
+      this.game.baseWorld.wood,
+      this.game.baseWorld.sand
+    ]
+    supplyMaterials.forEach(sm => sm.prestigeBonusQuantityValue = Decimal(100))
+    this.supplyList = supplyMaterials.map(sm =>
+      new Unit(this.game, "supp_" + sm.id, sm.name + " supply.",
+        "Start new worlds with 100 more " + sm.name + ".", true))
+
+    this.supplyList.forEach(n => {
+      this.allPrestigeUp.push(n)
+      n.actions.push(new BuyAction(this.game, n,
+        [new Cost(this.experience, Decimal(12), expIncrement)]))
+    })
+
+    for (let i = 0; i < supplyMaterials.length; i++)
+      supplyMaterials[i].prestigeBonusStart = this.supplyList[i]
+
+
+    this.expLists.push(new TypeList("Supply", this.supplyList))
+    //#endregion
 
     this.expLists.map(l => l.list).forEach(al => al.forEach(l => {
       l.unlocked = true

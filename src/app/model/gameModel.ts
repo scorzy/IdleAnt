@@ -131,11 +131,13 @@ export class GameModel {
 
     this.world = World.getBaseWorld(this)
 
-    // this.world.generateAction(this)
-
     this.generateRandomWorld()
 
     this.setInitialStat()
+
+    // console.log("prefix: " + World.worldPrefix.length)
+    // console.log("type: " + World.worldTypes.length)
+    // console.log("suff: " + World.worldSuffix.length)
 
   }
   setInitialStat() {
@@ -419,25 +421,19 @@ export class GameModel {
 
       //  Fixes for older savegame, corrupted...
       this.science.science1Production.unlocked = true
+
       if (this.bee.universityResBee.owned() && !this.bee.universityResBee2.owned())
         this.bee.universityResBee2.unlocked = true
 
-      // if (this.world.avaiableUnits)
-      //   this.world.avaiableUnits.forEach(u => u.avabileThisWorld = true)
-      // if (this.world.unlockedUnits) {
-      //   this.world.unlockedUnits.forEach(u => {
-      //     u[0].avabileThisWorld = true
-      //     u[0].quantity = u[1]
-      //   })
-      //   this.unlockUnits(this.world.unlockedUnits.map(u => u[0]))()
-      // }
+      if (this.research.adaptation.owned() && !this.research.escape.owned())
+        this.research.escape.unlocked = true
 
-      // if (this.world.prodMod)
-      //   this.world.prodMod.forEach(p => p[0].worldProdModifiers = p[1])
-      // if (this.world.unitMod)
-      //   this.world.unitMod.forEach(p => p[0].worldEffModifiers = p[1])
-      // if (this.world.unitPrice)
-      //   this.world.unitPrice.forEach(p => p[0].worldBuyModifiers = p[1])
+      if (this.research.evolution.owned() && !this.research.devolution.owned())
+        this.research.devolution.unlocked = true
+
+      if (this.research.hereAndNow.owned() && !this.research.timeWarp.owned())
+        this.research.timeWarp.unlocked = true
+
 
       this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
 

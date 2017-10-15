@@ -33,6 +33,9 @@ export class Researchs implements WorldInterface {
   hereAndNow: Research
   adaptation: Research
   evolution: Research
+  devolution: Research
+  escape: Research
+  timeWarp: Research
 
   bi: Research
 
@@ -52,13 +55,27 @@ export class Researchs implements WorldInterface {
       this.game
     )
 
+    //   Devolution
+    this.devolution = new Research(
+      "devoluti",
+      "De-Evolution",
+      "Revert the effect of evolution.",
+      [new Cost(this.game.baseWorld.science, Decimal(1))],
+      [],
+      this.game,
+      () => {
+        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(5))
+        this.game.world.experience = this.game.world.experience.div(3)
+      }
+    )
+
     //    Evolution
     this.evolution = new Research(
       "evolution",
       "Evolution",
       "Increase the resources need to travel to a new world (x5) and also increase the experience you will gain (x3).",
       [new Cost(this.game.baseWorld.science, Decimal(1E10))],
-      [],
+      [this.devolution],
       this.game,
       () => {
         this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.times(5))
@@ -66,16 +83,41 @@ export class Researchs implements WorldInterface {
       }
     )
 
-    //    Adaptation
-    this.adaptation = new Research(
-      "adaptation",
-      "Adaptation", "Reduce the resources need to travel to a new world.",
-      [new Cost(this.game.baseWorld.science, Decimal(5E8))],
+    //    Escape
+    this.escape = new Research(
+      "escapism",
+      "Escapism", "Reduce the resources need to travel to a new world by 50%.",
+      [new Cost(this.game.baseWorld.science, Decimal(5E10))],
       [],
       this.game,
       () => {
         this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(2))
-        this.game.world.toUnlockMax.forEach(t => t.basePrice = t.basePrice.times(4))
+        // this.game.world.toUnlockMax.forEach(t => t.basePrice = t.basePrice.times(4))
+      }
+    )
+
+    //    Adaptation
+    this.adaptation = new Research(
+      "adaptation",
+      "Adaptation", "Reduce the resources need to travel to a new world by 50%.",
+      [new Cost(this.game.baseWorld.science, Decimal(5E8))],
+      [this.escape],
+      this.game,
+      () => {
+        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(2))
+        //   this.game.world.toUnlockMax.forEach(t => t.basePrice = t.basePrice.times(4))
+      }
+    )
+
+    //  Time Warp
+    this.timeWarp = new Research(
+      "timeWarp",
+      "Time warp", "1 hour of update. Use it use it wisely.",
+      [new Cost(this.game.baseWorld.science, Decimal(1))],
+      [],
+      this.game,
+      () => {
+        this.game.longUpdate(3600 * 1000)
       }
     )
 
@@ -84,7 +126,7 @@ export class Researchs implements WorldInterface {
       "hereAndNow",
       "Here and Now", "Get 10 experience.",
       [new Cost(this.game.baseWorld.science, Decimal(1E9))],
-      [],
+      [this.timeWarp],
       this.game,
       () => {
         this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(10)

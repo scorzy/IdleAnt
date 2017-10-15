@@ -7,7 +7,7 @@
         <clr-alert [clrAlertType]="'alert-warning'">
           <div class="alert-item">
             <span class="alert-text">
-                You will not be able to travel without the Travel research !
+              You will not be able to travel without the Travel research !
             </span>
           </div>
         </clr-alert>
@@ -16,15 +16,20 @@
       <table class="nowrap" style="width:100%">
         <tbody>
           <tr *ngFor="let cost of gameService.game.world.toUnlock">
-            <td><span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span></td>
+            <td>
+              <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span>
+            </td>
             <td style="width:100%">
               <div class="progress labeled" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
                 <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
-                </progress> <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
-                                    {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
-                                </span> <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
-                                   100%
-                                </span> </div>
+                </progress>
+                <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                  {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
+                </span>
+                <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                  100%
+                </span>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -35,15 +40,20 @@
         <table class="nowrap" style="width:100%">
           <tbody>
             <tr *ngFor="let cost of gameService.game.world.toUnlockMax">
-              <td><span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span></td>
+              <td>
+                <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span>
+              </td>
               <td style="width:100%">
                 <div class="progress labeled" [ngClass]="{'success': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
                   <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
-                  </progress> <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
-                                    {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
-                                </span> <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
-                                   100%
-                                </span> </div>
+                  </progress>
+                  <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                    {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
+                  </span>
+                  <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                    100%
+                  </span>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -61,27 +71,42 @@
       </div>
       <div *ngIf="skip">
         <p> By skipping this world you will not earn any experience! If you change your mind go to another
-          tab. </p>
-      </div> <button class="btn btn-secondary" (click)="change()">
-                <clr-icon shape="world"></clr-icon>
-                Change worlds
-              </button>
+          tab.
+        </p>
+      </div>
+      <div>
+        Resources needed to travel:
+        <span *ngFor="let cost of gameService.game.world.toUnlock">
+          <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}},</span>
+        </span>
+        <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
+          and less than:
+          <span *ngFor="let cost of gameService.game.world.toUnlockMax">
+            <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}},</span>
+          </span>
+        </div>
+      </div>
+      <button class="btn btn-secondary" (click)="change()">
+        <clr-icon shape="world"></clr-icon>
+        Change worlds
+      </button>
       <div class="card-columns card-columns-2">
         <div class="card" *ngFor="let world of gameService.game.nextWorlds ">
           <div class="card-header text-capitalize"> {{world.name}} </div>
           <div class="card-block">
-            <div class="card-title"> Level: {{world.level}}<br/> {{world.experience}} experience </div>
+            <div class="card-title"> Level: {{world.level}}
+              <br/> {{world.experience}} experience </div>
             <div class="card-text">
               {{world.description}}
               <ul class="list">
                 <li *ngFor="let p of world.avaiableUnits"> {{p.name}}: {{p.description }} </li>
                 <li *ngFor="let p of world.unlockedUnits">
                   <span *ngIf="!p[1].greaterThan(0)">
-                                        {{p[0].name}}: {{p[0].description }}
-                                    </span>
+                    {{p[0].name}}: {{p[0].description }}
+                  </span>
                   <span *ngIf="p[1].greaterThan(0)">
-                                        Start with {{p[1] | format }} {{p[0].name}}
-                                    </span>
+                    Start with {{p[1] | format }} {{p[0].name}}
+                  </span>
                 </li>
                 <li *ngFor="let p of world.prodMod">
                   Production of {{p[0].name}} x {{p[1] }} </li>
@@ -89,7 +114,9 @@
                 <li *ngFor="let p of world.unitPrice"> {{p[0].name}} price x {{p[1] }} </li>
               </ul>
             </div>
-            <div class="card-footer"> <button class="btn btn-primary" (click)="goTo(world)">Go to</button> </div>
+            <div class="card-footer">
+              <button class="btn btn-primary" (click)="goTo(world)">Go to</button>
+            </div>
           </div>
         </div>
       </div>

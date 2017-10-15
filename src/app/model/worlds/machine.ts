@@ -6,6 +6,7 @@ import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial } from '../u
 import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
+import { World } from '../world';
 
 export class Machine implements WorldInterface {
 
@@ -243,5 +244,31 @@ export class Machine implements WorldInterface {
   }
 
   public addWorld() {
+    World.worldPrefix.push(
+      new World(this.game, "Mechanized", "",
+        [], [], [], [], [],
+        [
+          [this.composterStation, Decimal(0.2)],
+          [this.refineryStation, Decimal(0.2)],
+          [this.laserStation, Decimal(0.2)],
+          [this.hydroFarm, Decimal(0.2)],
+          [this.plantingMachine, Decimal(0.2)]
+        ],
+        Decimal(1)
+      ))
+
+    World.worldSuffix.push(
+      new World(this.game, "of Machine", "",
+        [], [], [], [], [],
+        [
+          [this.composterStation, Decimal(0.2)],
+          [this.refineryStation, Decimal(0.2)],
+          [this.laserStation, Decimal(0.2)],
+          [this.hydroFarm, Decimal(0.2)],
+          [this.plantingMachine, Decimal(0.2)]
+        ],
+        Decimal(1)
+      ))
   }
 }
+

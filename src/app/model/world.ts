@@ -23,7 +23,7 @@ export class World {
     public unitPrice: [Unit, decimal.Decimal][] = [],
     public unlockedUnits: [Base, decimal.Decimal][] = [],
     public experience = Decimal(2.5),
-    public toUnlockMax = new Array<Cost>()
+    public toUnlockMax = new Array<Cost>(),
   ) { }
 
   static getBaseWorld(game: GameModel): World {
@@ -122,7 +122,7 @@ export class World {
       .times(linear)
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
-    worldRet.unlockedUnits.forEach(t => t[1] = t[1].times(toUnlockMultiplier.times(2)).floor())
+    worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 1))
     worldRet.experience = worldRet.experience.times(expMultiplier).plus(0.5).floor()
 
     return worldRet
