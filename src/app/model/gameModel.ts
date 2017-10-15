@@ -259,8 +259,14 @@ export class GameModel {
 
     if (maxTime > Number.EPSILON)
       this.update(maxTime)
-    if (unitZero)
+    if (unitZero) {
       unitZero.producedBy.filter(p => p.efficiency.lessThan(0)).forEach(p => p.unit.percentage = 0)
+
+      // fix for infestatiion world
+      if (unitZero === this.infestation.poisonousPlant) {
+        this.infestation.poisonousPlant2.quantity = Decimal(0)
+      }
+    }
     const remaning = dif - maxTime
     if (remaning > Number.EPSILON) {
       this.isChanged = true
