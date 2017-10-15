@@ -55,7 +55,7 @@ export class GameService {
     const delta = now - this.last
 
     if (delta > this.interval) {
-      this.game.longUpdate(10 * (now - this.last))
+      this.game.longUpdate(1 * (now - this.last))
       this.last = now
     }
     this.game.postUpdate()
