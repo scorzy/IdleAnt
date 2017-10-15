@@ -11,6 +11,8 @@ $height: 24px;
    width: 320px !important;
    padding-top: 12px;
    height: calc(100vh - 60px) !important;
+   display:block !important;
+   overflow-y: scroll;
 }
 
 .resName{
@@ -37,9 +39,16 @@ $height: 24px;
 .experience{
   margin-left: 30px !important;
 }
+.clr-treenode-link{
+  height:auto;
+}
 
-//  Cant make it working
-//  remember to modify clarity-ui.min.css
-// .clr-treenode-content{
-//   line-height:25px !important;
-// }
+:host /deep/ .nav-content{
+  min-height: 500px;
+  display:block !important;
+  overflow-y: hidden  !important;
+}
+
+:host /deep/ .clr-treenode-content{
+  line-height:25px !important;
+}

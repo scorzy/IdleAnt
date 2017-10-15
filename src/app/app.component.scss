@@ -6,3 +6,8 @@
     min-height: 100vh;
     height:auto!important;
   }
+
+
+  :host /deep/ .content-area{
+    padding:10px 24px 24px 24px !important;
+  }
