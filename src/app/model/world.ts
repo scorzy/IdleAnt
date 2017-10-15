@@ -122,7 +122,7 @@ export class World {
       .times(linear)
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
-    worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 1))
+    worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 0))
     worldRet.experience = worldRet.experience.times(expMultiplier).plus(0.5).floor()
 
     return worldRet
@@ -142,6 +142,7 @@ export class World {
 
     if (this.avaiableUnits)
       this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
+
     if (this.unlockedUnits) {
       this.unlockedUnits.forEach(u => {
         u[0].avabileThisWorld = true
