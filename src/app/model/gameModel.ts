@@ -169,14 +169,14 @@ export class GameModel {
 
     const production = prod.getprodPerSec()
 
-    if (prod.unlocked)
+    if (prod.isActive())
       ret = Decimal.pow(fraction, level)                    //    exponential
         .times(prod.unit.quantity)                          //    time
         .times(production)                        //    efficenty
         .div(factorial)
         .times(previous)
 
-    const prod2 = prod.unit.producedBy.filter(p => p.unlocked)
+    const prod2 = prod.unit.producedBy.filter(p => p.isActive())
     for (const p2 of prod2)
       ret = ret.plus(
         this.getProduction(p2,
@@ -218,15 +218,15 @@ export class GameModel {
       let c = Decimal(0)
       const d = res.quantity
 
-      for (const prod1 of res.producedBy.filter(r => r.unlocked && r.unit.unlocked)) {
+      for (const prod1 of res.producedBy.filter(r => r.isActive() && r.unit.unlocked)) {
         // x
         const prodX = prod1.getprodPerSec()
         c = c.plus(prodX.times(prod1.unit.quantity))
-        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.unlocked && r2.unit.unlocked)) {
+        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.isActive() && r2.unit.unlocked)) {
           // x^2
           const prodX2 = prod2.getprodPerSec().times(prodX)
           b = b.plus(prodX2.times(prod2.unit.quantity))
-          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.unlocked && r3.unit.unlocked)) {
+          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.isActive() && r3.unit.unlocked)) {
             // x^3
             const prodX3 = prod3.getprodPerSec().times(prodX2)
             a = a.plus(prodX3.times(prod3.unit.quantity))
@@ -293,7 +293,7 @@ export class GameModel {
     const fraction = Decimal(dif / 1000)
     const all = Array.from(this.unitMap.values())
     for (const res of all)
-      for (const prod of res.producedBy.filter(p => p.unlocked && p.unit.unlocked))
+      for (const prod of res.producedBy.filter(p => p.isActive() && p.unit.unlocked))
         res.toAdd = res.toAdd.plus(this.getProduction(prod, Decimal(1), Decimal(1), fraction))
 
     all.forEach(u => {
@@ -413,6 +413,8 @@ export class GameModel {
 
       //  Fixes for older savegame, corrupted...
       this.science.science1Production.unlocked = true
+      if (this.bee.universityResBee.owned() && !this.bee.universityResBee2.owned())
+        this.bee.universityResBee2.unlocked = true
 
       // if (this.world.avaiableUnits)
       //   this.world.avaiableUnits.forEach(u => u.avabileThisWorld = true)

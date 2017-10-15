@@ -115,6 +115,9 @@ export class Engineers implements WorldInterface {
       new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.buyExp)
     ]
 
+    this.beeEnginer.upAction.priceF[0].basePrice = this.beeEnginer.upAction.priceF[0].basePrice.times(0.8)
+    this.beeEnginer.upHire.priceF[0].basePrice = this.beeEnginer.upHire.priceF[0].basePrice.times(0.8)
+
   }
   addWorld() {
   }

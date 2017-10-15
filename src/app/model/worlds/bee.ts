@@ -1,3 +1,4 @@
+import { TogableProduction } from '../units/togableProductions';
 import { Production } from '../production';
 import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
@@ -7,6 +8,7 @@ import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
+import { Engineers } from './engineer';
 
 export class Bee implements WorldInterface {
 
@@ -21,6 +23,9 @@ export class Bee implements WorldInterface {
   foodBee: Unit
   advancedBee: Research
   universityResBee: Research
+  universityResBee2: Research
+
+  engineersProd: Production
 
   listBee = new Array<Unit>()
 
@@ -58,6 +63,8 @@ export class Bee implements WorldInterface {
     this.listBee.push(this.foodBee)
 
     this.game.lists.push(new TypeList("Bee", this.listBee))
+
+    this.engineersProd = new Production(this.universityBee, Decimal(0.1), false)
   }
 
   initStuff() {
@@ -91,7 +98,7 @@ export class Bee implements WorldInterface {
       ], [this.queenBee]
     ))
     this.game.baseWorld.nectar.addProductor(new Production(this.workerBee, Decimal(-2)))
-    this.game.baseWorld.honey.addProductor(new Production(this.workerBee, Decimal(1)))
+    this.game.baseWorld.honey.addProductor(new Production(this.workerBee, Decimal(1.5)))
 
     this.workerBee.actions.push(new UpAction(this.game,
       this.workerBee, [new Cost(this.game.baseWorld.science, this.game.scienceCost2, beeTeamUp)]))
@@ -115,7 +122,8 @@ export class Bee implements WorldInterface {
       this.hiveBee,
       [
         new Cost(this.queenBee, Decimal(100), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeOther1.times(0.6), beeTeamUp),
+        new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeOther1.times(1.5),
+          this.game.buyExp.times(1.1)),
         new Cost(this.game.baseWorld.food, this.game.baseWorld.prestigeFood.times(0.8), this.game.buyExp),
       ]
     ))
@@ -183,13 +191,25 @@ export class Bee implements WorldInterface {
     this.game.baseWorld.honey.addProductor(new Production(this.foodBee, Decimal(-5)))
     this.scientistBee.addProductor(new Production(this.universityBee, Decimal(0.01)))
 
+    this.game.engineers.beeEnginer.addProductor(this.engineersProd)
+
+    this.universityBee.togableProductions = [new TogableProduction("Generate engineers", [this.engineersProd])]
+
+    //  Research
+    this.universityResBee2 = new Research(
+      "uniResBee2",
+      "Department of Bee Engineering", "Bee university also yield bee engineers.",
+      [new Cost(this.game.baseWorld.science, Decimal(7E7))],
+      [this.engineersProd],
+      this.game
+    )
 
     //  Research
     this.universityResBee = new Research(
       "universityResBee",
       "University of Bee", "Get an university of bee.",
       [new Cost(this.game.baseWorld.science, Decimal(6E6))],
-      [this.universityBee],
+      [this.universityBee, this.universityResBee2],
       this.game
     )
 
@@ -220,7 +240,7 @@ export class Bee implements WorldInterface {
         [this.game.machines.honeyMaker, this.game.engineers.beeEnginer],
         [],
         [
-          new Cost(this.hiveBee, Decimal(40)),
+          new Cost(this.hiveBee, Decimal(35)),
           new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeFood)
         ],
         [],
@@ -235,7 +255,7 @@ export class Bee implements WorldInterface {
         [this.game.machines.honeyMaker, this.game.engineers.beeEnginer],
         [],
         [
-          new Cost(this.hiveBee, Decimal(50)),
+          new Cost(this.hiveBee, Decimal(45)),
           new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeFood)
         ],
         [[this.foragingBee, Decimal(2)]],

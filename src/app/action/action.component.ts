@@ -23,6 +23,8 @@ export class ActionComponent implements OnInit, AfterViewChecked {
   priceStringHalf = ""
   priceStringMax = "";
 
+  required = 1
+
   numberformat = numberformat
 
   constructor() {
@@ -33,9 +35,19 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
   }
 
-  getPriceString1() {
-    return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1))
+  getReqNum(): decimal.Decimal {
+    if (!this.required)
+      return Decimal(1)
+
+    return Decimal(Math.max(Math.min(this.required, this.action.maxBuy.toNumber()), 1))
   }
+
+  getPriceString1() {
+
+    return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
+      .times(this.getReqNum()))
+  }
+
   getBuyStringHalf() {
     return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
       .times(this.action.getBuyMax().div(2).ceil()))

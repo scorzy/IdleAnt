@@ -8,8 +8,9 @@ import { Unlocable } from './utils';
 
 export class Production extends Unlocable {
 
-  public productor: Unit = null
+  productor: Unit = null
   defaultUnlocked = true
+  active = true
 
   constructor(
     public unit: Unit,    // who make
@@ -34,5 +35,9 @@ export class Production extends Unlocable {
         .times(sum)
     } else
       return Decimal(0)
+  }
+
+  isActive(): boolean {
+    return this.active && this.unlocked
   }
 }

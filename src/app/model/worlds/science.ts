@@ -1,3 +1,4 @@
+import { TogableProduction } from '../units/togableProductions';
 import { Production } from '../production';
 import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
@@ -104,6 +105,12 @@ export class Science implements WorldInterface {
 
     this.student.addProductor(this.studentProduction)
     this.scientist.addProductor(this.scientistProduction)
+
+
+    this.university.togableProductions = [
+      new TogableProduction("Generate Studentes", [this.studentProduction]),
+      new TogableProduction("Generate Scientist", [this.scientistProduction])
+    ]
   }
 
   public addWorld() {

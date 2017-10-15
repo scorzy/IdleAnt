@@ -39,6 +39,10 @@ export class Action extends Base {
       return this.priceF
   }
   buy(number: decimal.Decimal = new Decimal(1)) {
+
+    if (number.lessThanOrEqualTo(0))
+      return false
+
     if (this.unlocked) {
       const prices = this.getCosts(number)
       if (prices.filter(v => v.basePrice.greaterThan(v.unit.quantity)).length === 0) {

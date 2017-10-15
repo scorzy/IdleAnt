@@ -8,6 +8,7 @@ import { GameModel } from '../gameModel';
 import { GameService } from '../../game.service';
 import { Cost } from '../cost';
 import { Action, BuyAction } from './action';
+import { TogableProduction } from './togableProductions';
 
 export class Unit extends Base {
 
@@ -36,6 +37,8 @@ export class Unit extends Base {
 
   totalPerSec = Decimal(0)
   totalProducers = Decimal(0)
+
+  togableProductions: Array<TogableProduction> = null
 
   constructor(
     public model: GameModel,
@@ -66,7 +69,7 @@ export class Unit extends Base {
     this.totalProducers = Decimal(0)
     this.totalPerSec = Decimal(0)
 
-    this.producedBy.filter(p => p.unlocked && p.unit.unlocked).forEach(p => {
+    this.producedBy.filter(p => p.isActive() && p.unit.unlocked).forEach(p => {
       this.totalPerSec = this.totalPerSec.plus(p.getprodPerSec().times(p.unit.quantity))
       this.totalProducers = this.totalProducers.plus(p.unit.quantity)
     })
@@ -91,7 +94,7 @@ export class Unit extends Base {
     data.e = this.worldEffModifiers
     data.b = this.worldBuyModifiers
     data.r = this.percentage
-    data.p = this.producedBy.map(p => [p.unit.id, p.unlocked])
+    data.p = this.producedBy.map(p => [p.unit.id, p.unlocked, p.active])
     return data;
   }
   restore(data: any) {
@@ -108,9 +111,17 @@ export class Unit extends Base {
     if (data.p)
       data.p.forEach(e => {
         const prod = this.producedBy.find(p => p.unit.id === e[0])
-        if (prod)
-          prod.unlocked = e[1]
+        if (prod) {
+          if (typeof e[1] === 'boolean')
+            prod.unlocked = e[1]
+          if (typeof e[2] === 'boolean')
+            prod.active = e[2]
+        }
       });
+
+    if (this.togableProductions)
+      this.togableProductions.forEach(tp => tp.uiModel = tp.isActive())
+
     // if (data.r)
     this.percentage = data.r
   }

@@ -50,8 +50,6 @@ export class UnitComponent implements OnInit, OnDestroy {
     return this.gen.producedBy.filter(t => t.unlocked && t.unit.unlocked).length > 0
   }
 
-
-
   endTime(): string {
     moment.locale('en');
     return moment.duration(this.gen.endIn).humanize()
