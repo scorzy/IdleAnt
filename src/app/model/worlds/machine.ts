@@ -52,15 +52,15 @@ export class Machine implements WorldInterface {
     this.loggingMachine = new Unit(this.game, "loggingMachine", "Logging Machine",
       "Yield wood.")
     this.mine = new Unit(this.game, "mine", "Mine",
-      "Yeld crystal.")
+      "Yield crystal.")
     this.honeyMaker = new Unit(this.game, "honeyMaker", "Honey Maker",
-      "Automate the making of honey. Only bee know how it work.")
+      "Automate the making of honey. Only bees know how it works.")
     this.iceCompacter = new Unit(this.game, "iceC", "Ice Compacter",
-      "Ice Compacter is a machine that compact ice into crystall.")
+      "Ice Compacter is a machine that compacts ice into crystal.")
     this.iceCollector = new Unit(this.game, "iceK", "Water Tank",
       "A tank of water.")
     this.burningGlass = new Unit(this.game, "burningGlass", "Burning Lens",
-      "A large convex lens used to concentrate sun's rays. This machine melt ice faster than anything else.")
+      "A large convex lens used to concentrate sun's rays. This machine melts ice faster than anything else.")
 
     this.listMachinery = new Array<Unit>()
 
