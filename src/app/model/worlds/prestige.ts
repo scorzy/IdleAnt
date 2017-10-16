@@ -67,11 +67,11 @@ export class Prestige implements WorldInterface {
     this.pAntGeo = new Unit(this.game, "pAntGeo", "Geologist Power",
       "Geologists yield 30% more crystal.", true)
     this.pAntHunter1 = new Unit(this.game, "phunt1", "Hunter Power",
-      "Hunters yeild and consume 30% more resources.", true)
+      "Hunters yield and consume 30% more resources.", true)
     this.pAntHunter2 = new Unit(this.game, "phunt2", "Advanced Hunter",
-      "Advanced Hunters yeild and consume 30% more resources.", true)
+      "Advanced Hunters yield and consume 30% more resources.", true)
     this.pAntFungus = new Unit(this.game, "paf", "Farmer Power",
-      "Farmers yeild and consume 30% more resources", true)
+      "Farmers yield and consume 30% more resources", true)
 
     this.expAnt.push(this.pAntPower)
     this.expAnt.push(this.pAntGeo)
@@ -100,13 +100,13 @@ export class Prestige implements WorldInterface {
     this.pAntNext = new Unit(this.game, "pan", "Ant follower",
       "Start new worlds with 5 more ants.", true)
     this.pGeologistNext = new Unit(this.game, "pgn", "Geologist follower",
-      "Start new worlds with 5 more geologist.", true)
+      "Start new worlds with 5 more geologists.", true)
     this.pScientistNext = new Unit(this.game, "psn", "Scientist follower",
-      "Start new worlds with 5 more scientist.", true)
+      "Start new worlds with 5 more scientists.", true)
     this.pFarmerNext = new Unit(this.game, "pfn", "Farmer follower",
-      "Start new worlds with 5 more farmer.", true)
+      "Start new worlds with 5 more farmers.", true)
     this.pCarpenterNext = new Unit(this.game, "pcarn", "Carpenter follower",
-      "Start new worlds with 5 more carpenter.", true)
+      "Start new worlds with 5 more carpenters.", true)
 
     this.expFollower = [this.pAntNext, this.pGeologistNext, this.pScientistNext, this.pFarmerNext, this.pCarpenterNext]
     this.expFollower.forEach(n => {
@@ -140,15 +140,15 @@ export class Prestige implements WorldInterface {
     //#region Technology
     this.expTech = new Array<Unit>()
     this.pComposter = new Unit(this.game, "pComposter", "Compost",
-      "Composter units yeild and consume 30% more resources.", true)
+      "Composter units yield and consume 30% more resources.", true)
     this.pRefinery = new Unit(this.game, "pRefinery", "Refinery",
-      "Refinery units yeild and consume 30% more resources.", true)
+      "Refinery units yield and consume 30% more resources.", true)
     this.pLaser = new Unit(this.game, "pLaser", "Laser",
-      "Laser units yeild and consume 30% more resources.", true)
+      "Laser units yield and consume 30% more resources.", true)
     this.pHydro = new Unit(this.game, "pHydro", "Hydroponics",
-      "Hydroponics units yeild and consume 30% more resources.", true)
+      "Hydroponics units yield and consume 30% more resources.", true)
     this.pPlanter = new Unit(this.game, "pPlanter", "Planting",
-      "Planting units yeild and consume 30% more resources.", true)
+      "Planting units yield and consume 30% more resources.", true)
 
     this.expTech.push(this.pComposter)
     this.expTech.push(this.pRefinery)
