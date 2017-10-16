@@ -154,8 +154,7 @@ export class GameModel {
     this.unitWithUp = new Array<Unit>()
     this.unitWithUp.push(this.baseWorld.littleAnt)
 
-    // this.research.advancedLesson.unlocked = true
-    this.baseWorld.food.quantity = Decimal(100)
+    this.baseWorld.food.quantity = this.baseWorld.food.quantity.plus(100)
 
     // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
@@ -474,4 +473,5 @@ export class GameModel {
     this.resList// .filter(r => r.unlocked && r.avabileThisWorld)
       .forEach(res => res.setMaxBuy())
   }
+
 }

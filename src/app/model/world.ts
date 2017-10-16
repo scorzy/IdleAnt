@@ -112,12 +112,10 @@ export class World {
     maxLevel = maxLevel.greaterThan(7) ? Decimal(maxLevel.minus(6).div(2), 1.15).floor() : maxLevel
     worldRet.level = Math.min(maxLevel.times(Decimal.random()).floor().toNumber(), 100)
 
-    const linear = 1 / 6.5
+    const linear = 1 / 1.15
 
-    const toUnlockMultiplier = Decimal.pow(1.05, worldRet.level).times(worldRet.level + 1 / linear)
+    const toUnlockMultiplier = Decimal.pow(1.001, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
-    // const expMultiplier = Decimal.pow(1.075, worldRet.level).times(worldRet.level + 1 / linear)
-    //   .times(linear)
     const expMultiplier = Decimal.pow(1.008, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
 
@@ -138,7 +136,7 @@ export class World {
       this.game.prestige.experience.quantity = exp
       this.game.maxLevel = this.game.maxLevel.plus(exp)
       this.game.prestigeDone = this.game.prestigeDone.plus(1)
-    }
+   }
 
     if (this.avaiableUnits)
       this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
@@ -161,6 +159,9 @@ export class World {
 
     this.game.world = this
     this.game.all.forEach(u => u.reloadtAct())
+
+    //  research fix
+    this.game.resList.forEach(r => r.quantity = Decimal(0))
 
     this.game.worldTabAv = true
     this.game.homeTabAv = true

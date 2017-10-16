@@ -119,6 +119,7 @@ export class Prestige implements WorldInterface {
     this.game.baseWorld.geologist.prestigeBonusStart = this.pGeologistNext
     this.game.science.student.prestigeBonusStart = this.pScientistNext
     this.game.baseWorld.farmer.prestigeBonusStart = this.pFarmerNext
+    this.game.baseWorld.carpenter.prestigeBonusStart = this.pCarpenterNext
 
     this.expLists.push(new TypeList("Ant Followers", this.expFollower))
 
@@ -179,7 +180,7 @@ export class Prestige implements WorldInterface {
 
     //#endregion
 
-    //#region
+    //#region supply
     const supplyMaterials = [
       this.game.baseWorld.food,
       this.game.baseWorld.crystal,

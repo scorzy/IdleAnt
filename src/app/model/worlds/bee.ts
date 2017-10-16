@@ -240,7 +240,7 @@ export class Bee implements WorldInterface {
         [this.game.machines.honeyMaker, this.game.engineers.beeEnginer],
         [],
         [
-          new Cost(this.hiveBee, Decimal(35)),
+          new Cost(this.hiveBee, Decimal(20)),
           new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeFood)
         ],
         [],
@@ -255,7 +255,7 @@ export class Bee implements WorldInterface {
         [this.game.machines.honeyMaker, this.game.engineers.beeEnginer],
         [],
         [
-          new Cost(this.hiveBee, Decimal(45)),
+          new Cost(this.hiveBee, Decimal(25)),
           new Cost(this.game.baseWorld.honey, this.game.baseWorld.prestigeFood)
         ],
         [[this.foragingBee, Decimal(2)]],
