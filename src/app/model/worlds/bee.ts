@@ -34,22 +34,22 @@ export class Bee implements WorldInterface {
   declareStuff() {
 
     this.foragingBee = new Unit(this.game, "forBee", "Foraging Bee",
-      "Foraging Bee yield nectar.")
+      "Foraging Bee yields nectar.")
 
     this.queenBee = new Unit(this.game, "qBee", "Queen Bee",
-      "Yeld Foraging Bee.")
+      "Yields Foraging Bee.")
 
     this.hiveBee = new Unit(this.game, "hBee", "Hive Bee",
-      "Hives yeld queens and instruct foraggin bee to become workers.")
+      "Hives yields queens and instructs foraging bees to become workers.")
 
     this.workerBee = new Unit(this.game, "worBee", "Worker Bee",
       "Worker Bee converts nectar to honey.")
 
     this.scientistBee = new Unit(this.game, "scBee", "Scientist Bee",
-      "Scientist bee studies honey properties.")
+      "Scientist bee study honey properties.")
 
     this.foodBee = new Unit(this.game, "foodBee", "Food Bee",
-      "Convert honey to food.")
+      "Converts honey to food.")
 
     this.universityBee = new Unit(this.game, "universityBee", "University of Bee",
       "Instruct new Scientist Bee")
