@@ -13,6 +13,7 @@ export class Action extends Base {
 
   public oneTime = false
   public up: Action
+  public limit: decimal.Decimal
 
   realPriceNow = new Array<Cost>()
   maxBuy = new Decimal(0)
@@ -100,6 +101,9 @@ export class Action extends Base {
     }
     if (this.oneTime && max.greaterThanOrEqualTo(1))
       return Decimal(1)
+
+    if (this.limit)
+      max = Decimal.min(max, this.limit.minus(this.quantity))
 
     return max
   }

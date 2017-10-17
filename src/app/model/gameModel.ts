@@ -82,6 +82,10 @@ export class GameModel {
   expTabAv = false
   homeTabAv = false
 
+  minUser = 0
+  maxUser = 100
+  maxMax = 100
+
   // ui stuff
   isLab = false
   activeUnit: Unit
@@ -157,6 +161,11 @@ export class GameModel {
     this.baseWorld.food.quantity = this.baseWorld.food.quantity.plus(100)
 
     // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
+  }
+
+  setMaxLevel() {
+    this.maxMax = Decimal.min(this.maxLevel.div(12), 100).floor().toNumber()
+    this.maxUser = Decimal.min(this.maxUser, this.maxMax).floor().toNumber()
   }
 
   getProduction(prod: Production,
@@ -324,7 +333,7 @@ export class GameModel {
       })
 
       this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>
-        p.productor.unlocked = p.productor.avabileThisWorld))
+        p.product.unlocked = p.product.avabileThisWorld))
 
       this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
 
@@ -362,7 +371,8 @@ export class GameModel {
     save.ml = this.maxLevel
     save.htv = this.homeTabAv
 
-    save.gameVers = "0.0.1"
+    // save.gameVers = "0.0.1"
+    save.gameVers = "0.0.6"
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -421,20 +431,39 @@ export class GameModel {
       //  Fixes for older savegame, corrupted...
       this.science.science1Production.unlocked = true
 
-      if (this.bee.universityResBee.owned() && !this.bee.universityResBee2.owned())
-        this.bee.universityResBee2.unlocked = true
-
-      if (this.research.adaptation.owned() && !this.research.escape.owned())
-        this.research.escape.unlocked = true
-
-      if (this.research.evolution.owned() && !this.research.devolution.owned())
-        this.research.devolution.unlocked = true
-
-      if (this.research.hereAndNow.owned() && !this.research.timeWarp.owned())
-        this.research.timeWarp.unlocked = true
-
+      this.resList.filter(r => r.owned()).forEach(r =>
+        r.toUnlock.filter(t => t instanceof Research && !t.owned())
+          .forEach(t2 => t2.unlocked = true)
+      )
 
       this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
+
+      //  fixing for old version
+      if (save.gameVers && save.gameVers === "0.0.1") {
+
+        const linear = 1 / 4
+        const toUnlockMultiplier = Decimal.pow(1.0005, this.world.level).times(this.world.level + 1 / linear)
+          .times(linear)
+
+        this.world.toUnlock.forEach(tu => {
+
+          if (tu.unit === this.baseWorld.nestAnt ||
+            tu.unit === this.bee.hiveBee ||
+            tu.unit === this.forest.beetleNest) {
+            tu.basePrice = Decimal(30).times(toUnlockMultiplier).floor()
+          }
+
+          if (tu.unit === this.bee.hiveBee) {
+            tu.basePrice = tu.basePrice.div(2)
+          }
+
+        })
+      }
+
+      this.reloadProduction()
+
+
+      this.prestige.experience.quantity = Decimal(1E20)
 
       return save.last
     }

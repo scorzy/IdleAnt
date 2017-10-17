@@ -12,6 +12,7 @@ export class Researchs implements WorldInterface {
 
   up1: Research
   rDirt: Research
+  upCombined: Research
 
   specialResearch: Research
   prestigeResearch: Research
@@ -36,6 +37,7 @@ export class Researchs implements WorldInterface {
   devolution: Research
   escape: Research
   timeWarp: Research
+  missing: Research
 
   bi: Research
 
@@ -83,12 +85,27 @@ export class Researchs implements WorldInterface {
       }
     )
 
+    //    Missing
+    this.missing = new Research(
+      "missing",
+      "Missing", "Get 50% of missing world travel requirement.",
+      [new Cost(this.game.baseWorld.science, Decimal(2E11))],
+      [],
+      this.game,
+      () => {
+        this.game.world.toUnlock.filter(t => t.basePrice.greaterThan(t.unit.quantity))
+          .forEach(t => t.unit.quantity = t.unit.quantity.plus(
+            t.basePrice.minus(t.unit.quantity).div(2)
+          ))
+      }
+    )
+
     //    Escape
     this.escape = new Research(
       "escapism",
       "Escapism", "Reduce the resources need to travel to a new world by 50%.",
       [new Cost(this.game.baseWorld.science, Decimal(5E10))],
-      [],
+      [this.missing],
       this.game,
       () => {
         this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(2))
@@ -112,12 +129,12 @@ export class Researchs implements WorldInterface {
     //  Time Warp
     this.timeWarp = new Research(
       "timeWarp",
-      "Time warp", "1 hour of update. Use it use it wisely.",
+      "Time warp", "4 hour of update. Use it use it wisely.",
       [new Cost(this.game.baseWorld.science, Decimal(1))],
       [],
       this.game,
       () => {
-        this.game.longUpdate(3600 * 1000)
+        this.game.longUpdate(3600 * 4000)
       }
     )
 
@@ -268,8 +285,18 @@ export class Researchs implements WorldInterface {
       this.game
     )
 
+    //    Up Combined
+    this.upCombined = new Research(
+      "upComb",
+      "Combined bonus", "This is the ultimate bonus: multiply unit's bonus per hire bonus.",
+      [new Cost(this.game.baseWorld.science, Decimal(1E15))],
+      [],
+      this.game
+    )
+
     //    Up Hire
     const allUpH = Array.from(this.game.unitMap.values()).filter(u => u.upHire).map(u => u.upHire)
+    allUpH.push(this.upCombined)
     const r4 = new Research(
       "R4",
       "Twin", "Allow you to get more units for the same price.",

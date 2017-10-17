@@ -15,7 +15,9 @@ export class PrestigeComponent implements OnInit {
 
   constructor(
     public gameService: GameService,
-    private router: Router) { }
+    private router: Router) {
+    gameService.game.setMaxLevel()
+  }
 
   ngOnInit() {
   }

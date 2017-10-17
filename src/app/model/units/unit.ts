@@ -54,7 +54,7 @@ export class Unit extends Base {
   }
 
   addProductor(prod: Production) {
-    prod.productor = this
+    prod.product = this
     this.producedBy.push(prod)
     prod.unit.produces.push(prod)
   }
@@ -79,7 +79,10 @@ export class Unit extends Base {
   getBoost(): decimal.Decimal {
     return this.model.research.up1.owned() && this.buyAction ?
       this.buyAction.quantity.times(0.005)
-        .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(0))
+        .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(1))
+        .times(Decimal(1).plus(
+          this.upHire && this.model.research.upCombined.owned() ? this.upHire.quantity : Decimal(0))
+        )
       : Decimal(0)
   }
   getProduction() {

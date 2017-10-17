@@ -38,6 +38,7 @@ export class World {
     baseWorld.experience = Decimal(10)
     return baseWorld
   }
+
   static getRandomWorld(game: GameModel): World {
     const worldRet = new World(game, "", "", [], [], [])
     worldRet.experience = Decimal(0)
@@ -108,13 +109,21 @@ export class World {
     worldRet.experience = worldRet.experience.minus(7.5)
 
     //    Scale the world level
-    let maxLevel = game.maxLevel
-    maxLevel = maxLevel.greaterThan(7) ? Decimal(maxLevel.minus(6).div(2), 1.15).floor() : maxLevel
-    worldRet.level = Math.min(maxLevel.times(Decimal.random()).floor().toNumber(), 100)
+    let min = game.minUser
+    let max = game.maxUser
 
-    const linear = 1 / 1.15
+    if (!min)
+      min = 0
+    if (!max)
+      max = Decimal(game.maxMax).toNumber()
 
-    const toUnlockMultiplier = Decimal.pow(1.001, worldRet.level).times(worldRet.level + 1 / linear)
+    worldRet.level = Decimal.random().times(Decimal(1 + max - min)).floor().plus(min).toNumber()
+
+    // worldRet.level = 100
+
+    const linear = 1 / 4
+
+    const toUnlockMultiplier = Decimal.pow(1.0005, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
     const expMultiplier = Decimal.pow(1.008, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
@@ -136,7 +145,7 @@ export class World {
       this.game.prestige.experience.quantity = exp
       this.game.maxLevel = this.game.maxLevel.plus(exp)
       this.game.prestigeDone = this.game.prestigeDone.plus(1)
-   }
+    }
 
     if (this.avaiableUnits)
       this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
