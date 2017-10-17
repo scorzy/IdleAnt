@@ -462,9 +462,6 @@ export class GameModel {
 
       this.reloadProduction()
 
-
-      this.prestige.experience.quantity = Decimal(1E20)
-
       return save.last
     }
     return null
