@@ -188,7 +188,6 @@ export class Bee implements WorldInterface {
     ))
 
     this.game.baseWorld.science.addProductor(new Production(this.universityBee, Decimal(600)))
-    this.game.baseWorld.honey.addProductor(new Production(this.foodBee, Decimal(-5)))
     this.scientistBee.addProductor(new Production(this.universityBee, Decimal(0.01)))
 
     this.game.engineers.beeEnginer.addProductor(this.engineersProd)

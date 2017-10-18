@@ -94,7 +94,7 @@
 
         <label>Min Level:</label>
         <input type="number" placeholder="0" [(ngModel)]="gameService.game.minUser" class="numIn" min="1" [max]="gameService.game.maxUser">
-        <label>Max Level:</label>
+        <label>Max Level ({{gameService.game.maxMax}}):</label>
         <input type="number" [placeholder]="gameService.game.maxMax" [(ngModel)]="gameService.game.maxUser" class="numIn"
           [min]="gameService.game.minUser" [max]="gameService.game.maxMax">
       </div>

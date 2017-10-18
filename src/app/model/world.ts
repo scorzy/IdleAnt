@@ -115,7 +115,10 @@ export class World {
     if (!min)
       min = 0
     if (!max)
-      max = Decimal(game.maxMax).toNumber()
+      max = game.maxMax
+
+    min = Math.min(game.minUser, game.maxMax)
+    max = Math.min(game.maxUser, game.maxMax)
 
     worldRet.level = Decimal.random().times(Decimal(1 + max - min)).floor().plus(min).toNumber()
 
@@ -123,10 +126,9 @@ export class World {
 
     const linear = 1 / 4
 
-    const toUnlockMultiplier = Decimal.pow(1.0005, worldRet.level).times(worldRet.level + 1 / linear)
+    const toUnlockMultiplier = Decimal.pow(1.0002, worldRet.level).times(worldRet.level + 1 / linear)
       .times(linear)
-    const expMultiplier = Decimal.pow(1.008, worldRet.level).times(worldRet.level + 1 / linear)
-      .times(linear)
+    const expMultiplier = Decimal(worldRet.level + 1 / linear).times(linear)
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
     worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 0))

@@ -37,7 +37,7 @@ export class Researchs implements WorldInterface {
   devolution: Research
   escape: Research
   timeWarp: Research
-  missing: Research
+  // missing: Research
 
   bi: Research
 
@@ -86,26 +86,26 @@ export class Researchs implements WorldInterface {
     )
 
     //    Missing
-    this.missing = new Research(
-      "missing",
-      "Missing", "Get 50% of missing world travel requirement.",
-      [new Cost(this.game.baseWorld.science, Decimal(2E11))],
-      [],
-      this.game,
-      () => {
-        this.game.world.toUnlock.filter(t => t.basePrice.greaterThan(t.unit.quantity))
-          .forEach(t => t.unit.quantity = t.unit.quantity.plus(
-            t.basePrice.minus(t.unit.quantity).div(2)
-          ))
-      }
-    )
+    // this.missing = new Research(
+    //   "missing",
+    //   "Missing", "Get 50% of missing world travel requirement.",
+    //   [new Cost(this.game.baseWorld.science, Decimal(2E11))],
+    //   [],
+    //   this.game,
+    //   () => {
+    //     this.game.world.toUnlock.filter(t => t.basePrice.greaterThan(t.unit.quantity))
+    //       .forEach(t => t.unit.quantity = t.unit.quantity.plus(
+    //         t.basePrice.minus(t.unit.quantity).div(2)
+    //       ))
+    //   }
+    // )
 
     //    Escape
     this.escape = new Research(
       "escapism",
       "Escapism", "Reduce the resources need to travel to a new world by 50%.",
       [new Cost(this.game.baseWorld.science, Decimal(5E10))],
-      [this.missing],
+      [],
       this.game,
       () => {
         this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(2))
