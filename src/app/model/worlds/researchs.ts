@@ -1,3 +1,4 @@
+import { Unlocable } from '../utils';
 import { Production } from '../production';
 import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
@@ -18,6 +19,7 @@ export class Researchs implements WorldInterface {
   prestigeResearch: Research
   engineerRes: Research
   machineryRes: Research
+  stageRes: Research
 
   experimentResearch: Research
   composterResearch: Research
@@ -30,6 +32,7 @@ export class Researchs implements WorldInterface {
   universityRes: Research
   publicLesson: Research
   advancedLesson: Research
+  depEduRes: Research
 
   hereAndNow: Research
   adaptation: Research
@@ -152,12 +155,21 @@ export class Researchs implements WorldInterface {
       }
     )
 
+    //    University 4
+    this.depEduRes = new Research(
+      "depEduRes",
+      "Department of Education", "Unlock Department of Education.",
+      [new Cost(this.game.baseWorld.science, Decimal(3E10))],
+      [this.game.science.depEdu],
+      this.game
+    )
+
     //    University 3
     this.advancedLesson = new Research(
       "advancedLesson",
       "Advanced Lesson", "University also produces scientist.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-      [this.game.science.science2Production, this.game.science.scientistProduction],
+      [this.game.science.scientistProduction, this.depEduRes],
       this.game
     )
 
@@ -189,12 +201,23 @@ export class Researchs implements WorldInterface {
     )
     this.game.baseWorld.science.bonusProduction.push([this.scientificMethod, Decimal(1)])
 
+    //    Stage
+    this.stageRes = new Research(
+      "stageRes",
+      "Stage", "Stage.",
+      [new Cost(this.game.baseWorld.science, Decimal(3E6))],
+      this.game.machines.stageList,
+      this.game
+    )
+
     //    Engineer
+    const eng: Array<Unlocable> = this.game.engineers.listEnginer
+    eng.push(this.stageRes)
     this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-      this.game.engineers.listEnginer,
+      eng,
       this.game
     )
 

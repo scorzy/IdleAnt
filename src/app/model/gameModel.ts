@@ -246,6 +246,10 @@ export class GameModel {
       a = a.div(6)
       b = b.div(2)
 
+      if (res === this.baseWorld.crystal) {
+        console.log(a.toNumber() + " " + b.toNumber() + " " + c.toNumber() + " " + d.toNumber())
+      }
+
       if (a.lessThan(0)
         || b.lessThan(0)
         || c.lessThan(0)
@@ -258,11 +262,16 @@ export class GameModel {
         }
 
         for (const s of solution) {
+
+          if (res === this.baseWorld.crystal) {
+            console.log(s.toNumber() )
+          }
+
           if (maxTime > s.toNumber() * 1000) {
             maxTime = s.toNumber() * 1000
             unitZero = res
           }
-          res.endIn = Math.min(s.toNumber() * 1000, res.endIn)
+          res.endIn = Math.min(s.times(1000).toNumber(), res.endIn)
         }
       }
     }

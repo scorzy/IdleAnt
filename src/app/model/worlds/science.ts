@@ -14,6 +14,7 @@ export class Science implements WorldInterface {
   student: Unit
   scientist: Unit
   university: Unit
+  depEdu: Unit
 
   listScience = Array<Unit>()
 
@@ -22,6 +23,7 @@ export class Science implements WorldInterface {
   science1Production: Production
   science2Production: Production
 
+  uniProduction: Production
 
   constructor(public game: GameModel) { }
 
@@ -36,19 +38,26 @@ export class Science implements WorldInterface {
     this.university = new Unit(this.game, "univ", "University",
       "University yield science.")
 
-    this.listScience = [this.student, this.scientist, this.university]
+    this.depEdu = new Unit(this.game, "depEdu", "Department of Education",
+      "Department of Education yield universities.")
+
+    this.listScience = [this.student, this.scientist, this.university, this.depEdu]
     this.game.lists.push(new TypeList("Science", this.listScience))
 
     this.studentProduction = new Production(this.university, Decimal(0.2), false)
     this.scientistProduction = new Production(this.university, Decimal(0.1), false)
     this.science1Production = new Production(this.university, Decimal(450))
     this.science2Production = new Production(this.university, Decimal(1000), false)
+    this.uniProduction = new Production(this.university, Decimal(0.1), false)
   }
 
   public initStuff() {
 
     this.game.baseWorld.science.addProductor(new Production(this.student))
     this.game.baseWorld.crystal.addProductor(new Production(this.student, Decimal(-0.5)))
+
+    this.university.addProductor(new Production(this.depEdu, Decimal(0.1)))
+    this.game.baseWorld.science.addProductor(new Production(this.depEdu, Decimal(-1E5)))
 
     const specialProduction = Decimal(15)
     const specialCost = Decimal(-4)
@@ -99,18 +108,26 @@ export class Science implements WorldInterface {
     ))
 
     this.game.baseWorld.science.addProductor(this.science1Production)
-    // this.game.baseWorld.science.addProductor(this.science2Production)
-
     this.game.baseWorld.crystal.addProductor(new Production(this.university, specialCost.times(10)))
 
     this.student.addProductor(this.studentProduction)
     this.scientist.addProductor(this.scientistProduction)
 
-
     this.university.togableProductions = [
       new TogableProduction("Generate Studentes", [this.studentProduction]),
       new TogableProduction("Generate Scientist", [this.scientistProduction])
     ]
+
+    //  Dep
+    this.depEdu.actions.push(new BuyAction(this.game,
+      this.depEdu,
+      [
+        new Cost(this.game.baseWorld.wood, this.game.machines.price1.times(20), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, this.game.machines.price2.times(20), this.game.buyExp),
+        new Cost(this.game.baseWorld.science, this.game.machines.price1.times(20), this.game.buyExp),
+      ]
+    ))
+
   }
 
   public addWorld() {

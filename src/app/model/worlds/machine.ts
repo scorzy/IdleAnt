@@ -7,6 +7,7 @@ import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
+import { TogableProduction } from '../units/togableProductions';
 
 export class Machine implements WorldInterface {
 
@@ -33,6 +34,21 @@ export class Machine implements WorldInterface {
   price1 = Decimal(1E5)
   price2 = Decimal(6E4)
   price3 = Decimal(3E4)
+
+  // Stage
+  advCompProd: Production
+  advRefProd: Production
+  advLaserProd: Production
+  advHydroProd: Production
+  advPlanProd: Production
+
+  adv2CompProd: Production
+  adv2RefProd: Production
+  adv2LaserProd: Production
+  adv2HydroProd: Production
+  adv2PlanProd: Production
+
+  stageList: Array<Production>
 
   constructor(public game: GameModel) { }
 
@@ -78,10 +94,25 @@ export class Machine implements WorldInterface {
     this.listMachinery.push(this.burningGlass)
 
     this.game.lists.push(new TypeList("Machinery", this.listMachinery))
+
+    const stageRate = Decimal(0.05)
+    const stageRate2 = stageRate.times(-1)
+
+
+    this.advRefProd = new Production(this.refineryStation, stageRate, false)
+    this.advLaserProd = new Production(this.laserStation, stageRate, false)
+    this.advHydroProd = new Production(this.hydroFarm, stageRate, false)
+    this.advPlanProd = new Production(this.plantingMachine, stageRate, false)
+    this.advCompProd = new Production(this.composterStation, stageRate, false)
+
+    this.adv2RefProd = new Production(this.refineryStation, stageRate2, false)
+    this.adv2LaserProd = new Production(this.laserStation, stageRate2, false)
+    this.adv2HydroProd = new Production(this.hydroFarm, stageRate2, false)
+    this.adv2PlanProd = new Production(this.plantingMachine, stageRate2, false)
+    this.adv2CompProd = new Production(this.composterStation, stageRate2, false)
   }
 
   public initStuff() {
-
 
     //    Composter
     this.composterStation.types = [Type.Machinery]
@@ -241,6 +272,30 @@ export class Machine implements WorldInterface {
     ))
     this.game.baseWorld.ice.addProductor(new Production(this.burningGlass, machineryProd2.times(-10)))
 
+
+    this.stageList =
+      [
+        this.advCompProd, this.advRefProd, this.advLaserProd, this.advHydroProd, this.advPlanProd,
+        this.adv2CompProd, this.adv2RefProd, this.adv2LaserProd, this.adv2HydroProd, this.adv2PlanProd
+      ]
+
+    this.game.baseWorld.composterAnt.addProductor(this.advCompProd)
+    this.game.baseWorld.refineryAnt.addProductor(this.advRefProd)
+    this.game.baseWorld.laserAnt.addProductor(this.advLaserProd)
+    this.game.baseWorld.hydroAnt.addProductor(this.advHydroProd)
+    this.game.baseWorld.planterAnt.addProductor(this.advPlanProd)
+
+    this.game.baseWorld.littleAnt.addProductor(this.adv2CompProd)
+    this.game.baseWorld.littleAnt.addProductor(this.adv2RefProd)
+    this.game.baseWorld.littleAnt.addProductor(this.adv2LaserProd)
+    this.game.baseWorld.littleAnt.addProductor(this.adv2HydroProd)
+    this.game.baseWorld.littleAnt.addProductor(this.adv2PlanProd)
+
+    this.composterStation.togableProductions = [new TogableProduction("Stage", [this.advCompProd, this.adv2CompProd])]
+    this.refineryStation.togableProductions = [new TogableProduction("Stage", [this.advRefProd, this.adv2RefProd])]
+    this.laserStation.togableProductions = [new TogableProduction("Stage", [this.advLaserProd, this.adv2LaserProd])]
+    this.hydroFarm.togableProductions = [new TogableProduction("Stage", [this.advHydroProd, this.adv2HydroProd])]
+    this.plantingMachine.togableProductions = [new TogableProduction("Stage", [this.advPlanProd, this.adv2PlanProd])]
   }
 
   public addWorld() {

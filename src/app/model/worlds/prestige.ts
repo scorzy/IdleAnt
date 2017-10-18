@@ -241,7 +241,7 @@ export class Prestige implements WorldInterface {
     for (let i = 0; i < 5; i++) {
 
       const eff = new Unit(this.game, "eff" + names[i], names[i],
-        names[i] + " units consume 5% less resources.", true)
+        names[i] + " units consume 5% less resources. Max -50%.", true)
 
       const ba = new BuyAction(this.game, eff,
         [new Cost(this.experience, Decimal(50), expIncrement)])

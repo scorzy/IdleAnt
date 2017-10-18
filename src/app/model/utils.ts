@@ -49,10 +49,26 @@ export class Utils {
         roots = [u.minus(p).div(u.times(3))]
       } else {                        // D < 0, three roots, but needs to use complex numbers/trigonometric solution
         const u = Decimal(2).times(Decimal.sqrt(p.times(-1).div(3)))
-        const t = Decimal.acos(Decimal(3).times(q).div(p).div(u)).div(3)
+        console.log(q.toString() + " " + p.toString() + " " + u.toString())
+        // let acos = Decimal(3).times(q).div(p).div(u)
+
+        let acos = q
+        acos = acos.div(p)
+        acos = acos.div(u)
+        acos = acos.times(3)
+
+        acos = Decimal.min(Decimal.max(acos, 1), -1)
+
+        const t = Decimal.acos(acos).div(3)
+
         // const t = Math.acos(3 * q / p / u) / 3;  // D < 0 implies p < 0 and acos argument in [-1..1]
         const k = Decimal(2).times(Math.PI).div(3)
         roots = [u.times(t.cos()), u.times((t.minus(k)).cos()), u.times(t.minus(k.times(2)).cos())]
+
+        console.log(roots[0].toString())
+        console.log(roots[1].toString())
+        console.log(roots[2].toString())
+
       }
     }
 

@@ -48,7 +48,7 @@ export class Infestation implements WorldInterface {
       "Proces weedkiller.")
     this.disinfestationBeetle = new Unit(this.game, "disinfestationBeetle", "Disinfestation Beetle",
       "Beetle are also good at killing plants.")
-    this.flametrowerBeetle = new Unit(this.game, "flametrowerBeetle", "Flametrower Beetle",
+    this.flametrowerBeetle = new Unit(this.game, "flametrowerBeetle", "Flamethrower Beetle",
       "A beetle with a flametrower.")
     this.chemistBee = new Unit(this.game, "chemistBee", "Chemist Bee",
       "A chemist bee.")
@@ -79,7 +79,7 @@ export class Infestation implements WorldInterface {
     //    Flame
     this.flametrowerRes = new Research(
       "flametrowerRes",
-      "Flametrower", "Burn poisonus plants.",
+      "Flamethrower", "Burn poisonus plants.",
       [new Cost(this.game.baseWorld.science, Decimal(1E3))],
       [this.flametrowerAnt, this.flametrowerBeetle],
       this.game

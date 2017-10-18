@@ -198,7 +198,6 @@ export class Beach implements WorldInterface {
     this.lobster.actions.push(new UpHire(this.game, this.lobster,
       [new Cost(this.game.baseWorld.science, lobsterScience, this.game.upgradeScienceHireExp)]))
 
-    this.game.baseWorld.food.addProductor(new Production(this.lobster, this.game.machines.machineryProd.times(-10)))
     this.game.baseWorld.sand.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(5)))
     this.game.baseWorld.crystal.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(10)))
   }
