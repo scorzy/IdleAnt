@@ -10,6 +10,9 @@ export class World {
   static worldTypes = new Array<World>()
   static worldSuffix = new Array<World>()
 
+  keep = false
+  id = ""
+
   public level = 1
 
   constructor(
@@ -194,6 +197,7 @@ export class World {
     data.uu = this.unlockedUnits.map(up => [up[0].id, up[1]])
     data.e = this.experience
     data.l = this.level
+    data.keep = this.keep
     return data
   }
   restore(data: any) {
@@ -233,6 +237,9 @@ export class World {
 
     if (data.l)
       this.level = data.l
+
+    if (data.keep)
+      this.keep = true
   }
 
 }

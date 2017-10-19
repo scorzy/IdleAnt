@@ -89,6 +89,7 @@ export class GameModel {
   // ui stuff
   isLab = false
   activeUnit: Unit
+  pause = false
   //#endregion
 
   constructor() { this.initialize() }
@@ -206,8 +207,10 @@ export class GameModel {
    *
    * @param dif time elapsed in millisecond
    */
-  longUpdate(dif: number) {
+  longUpdate(dif: number, forceUp = false) {
     this.reloadProduction()
+
+    this.lists.forEach(l => l.isEnding = false)
 
     const unl = this.all.filter(u => u.unlocked)
     let maxTime = dif
@@ -246,9 +249,9 @@ export class GameModel {
       a = a.div(6)
       b = b.div(2)
 
-      if (res === this.baseWorld.crystal) {
-        console.log(a.toNumber() + " " + b.toNumber() + " " + c.toNumber() + " " + d.toNumber())
-      }
+      // if (res === this.baseWorld.crystal) {
+      //   console.log(a.toNumber() + " " + b.toNumber() + " " + c.toNumber() + " " + d.toNumber())
+      // }
 
       if (a.lessThan(0)
         || b.lessThan(0)
@@ -263,9 +266,9 @@ export class GameModel {
 
         for (const s of solution) {
 
-          if (res === this.baseWorld.crystal) {
-            console.log(s.toNumber() )
-          }
+          // if (res === this.baseWorld.crystal) {
+          //   console.log(s.toNumber())
+          // }
 
           if (maxTime > s.toNumber() * 1000) {
             maxTime = s.toNumber() * 1000
@@ -275,24 +278,24 @@ export class GameModel {
         }
       }
     }
+    if (!this.pause || forceUp) {
+      if (maxTime > Number.EPSILON)
+        this.update(maxTime)
+      if (unitZero) {
+        unitZero.producedBy.filter(p => p.efficiency.lessThan(0)).forEach(p => p.unit.percentage = 0)
 
-    if (maxTime > Number.EPSILON)
-      this.update(maxTime)
-    if (unitZero) {
-      unitZero.producedBy.filter(p => p.efficiency.lessThan(0)).forEach(p => p.unit.percentage = 0)
-
-      // fix for infestatiion world
-      if (unitZero === this.infestation.poisonousPlant) {
-        this.infestation.poisonousPlant2.quantity = Decimal(0)
+        // fix for infestatiion world
+        if (unitZero === this.infestation.poisonousPlant) {
+          this.infestation.poisonousPlant2.quantity = Decimal(0)
+        }
+      }
+      const remaning = dif - maxTime
+      if (remaning > Number.EPSILON) {
+        this.isChanged = true
+        this.reloadProduction()
+        this.longUpdate(remaning)
       }
     }
-    const remaning = dif - maxTime
-    if (remaning > Number.EPSILON) {
-      this.isChanged = true
-      this.reloadProduction()
-      this.longUpdate(remaning)
-    }
-
     //  this.reloadProduction()
   }
 
@@ -301,6 +304,8 @@ export class GameModel {
    */
   postUpdate() {
     this.all.filter(u => u.quantity.lessThan(Number.EPSILON)).forEach(u => u.quantity = Decimal(0))
+
+    this.lists.forEach(l => l.isEnding = !!l.list.find(u => u.isEnding()))
 
     if (this.isLab)
       this.checkResearch()
@@ -354,11 +359,23 @@ export class GameModel {
    * Initialize 3 random world
    */
   generateRandomWorld() {
-    this.nextWorlds = [
-      World.getRandomWorld(this),
-      World.getRandomWorld(this),
-      World.getRandomWorld(this)
-    ]
+    if (!this.nextWorlds) {
+      this.nextWorlds = [
+        World.getRandomWorld(this),
+        World.getRandomWorld(this),
+        World.getRandomWorld(this)
+      ]
+    }
+    else {
+      for (let i = 0; i < 3; i++) {
+        if (!this.nextWorlds[i].keep)
+          this.nextWorlds[i] = World.getRandomWorld(this)
+      }
+    }
+
+    for (let i = 0; i < 3; i++) {
+      this.nextWorlds[i].id = "" + i
+    }
   }
 
   /**
@@ -379,6 +396,7 @@ export class GameModel {
     save.expTabAv = this.expTabAv
     save.ml = this.maxLevel
     save.htv = this.homeTabAv
+    save.pause = this.pause
 
     // save.gameVers = "0.0.1"
     save.gameVers = "0.0.6"
@@ -468,6 +486,9 @@ export class GameModel {
 
         })
       }
+
+      if (save.pause)
+        this.pause = true
 
       this.reloadProduction()
 

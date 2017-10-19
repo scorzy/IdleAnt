@@ -18,6 +18,8 @@ export class GameService {
   saveFreq = 1000 * 3 * 60
   kongFreq = 1000 * 10 * 60
 
+  isPaused = false
+
   kongregate: any
 
   constructor(
@@ -37,14 +39,14 @@ export class GameService {
 
     setInterval(this.save.bind(this), this.saveFreq)
 
-    setTimeout(() => {
-      try {
-        this.sendKong()
-        setInterval(this.sendKong.bind(this), this.kongFreq)
-      } catch (e) {
-        console.log("Error: " + e.message)
-      }
-    }, 15 * 1000)
+    // setTimeout(() => {
+    //   try {
+    //     this.sendKong()
+    //     setInterval(this.sendKong.bind(this), this.kongFreq)
+    //   } catch (e) {
+    //     console.log("Error: " + e.message)
+    //   }
+    // }, 15 * 1000)
 
     this.router.navigateByUrl('/')
 

@@ -137,7 +137,7 @@ export class Researchs implements WorldInterface {
       [],
       this.game,
       () => {
-        this.game.longUpdate(3600 * 4000)
+        this.game.longUpdate(3600 * 4000, true)
       }
     )
 
@@ -169,7 +169,7 @@ export class Researchs implements WorldInterface {
       "advancedLesson",
       "Advanced Lesson", "University also produces scientist.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-      [this.game.science.scientistProduction, this.depEduRes],
+      [this.game.science.scientistProduction],
       this.game
     )
 
@@ -201,18 +201,18 @@ export class Researchs implements WorldInterface {
     )
     this.game.baseWorld.science.bonusProduction.push([this.scientificMethod, Decimal(1)])
 
-    //    Stage
-    this.stageRes = new Research(
-      "stageRes",
-      "Stage", "Stage.",
-      [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-      this.game.machines.stageList,
-      this.game
-    )
+    // //    Stage
+    // this.stageRes = new Research(
+    //   "stageRes",
+    //   "Stage", "Stage.",
+    //   [new Cost(this.game.baseWorld.science, Decimal(3E6))],
+    //   this.game.machines.stageList,
+    //   this.game
+    // )
 
     //    Engineer
     const eng: Array<Unlocable> = this.game.engineers.listEnginer
-    eng.push(this.stageRes)
+    //eng.push(this.stageRes)
     this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",

@@ -22,9 +22,16 @@
 
     </div>
     <div class="header-actions">
+
+      <a class="nav-link nav-icon" href="javascript://" (click)="gameService.game.pause = !gameService.game.pause">
+        <clr-icon shape="play" *ngIf="gameService.game.pause"></clr-icon>
+        <clr-icon shape="pause" *ngIf="!gameService.game.pause"></clr-icon>
+      </a>
+
       <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
         <clr-icon shape="cog"></clr-icon>
       </a>
+
     </div>
   </clr-header>
 

@@ -8,7 +8,7 @@
     <span>Science: {{gameService.game.baseWorld.science.quantity | format}} -
         {{gameService.game.baseWorld.science.totalPerSec | format}} /s
     </span>
-    <div class="card-columns card-columns-2">
+    <div class="card-columns card-columns-3">
       <app-action [action]="res" *ngFor="let res of gameService.game.resList | resPipe: resDone"></app-action>
     </div>
 
