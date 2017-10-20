@@ -3,7 +3,6 @@ import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
 import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } from '../units/action';
-import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
@@ -131,19 +130,19 @@ export class BaseWorld implements WorldInterface {
   }
   declareJobs() {
     this.geologist = new Unit(this.game, "geo", "Geologist", "Geologist yield crystal.")
-    this.geologist.types = [Type.Ant, Type.Mining]
+    // this.geologist.types = [Type.Ant, Type.Mining]
     this.listJobs.push(this.geologist)
 
     this.carpenter = new Unit(this.game, "car", "Carpenter", "carpenters yield soil.")
-    this.carpenter.types = [Type.Ant, Type.SoilG]
+    // this.carpenter.types = [Type.Ant, Type.SoilG]
     this.listJobs.push(this.carpenter)
 
     this.farmer = new Unit(this.game, "far", "Farmer", "Farmer yield fungus.")
-    this.farmer.types = [Type.Ant, Type.Farmer]
+    // this.farmer.types = [Type.Ant, Type.Farmer]
     this.listJobs.push(this.farmer)
 
     this.lumberjack = new Unit(this.game, "lum", "Lumberjack", "Lumberjack yield wood.")
-    this.lumberjack.types = [Type.Ant, Type.WoodG]
+    // this.lumberjack.types = [Type.Ant, Type.WoodG]
     this.listJobs.push(this.lumberjack)
 
 
@@ -169,7 +168,7 @@ export class BaseWorld implements WorldInterface {
   }
   initGenerators() {
     this.list.push(this.littleAnt, this.queenAnt, this.nestAnt)
-    this.list.forEach(ant => ant.types = [Type.Ant, Type.Generator])
+    // this.list.forEach(ant => ant.types = [Type.Ant, Type.Generator])
 
     this.littleAnt.unlocked = true
 
@@ -303,7 +302,7 @@ export class BaseWorld implements WorldInterface {
     //
 
     //  Composter
-    this.composterAnt.types = [Type.Ant]
+    // this.composterAnt.types = [Type.Ant]
     this.level2.push(this.composterAnt)
     this.composterAnt.actions.push(new BuyAction(this.game,
       this.composterAnt,
@@ -317,7 +316,7 @@ export class BaseWorld implements WorldInterface {
     this.wood.addProductor(new Production(this.composterAnt, this.specialCost))
 
     //  Refinery
-    this.refineryAnt.types = [Type.Ant]
+    // this.refineryAnt.types = [Type.Ant]
     this.level2.push(this.refineryAnt)
     this.refineryAnt.actions.push(new BuyAction(this.game,
       this.refineryAnt,
@@ -331,7 +330,7 @@ export class BaseWorld implements WorldInterface {
     this.soil.addProductor(new Production(this.refineryAnt, this.specialCost))
 
     //  Laser
-    this.laserAnt.types = [Type.Ant]
+    //   this.laserAnt.types = [Type.Ant]
     this.level2.push(this.laserAnt)
     this.laserAnt.actions.push(new BuyAction(this.game,
       this.laserAnt,
@@ -345,7 +344,7 @@ export class BaseWorld implements WorldInterface {
     this.sand.addProductor(new Production(this.laserAnt, this.specialCost))
 
     //  Hydro
-    this.hydroAnt.types = [Type.Ant]
+    //  this.hydroAnt.types = [Type.Ant]
     this.level2.push(this.hydroAnt)
     this.hydroAnt.actions.push(new BuyAction(this.game,
       this.hydroAnt,
@@ -359,7 +358,7 @@ export class BaseWorld implements WorldInterface {
     this.crystal.addProductor(new Production(this.hydroAnt, this.specialCost))
 
     //  Planter
-    this.planterAnt.types = [Type.Ant]
+    //    this.planterAnt.types = [Type.Ant]
     this.level2.push(this.planterAnt)
     this.planterAnt.actions.push(new BuyAction(this.game,
       this.planterAnt,

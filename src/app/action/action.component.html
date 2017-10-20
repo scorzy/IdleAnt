@@ -44,11 +44,14 @@
   <div *ngIf="!action.maxBuy.greaterThanOrEqualTo(1) && !(action.oneTime && action.owned())">
     <div class="progress-block" *ngFor="let cost of action.realPriceNow">
       <label>{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</label>
-      <div class="progress" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
-        <progress class="progress-meter" max="100" [attr.value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()"
-          data-displayval="0%"></progress>
+      <div class="progress-static" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
+        <div class="progress-meter" max="100"
+        attr.data-value="{{Math.min(cost.unit.quantity.times(100).div(cost.basePrice).floor().toNumber(),100)}}">
+        </div>
       </div>
     </div>
   </div>
 
 </div>
+
+<!-- attr.data-value="{{cost.unit.quantity.times(100).div(cost.basePrice).floor().toNumber()}}" -->

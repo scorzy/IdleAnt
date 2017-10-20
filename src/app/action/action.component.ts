@@ -27,6 +27,8 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
   numberformat = numberformat
 
+  Math = Math
+
   constructor() {
 
   }

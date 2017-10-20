@@ -3,7 +3,6 @@ import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
 import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial } from '../units/action';
-import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
@@ -84,7 +83,7 @@ export class Machine implements WorldInterface {
   public initStuff() {
 
     //    Composter
-    this.composterStation.types = [Type.Machinery]
+    // this.composterStation.types = [Type.Machinery]
     this.composterStation.actions.push(new BuyAction(this.game,
       this.composterStation,
       [
@@ -97,7 +96,7 @@ export class Machine implements WorldInterface {
     this.game.baseWorld.wood.addProductor(new Production(this.composterStation, this.machineryCost))
 
     //    Refinery
-    this.refineryStation.types = [Type.Machinery]
+    // this.refineryStation.types = [Type.Machinery]
     this.refineryStation.actions.push(new BuyAction(this.game,
       this.refineryStation,
       [
@@ -111,7 +110,7 @@ export class Machine implements WorldInterface {
 
 
     //    Laser
-    this.laserStation.types = [Type.Machinery]
+    // this.laserStation.types = [Type.Machinery]
     this.laserStation.actions.push(new BuyAction(this.game,
       this.laserStation,
       [
@@ -125,7 +124,7 @@ export class Machine implements WorldInterface {
 
 
     //    Hydroponic Farm
-    this.hydroFarm.types = [Type.Machinery]
+    // this.hydroFarm.types = [Type.Machinery]
     this.hydroFarm.actions.push(new BuyAction(this.game,
       this.hydroFarm,
       [
@@ -138,7 +137,7 @@ export class Machine implements WorldInterface {
     this.game.baseWorld.crystal.addProductor(new Production(this.hydroFarm, this.machineryCost))
 
     //    Planting Machine
-    this.plantingMachine.types = [Type.Machinery]
+    // this.plantingMachine.types = [Type.Machinery]
     this.plantingMachine.actions.push(new BuyAction(this.game,
       this.plantingMachine,
       [
@@ -156,7 +155,7 @@ export class Machine implements WorldInterface {
 
     //    Sand digger
     this.sandDigger.avabileBaseWorld = false
-    this.sandDigger.types = [Type.Machinery]
+    // this.sandDigger.types = [Type.Machinery]
     this.sandDigger.actions.push(new BuyAction(this.game,
       this.sandDigger,
       [
@@ -168,7 +167,7 @@ export class Machine implements WorldInterface {
 
     //    Wood
     this.loggingMachine.avabileBaseWorld = false
-    this.loggingMachine.types = [Type.Machinery]
+    // this.loggingMachine.types = [Type.Machinery]
     this.loggingMachine.actions.push(new BuyAction(this.game,
       this.loggingMachine,
       [
@@ -180,7 +179,7 @@ export class Machine implements WorldInterface {
 
     //    Mine
     this.mine.avabileBaseWorld = false
-    this.mine.types = [Type.Machinery]
+    // this.mine.types = [Type.Machinery]
     this.mine.actions.push(new BuyAction(this.game,
       this.mine,
       [
@@ -192,7 +191,7 @@ export class Machine implements WorldInterface {
 
     //    Honey
     this.honeyMaker.avabileBaseWorld = false
-    this.honeyMaker.types = [Type.Machinery]
+    // this.honeyMaker.types = [Type.Machinery]
     this.honeyMaker.actions.push(new BuyAction(this.game,
       this.honeyMaker,
       [
@@ -205,7 +204,7 @@ export class Machine implements WorldInterface {
 
     //    Ice Compacter
     this.iceCompacter.avabileBaseWorld = false
-    this.iceCompacter.types = [Type.Machinery]
+    // this.iceCompacter.types = [Type.Machinery]
     this.iceCompacter.actions.push(new BuyAction(this.game,
       this.iceCompacter,
       [
@@ -219,7 +218,7 @@ export class Machine implements WorldInterface {
 
     //    Ice Collector
     this.iceCollector.avabileBaseWorld = false
-    this.iceCollector.types = [Type.Machinery]
+    // this.iceCollector.types = [Type.Machinery]
     this.iceCollector.actions.push(new BuyAction(this.game,
       this.iceCollector,
       [
@@ -231,7 +230,7 @@ export class Machine implements WorldInterface {
 
     //    Ice Burning Glass
     this.burningGlass.avabileBaseWorld = false
-    this.burningGlass.types = [Type.Machinery]
+    // this.burningGlass.types = [Type.Machinery]
     this.burningGlass.actions.push(new BuyAction(this.game,
       this.burningGlass,
       [

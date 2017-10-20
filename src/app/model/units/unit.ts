@@ -67,6 +67,9 @@ export class Unit extends Base {
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
     ).times(this.worldEffModifiers).times(sum)
 
+  }
+  reloadUiPerSec() {
+
     this.totalProducers = Decimal(0)
     this.totalPerSec = Decimal(0)
 
@@ -145,8 +148,9 @@ export class Unit extends Base {
 
     if (this.prestigeBonusStart) {
       this.quantity = this.prestigeBonusQuantityValue.times(this.prestigeBonusStart.quantity)
-      if (this.quantity.greaterThan(0))
-        this.unlocked = true
+      // if (this.quantity.greaterThan(0)) {
+      //   this.unlocked = true
+      // }
     }
 
     this.producedBy.forEach(p => p.unlocked = p.defaultUnlocked)

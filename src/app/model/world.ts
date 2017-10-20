@@ -3,6 +3,7 @@ import { GameModel } from './gameModel';
 import { Unit } from './units/unit';
 import { Base } from './units/base';
 import { Action } from './units/action';
+import { TypeList } from './typeList';
 
 export class World {
 
@@ -111,6 +112,11 @@ export class World {
     worldRet.avaiableUnits = Array.from(new Set(worldRet.avaiableUnits))
     worldRet.experience = worldRet.experience.minus(7.5)
 
+    if (!worldRet.unlockedUnits.map(p => p[0]).includes(game.infestation.poisonousPlant)) {
+      worldRet.avaiableUnits = worldRet.avaiableUnits
+        .filter(u => !game.infestation.listInfestation.map(u2 => u2 as Base).includes(u))
+    }
+
     //    Scale the world level
     let min = game.minUser
     let max = game.maxUser
@@ -136,6 +142,8 @@ export class World {
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
     worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 0))
     worldRet.experience = worldRet.experience.times(expMultiplier).plus(0.5).floor()
+
+    game.unitLists.splice(0, game.unitLists.length)
 
     return worldRet
   }

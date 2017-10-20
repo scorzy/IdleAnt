@@ -4,7 +4,6 @@ import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
 import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } from '../units/action';
-import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
@@ -30,7 +29,7 @@ export class Science implements WorldInterface {
   public declareStuff() {
     this.student = new Unit(this.game, "scn", "Student",
       "Student yield science.")
-    this.student.types = [Type.Ant, Type.Scientist]
+    // this.student.types = [Type.Ant, Type.Scientist]
 
     this.scientist = new Unit(this.game, "scie2", "Scientist Ant",
       "Transform crystal into science.")
@@ -81,7 +80,7 @@ export class Science implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceHireExp)]))
 
     //  Scientist
-    this.scientist.types = [Type.Ant]
+    // this.scientist.types = [Type.Ant]
     this.scientist.actions.push(new BuyAction(this.game,
       this.scientist,
       [

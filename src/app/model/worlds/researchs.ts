@@ -4,10 +4,10 @@ import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
 import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } from '../units/action';
-import { Type, Base } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { BaseWorld } from './baseWorld';
+import { Base } from '../units/base';
 
 export class Researchs implements WorldInterface {
 
@@ -212,7 +212,7 @@ export class Researchs implements WorldInterface {
 
     //    Engineer
     const eng: Array<Unlocable> = this.game.engineers.listEnginer
-    //eng.push(this.stageRes)
+    // //eng.push(this.stageRes)
     this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",

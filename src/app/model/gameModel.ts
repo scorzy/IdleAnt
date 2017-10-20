@@ -2,7 +2,7 @@ import { Engineers } from './worlds/engineer';
 import { World } from './world';
 import { DefaultUrlHandlingStrategy } from '@angular/router/src/url_handling_strategy';
 import { Utils, Unlocable } from './utils';
-import { Base, Type } from './units/base';
+import { Base } from './units/base';
 import { Cost } from './cost';
 import { Alert, alertArray, IAlert } from './alert';
 import { TypeList } from './typeList';
@@ -90,6 +90,9 @@ export class GameModel {
   isLab = false
   activeUnit: Unit
   pause = false
+
+  unitLists = new Array<TypeList>()
+
   //#endregion
 
   constructor() { this.initialize() }
@@ -161,6 +164,8 @@ export class GameModel {
 
     this.baseWorld.food.quantity = this.baseWorld.food.quantity.plus(100)
 
+    this.unlockUnits(this.all.filter(u => u.quantity.greaterThan(0)))()
+    this.reloadList()
     // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
@@ -208,7 +213,7 @@ export class GameModel {
    * @param dif time elapsed in millisecond
    */
   longUpdate(dif: number, forceUp = false) {
-    this.reloadProduction()
+    // this.reloadProduction()
 
     this.lists.forEach(l => l.isEnding = false)
 
@@ -307,6 +312,9 @@ export class GameModel {
 
     this.lists.forEach(l => l.isEnding = !!l.list.find(u => u.isEnding()))
 
+    this.all.filter(un => un.unlocked).forEach(u => {
+      u.reloadUiPerSec()
+    })
     if (this.isLab)
       this.checkResearch()
 
@@ -337,19 +345,22 @@ export class GameModel {
    */
   unlockUnits(units: Unlocable[], message: string = null) {
     return () => {
-      const ok = false
+      let ok = false
       units.filter(u => u.avabileThisWorld).forEach(u => {
+        ok = ok || (!u.unlocked)
         u.unlocked = true
-        if (u instanceof Unit) {
+        if (u instanceof Unit)
           if (u.buyAction)
             u.buyAction.unlocked = true
-        }
       })
 
       this.all.filter(u => u.unlocked).forEach(u2 => u2.produces.forEach(p =>
         p.product.unlocked = p.product.avabileThisWorld))
 
       this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
+
+      if (ok)
+        this.reloadList()
 
       return ok
     }
@@ -365,8 +376,7 @@ export class GameModel {
         World.getRandomWorld(this),
         World.getRandomWorld(this)
       ]
-    }
-    else {
+    } else {
       for (let i = 0; i < 3; i++) {
         if (!this.nextWorlds[i].keep)
           this.nextWorlds[i] = World.getRandomWorld(this)
@@ -491,7 +501,8 @@ export class GameModel {
         this.pause = true
 
       this.reloadProduction()
-
+      this.unitLists.splice(0, this.unitLists.length)
+      this.reloadList()
       return save.last
     }
     return null
@@ -501,9 +512,8 @@ export class GameModel {
     this.all.filter(un => un.unlocked).forEach(u => {
       u.loadProduction()
     })
-
     this.actionList.forEach(a => a.reload())
-
+    // console.log("reloadProduction")
   }
   getCost(data: any): Cost {
     return new Cost(this.all.find(u => u.id === data.u), Decimal(data.b), Decimal(data.g))
@@ -513,13 +523,13 @@ export class GameModel {
     return Decimal(this.world.experience)
   }
 
-  getUnits(types: Type[]): Unit[] {
-    return this.all.filter(u => {
-      let yes = true
-      types.forEach(t => yes = yes && u.types.includes(t))
-      return yes
-    })
-  }
+  // getUnits(types: Type[]): Unit[] {
+  //   return this.all.filter(u => {
+  //     let yes = true
+  //     types.forEach(t => yes = yes && u.types.includes(t))
+  //     return yes
+  //   })
+  // }
 
   reloadUpIcons() {
     this.unitWithUp.forEach(u => u.checkUp())
@@ -528,6 +538,30 @@ export class GameModel {
   checkResearch() {
     this.resList// .filter(r => r.unlocked && r.avabileThisWorld)
       .forEach(res => res.setMaxBuy())
+  }
+
+
+  reloadList() {
+    const typeFiltered = this.lists.filter(tl => tl.list.find(u => u.unlocked))
+    typeFiltered.forEach(tl => {
+
+      let uiTl = this.unitLists.find(t => t.type === tl.type)
+      if (!uiTl) {
+        uiTl = new TypeList(tl.type, tl.list.filter(u => u.unlocked))
+        this.unitLists.splice(typeFiltered.indexOf(tl), 0, uiTl)
+      } else {
+        const unitFiltered = tl.list.filter(u => u.unlocked)
+        unitFiltered.forEach(u => {
+
+          const unit = uiTl.list.find(u2 => u2 === u)
+          if (!unit) {
+            uiTl.list.splice(unitFiltered.indexOf(u), 0, u)
+          }
+
+        })
+      }
+
+    })
   }
 
 }

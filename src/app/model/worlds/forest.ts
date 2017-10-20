@@ -3,7 +3,6 @@ import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
 import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } from '../units/action';
-import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';

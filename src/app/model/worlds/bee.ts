@@ -4,7 +4,6 @@ import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
 import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } from '../units/action';
-import { Type } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
@@ -72,7 +71,7 @@ export class Bee implements WorldInterface {
     const beeHireUp = this.game.upgradeScienceHireExp.times(0.8)
 
     //    Foragging
-    this.foragingBee.types = [Type.Bee]
+    // this.foragingBee.types = [Type.Bee]
     this.foragingBee.actions.push(new BuyAction(this.game,
       this.foragingBee,
       [new Cost(this.game.baseWorld.food, Decimal(100), this.game.buyExp)]
@@ -84,11 +83,11 @@ export class Bee implements WorldInterface {
     this.foragingBee.actions.push(new UpHire(this.game,
       this.foragingBee, [new Cost(this.game.baseWorld.science, this.game.scienceCost1, beeHireUp)]))
 
-    this.queenBee.types = [Type.Bee]
-    this.hiveBee.types = [Type.Bee]
+    // this.queenBee.types = [Type.Bee]
+    // this.hiveBee.types = [Type.Bee]
 
     //    Worker
-    this.workerBee.types = [Type.Bee]
+    // this.workerBee.types = [Type.Bee]
     this.workerBee.actions.push(new BuyAndUnlockAction(this.game,
       this.workerBee,
       [
@@ -142,7 +141,7 @@ export class Bee implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost4, beeHireUp)]))
 
     //    Scientist
-    this.scientistBee.types = [Type.Bee]
+    // this.scientistBee.types = [Type.Bee]
     this.scientistBee.actions.push(new BuyAction(this.game,
       this.scientistBee,
       [
@@ -151,7 +150,7 @@ export class Bee implements WorldInterface {
         new Cost(this.game.baseWorld.crystal, Decimal(4E3), this.game.buyExp),
       ]
     ))
-    this.game.baseWorld.science.addProductor(new Production(this.scientistBee, Decimal(10)))
+    this.game.baseWorld.science.addProductor(new Production(this.scientistBee, Decimal(15)))
     this.game.baseWorld.honey.addProductor(new Production(this.scientistBee, Decimal(-2)))
     this.game.baseWorld.crystal.addProductor(new Production(this.scientistBee, Decimal(-1)))
 
@@ -161,7 +160,7 @@ export class Bee implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, beeHireUp)]))
 
     //    Food
-    this.foodBee.types = [Type.Bee]
+    // this.foodBee.types = [Type.Bee]
     this.foodBee.actions.push(new BuyAction(this.game,
       this.foodBee,
       [
@@ -169,7 +168,7 @@ export class Bee implements WorldInterface {
         new Cost(this.game.baseWorld.honey, Decimal(1E3), this.game.buyExp)
       ]
     ))
-    this.game.baseWorld.food.addProductor(new Production(this.foodBee, Decimal(10)))
+    this.game.baseWorld.food.addProductor(new Production(this.foodBee, Decimal(15)))
     this.game.baseWorld.honey.addProductor(new Production(this.foodBee, Decimal(-5)))
     this.foodBee.actions.push(new UpAction(this.game, this.foodBee,
       [new Cost(this.game.baseWorld.science, Decimal(1E3), Decimal(10))]))

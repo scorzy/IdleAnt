@@ -7,8 +7,13 @@
         {{p.name}}: {{p.description }}
       </li>
       <li *ngFor="let p of gameService.game.world.unlockedUnits">
-        Start with {{p[1] | format }} {{p[0].name}}
-      </li>
+          <span *ngIf="!p[1].greaterThan(0)">
+            {{p[0].name}}: {{p[0].description }}
+          </span>
+          <span *ngIf="p[1].greaterThan(0)">
+            Start with {{p[1] | format }} {{p[0].name}}
+          </span>
+        </li>
       <li *ngFor="let p of gameService.game.world.prodMod">
         Production of {{p[0].name}} x {{p[1] }}
       </li>
@@ -19,7 +24,6 @@
         {{p[0].name}} price x {{p[1] }}
       </li>
     </ul>
-
 
   </div>
 </div>
