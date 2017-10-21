@@ -18,7 +18,8 @@
         Production of {{p[0].name}} x {{p[1] }}
       </li>
       <li *ngFor="let p of gameService.game.world.unitMod">
-        {{p[0].name}} production x {{p[1] }}
+          {{p[0].name}} yield and consume x{{p[1]}} more resources
+        <!-- {{p[0].name}} production x {{p[1] }} -->
       </li>
       <li *ngFor="let p of gameService.game.world.unitPrice">
         {{p[0].name}} price x {{p[1] }}

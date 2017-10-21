@@ -189,6 +189,7 @@ export class World {
     this.game.homeTabAv = true
     this.game.expTabAv = true
 
+    this.game.reloadProduction()
 
   }
   getData() {

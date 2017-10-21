@@ -399,7 +399,7 @@ export class GameModel {
     save.life = this.lifeEarning
     save.w = this.world.getData()
     save.nw = this.nextWorlds.map(w => w.getData())
-    save.pre = this.prestige.allPrestigeUp.map(p => p.getData())
+    // save.pre = this.prestige.allPrestigeUp.map(p => p.getData())
     save.res = this.resList.map(r => r.getData())
     save.pd = this.prestigeDone
     save.worldTabAv = this.worldTabAv
@@ -439,11 +439,11 @@ export class GameModel {
       this.nextWorlds[1].restore(save.nw[1])
       this.nextWorlds[2].restore(save.nw[2])
 
-      for (const s of save.pre) {
-        const up = this.prestige.allPrestigeUp.find(p => p.id === s.id)
-        if (up)
-          up.restore(s)
-      }
+      // for (const s of save.pre) {
+      //   const up = this.prestige.allPrestigeUp.find(p => p.id === s.id)
+      //   if (up)
+      //     up.restore(s)
+      // }
 
       for (const s of save.res) {
         const res = this.resList.find(p => p.id === s.id)

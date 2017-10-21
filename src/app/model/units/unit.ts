@@ -66,7 +66,6 @@ export class Unit extends Base {
     this.production = this.getBoost().plus(1).times(
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
     ).times(this.worldEffModifiers).times(sum)
-
   }
   reloadUiPerSec() {
 
