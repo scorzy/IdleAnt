@@ -5,7 +5,7 @@ import { Logger } from 'jasmine-spec-reporter/built/display/logger';
 import { Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-declare let kongregate;
+declare let kongregateAPI;
 
 @Injectable()
 export class GameService {
@@ -19,6 +19,7 @@ export class GameService {
   kongFreq = 1000 * 10 * 60
 
   isPaused = false
+  isKongregate = false
 
   kongregate: any
 
@@ -39,14 +40,26 @@ export class GameService {
 
     setInterval(this.save.bind(this), this.saveFreq)
 
-    // setTimeout(() => {
-    //   try {
-    //     this.sendKong()
-    //     setInterval(this.sendKong.bind(this), this.kongFreq)
-    //   } catch (e) {
-    //     console.log("Error: " + e.message)
-    //   }
-    // }, 15 * 1000)
+    if (typeof kongregateAPI !== 'undefined') {
+      kongregateAPI.loadAPI(() => {
+
+        this.kongregate = kongregateAPI.getAPI();
+        console.log("KongregateAPI Loaded");
+
+        setTimeout(() => {
+          try {
+            console.log("Kongregate build")
+            this.sendKong()
+            this.isKongregate = true
+            setInterval(this.sendKong.bind(this), this.kongFreq)
+          } catch (e) {
+            console.log("Error: " + e.message)
+          }
+        }, 5 * 1000)
+
+      })
+    } else
+      console.log("Github build")
 
     this.router.navigateByUrl('/')
 
@@ -58,6 +71,12 @@ export class GameService {
 
     if (delta > this.interval) {
       this.game.longUpdate(1 * (now - this.last))
+
+      this.game.prestige.time.quantity = Decimal.min(
+        this.game.prestige.time.quantity.plus(
+          this.game.prestige.timeMaker.quantity.times(0.1).times(delta / 1000)),
+        this.game.prestige.timeBank.quantity.plus(4).times(3600))
+
       this.last = now
     }
     this.game.postUpdate()
@@ -78,6 +97,7 @@ export class GameService {
       localStorage.setItem('save', this.game.getSave())
     }
   }
+
   load(): number {
     if (typeof (Storage) !== 'undefined') {
       const saveRaw = localStorage.getItem('save')
@@ -87,7 +107,7 @@ export class GameService {
 
   sendKong() {
     try {
-      kongregate.stats.submit('Prestige', this.game.maxLevel.toNumber())
+      this.kongregate.stats.submit('Prestige', this.game.maxLevel.toNumber())
       console.log("Prestige sent: " + this.game.maxLevel.toNumber())
     } catch (e) {
       console.log("Error: " + e.message)

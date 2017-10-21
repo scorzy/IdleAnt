@@ -14,6 +14,7 @@ export class Action extends Base {
   public oneTime = false
   public up: Action
   public limit: decimal.Decimal
+  public showNumber = true
 
   realPriceNow = new Array<Cost>()
   maxBuy = new Decimal(0)
@@ -285,4 +286,27 @@ export class UnlockProd extends Action {
     this.unlocked = true
   }
 
+}
+
+export class TimeWarp extends Action {
+  constructor(
+    game: GameModel,
+    public timeUnits: decimal.Decimal,
+    public timeName: string
+  ) {
+    super("actWarp", "Time Warp",
+      (n => {
+        game.longUpdate(n.times(timeUnits).times(1000).toNumber(), true)
+        return true
+      }),
+      [new Cost(game.prestige.time, timeUnits, Decimal(1))],
+      "Time warp by " + timeName, game
+    )
+    this.initialize()
+  }
+  initialize() {
+    super.initialize()
+    this.unlocked = true
+    this.showNumber = false
+  }
 }

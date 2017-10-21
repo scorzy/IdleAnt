@@ -37,7 +37,6 @@ export class Production extends Unlocable {
         for (let i = 0; i < this.bonusList.length; i++)
           totalBonus = totalBonus.plus(this.bonusList[i][0].quantity.times(this.bonusList[i][1]))
 
-
       return this.efficiency
         .times(this.unit.getProduction())
         .times(eff ? this.unit.percentage : Decimal(100)).div(100)

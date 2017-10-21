@@ -2,8 +2,8 @@ import { Production } from '../production';
 import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
-import { BuyAction, BuyAndUnlockAction, UpAction, UpHire, UpSpecial, Research } from '../units/action';
-import {  Base } from '../units/base';
+import { BuyAction, BuyAndUnlockAction, Research, TimeWarp, UpAction, UpHire, UpSpecial } from '../units/action';
+import { Base } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
@@ -50,6 +50,13 @@ export class Prestige implements WorldInterface {
 
   //  Efficiency
   effList = new Array<Unit>()
+  effListEng = new Array<Unit>()
+
+  //  Time
+  timeList = new Array<Unit>()
+  time: Unit
+  timeMaker: Unit
+  timeBank: Unit
 
   constructor(public game: GameModel) { }
 
@@ -267,9 +274,66 @@ export class Prestige implements WorldInterface {
 
     //#endregion
 
+    //#region Efficiency 2
+    this.effListEng = new Array<Unit>()
+
+    this.game.engineers.listEnginer.forEach(eng => {
+
+      const eff = new Unit(this.game, "effEng" + eng.id, eng.name,
+        eng.name + " consume 5% less resources. Max -50%.", true)
+
+      const ba = new BuyAction(this.game, eff,
+        [new Cost(this.experience, Decimal(50), expIncrement)])
+
+      ba.limit = Decimal(10)
+
+      eff.actions.push(ba)
+
+      eng.produces.filter(p => p.efficiency.lessThanOrEqualTo(0))
+        .forEach(prod => {
+          if (!prod.bonusList)
+            prod.bonusList = new Array<[Base, decimal.Decimal]>()
+          prod.bonusList.push([eff, Decimal(-0.05)])
+        })
+      this.effListEng.push(eff)
+    })
+
+    this.expLists.push(new TypeList("Engineering", this.effListEng))
+    //#endregion
+
+    //#region Time
+    this.time = new Unit(this.game, "ptime", "Time",
+      "Time can be used to go to the future. One unit of time corresponds to one second.", true)
+
+    this.timeMaker = new Unit(this.game, "ptimeMaker", "Time Colector",
+      "Time Colector generate time at 1/10 of real life speed. It's not affected by pause and time warps.", true)
+    this.timeMaker.percentage = 100
+    this.timeMaker.alwaysOn = true
+
+    this.timeBank = new Unit(this.game, "ptimeBank", "Time Bank",
+      "Time Bank increase the maxium time storage by 1 hour. Base storage is 4 hours.", true)
+
+    this.timeMaker.actions.push(new BuyAction(this.game, this.timeMaker,
+      [new Cost(this.experience, Decimal(25), expIncrement)]))
+
+    this.timeBank.actions.push(new BuyAction(this.game, this.timeBank,
+      [new Cost(this.experience, Decimal(100), expIncrement)]))
+
+    this.time.actions.push(new TimeWarp(this.game, Decimal(60), "Minutes"))
+    this.time.actions.push(new TimeWarp(this.game, Decimal(3600), "Hours"))
+    this.time.actions.push(new TimeWarp(this.game, Decimal(3600 * 24), "Days"))
+
+    this.time.addProductor(new Production(this.timeMaker, Decimal(0.1)))
+
+    this.timeList = [this.time, this.timeMaker, this.timeBank]
+    this.expLists.push(new TypeList("Time Management", this.timeList))
+    //#endregion
+
     this.expLists.map(l => l.list).forEach(al => al.forEach(l => {
       l.unlocked = true
-      l.buyAction.unlocked = true
+      l.showTables = false
+      l.neverEnding = true
+      l.actions.forEach(a => a.unlocked = true)
     }))
   }
 

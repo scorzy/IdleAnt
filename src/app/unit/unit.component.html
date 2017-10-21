@@ -11,7 +11,7 @@
 </div>
 
 <p>{{gen.description}}</p>
-<span>Owned: {{gen.quantity | format}}</span>
+<!-- <span>Owned: {{gen.quantity | format}}</span> -->
 
 
 <div *ngIf="gen.produces.length >0">
@@ -24,63 +24,66 @@
   </div>
 </div>
 
-<div class="row">
-  <div *ngIf="gen.produces.length >0" class="col-xs-12 col-md-12 col-lg-6 col-xl-6">
-    <h5>
-      <span class="text-capitalize">{{gen.name}}</span> produces:</h5>
-    <table class="table table-compact">
-      <thead>
-        <tr>
-          <th class="w-33">Product</th>
-          <th class="w-33">One</th>
-          <th class="w-33">All</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of gen.produces | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
-          <td class="w-33 text-capitalize">
-            <a [routerLink]="['/main/unit/unit/'+item.product.id]">{{item.product.name}}</a>
-          </td>
-          <td class="w-33">{{item.getprodPerSec(false) | format}}</td>
-          <td class="w-33">{{item.getprodPerSec().times(gen.quantity) | format}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div *ngIf="gen.showTables">
 
-  <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6" *ngIf="gameService.game.research.bi.owned()">
-    <div *ngIf="showProducers()">
+  <div class="row">
+    <div *ngIf="gen.produces.length >0" class="col-xs-12 col-md-12 col-lg-6 col-xl-6">
       <h5>
-        <span class="text-capitalize">{{gen.name}}</span> is made by:</h5>
-      <table class="table  table-compact">
+        <span class="text-capitalize">{{gen.name}}</span> produces:</h5>
+      <table class="table table-compact">
         <thead>
           <tr>
-            <th class="w-33">Unit</th>
-            <th class="w-33">Quantity</th>
-            <th class="w-33">Total</th>
+            <th class="w-33">Product</th>
+            <th class="w-33">One</th>
+            <th class="w-33">All</th>
           </tr>
         </thead>
-        <tfoot>
-          <tr class="bg-info text-white">
-            <td>Total</td>
-            <td>{{gen.totalProducers | format}}</td>
-            <td>{{gen.totalPerSec | format}}</td>
-          </tr>
-        </tfoot>
         <tbody>
-          <tr *ngFor="let item of gen.producedBy | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
-            <td class="text-capitalize">
-              <a [routerLink]="['/main/unit/unit/'+item.unit.id]">{{item.unit.name}}</a>
+          <tr *ngFor="let item of gen.produces | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
+            <td class="w-33 text-capitalize">
+              <a [routerLink]="['/main/unit/unit/'+item.product.id]">{{item.product.name}}</a>
             </td>
-            <td>{{item.unit.quantity | format}}</td>
-            <td>{{item.getprodPerSec().times(item.unit.quantity) | format}}</td>
+            <td class="w-33">{{item.getprodPerSec(false) | format}}</td>
+            <td class="w-33">{{item.getprodPerSec().times(gen.quantity) | format}}</td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
-</div>
 
+    <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6" *ngIf="gameService.game.research.bi.owned()">
+      <div *ngIf="showProducers()">
+        <h5>
+          <span class="text-capitalize">{{gen.name}}</span> is made by:</h5>
+        <table class="table  table-compact">
+          <thead>
+            <tr>
+              <th class="w-33">Unit</th>
+              <th class="w-33">Quantity</th>
+              <th class="w-33">Total</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr class="bg-info text-white">
+              <td>Total</td>
+              <td>{{gen.totalProducers | format}}</td>
+              <td>{{gen.totalPerSec | format}}</td>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr *ngFor="let item of gen.producedBy | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
+              <td class="text-capitalize">
+                <a [routerLink]="['/main/unit/unit/'+item.unit.id]">{{item.unit.name}}</a>
+              </td>
+              <td>{{item.unit.quantity | format}}</td>
+              <td>{{item.getprodPerSec().times(item.unit.quantity) | format}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <div class="row" *ngIf="gen.togableProductions">
   <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">

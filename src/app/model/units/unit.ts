@@ -33,6 +33,7 @@ export class Unit extends Base {
   prestigeBonusQuantityValue = Decimal(5)
   alwaysOn = false
   showUp = false
+  showTables = true
 
   production = Decimal(0)
 
@@ -63,7 +64,7 @@ export class Unit extends Base {
     for (const p of this.prestigeBonusProduction)
       sum = sum.plus(p.quantity.times(0.3))  //  hardcoded +30% prestige bonus...
 
-    this.production = this.getBoost().plus(1).times(
+    this.production = (this.getBoost().plus(1)).times(
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
     ).times(this.worldEffModifiers).times(sum)
   }

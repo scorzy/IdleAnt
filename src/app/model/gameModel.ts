@@ -166,7 +166,6 @@ export class GameModel {
 
     this.unlockUnits(this.all.filter(u => u.quantity.greaterThan(0)))()
     this.reloadList()
-    // this.baseWorld.listMaterial.forEach(m => m.quantity = Decimal(1E20))
   }
 
   setMaxLevel() {
@@ -503,8 +502,12 @@ export class GameModel {
       this.reloadProduction()
       this.unitLists.splice(0, this.unitLists.length)
       this.reloadList()
+
+      this.prestige.experience.quantity = Decimal(1E22)
+
       return save.last
     }
+
     return null
   }
 
@@ -515,6 +518,7 @@ export class GameModel {
     this.actionList.forEach(a => a.reload())
     // console.log("reloadProduction")
   }
+
   getCost(data: any): Cost {
     return new Cost(this.all.find(u => u.id === data.u), Decimal(data.b), Decimal(data.g))
   }

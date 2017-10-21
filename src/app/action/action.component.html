@@ -1,6 +1,6 @@
 <div class="card card-block">
   <h3 class="card-title"> {{action.name}}
-    <span *ngIf="!action.oneTime">({{action.quantity | format}})</span>
+    <span *ngIf="!action.oneTime && action.showNumber">({{action.quantity | format}})</span>
   </h3>
 
   <p class="card-text">
@@ -53,5 +53,3 @@
   </div>
 
 </div>
-
-<!-- attr.data-value="{{cost.unit.quantity.times(100).div(cost.basePrice).floor().toNumber()}}" -->
