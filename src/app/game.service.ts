@@ -107,7 +107,7 @@ export class GameService {
 
   nonInfinite(num: decimal.Decimal): number {
     const level = num.toNumber()
-    return level < Number.POSITIVE_INFINITY ? level : 0
+    return level < Number.POSITIVE_INFINITY && level < 137438953470 ? level : 0
   }
 
   sendKong() {
