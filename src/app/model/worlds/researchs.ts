@@ -37,7 +37,7 @@ export class Researchs implements WorldInterface {
   hereAndNow: Research
   adaptation: Research
   evolution: Research
-  devolution: Research
+  // devolution: Research
   escape: Research
   timeWarp: Research
   // missing: Research
@@ -60,19 +60,19 @@ export class Researchs implements WorldInterface {
       this.game
     )
 
-    //   Devolution
-    this.devolution = new Research(
-      "devoluti",
-      "De-Evolution",
-      "Revert the effect of evolution.",
-      [new Cost(this.game.baseWorld.science, Decimal(1))],
-      [],
-      this.game,
-      () => {
-        this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(5))
-        this.game.world.experience = this.game.world.experience.div(3)
-      }
-    )
+    // //   Devolution
+    // this.devolution = new Research(
+    //   "devoluti",
+    //   "De-Evolution",
+    //   "Revert the effect of evolution.",
+    //   [new Cost(this.game.baseWorld.science, Decimal(1))],
+    //   [],
+    //   this.game,
+    //   () => {
+    //     this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(5))
+    //     this.game.world.experience = this.game.world.experience.div(3)
+    //   }
+    // )
 
     //    Evolution
     this.evolution = new Research(
@@ -80,7 +80,7 @@ export class Researchs implements WorldInterface {
       "Evolution",
       "Increase the resources need to travel to a new world (x5) and also increase the experience you will gain (x3).",
       [new Cost(this.game.baseWorld.science, Decimal(1E10))],
-      [this.devolution],
+      [],
       this.game,
       () => {
         this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.times(5))

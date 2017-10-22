@@ -1,13 +1,42 @@
 .nowrap {
     white-space: nowrap;
     overflow: hidden;
-  }
-  .main-container{
+}
+
+.main-container{
     min-height: 100vh;
     height:auto!important;
-  }
+}
 
-
-  :host /deep/ .content-area{
+:host /deep/ .content-area{
     padding:10px 24px 24px 24px !important;
-  }
+}
+
+.matTab{
+  width:10%;
+  max-width:110px;
+  margin-left: 5px;
+}
+.matLink{
+  width:100%;
+  line-height: 24px;
+}
+.navMat{
+  padding-left: 5px;
+  height: 48px;
+}
+.perSecTab{
+  float:right;
+}
+
+.main-container .subnav{
+  flex:0 0 48px;
+}
+.red{
+  color:#F52F22 !important;
+}
+
+.small{
+  font-size:13px;
+}
+

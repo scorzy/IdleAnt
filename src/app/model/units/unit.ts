@@ -34,6 +34,7 @@ export class Unit extends Base {
   alwaysOn = false
   showUp = false
   showTables = true
+  showActions = true
 
   production = Decimal(0)
 
@@ -67,6 +68,8 @@ export class Unit extends Base {
     this.production = (this.getBoost().plus(1)).times(
       (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
     ).times(this.worldEffModifiers).times(sum)
+
+    this.showActions = !!this.actions.find(a => a.unlocked)
   }
   reloadUiPerSec() {
 

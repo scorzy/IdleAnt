@@ -54,6 +54,7 @@ export class UnitComponent implements OnInit, OnDestroy {
     moment.locale('en');
     return moment.duration(this.gen.endIn).humanize()
   }
+
 }
 
 @Pipe({ name: 'filterUnlocked', pure: false })

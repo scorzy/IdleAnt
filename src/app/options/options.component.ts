@@ -11,7 +11,7 @@ export class OptionsComponent implements OnInit {
 
   stringSave = ""
 
-  constructor(private gameService: GameService) { }
+  constructor(public gameService: GameService) { }
 
   ngOnInit() {
   }
@@ -26,34 +26,6 @@ export class OptionsComponent implements OnInit {
 
   import(event: Event) {
     this.gameService.game.load(this.stringSave)
-  }
-
-  exportKong() {
-    try {
-      this.gameService.kongregate.sharedContent.save("save",
-        this.gameService.game.getSave(),
-        this.onKongSave.bind(this))
-    } catch (e) {
-      console.log("Error: " + e.message)
-    }
-  }
-  importKong() {
-    try {
-
-    } catch (e) {
-      console.log("Error: " + e.message)
-    }
-  }
-
-  onKongSave(params: any) {
-    if (params.success) {
-      // The shared content was saved successfully.
-      console.log("Content saved, id:" + params.id + ", name:" + params.name);
-    } else {
-      // The shared content was not saved.
-      // The most likely cause of this is that the User dismissed the save dialog
-      console.log("Content NOT saved");
-    }
   }
 
 }

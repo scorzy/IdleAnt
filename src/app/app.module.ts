@@ -47,10 +47,12 @@ const appRoutes: Routes = [
 
 @Pipe({ name: 'format' })
 export class Format implements PipeTransform {
-  public transform(value: decimal.Decimal, param: any): any {
+  public transform(value: decimal.Decimal, short: boolean): any {
+
     return value.abs().lessThan(10) ? value.toNumber().toFixed(2).replace(/\.0+$/, '').replace(".", ",") :
       value.abs().lessThan(100) ? value.toNumber().toFixed(1).replace(/\.0+$/, '').replace(".", ",") :
         (value.greaterThanOrEqualTo(0) ? "" : "-") + numberformat.formatShort(value.abs())
+
   }
 }
 

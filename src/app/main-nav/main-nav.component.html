@@ -5,20 +5,21 @@
 
   <clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
 
-    <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" *ngIf="showPrestige" routerLink="./unit/exp">
+    <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" *ngIf="showPrestige"
+      routerLink="./unit/exp">
       Experience - {{gameService.game.prestige.experience.quantity | format}}
     </a>
     <!-- | filterListNotEmpty -->
     <clr-tree-node *ngFor="let list of typeLists ">
       <span class="font-weight-bold">
-          <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
+        <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
         {{list.type}}
       </span>
 
       <ng-template [(clrIfExpanded)]="list.isCollapsed">
 
         <div class="unit-group">
-            <!-- | filterMax -->
+          <!-- | filterMax -->
           <clr-tree-node *ngFor="let g of list.list  ">
             <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link" routerLinkActive="active">
               <span class="resName">
@@ -29,10 +30,10 @@
                 {{g.name}}</span>
               <span class="perSec">
                 <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
-                  {{g.totalPerSec | format}}/s
+                  {{g.totalPerSec | format:true}}/s
                 </span>
               </span>
-              <span>{{g.quantity | format}}</span>
+              <span>{{g.quantity | format:true}}</span>
             </a>
           </clr-tree-node>
         </div>

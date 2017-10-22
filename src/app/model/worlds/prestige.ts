@@ -305,8 +305,8 @@ export class Prestige implements WorldInterface {
     this.time = new Unit(this.game, "ptime", "Time",
       "Time can be used to go to the future. One unit of time corresponds to one second.", true)
 
-    this.timeMaker = new Unit(this.game, "ptimeMaker", "Time Colector",
-      "Time Colector generate time at 1/10 of real life speed. It's not affected by pause and time warps.", true)
+    this.timeMaker = new Unit(this.game, "ptimeMaker", "Time Generator",
+      "Time Generator generate time at 1/10 of real life speed. It's not affected by pause and time warps.", true)
     this.timeMaker.percentage = 100
     this.timeMaker.alwaysOn = true
 

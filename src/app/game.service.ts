@@ -105,9 +105,16 @@ export class GameService {
     }
   }
 
+  nonInfinite(num: decimal.Decimal): number {
+    const level = num.toNumber()
+    return level < Number.POSITIVE_INFINITY ? level : 0
+  }
+
   sendKong() {
     try {
-      this.kongregate.stats.submit('Prestige', this.game.maxLevel.toNumber())
+      this.kongregate.stats.submit('Prestige', this.nonInfinite(this.game.maxLevel))
+      this.kongregate.stats.submit('Prestige2', this.nonInfinite(this.game.maxLevel))
+      this.kongregate.stats.submit('World Done', this.nonInfinite(this.game.prestigeDone))
       console.log("Prestige sent: " + this.game.maxLevel.toNumber())
     } catch (e) {
       console.log("Error: " + e.message)

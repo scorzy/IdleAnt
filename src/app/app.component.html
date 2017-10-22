@@ -2,7 +2,6 @@
 
   <clr-header class="header-5">
     <div class="branding">
-      <!-- <img src="/assets/img/ant.png" /> -->
       <a href="javascript://" class="nav-link" routerLink="/main/unit">
         <!-- <clr-icon shape="vm-bug"></clr-icon> -->
 
@@ -24,8 +23,11 @@
     <div class="header-actions">
 
       <a class="nav-link nav-icon" href="javascript://" (click)="gameService.game.pause = !gameService.game.pause">
-        <clr-icon shape="play" *ngIf="gameService.game.pause"></clr-icon>
-        <clr-icon shape="pause" *ngIf="!gameService.game.pause"></clr-icon>
+        <clr-icon shape="play" *ngIf="gameService.game.pause; else pauseB"></clr-icon>
+        <ng-template #content #pauseB>
+          <clr-icon shape="pause"></clr-icon>
+        </ng-template>
+
       </a>
 
       <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
@@ -34,6 +36,29 @@
 
     </div>
   </clr-header>
+
+  <nav class="subnav">
+    <ul class="nav navMat">
+      <li class="nav-item" class="matTab" *ngFor="let g of gameService.game.baseWorld.listMaterial | filterMax">
+        <a [routerLink]="['/main/unit/unit/'+g.id]" class="nav-link matLink" routerLinkActive="active" [ngClass]="{'red': g.isEnding()}">
+
+          <span style="display:block;">
+            <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
+            <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
+            <span class="first">{{g.name}}</span>
+          </span>
+
+          <span class="perSecTab small">
+            <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
+              {{g.totalPerSec | format}}/s
+            </span>
+          </span>
+          <span class="small">{{g.quantity | format}}</span>
+
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <router-outlet></router-outlet>
 
