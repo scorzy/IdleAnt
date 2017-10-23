@@ -7,7 +7,7 @@
 
     <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" *ngIf="showPrestige"
       routerLink="./unit/exp">
-      Experience - {{gameService.game.prestige.experience.quantity | format}}
+      Experience: {{gameService.game.prestige.experience.quantity | format}}
     </a>
     <!-- | filterListNotEmpty -->
     <clr-tree-node *ngFor="let list of typeLists ">
