@@ -132,6 +132,9 @@ export class Action extends Base {
 
     return true
   }
+  getId() {
+    return (this.unit ? this.unit.id : "") + "_" + this.id
+  }
 }
 
 export class BuyAction extends Action {
@@ -294,7 +297,7 @@ export class TimeWarp extends Action {
     public timeUnits: decimal.Decimal,
     public timeName: string
   ) {
-    super("actWarp", "Time Warp",
+    super("actWarp", timeName,
       (n => {
         game.longUpdate(n.times(timeUnits).times(1000).toNumber(), true)
         return true

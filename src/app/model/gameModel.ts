@@ -91,6 +91,10 @@ export class GameModel {
   activeUnit: Unit
   pause = false
 
+  actMin: Action
+  actHour: Action
+  timeModalOpened = false
+
   unitLists = new Array<TypeList>()
 
   //#endregion
@@ -321,6 +325,10 @@ export class GameModel {
 
     if (this.activeUnit)
       this.activeUnit.reloadAtcMaxBuy()
+
+    if (this.timeModalOpened) {
+      this.prestige.time.reloadAtcMaxBuy()
+    }
   }
 
   /**
@@ -335,10 +343,15 @@ export class GameModel {
       for (const prod of res.producedBy.filter(p => p.isActive() && p.unit.unlocked))
         res.toAdd = res.toAdd.plus(this.getProduction(prod, Decimal(1), Decimal(1), fraction))
 
-    all.forEach(u => {
+    // all.forEach(u => {
+    //   u.quantity = u.quantity.plus(u.toAdd)
+    //   u.toAdd = Decimal(0)
+    // })
+
+    for (const u of all) {
       u.quantity = u.quantity.plus(u.toAdd)
       u.toAdd = Decimal(0)
-    })
+    }
   }
 
   /**
@@ -549,7 +562,7 @@ export class GameModel {
     const typeFiltered = this.lists.filter(tl => tl.list.find(u => u.unlocked))
     typeFiltered.forEach(tl => {
 
-      let uiTl = this.unitLists.find(t => t.type === tl.type)
+      let uiTl = this.unitLists ? this.unitLists.find(t => t.type === tl.type) : null
       if (!uiTl) {
         uiTl = new TypeList(tl.type, tl.list.filter(u => u.unlocked))
         this.unitLists.splice(typeFiltered.indexOf(tl), 0, uiTl)

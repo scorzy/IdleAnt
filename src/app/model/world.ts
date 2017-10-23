@@ -190,6 +190,8 @@ export class World {
     this.game.expTabAv = true
 
     this.game.reloadProduction()
+    this.game.unitLists = new Array<TypeList>()
+    this.game.reloadList()
 
   }
   getData() {

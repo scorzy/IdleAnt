@@ -22,12 +22,15 @@
     </div>
     <div class="header-actions">
 
+      <a class="nav-link nav-icon" href="javascript://" (click)="opeTimeWarp()" *ngIf="gameService.game.prestige.timeMaker.quantity.greaterThan(0)">
+        <clr-icon shape="clock"></clr-icon>
+      </a>
+
       <a class="nav-link nav-icon" href="javascript://" (click)="gameService.game.pause = !gameService.game.pause">
         <clr-icon shape="play" *ngIf="gameService.game.pause; else pauseB"></clr-icon>
         <ng-template #content #pauseB>
           <clr-icon shape="pause"></clr-icon>
         </ng-template>
-
       </a>
 
       <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
@@ -37,6 +40,7 @@
     </div>
   </clr-header>
 
+  <!-- Top Material Nav -->
   <nav class="subnav">
     <ul class="nav navMat">
       <li class="nav-item" class="matTab" *ngFor="let g of gameService.game.baseWorld.listMaterial | filterMax">
@@ -61,5 +65,14 @@
   </nav>
 
   <router-outlet></router-outlet>
+
+  <clr-modal [(clrModalOpen)]="gameService.game.timeModalOpened">
+    <h3 class="modal-title">Time Warp</h3>
+    <div class="modal-body actMinH">
+      <span> You can skip {{totTime()}}</span>
+      <app-action [action]="gameService.game.actMin"></app-action>
+      <app-action [action]="gameService.game.actHour"></app-action>
+    </div>
+  </clr-modal>
 
 </clr-main-container>

@@ -10,7 +10,7 @@
       Experience: {{gameService.game.prestige.experience.quantity | format}}
     </a>
     <!-- | filterListNotEmpty -->
-    <clr-tree-node *ngFor="let list of typeLists ">
+    <clr-tree-node *ngFor="let list of typeLists  trackBy:getId">
       <span class="font-weight-bold">
         <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
         {{list.type}}
@@ -20,7 +20,7 @@
 
         <div class="unit-group">
           <!-- | filterMax -->
-          <clr-tree-node *ngFor="let g of list.list  ">
+          <clr-tree-node *ngFor="let g of list.list  trackBy:getId">
             <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link" routerLinkActive="active">
               <span class="resName">
                 <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>

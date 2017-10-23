@@ -34,7 +34,7 @@ export class Base extends Unlocable {
     public id: string,
     public name = "",
     public description = "",
-   // public types: Type[] = [],
+    // public types: Type[] = [],
     unlocked = false,
     public quantity = Decimal(0),
     public avabileBaseWorld = true,
@@ -78,4 +78,8 @@ export class Base extends Unlocable {
   }
   isStopped() { return false }
   haveUp() { return false }
+
+  getId() {
+    return this.id
+  }
 }
