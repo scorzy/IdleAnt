@@ -10,7 +10,8 @@
       Experience: {{gameService.game.prestige.experience.quantity | format}}
     </a>
     <!-- | filterListNotEmpty -->
-    <clr-tree-node *ngFor="let list of typeLists  trackBy:getId">
+    <!-- trackBy:list.getId -->
+    <clr-tree-node *ngFor="let list of typeLists">
       <span class="font-weight-bold">
         <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
         {{list.type}}
@@ -20,7 +21,8 @@
 
         <div class="unit-group">
           <!-- | filterMax -->
-          <clr-tree-node *ngFor="let g of list.list  trackBy:getId">
+          <!-- trackBy:g.getId -->
+          <clr-tree-node *ngFor="let g of list.list">
             <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link" routerLinkActive="active">
               <span class="resName">
                 <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
@@ -43,39 +45,4 @@
 
   </clr-vertical-nav>
 
-
-  <!-- <clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
-
-    <a clrVerticalNavLink routerLinkActive="active" *ngIf="showPrestige" routerLink="./unit/exp">
-      Experience - {{gameService.game.prestige.experience.quantity | format}}
-    </a>
-
-    <clr-vertical-nav-group routerLinkActive="active" *ngFor="let list of typeLists | filterListNotEmpty">
-      <span clrVerticalNavLink>
-        {{list.type}}
-      </span>
-
-      <clr-vertical-nav-group-children *clrIfExpanded="true">
-        <a clrVerticalNavLink [routerLink]="['./unit/'+g.id]" routerLinkActive="active" *ngFor="let g of list.list | filterMax"
-          class="text-capitalize">
-          <span class="resName">
-            <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
-            <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-            <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
-
-            {{g.name}}</span>
-          <span class="perSec">
-            <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
-              {{g.totalPerSec | format}}/s
-            </span>
-          </span>
-          <span>{{g.quantity | format}}</span>
-
-
-        </a>
-      </clr-vertical-nav-group-children>
-
-    </clr-vertical-nav-group>
-
-  </clr-vertical-nav> -->
 </div>
