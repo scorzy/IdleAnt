@@ -46,7 +46,7 @@ export class GameService {
 
     // setInterval(this.checkUpgrades.bind(this), 1000)
 
-    // setInterval(this.save.bind(this), this.saveFreq)
+     setInterval(this.save.bind(this), this.saveFreq)
 
     if (typeof kongregateAPI !== 'undefined') {
       kongregateAPI.loadAPI(() => {
@@ -93,10 +93,10 @@ export class GameService {
         this.lastUp = now
       }
 
-      if (this.lastSave - now > this.saveFreq) {
-        this.save()
-        this.lastSave = now
-      }
+      // if (this.lastSave - now > this.saveFreq) {
+      //   this.save()
+      //   this.lastSave = now
+      // }
 
       window.requestAnimationFrame(this.update.bind(this))
     } else {
