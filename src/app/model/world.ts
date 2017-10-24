@@ -191,7 +191,7 @@ export class World {
 
     this.game.reloadProduction()
     this.game.unitLists = new Array<TypeList>()
-    this.game.reloadList()
+   // this.game.reloadList()
 
   }
   getData() {

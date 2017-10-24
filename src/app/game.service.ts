@@ -1,4 +1,3 @@
-import { NUMBER_TYPE } from '@angular/compiler/src/output/output_ast';
 import * as decimal from 'decimal.js';
 import { GameModel } from './model/gameModel';
 import { log } from 'util';
@@ -15,7 +14,7 @@ export class GameService {
   last: number;
   selectedGen: string;
   list: any
-  interval = 1000 / 5
+  interval = 1000 / 10
   saveFreq = 1000 * 3 * 60
   kongFreq = 1000 * 10 * 60
 
@@ -24,29 +23,22 @@ export class GameService {
 
   kongregate: any
 
-  lastSave: number
-  lastUp: number
-
   constructor(
     private router: Router
   ) {
     this.game = new GameModel()
     this.last = Date.now()
-    this.lastSave = this.last
-    this.lastUp = this.last
     const l = this.load()
     if (l)
       this.last = l
 
     this.game.isChanged = true
     // this.update()
-    window.requestAnimationFrame(this.update.bind(this))
+    setInterval(this.update.bind(this), this.interval)
 
-    // setInterval(this.update.bind(this), this.interval)
+    setInterval(this.checkUpgrades.bind(this), 1000)
 
-    // setInterval(this.checkUpgrades.bind(this), 1000)
-
-     setInterval(this.save.bind(this), this.saveFreq)
+    setInterval(this.save.bind(this), this.saveFreq)
 
     if (typeof kongregateAPI !== 'undefined') {
       kongregateAPI.loadAPI(() => {
@@ -86,22 +78,9 @@ export class GameService {
         this.game.prestige.timeBank.quantity.plus(4).times(3600))
 
       this.last = now
-      this.game.postUpdate()
-
-      if (this.lastUp - now > 1000) {
-        this.checkUpgrades()
-        this.lastUp = now
-      }
-
-      // if (this.lastSave - now > this.saveFreq) {
-      //   this.save()
-      //   this.lastSave = now
-      // }
-
-      window.requestAnimationFrame(this.update.bind(this))
-    } else {
-      setTimeout(this.update.bind(this), this.interval - delta)
     }
+    this.game.postUpdate()
+    // window.requestAnimationFrame(this.update.bind(this))
   }
 
   checkUpgrades() {
@@ -116,6 +95,7 @@ export class GameService {
   save() {
     if (typeof (Storage) !== 'undefined') {
       localStorage.setItem('save', this.game.getSave())
+      console.log("Saved")
     }
   }
 

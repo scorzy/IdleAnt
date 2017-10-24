@@ -170,7 +170,7 @@ export class GameModel {
 
     this.unlockUnits(this.all.filter(u => u.quantity.greaterThan(0)))()
     this.reloadProduction()
-    this.reloadList()
+  //  this.reloadList()
 
   }
 
@@ -373,8 +373,8 @@ export class GameModel {
 
       this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
 
-      if (ok)
-        this.reloadList()
+      // if (ok)
+      //   this.reloadList()
 
       return ok
     }
@@ -516,7 +516,7 @@ export class GameModel {
 
       this.reloadProduction()
       this.unitLists.splice(0, this.unitLists.length)
-      this.reloadList()
+    //  this.reloadList()
 
       return save.last
     }
@@ -558,28 +558,28 @@ export class GameModel {
   }
 
 
-  reloadList() {
-    const typeFiltered = this.lists.filter(tl => tl.list.find(u => u.unlocked))
-    typeFiltered.forEach(tl => {
+  // reloadList() {
+  //   const typeFiltered = this.lists.filter(tl => tl.list.find(u => u.unlocked))
+  //   typeFiltered.forEach(tl => {
 
-      let uiTl = this.unitLists ? this.unitLists.find(t => t.type === tl.type) : null
-      if (!uiTl) {
-        uiTl = new TypeList(tl.type, tl.list.filter(u => u.unlocked))
-        this.unitLists.splice(typeFiltered.indexOf(tl), 0, uiTl)
-      } else {
-        const unitFiltered = tl.list.filter(u => u.unlocked)
-        unitFiltered.forEach(u => {
+  //     let uiTl = this.unitLists ? this.unitLists.find(t => t.type === tl.type) : null
+  //     if (!uiTl) {
+  //       uiTl = new TypeList(tl.type, tl.list.filter(u => u.unlocked))
+  //       this.unitLists.splice(typeFiltered.indexOf(tl), 0, uiTl)
+  //     } else {
+  //       const unitFiltered = tl.list.filter(u => u.unlocked)
+  //       unitFiltered.forEach(u => {
 
-          const unit = uiTl.list.find(u2 => u2 === u)
-          if (!unit) {
-            uiTl.list.splice(unitFiltered.indexOf(u), 0, u)
-          }
+  //         const unit = uiTl.list.find(u2 => u2 === u)
+  //         if (!unit) {
+  //           uiTl.list.splice(unitFiltered.indexOf(u), 0, u)
+  //         }
 
-        })
-      }
+  //       })
+  //     }
 
-    })
+  //   })
 
-  }
+  // }
 
 }

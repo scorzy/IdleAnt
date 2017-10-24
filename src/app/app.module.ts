@@ -99,7 +99,8 @@ export class FilterMax implements PipeTransform {
       appRoutes
     ),
     BrowserModule,
-    BrowserAnimationsModule],
+    BrowserAnimationsModule
+    ],
   providers: [],
   bootstrap: [AppComponent],
   exports: [ActionComponent]

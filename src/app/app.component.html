@@ -68,7 +68,7 @@
 
   <clr-modal [(clrModalOpen)]="gameService.game.timeModalOpened">
     <h3 class="modal-title">Time Warp</h3>
-    <div class="modal-body actMinH">
+    <div class="modal-body actMinH" *ngIf="gameService.game.actMin && gameService.game.actHour">
       <span> You can skip {{totTime()}}</span>
       <app-action [action]="gameService.game.actMin"></app-action>
       <app-action [action]="gameService.game.actHour"></app-action>

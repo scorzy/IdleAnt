@@ -37,8 +37,8 @@ import * as numberformat from 'swarm-numberformat';
       this.mioId = params['type']
       // console.log(this.mioId)
       if (this.mioId === "unit") {
-        // this.typeLists = this.gameService.game.lists
-        this.typeLists = this.gameService.game.unitLists
+        this.typeLists = this.gameService.game.lists
+        // this.typeLists = this.gameService.game.unitLists
       } else {
         this.typeLists = this.gameService.game.prestige.expLists
       }
