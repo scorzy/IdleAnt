@@ -150,15 +150,23 @@ export class World {
 
   goTo(skip = false) {
 
-    const le = this.game.lifeEarning
-    const exp = this.game.prestige.experience.quantity.plus(this.game.getExperience())
-    this.game.setInitialStat()
-
     if (!skip) {
-      this.game.prestige.experience.quantity = exp
-      this.game.maxLevel = this.game.maxLevel.plus(exp)
+      const earned = this.game.world.experience
+      this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(earned)
+      this.game.maxLevel = this.game.maxLevel.plus(earned)
       this.game.prestigeDone = this.game.prestigeDone.plus(1)
     }
+    this.game.setInitialStat()
+
+    // const le = this.game.lifeEarning
+    // const exp = this.game.prestige.experience.quantity.plus(this.game.getExperience())
+
+
+    // if (!skip) {
+    //   this.game.prestige.experience.quantity = exp
+    //   this.game.maxLevel = this.game.maxLevel.plus(exp)
+    //   this.game.prestigeDone = this.game.prestigeDone.plus(1)
+    // }
 
     if (this.avaiableUnits)
       this.avaiableUnits.forEach(u => u.avabileThisWorld = true)
@@ -191,7 +199,9 @@ export class World {
 
     this.game.reloadProduction()
     this.game.unitLists = new Array<TypeList>()
-   // this.game.reloadList()
+    // this.game.reloadList()
+
+    this.game.generateRandomWorld(true)
 
   }
   getData() {

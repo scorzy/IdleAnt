@@ -170,7 +170,7 @@ export class GameModel {
 
     this.unlockUnits(this.all.filter(u => u.quantity.greaterThan(0)))()
     this.reloadProduction()
-  //  this.reloadList()
+    //  this.reloadList()
 
   }
 
@@ -383,8 +383,8 @@ export class GameModel {
   /**
    * Initialize 3 random world
    */
-  generateRandomWorld() {
-    if (!this.nextWorlds) {
+  generateRandomWorld(force: boolean = false) {
+    if (!this.nextWorlds || force) {
       this.nextWorlds = [
         World.getRandomWorld(this),
         World.getRandomWorld(this),
@@ -516,7 +516,7 @@ export class GameModel {
 
       this.reloadProduction()
       this.unitLists.splice(0, this.unitLists.length)
-    //  this.reloadList()
+      //  this.reloadList()
 
       return save.last
     }
