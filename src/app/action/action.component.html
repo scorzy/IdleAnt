@@ -42,7 +42,7 @@
   </div>
 
   <div *ngIf="!action.maxBuy.greaterThanOrEqualTo(1) && !(action.oneTime && action.owned())">
-    <div class="progress-block" *ngFor="let cost of action.realPriceNow">
+    <div class="progress-block" *ngFor="let cost of action.realPriceNow; trackBy:getPriceId">
       <label>{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</label>
       <div class="progress-static" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
         <div class="progress-meter" max="100"

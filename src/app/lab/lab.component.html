@@ -5,11 +5,11 @@
       <input type="checkbox" id="toggle_1" [(ngModel)]="resDone">
       <label for="toggle_1">Show research done</label>
     </div>
-    <span>Science: {{gameService.game.baseWorld.science.quantity | format}} -
-        {{gameService.game.baseWorld.science.totalPerSec | format}} /s
+    <span>Science: {{gameService.game.baseWorld.science.quantity | format}} - {{gameService.game.baseWorld.science.totalPerSec
+      | format}} /s
     </span>
     <div class="card-columns card-columns-3">
-      <app-action [action]="res" *ngFor="let res of gameService.game.resList | resPipe: resDone"></app-action>
+      <app-action [action]="res" *ngFor="let res of gameService.game.resList | resPipe: resDone;trackBy:getRestId"></app-action>
     </div>
 
   </div>

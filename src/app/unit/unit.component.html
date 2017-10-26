@@ -70,7 +70,7 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr *ngFor="let item of gen.producedBy | filterActive" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
+            <tr *ngFor="let item of gen.producedBy | filterActive; trackBy:getUnitId" [ngClass]="{'bg-warning': item.efficiency.lessThan(0)}">
               <td class="text-capitalize">
                 <a [routerLink]="['/main/unit/unit/'+item.unit.id]">{{item.unit.name}}</a>
               </td>
@@ -104,6 +104,6 @@
 
 <div class="row">
   <div class="card-columns card-columns-2">
-    <app-action [action]="act" *ngFor="let act of gen.actions| filterMax"></app-action>
+    <app-action [action]="act" *ngFor="let act of gen.actions| filterMax; trackBy:getUnitId"></app-action>
   </div>
 </div>

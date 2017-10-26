@@ -24,6 +24,7 @@ export class GameService {
   isKongregate = false
 
   kongregate: any
+  isMainNav = true
 
   constructor(
     private router: Router,
@@ -86,7 +87,8 @@ export class GameService {
   }
 
   checkUpgrades() {
-    this.game.reloadUpIcons()
+    if (this.isMainNav)
+      this.game.reloadUpIcons()
   }
 
   clear() {

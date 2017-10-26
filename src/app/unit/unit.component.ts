@@ -11,6 +11,7 @@ import 'rxjs/add/operator/switchMap';
 import { Unit } from '../model/units/unit';
 import * as numberformat from 'swarm-numberformat';
 import * as moment from 'moment';
+import { Base } from '../model/units/base';
 
 @Component({
   selector: 'app-unit',
@@ -54,7 +55,9 @@ export class UnitComponent implements OnInit, OnDestroy {
     moment.locale('en');
     return moment.duration(this.gen.endIn).humanize()
   }
-
+  getUnitId(index, base: Base) {
+    return base.id
+  }
 }
 
 @Pipe({ name: 'filterUnlocked', pure: false })

@@ -540,46 +540,13 @@ export class GameModel {
     return Decimal(this.world.experience)
   }
 
-  // getUnits(types: Type[]): Unit[] {
-  //   return this.all.filter(u => {
-  //     let yes = true
-  //     types.forEach(t => yes = yes && u.types.includes(t))
-  //     return yes
-  //   })
-  // }
-
   reloadUpIcons() {
     this.unitWithUp.forEach(u => u.checkUp())
   }
 
   checkResearch() {
-    this.resList// .filter(r => r.unlocked && r.avabileThisWorld)
+    this.resList.filter(r => r.unlocked && r.avabileThisWorld)
       .forEach(res => res.setMaxBuy())
   }
-
-
-  // reloadList() {
-  //   const typeFiltered = this.lists.filter(tl => tl.list.find(u => u.unlocked))
-  //   typeFiltered.forEach(tl => {
-
-  //     let uiTl = this.unitLists ? this.unitLists.find(t => t.type === tl.type) : null
-  //     if (!uiTl) {
-  //       uiTl = new TypeList(tl.type, tl.list.filter(u => u.unlocked))
-  //       this.unitLists.splice(typeFiltered.indexOf(tl), 0, uiTl)
-  //     } else {
-  //       const unitFiltered = tl.list.filter(u => u.unlocked)
-  //       unitFiltered.forEach(u => {
-
-  //         const unit = uiTl.list.find(u2 => u2 === u)
-  //         if (!unit) {
-  //           uiTl.list.splice(unitFiltered.indexOf(u), 0, u)
-  //         }
-
-  //       })
-  //     }
-
-  //   })
-
-  // }
 
 }

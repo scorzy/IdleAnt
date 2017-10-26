@@ -107,5 +107,7 @@ export class ActionComponent implements OnInit, AfterViewChecked {
     }
     return false
   }
-
+  getPriceId(index, cost: Cost) {
+    return cost.unit.id
+  }
 }

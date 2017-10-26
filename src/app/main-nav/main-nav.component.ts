@@ -10,6 +10,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { Unit } from '../model/units/unit';
 import * as numberformat from 'swarm-numberformat';
+import { Base } from '../model/units/base';
 
 @Component({
   selector: 'app-unit',
@@ -33,6 +34,9 @@ import * as numberformat from 'swarm-numberformat';
   }
 
   ngOnInit() {
+    this.gameService.isMainNav = true
+    this.gameService.game.reloadUpIcons()
+
     this.paramsSub = this.activatedRoute.params.subscribe(params => {
       this.mioId = params['type']
       // console.log(this.mioId)
@@ -52,6 +56,13 @@ import * as numberformat from 'swarm-numberformat';
 
   ngOnDestroy() {
     this.paramsSub.unsubscribe();
+    this.gameService.isMainNav = false
   }
 
+  getListId(index, list: TypeList) {
+    return list.getId()
+  }
+  getUnitId(index, base: Base) {
+    return base.id
+  }
 }

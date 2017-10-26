@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from '../game.service';
+import { Research } from '../model/units/action';
 
 @Component({
   selector: 'app-lab',
@@ -18,6 +19,10 @@ export class LabComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gameService.game.isLab = false
+  }
+
+  getRestId(index, res: Research) {
+    return res.getId()
   }
 
 }
