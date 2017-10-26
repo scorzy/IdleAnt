@@ -1,8 +1,9 @@
 import { Action } from './model/units/action';
 import { GameService } from './game.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Prestige } from './model/worlds/prestige';
 import * as moment from 'moment';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,12 @@ import * as moment from 'moment';
 export class AppComponent {
 
   constructor(
-    public gameService: GameService
-  ) { }
+    public gameService: GameService,
+    public toastr: ToastsManager,
+    vcr: ViewContainerRef
+  ) {
+    this.toastr.setRootViewContainerRef(vcr)
+  }
 
   opeTimeWarp() {
     this.gameService.game.timeModalOpened = true

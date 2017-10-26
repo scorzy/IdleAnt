@@ -2,8 +2,10 @@ import * as decimal from 'decimal.js';
 import { GameModel } from './model/gameModel';
 import { log } from 'util';
 import { Logger } from 'jasmine-spec-reporter/built/display/logger';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import * as moment from 'moment';
 
 declare let kongregateAPI;
 
@@ -24,7 +26,8 @@ export class GameService {
   kongregate: any
 
   constructor(
-    private router: Router
+    private router: Router,
+    public toastr: ToastsManager
   ) {
     this.game = new GameModel()
     this.last = Date.now()
@@ -33,7 +36,7 @@ export class GameService {
       this.last = l
 
     this.game.isChanged = true
-    // this.update()
+
     setInterval(this.update.bind(this), this.interval)
 
     setInterval(this.checkUpgrades.bind(this), 1000)
@@ -62,7 +65,6 @@ export class GameService {
       console.log("Github build")
 
     this.router.navigateByUrl('/')
-
   }
 
   update() {
@@ -93,17 +95,45 @@ export class GameService {
   }
 
   save() {
-    if (typeof (Storage) !== 'undefined') {
-      localStorage.setItem('save', this.game.getSave())
-      console.log("Saved")
+    try {
+      if (typeof (Storage) !== 'undefined') {
+        const save = this.game.getSave()
+        localStorage.setItem('save', save)
+        console.log("Saved")
+        this.toastr.success("", 'Game Saved')
+      } else {
+        this.toastr.warning("Canot access local storage", "Not saved")
+      }
+    } catch (ex) {
+      this.toastr.error(ex && ex.message ? ex.message : "unknow error", "Saving Error")
     }
   }
 
   load(): number {
-    if (typeof (Storage) !== 'undefined') {
-      const saveRaw = localStorage.getItem('save')
-      return this.game.load(saveRaw)
+    try {
+      if (typeof (Storage) !== 'undefined') {
+        const saveRaw = localStorage.getItem('save')
+        if (saveRaw) {
+          const last = this.game.load(saveRaw)
+
+          if (last) {
+            this.toastr.success("Idle time: " + moment.duration(Date.now() - last).humanize(), "Game Loaded")
+            return last
+          } else {
+            this.toastr.error("Cannot read your savegame", "Error")
+          }
+
+        } else {
+          this.toastr.error("No savegame found", "Error")
+        }
+
+      } else {
+        this.toastr.warning("Cannot access localstorage", "Not Loaded")
+      }
+    } catch (ex) {
+      this.toastr.error(ex && ex.message ? ex.message : "unknow error", "Load Error")
     }
+
   }
 
   nonInfinite(num: decimal.Decimal): number {

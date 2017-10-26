@@ -19,6 +19,8 @@ import { ResPipePipe } from './res-pipe.pipe';
 import { HomeWorldComponent } from './home-world/home-world.component';
 import { PricePipePipe } from './price-pipe.pipe';
 import { ProdToglePipePipe } from './prod-togle-pipe.pipe';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastOptions } from 'ng2-toastr/src/toast-options';
 
 const appRoutes: Routes = [
   {
@@ -70,6 +72,15 @@ export class FilterMax implements PipeTransform {
   }
 }
 
+export class CustomOptions extends ToastOptions {
+  animate = 'fade'
+  dismiss = 'auto'
+  showCloseButton = true
+  newestOnTop = true
+  enableHTML = true
+  positionClass = 'toast-bottom-right'
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,9 +110,10 @@ export class FilterMax implements PipeTransform {
       appRoutes
     ),
     BrowserModule,
-    BrowserAnimationsModule
-    ],
-  providers: [],
+    BrowserAnimationsModule,
+    ToastModule.forRoot()
+  ],
+  providers: [{ provide: ToastOptions, useClass: CustomOptions }],
   bootstrap: [AppComponent],
   exports: [ActionComponent]
 })

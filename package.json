@@ -33,6 +33,7 @@
     "lz-string": "^1.4.4",
     "moment": "^2.18.1",
     "mutationobserver-shim": "^0.3.2",
+    "ng2-toastr": "^4.1.2",
     "rxjs": "^5.4.1",
     "swarm-numberformat": "^0.3.5",
     "zone.js": "^0.8.14"
