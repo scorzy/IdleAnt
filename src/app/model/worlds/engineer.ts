@@ -1,3 +1,4 @@
+import { debounce } from 'rxjs/operator/debounce';
 import { Production } from '../production';
 import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
@@ -22,37 +23,52 @@ export class Engineers implements WorldInterface {
   iceEngineer: Unit
   iceCompEngineer: Unit
 
+  composterDep: Unit
+  laserDep: Unit
+  hydroDep: Unit
+  plantingDep: Unit
+  refineryDep: Unit
+
+  mineDep: Unit
+  sandDep: Unit
+  woodDep: Unit
+  beeDep: Unit
+  lensDep: Unit
+  iceDep: Unit
+  iceCompDep: Unit
+
   listEnginer = new Array<Unit>()
+  listDep = new Array<Unit>()
 
   constructor(public game: GameModel) { }
 
   declareStuff() {
     this.listEnginer = new Array<Unit>()
 
-    this.composterEnginer = new Unit(this.game, "engCo", "Composter Engineer",
+    this.composterEnginer = new Unit(this.game, "engCo", "Composter",
       "Slowly build composter stations.")
-    this.laserEnginer = new Unit(this.game, "engLa", "Laser Engineer",
+    this.laserEnginer = new Unit(this.game, "engLa", "Laser",
       "Slowly build laser stations.")
-    this.hydroEnginer = new Unit(this.game, "engHy", "Hydro Engineer",
+    this.hydroEnginer = new Unit(this.game, "engHy", "Hydro",
       "Slowly build hydroponic farms.")
-    this.plantingEnginer = new Unit(this.game, "engSo", "Planting Engineer",
+    this.plantingEnginer = new Unit(this.game, "engSo", "Planting",
       "Slowly build planting machines.")
-    this.refineryEnginery = new Unit(this.game, "engRef", "Refine Engineer",
+    this.refineryEnginery = new Unit(this.game, "engRef", "Refine",
       "Slowly build refinery stations.")
 
-    this.mineEnginer = new Unit(this.game, "engMi", "Mining Engineer",
+    this.mineEnginer = new Unit(this.game, "engMi", "Mining",
       "Slowly build mines.")
-    this.sandEnginer = new Unit(this.game, 'engSa', "Sand Engineer",
+    this.sandEnginer = new Unit(this.game, 'engSa', "Sand",
       'Slowly build sand diggers.')
-    this.woodEnginer = new Unit(this.game, "engWo", "Wood Engineer",
+    this.woodEnginer = new Unit(this.game, "engWo", "Wood",
       "Slowly build logging machines.")
-    this.beeEnginer = new Unit(this.game, "engBee", "Bee Engineer",
+    this.beeEnginer = new Unit(this.game, "engBee", "Bee",
       "Slowly build honey makers.")
-    this.iceEngineer = new Unit(this.game, "engIce", "Ice Engineer",
+    this.iceEngineer = new Unit(this.game, "engIce", "Ice",
       "Slowly build water tanks.")
-    this.iceCompEngineer = new Unit(this.game, "engIceComp", "Compacting Engineer",
+    this.iceCompEngineer = new Unit(this.game, "engIceComp", "Compacting",
       "Slowly build ice compacters.")
-    this.lensEnginer = new Unit(this.game, "lensEnginer", "Burning Lens Engineer",
+    this.lensEnginer = new Unit(this.game, "lensEnginer", "Burning Lens",
       "Slowly build burning lens.")
 
     this.sandEnginer.avabileBaseWorld = false
@@ -77,6 +93,55 @@ export class Engineers implements WorldInterface {
     this.listEnginer.push(this.lensEnginer)
 
     this.game.lists.push(new TypeList("Engineers", this.listEnginer))
+
+    this.composterDep = new Unit(this.game, "depaCo", "Composting Department",
+      "Yeild engineers.")
+    this.laserDep = new Unit(this.game, "depaLa", "Laser Department",
+      "Yeild engineers.")
+    this.hydroDep = new Unit(this.game, "depaHy", "Hydro Department",
+      "Yeild engineers.")
+    this.plantingDep = new Unit(this.game, "depaSo", "Planting Department",
+      "Yeild engineers.")
+    this.refineryDep = new Unit(this.game, "depaRef", "Refine Department",
+      "Yeild engineers.")
+
+    this.mineDep = new Unit(this.game, "depaMi", "Mining Department",
+      "Yeild engineers.")
+    this.sandDep = new Unit(this.game, 'depaSa', "Sand Department",
+      'Yeild engineers.')
+    this.woodDep = new Unit(this.game, "depaWo", "Wood Department",
+      "Yeild engineers.")
+    this.beeDep = new Unit(this.game, "depaBee", "Bee Department",
+      "Yeild engineers.")
+    this.iceDep = new Unit(this.game, "depaIce", "Ice Department",
+      "Yeild engineers.")
+    this.iceCompDep = new Unit(this.game, "depaIceComp", "Compacting Department",
+      "Yeild engineers.")
+    this.lensDep = new Unit(this.game, "depaEnginer", "Burning Lens Department",
+      "Yeild engineers.")
+
+    this.sandDep.avabileBaseWorld = false
+    this.mineDep.avabileBaseWorld = false
+    this.woodDep.avabileBaseWorld = false
+    this.beeDep.avabileBaseWorld = false
+    this.iceDep.avabileBaseWorld = false
+    this.iceCompDep.avabileBaseWorld = false
+    this.lensDep.avabileBaseWorld = false
+
+    this.listDep.push(this.composterDep)
+    this.listDep.push(this.refineryDep)
+    this.listDep.push(this.laserDep)
+    this.listDep.push(this.hydroDep)
+    this.listDep.push(this.plantingDep)
+    this.listDep.push(this.sandDep)
+    this.listDep.push(this.woodDep)
+    this.listDep.push(this.mineDep)
+    this.listDep.push(this.beeDep)
+    this.listDep.push(this.iceCompDep)
+    this.listDep.push(this.iceDep)
+    this.listDep.push(this.lensDep)
+
+    this.game.lists.push(new TypeList("Departments", this.listDep))
   }
   initStuff() {
 
@@ -117,6 +182,25 @@ export class Engineers implements WorldInterface {
     this.beeEnginer.upAction.priceF[0].basePrice = this.beeEnginer.upAction.priceF[0].basePrice.times(0.8)
     this.beeEnginer.upHire.priceF[0].basePrice = this.beeEnginer.upHire.priceF[0].basePrice.times(0.8)
 
+    //  departments
+    for (let i = 0; i < this.listEnginer.length; i++) {
+      const engineer = this.listEnginer[i]
+      const machine = this.game.machines.listMachinery[i]
+      const dep = this.listDep[i]
+
+      engineer.addProductor(new Production(dep, Decimal(1)))
+      this.game.baseWorld.science.addProductor(new Production(dep, Decimal(-2000)))
+
+      dep.actions.push(new BuyAction(this.game,
+        dep,
+        [
+          new Cost(this.game.science.university, Decimal(1), this.game.buyExpUnit),
+          new Cost(engineer, Decimal(100), this.game.buyExp),
+          new Cost(machine, Decimal(1E4), this.game.buyExp)
+        ]
+      ))
+
+    }
   }
   addWorld() {
   }

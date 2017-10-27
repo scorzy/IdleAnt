@@ -1,11 +1,12 @@
 import { Event } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-options',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.scss']
+  styleUrls: ['./options.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OptionsComponent implements OnInit {
 

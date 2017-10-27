@@ -19,7 +19,7 @@
     <span *ngIf="gameService.game.research.up1.owned()"> earning a bonus of +{{gen.getBoost().times(100) | format}}% production</span>
   </p>
   <div *ngIf="!gen.alwaysOn">
-    <input type="range" min="0" max="100" [(ngModel)]="gen.percentage">
+    <input type="range" min="0" max="100" [(ngModel)]="gen.percentage" (change)="onChange($event.target.value)">
     <span>{{gen.percentage}} % operative</span>
   </div>
 </div>

@@ -126,7 +126,7 @@ export class Frozen implements WorldInterface {
           this.game.engineers.lensEnginer
         ],
         [
-          [this.game.baseWorld.food, Decimal(0.4)]
+          [this.game.baseWorld.food, Decimal(0.3)]
         ],
         [],
         [],

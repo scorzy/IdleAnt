@@ -32,6 +32,7 @@ import { Science } from './worlds/science';
 export class GameModel {
 
   isChanged = true
+  timeToEnd = Number.POSITIVE_INFINITY
 
   //#region
   //    Cost
@@ -175,7 +176,7 @@ export class GameModel {
   }
 
   setMaxLevel() {
-    this.maxMax = Decimal.min(this.maxLevel.div(12), 100).floor().toNumber()
+    this.maxMax = Decimal.min(this.maxLevel.div(12), 1000).floor().toNumber()
     this.maxUser = Decimal.min(this.maxUser, this.maxMax).floor().toNumber()
   }
 
@@ -220,74 +221,85 @@ export class GameModel {
   longUpdate(dif: number, forceUp = false) {
     // this.reloadProduction()
 
-    this.lists.forEach(l => l.isEnding = false)
-
-    const unl = this.all.filter(u => u.unlocked)
     let maxTime = dif
     let unitZero: Unit = null
+    const unl = this.all.filter(u => u.unlocked)
 
-    this.all.filter(u => u.quantity.lessThan(1)).forEach(res => {
-      res.producedBy.filter(p => p.efficiency.lessThan(0))
-        .forEach(p => p.unit.percentage = 0)
-    })
+    // console.log(this.timeToEnd + " " + dif)
+    if (this.isChanged || dif > this.timeToEnd) {
+      // console.log("long")
+      //  reload max time
 
-    this.all.forEach(a => a.endIn = Number.POSITIVE_INFINITY)
+      this.timeToEnd = Number.POSITIVE_INFINITY
 
-    for (const res of unl.filter(u =>
-      u.producedBy.filter(p => p.efficiency.lessThan(0)).length > 0)) {
+      this.lists.forEach(l => l.isEnding = false)
 
-      let a = Decimal(0)
-      let b = Decimal(0)
-      let c = Decimal(0)
-      const d = res.quantity
+      this.all.filter(u => u.quantity.lessThan(1)).forEach(res => {
+        res.producedBy.filter(p => p.efficiency.lessThan(0))
+          .forEach(p => p.unit.percentage = 0)
+      })
 
-      for (const prod1 of res.producedBy.filter(r => r.isActive() && r.unit.unlocked)) {
-        // x
-        const prodX = prod1.getprodPerSec()
-        c = c.plus(prodX.times(prod1.unit.quantity))
-        for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.isActive() && r2.unit.unlocked)) {
-          // x^2
-          const prodX2 = prod2.getprodPerSec().times(prodX)
-          b = b.plus(prodX2.times(prod2.unit.quantity))
-          for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.isActive() && r3.unit.unlocked)) {
-            // x^3
-            const prodX3 = prod3.getprodPerSec().times(prodX2)
-            a = a.plus(prodX3.times(prod3.unit.quantity))
+      this.all.forEach(a => a.endIn = Number.POSITIVE_INFINITY)
+
+      for (const res of unl.filter(u =>
+        u.producedBy.filter(p => p.efficiency.lessThan(0)).length > 0)) {
+
+        let a = Decimal(0)
+        let b = Decimal(0)
+        let c = Decimal(0)
+        const d = res.quantity
+
+        for (const prod1 of res.producedBy.filter(r => r.isActive() && r.unit.unlocked)) {
+          // x
+          const prodX = prod1.getprodPerSec()
+          c = c.plus(prodX.times(prod1.unit.quantity))
+          for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.isActive() && r2.unit.unlocked)) {
+            // x^2
+            const prodX2 = prod2.getprodPerSec().times(prodX)
+            b = b.plus(prodX2.times(prod2.unit.quantity))
+            for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.isActive() && r3.unit.unlocked)) {
+              // x^3
+              const prodX3 = prod3.getprodPerSec().times(prodX2)
+              a = a.plus(prodX3.times(prod3.unit.quantity))
+            }
+          }
+        }
+        a = a.div(6)
+        b = b.div(2)
+
+        if (a.lessThan(0)
+          || b.lessThan(0)
+          || c.lessThan(0)
+          || d.lessThan(0)) {
+
+          const solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThan(0))
+
+          if (d.lessThan(Number.EPSILON)) {
+            res.quantity = Decimal(0)
+          }
+
+          for (const s of solution) {
+
+            if (maxTime > s.toNumber() * 1000) {
+              maxTime = s.toNumber() * 1000
+              unitZero = res
+            }
+            res.endIn = Math.min(s.times(1000).toNumber(), res.endIn)
+            this.timeToEnd = Math.min(this.timeToEnd, res.endIn)
+            // console.log("End " + this.timeToEnd)
           }
         }
       }
-      a = a.div(6)
-      b = b.div(2)
-
-      // if (res === this.baseWorld.crystal) {
-      //   console.log(a.toNumber() + " " + b.toNumber() + " " + c.toNumber() + " " + d.toNumber())
-      // }
-
-      if (a.lessThan(0)
-        || b.lessThan(0)
-        || c.lessThan(0)
-        || d.lessThan(0)) {
-
-        const solution = Utils.solveCubic(a, b, c, d).filter(s => s.greaterThan(0))
-
-        if (d.lessThan(Number.EPSILON)) {
-          res.quantity = Decimal(0)
-        }
-
-        for (const s of solution) {
-
-          // if (res === this.baseWorld.crystal) {
-          //   console.log(s.toNumber())
-          // }
-
-          if (maxTime > s.toNumber() * 1000) {
-            maxTime = s.toNumber() * 1000
-            unitZero = res
-          }
-          res.endIn = Math.min(s.times(1000).toNumber(), res.endIn)
-        }
-      }
+      // console.log("long end")
+      this.isChanged = false
+    } else {
+      // console.log("short")
+      this.timeToEnd = this.timeToEnd - dif
+      unl.filter(u => u.endIn > 0).forEach(u => u.endIn = u.endIn - dif)
     }
+
+
+    //  Update resource
     if (!this.pause || forceUp) {
       if (maxTime > Number.EPSILON)
         this.update(maxTime)
@@ -423,7 +435,7 @@ export class GameModel {
     save.pause = this.pause
 
     // save.gameVers = "0.0.1"
-    save.gameVers = "0.0.6"
+    save.gameVers = "0.0.7"
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -433,6 +445,7 @@ export class GameModel {
    * @param saveRaw
    */
   load(saveRaw: string): number {
+    this.isChanged = true
     if (saveRaw) {
       this.setInitialStat()
       saveRaw = LZString.decompressFromBase64(saveRaw)
@@ -440,7 +453,7 @@ export class GameModel {
       // console.log(saveRaw)
       this.currentEarning = Decimal(save.cur)
       this.lifeEarning = Decimal(save.life)
-      this.world.restore(save.w)
+      this.world.restore(save.w,  true)
       this.maxLevel = Decimal(save.ml)
 
       for (const s of save.list) {

@@ -131,13 +131,12 @@ export class World {
 
     worldRet.level = Decimal.random().times(Decimal(1 + max - min)).floor().plus(min).toNumber()
 
-    // worldRet.level = 100
+    // worldRet.level = 1000
 
     const linear = 1 / 4
 
-    const toUnlockMultiplier = Decimal.pow(1.0002, worldRet.level).times(worldRet.level + 1 / linear)
-      .times(linear)
-    const expMultiplier = Decimal(worldRet.level + 1 / linear).times(linear)
+    const toUnlockMultiplier = Decimal(worldRet.level + 1 / linear).times(linear)
+    const expMultiplier = Decimal.pow(1.00135, worldRet.level).times(Decimal(worldRet.level + 1 / linear).times(linear))
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
     worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 0))
@@ -145,6 +144,8 @@ export class World {
 
     game.unitLists.splice(0, game.unitLists.length)
 
+    // game.isChanged = true
+    worldRet.setDepartments()
     return worldRet
   }
 
@@ -202,6 +203,7 @@ export class World {
     // this.game.reloadList()
 
     this.game.generateRandomWorld(true)
+    this.game.isChanged = true
 
   }
   getData() {
@@ -221,7 +223,7 @@ export class World {
     data.keep = this.keep
     return data
   }
-  restore(data: any) {
+  restore(data: any, setDep: boolean = false) {
     this.name = data.n
 
     this.avaiableUnits = []
@@ -261,6 +263,27 @@ export class World {
 
     if (data.keep)
       this.keep = true
+
+    this.setDepartments(setDep)
+  }
+
+
+  setDepartments(assign: boolean = false) {
+    for (let i = 0; i < this.game.engineers.listEnginer.length; i++) {
+      const engineer = this.game.engineers.listEnginer[i]
+      const dep = this.game.engineers.listDep[i]
+
+      if (!engineer.avabileBaseWorld &&
+        !!this.avaiableUnits.find(u => u === engineer)
+        && !this.avaiableUnits.find(u => u === dep)) {
+
+        this.avaiableUnits.push(dep)
+        if (assign)
+          dep.avabileThisWorld = true
+
+      }
+
+    }
   }
 
 }

@@ -219,10 +219,10 @@ export class BaseWorld implements WorldInterface {
     this.soil.addProductor(new Production(this.carpenter))
     this.wood.addProductor(new Production(this.lumberjack))
 
-    this.food.addProductor(new Production(this.hunter, Decimal(15)))
+    this.food.addProductor(new Production(this.hunter, Decimal(50)))
     this.wood.addProductor(new Production(this.hunter, Decimal(-2)))
 
-    this.food.addProductor(new Production(this.advancedHunter, Decimal(80)))
+    this.food.addProductor(new Production(this.advancedHunter, Decimal(250)))
     this.wood.addProductor(new Production(this.advancedHunter, Decimal(-10)))
     this.crystal.addProductor(new Production(this.advancedHunter, Decimal(-5)))
 

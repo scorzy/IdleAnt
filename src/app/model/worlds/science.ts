@@ -89,7 +89,7 @@ export class Science implements WorldInterface {
         new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit)
       ]
     ))
-    this.game.baseWorld.science.addProductor(new Production(this.scientist, specialProduction))
+    this.game.baseWorld.science.addProductor(new Production(this.scientist, specialProduction.times(2)))
     this.game.baseWorld.crystal.addProductor(new Production(this.scientist, specialCost))
 
     this.scientist.actions.push(new UpAction(this.game, this.scientist,
@@ -121,9 +121,10 @@ export class Science implements WorldInterface {
     this.depEdu.actions.push(new BuyAction(this.game,
       this.depEdu,
       [
-        new Cost(this.game.baseWorld.wood, this.game.machines.price1.times(20), this.game.buyExp),
-        new Cost(this.game.baseWorld.crystal, this.game.machines.price2.times(20), this.game.buyExp),
-        new Cost(this.game.baseWorld.science, this.game.machines.price1.times(20), this.game.buyExp),
+        new Cost(this.university, Decimal(100), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.wood, this.game.machines.price1.times(100), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, this.game.machines.price2.times(100), this.game.buyExp),
+        new Cost(this.game.baseWorld.science, this.game.machines.price1.times(100), this.game.buyExp),
       ]
     ))
 

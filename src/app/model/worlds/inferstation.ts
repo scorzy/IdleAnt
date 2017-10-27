@@ -112,9 +112,10 @@ export class Infestation implements WorldInterface {
     this.game.baseWorld.wood.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
 
     this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(-0.01)))
+    this.game.baseWorld.fungus.addProductor(new Production(this.weedkiller, Decimal(-0.01)))
     this.game.baseWorld.fungus.addProductor(new Production(this.chemistAnt, Decimal(-10)))
     this.game.baseWorld.soil.addProductor(new Production(this.chemistAnt, Decimal(-10)))
-    this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(1)))
+    this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(0.1)))
 
     //  Disinfestation
     this.disinfestationAnt.actions.push(new BuyAction(this.game, this.disinfestationAnt,
@@ -199,7 +200,7 @@ export class Infestation implements WorldInterface {
         [],
         [
           [this.poisonousPlant, Decimal(1E7)],
-          [this.poisonousPlant2, Decimal(1E2)],
+          [this.poisonousPlant2, Decimal(1E3)],
           [this.basicDisinfestationRes, Decimal(0)]
         ],
         Decimal(5.5),
@@ -217,7 +218,7 @@ export class Infestation implements WorldInterface {
         [],
         [
           [this.poisonousPlant, Decimal(1E7)],
-          [this.poisonousPlant2, Decimal(1E2)],
+          [this.poisonousPlant2, Decimal(1E3)],
           [this.basicDisinfestationRes, Decimal(0)]
         ],
         Decimal(5.5),

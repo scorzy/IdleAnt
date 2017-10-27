@@ -58,6 +58,7 @@ export class Action extends Base {
         if (this.oneTime)
           this.unlocked = false
 
+        this.game.isChanged = true
         this.game.reloadProduction()
         this.realPriceNow = this.getCosts()
         this.setMaxBuy()
@@ -244,7 +245,7 @@ export class UpSpecial extends Action {
         new Cost(unit, Decimal(100), Decimal(10)),
         new Cost(unit.model.baseWorld.science, Decimal(100), Decimal(12))
       ],
-      "Do some experiment to increase the procuction.",
+      "Do some experiment to increase the production.",
       game, unit
     )
     this.unit.upSpecial = this

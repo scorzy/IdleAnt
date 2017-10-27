@@ -40,7 +40,7 @@ export class GameService {
 
     setInterval(this.update.bind(this), this.interval)
 
-    setInterval(this.checkUpgrades.bind(this), 1000)
+    setInterval(this.checkUpgrades.bind(this), 1500)
 
     setInterval(this.save.bind(this), this.saveFreq)
 
@@ -73,7 +73,7 @@ export class GameService {
     const delta = now - this.last
 
     if (delta > this.interval) {
-      this.game.longUpdate(1 * (now - this.last))
+      this.game.longUpdate(now - this.last)
 
       this.game.prestige.time.quantity = Decimal.min(
         this.game.prestige.time.quantity.plus(
@@ -120,6 +120,7 @@ export class GameService {
 
           if (last) {
             this.toastr.success("Idle time: " + moment.duration(Date.now() - last).humanize(), "Game Loaded")
+            this.last = last
             return last
           } else {
             this.toastr.error("Cannot read your savegame", "Error")

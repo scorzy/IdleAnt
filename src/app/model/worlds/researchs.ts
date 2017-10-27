@@ -19,7 +19,8 @@ export class Researchs implements WorldInterface {
   prestigeResearch: Research
   engineerRes: Research
   machineryRes: Research
-  stageRes: Research
+  departmentRes: Research
+  // stageRes: Research
 
   experimentResearch: Research
   composterResearch: Research
@@ -169,7 +170,7 @@ export class Researchs implements WorldInterface {
       "advancedLesson",
       "Advanced Lesson", "University also produces scientist.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-      [this.game.science.scientistProduction],
+      [this.game.science.scientistProduction, this.depEduRes],
       this.game
     )
 
@@ -210,6 +211,15 @@ export class Researchs implements WorldInterface {
     //   this.game
     // )
 
+    const deps: Array<Unlocable> = this.game.engineers.listDep
+    this.departmentRes = new Research(
+      "departementsRes",
+      "Departments", "Departments yeild engineers.",
+      [new Cost(this.game.baseWorld.science, Decimal(1E11))],
+      deps,
+      this.game
+    )
+
     //    Engineer
     const eng: Array<Unlocable> = this.game.engineers.listEnginer
     // //eng.push(this.stageRes)
@@ -217,7 +227,7 @@ export class Researchs implements WorldInterface {
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",
       [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-      eng,
+      eng.concat(this.departmentRes),
       this.game
     )
 
@@ -312,7 +322,7 @@ export class Researchs implements WorldInterface {
     this.upCombined = new Research(
       "upComb",
       "Combined bonus", "This is the ultimate bonus: multiply unit's bonus per hire bonus.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E15))],
+      [new Cost(this.game.baseWorld.science, Decimal(1E10))],
       [],
       this.game
     )

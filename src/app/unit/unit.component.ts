@@ -58,6 +58,10 @@ export class UnitComponent implements OnInit, OnDestroy {
   getUnitId(index, base: Base) {
     return base.id
   }
+
+  onChange(value: number): void {
+    this.gameService.game.isChanged = true
+  }
 }
 
 @Pipe({ name: 'filterUnlocked', pure: false })
