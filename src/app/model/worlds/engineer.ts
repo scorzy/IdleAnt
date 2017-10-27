@@ -45,30 +45,30 @@ export class Engineers implements WorldInterface {
   declareStuff() {
     this.listEnginer = new Array<Unit>()
 
-    this.composterEnginer = new Unit(this.game, "engCo", "Composter",
+    this.composterEnginer = new Unit(this.game, "engCo", "Composter E.",
       "Slowly build composter stations.")
-    this.laserEnginer = new Unit(this.game, "engLa", "Laser",
+    this.laserEnginer = new Unit(this.game, "engLa", "Laser E.",
       "Slowly build laser stations.")
-    this.hydroEnginer = new Unit(this.game, "engHy", "Hydro",
+    this.hydroEnginer = new Unit(this.game, "engHy", "Hydro E.",
       "Slowly build hydroponic farms.")
-    this.plantingEnginer = new Unit(this.game, "engSo", "Planting",
+    this.plantingEnginer = new Unit(this.game, "engSo", "Planting E.",
       "Slowly build planting machines.")
-    this.refineryEnginery = new Unit(this.game, "engRef", "Refine",
+    this.refineryEnginery = new Unit(this.game, "engRef", "Refine E.",
       "Slowly build refinery stations.")
 
-    this.mineEnginer = new Unit(this.game, "engMi", "Mining",
+    this.mineEnginer = new Unit(this.game, "engMi", "Mining E.",
       "Slowly build mines.")
-    this.sandEnginer = new Unit(this.game, 'engSa', "Sand",
+    this.sandEnginer = new Unit(this.game, 'engSa', "Sand E.",
       'Slowly build sand diggers.')
-    this.woodEnginer = new Unit(this.game, "engWo", "Wood",
+    this.woodEnginer = new Unit(this.game, "engWo", "Wood E.",
       "Slowly build logging machines.")
-    this.beeEnginer = new Unit(this.game, "engBee", "Bee",
+    this.beeEnginer = new Unit(this.game, "engBee", "Bee E.",
       "Slowly build honey makers.")
-    this.iceEngineer = new Unit(this.game, "engIce", "Ice",
+    this.iceEngineer = new Unit(this.game, "engIce", "Ice E.",
       "Slowly build water tanks.")
-    this.iceCompEngineer = new Unit(this.game, "engIceComp", "Compacting",
+    this.iceCompEngineer = new Unit(this.game, "engIceComp", "Compacting E.",
       "Slowly build ice compacters.")
-    this.lensEnginer = new Unit(this.game, "lensEnginer", "Burning Lens",
+    this.lensEnginer = new Unit(this.game, "lensEnginer", "Burning Lens E.",
       "Slowly build burning lens.")
 
     this.sandEnginer.avabileBaseWorld = false

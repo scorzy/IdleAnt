@@ -34,8 +34,16 @@ describe('1st tests', () => {
 //   it('x^3 – 7x^2 + 4x + 12 => x = 1 ', () => expect(actualJSON).toBe(expectedJSON))
 // });
 
+// describe('cubic tests 2', () => {
+//   const result = Utils.solveCubic(Decimal(-44), Decimal(1413637), Decimal(800766291), Decimal(187091096050))
+//   const actualJSON = JSON.stringify(result);
+//   const expectedJSON = '["6","2.0000000000000006427","-1.0000000000000007345"]'
+//   it('x^3 – 7x^2 + 4x + 12 => x = 1 ', () => expect(actualJSON).toBe(expectedJSON))
+// });
+
 describe('cubic tests 2', () => {
-  const result = Utils.solveCubic(Decimal(-44), Decimal(1413637), Decimal(800766291), Decimal(187091096050))
+  const result = Utils.solveCubic(Decimal(8.783584425),
+    Decimal(-27453.074603115), Decimal(1348174223.6640665481), Decimal(6700494388004.1126606))
   const actualJSON = JSON.stringify(result);
   const expectedJSON = '["6","2.0000000000000006427","-1.0000000000000007345"]'
   it('x^3 – 7x^2 + 4x + 12 => x = 1 ', () => expect(actualJSON).toBe(expectedJSON))

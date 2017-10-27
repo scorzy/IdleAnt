@@ -32,7 +32,7 @@ export class GameService {
   ) {
     this.game = new GameModel()
     this.last = Date.now()
-    const l = this.load()
+    const l = this.load(false)
     if (l)
       this.last = l
 
@@ -111,7 +111,7 @@ export class GameService {
     }
   }
 
-  load(): number {
+  load(notify = true): number {
     try {
       if (typeof (Storage) !== 'undefined') {
         const saveRaw = localStorage.getItem('save')
@@ -119,7 +119,8 @@ export class GameService {
           const last = this.game.load(saveRaw)
 
           if (last) {
-            this.toastr.success("Idle time: " + moment.duration(Date.now() - last).humanize(), "Game Loaded")
+            if (notify)
+              this.toastr.success("Idle time: " + moment.duration(Date.now() - last).humanize(), "Game Loaded")
             this.last = last
             return last
           } else {

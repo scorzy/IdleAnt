@@ -92,7 +92,8 @@
         <ul class="list-unstyled">
           <li *ngFor="let tp of gen.togableProductions | prodToglePipe">
             <div class="toggle-switch">
-              <input type="checkbox" [(ngModel)]="tp.uiModel" [id]="tp.description" (ngModelChange)="tp.turnOnOff()">
+              <input type="checkbox" [(ngModel)]="tp.uiModel" [id]="tp.description" (ngModelChange)="tp.turnOnOff()"
+                (change)="onChange($event.target.value)">
               <label [for]="tp.description">{{tp.description}}</label>
             </div>
           </li>

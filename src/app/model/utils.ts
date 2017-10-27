@@ -10,6 +10,9 @@ export class Utils {
   static solveCubic(a: decimal.Decimal, b: decimal.Decimal, c: decimal.Decimal, d: decimal.Decimal)
     : decimal.Decimal[] {
 
+    //  Thanks to:
+    // https://stackoverflow.com/questions/27176423/function-to-solve-cubic-equation-analytically
+
     // console.log(a.toString() + "x^3 " + b.toString() + "x^2 " + c.toString() + "x " + d.toString())
 
     if (a.abs().lessThan(Number.EPSILON)) { // Quadratic case, ax^2+bx+c=0
@@ -42,11 +45,15 @@ export class Utils {
       roots = [Decimal(0)].concat(p.lessThan(0) ? [(p.times(-1)).sqrt(), (p.times(-1)).sqrt().times(-1)] : [])
     } else {
       const D = q.pow(2).div(Decimal(4).plus(p.pow(3).div(27)))
+      // console.log("D: " + D.toString())
+
       if (D.abs().lessThan(Number.EPSILON)) {       // D = 0 -> two roots
         roots = [q.times(-1.5).div(p), Decimal(3).times(q).times(p)]
       } else if (D.greaterThan(0)) {             // Only one real root
+        // var u = cuberoot(-q/2 - Math.sqrt(D));
+        // roots = [u - p/(3*u)];
         const u = this.cuberoot(q.times(-1).div(Decimal(2).minus(D.sqrt())))
-        roots = [u.minus(p).div(u.times(3))]
+        roots = [u.minus(p.div(u.times(3)))]
       } else {                        // D < 0, three roots, but needs to use complex numbers/trigonometric solution
         const u = Decimal(2).times(Decimal.sqrt(p.times(-1).div(3)))
         // console.log(q.toString() + " " + p.toString() + " " + u.toString())
@@ -56,9 +63,13 @@ export class Utils {
         acos = acos.div(p)
         acos = acos.div(u)
         acos = acos.times(3)
+        // console.log(acos.toString())
+        //  workaround for aprossimation
+        if (acos.lessThan(-1))
+          return []
 
+        //  workaround for aprossimation 2
         acos = Decimal.min(Decimal.max(acos, 1), -1)
-
         const t = Decimal.acos(acos).div(3)
 
         // const t = Math.acos(3 * q / p / u) / 3;  // D < 0 implies p < 0 and acos argument in [-1..1]

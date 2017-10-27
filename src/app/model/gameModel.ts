@@ -453,7 +453,7 @@ export class GameModel {
       // console.log(saveRaw)
       this.currentEarning = Decimal(save.cur)
       this.lifeEarning = Decimal(save.life)
-      this.world.restore(save.w,  true)
+      this.world.restore(save.w, true)
       this.maxLevel = Decimal(save.ml)
 
       for (const s of save.list) {
