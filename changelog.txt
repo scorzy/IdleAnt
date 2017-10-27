@@ -1,0 +1,12 @@
+0.0.7 - 27-10-2017
+- code optimization
+- max level increased to 1000 (10.040 Nest)
+- changed xp formula, now high level world yeild more experience
+- x 10 starting Old Poisonous Plant
+- weedkiller consume fungus and is 10 time less effective
+- Chemist Ant produces 10 time less weedkiller
+- Combined bonus cost reduced to 1E10s
+- Freezing world food produciton multiplier decreased to 0.3 from 0.4
+- University yeild x 2 science
+- Fixed typos
+- Hunters yeild more food 50 and 250
