@@ -131,7 +131,7 @@ export class World {
 
     worldRet.level = Decimal.random().times(Decimal(1 + max - min)).floor().plus(min).toNumber()
 
-    worldRet.level = 1000
+    // worldRet.level = 1000
 
     const linear = 1 / 4
     const linearExp = 1 / 2

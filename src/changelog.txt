@@ -1,6 +1,7 @@
 0.0.8 - 28-10-2017
 - small fix for resource end time calcolation
 - new menù for set 0% or 100%
+- more experience
 
 0.0.7 - 27-10-2017
 - code optimization
