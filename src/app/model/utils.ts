@@ -4,7 +4,7 @@ export class Utils {
 
   static cuberoot(x: decimal.Decimal): decimal.Decimal {
     const y = x.abs().pow(1 / 3)
-    return x.greaterThan(0) ? y.times(-1) : y
+    return x.lessThan(0) ? y.times(-1) : y
   }
 
   static solveCubic(a: decimal.Decimal, b: decimal.Decimal, c: decimal.Decimal, d: decimal.Decimal)
@@ -52,7 +52,7 @@ export class Utils {
       } else if (D.greaterThan(0)) {             // Only one real root
         // var u = cuberoot(-q/2 - Math.sqrt(D));
         // roots = [u - p/(3*u)];
-        const u = this.cuberoot(q.times(-1).div(Decimal(2).minus(D.sqrt())))
+        const u = this.cuberoot(q.times(-0.5).minus(D.sqrt()))
         roots = [u.minus(p.div(u.times(3)))]
       } else {                        // D < 0, three roots, but needs to use complex numbers/trigonometric solution
         const u = Decimal(2).times(Decimal.sqrt(p.times(-1).div(3)))
@@ -63,7 +63,6 @@ export class Utils {
         acos = acos.div(p)
         acos = acos.div(u)
         acos = acos.times(3)
-        // console.log(acos.toString())
         //  workaround for aprossimation
         if (acos.lessThan(-1))
           return []
