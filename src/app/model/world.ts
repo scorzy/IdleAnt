@@ -131,12 +131,13 @@ export class World {
 
     worldRet.level = Decimal.random().times(Decimal(1 + max - min)).floor().plus(min).toNumber()
 
-    // worldRet.level = 1000
+    worldRet.level = 1000
 
     const linear = 1 / 4
+    const linearExp = 1 / 2
 
     const toUnlockMultiplier = Decimal(worldRet.level + 1 / linear).times(linear)
-    const expMultiplier = Decimal.pow(1.00135, worldRet.level).times(Decimal(worldRet.level + 1 / linear).times(linear))
+    const expMultiplier = Decimal.pow(1.00138, worldRet.level).times(Decimal(worldRet.level + 1 / linearExp).times(linearExp))
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
     worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 0))

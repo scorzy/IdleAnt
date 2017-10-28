@@ -31,5 +31,10 @@ export class AppComponent {
     return moment.duration(this.gameService.game.prestige.time.quantity.toNumber()).humanize()
   }
 
+  all100() {
+    this.gameService.game.all.forEach(u => u.percentage = 100)
+    this.gameService.game.isChanged = true
+  }
+
 }
 

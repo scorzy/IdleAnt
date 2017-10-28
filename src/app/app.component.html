@@ -22,20 +22,40 @@
     </div>
     <div class="header-actions">
 
-      <a class="nav-link nav-icon" href="javascript://" (click)="opeTimeWarp()" *ngIf="gameService.game.prestige.timeMaker.quantity.greaterThan(0)">
-        <clr-icon shape="clock"></clr-icon>
-      </a>
+      <clr-dropdown>
+        <button class="nav-icon" clrDropdownTrigger>
+          <clr-icon shape="tools"></clr-icon>
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <a clrDropdownItem (click)="all100()">All 100%</a>
 
-      <a class="nav-link nav-icon" href="javascript://" (click)="gameService.game.pause = !gameService.game.pause">
-        <clr-icon shape="play" *ngIf="gameService.game.pause; else pauseB"></clr-icon>
-        <ng-template #content #pauseB>
-          <clr-icon shape="pause"></clr-icon>
-        </ng-template>
-      </a>
+          <clr-dropdown *ngFor="let list of gameService.game.lists | filterListNotEmpty; trackBy:getListId">
+            <button type="button" clrDropdownTrigger>{{list.type}}</button>
+            <clr-dropdown-menu clrPosition="left-top">
+              <a clrDropdownItem (click)="list.all100()">100%</a>
+              <a clrDropdownItem (click)="list.all0()">0%</a>
+            </clr-dropdown-menu>
+          </clr-dropdown>
 
-      <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
-        <clr-icon shape="cog"></clr-icon>
-      </a>
+
+        </clr-dropdown-menu>
+        </clr-dropdown>
+
+        <a class="nav-link nav-icon" href="javascript://" (click)="opeTimeWarp()" *ngIf="gameService.game.prestige.timeMaker.quantity.greaterThan(0)">
+          <clr-icon shape="clock"></clr-icon>
+        </a>
+
+        <a class="nav-link nav-icon" href="javascript://" (click)="gameService.game.pause = !gameService.game.pause">
+          <clr-icon shape="play" *ngIf="gameService.game.pause; else pauseB"></clr-icon>
+          <ng-template #content #pauseB>
+            <clr-icon shape="pause"></clr-icon>
+          </ng-template>
+        </a>
+
+        <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
+          <clr-icon shape="cog"></clr-icon>
+        </a>
 
     </div>
   </clr-header>

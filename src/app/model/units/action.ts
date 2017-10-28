@@ -301,6 +301,7 @@ export class TimeWarp extends Action {
     super("actWarp", timeName,
       (n => {
         game.longUpdate(n.times(timeUnits).times(1000).toNumber(), true)
+        this.game.isChanged = true
         return true
       }),
       [new Cost(game.prestige.time, timeUnits, Decimal(1))],

@@ -226,8 +226,7 @@ export class GameModel {
     const unl = this.all.filter(u => u.unlocked)
 
     // console.log(this.timeToEnd + " " + dif)
-    if (this.isChanged || dif > this.timeToEnd) {
-      // console.log("long")
+    if (this.isChanged || dif > this.timeToEnd || dif > 1000) {
       //  reload max time
 
       this.timeToEnd = Number.POSITIVE_INFINITY
@@ -295,15 +294,15 @@ export class GameModel {
     } else {
       // console.log("short")
       this.timeToEnd = this.timeToEnd - dif
-      unl.filter(u => u.endIn > 0).forEach(u => u.endIn = u.endIn - dif)
     }
 
+    unl.filter(u => u.endIn > 0).forEach(u => u.endIn = u.endIn - dif)
 
     //  Update resource
     if (!this.pause || forceUp) {
       if (maxTime > Number.EPSILON)
         this.update(maxTime)
-      if (unitZero) {
+      if (unitZero && unitZero.quantity.lessThan(Number.EPSILON)) {
         unitZero.producedBy.filter(p => p.efficiency.lessThan(0)).forEach(p => p.unit.percentage = 0)
 
         // fix for infestatiion world
