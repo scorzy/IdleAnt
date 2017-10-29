@@ -302,7 +302,7 @@ export class GameModel {
     if (!this.pause || forceUp) {
       if (maxTime > Number.EPSILON)
         this.update(maxTime)
-      if (unitZero && unitZero.quantity.lessThan(Number.EPSILON)) {
+      if (unitZero) {
         unitZero.producedBy.filter(p => p.efficiency.lessThan(0)).forEach(p => p.unit.percentage = 0)
 
         // fix for infestatiion world
@@ -424,7 +424,7 @@ export class GameModel {
     save.life = this.lifeEarning
     save.w = this.world.getData()
     save.nw = this.nextWorlds.map(w => w.getData())
-    save.pre = this.prestige.allPrestigeUp.map(p => p.getData())
+    // save.pre = this.prestige.allPrestigeUp.map(p => p.getData())
     save.res = this.resList.map(r => r.getData())
     save.pd = this.prestigeDone
     save.worldTabAv = this.worldTabAv
@@ -434,7 +434,7 @@ export class GameModel {
     save.pause = this.pause
 
     // save.gameVers = "0.0.1"
-    save.gameVers = "0.0.7"
+    save.gameVers = "0.0.9"
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -465,11 +465,11 @@ export class GameModel {
       this.nextWorlds[1].restore(save.nw[1])
       this.nextWorlds[2].restore(save.nw[2])
 
-      for (const s of save.pre) {
-        const up = this.prestige.allPrestigeUp.find(p => p.id === s.id)
-        if (up)
-          up.restore(s)
-      }
+      // for (const s of save.pre) {
+      //   const up = this.prestige.allPrestigeUp.find(p => p.id === s.id)
+      //   if (up)
+      //     up.restore(s)
+      // }
 
       for (const s of save.res) {
         const res = this.resList.find(p => p.id === s.id)

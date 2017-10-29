@@ -2,7 +2,7 @@
   <div class="content-area">
     <h2>{{getTitle()}}</h2>
 
-    <div *ngIf="!travelAv()">
+    <div *ngIf="!travelAv(); else av_content">
       <div *ngIf="!this.gameService.game.research.prestigeResearch.owned()">
         <clr-alert [clrAlertType]="'alert-warning'">
           <div class="alert-item">
@@ -23,12 +23,13 @@
               <div class="progress labeled" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
                 <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
                 </progress>
-                <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
+                <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice) ;else other_content">
                   {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
                 </span>
-                <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
-                  100%
-                </span>
+                <ng-template #other_content>
+                  <span> 100% </span>
+                </ng-template>
+
               </div>
             </td>
           </tr>
@@ -64,7 +65,7 @@
         | format}} experience.</p>
     </div>
 
-    <div *ngIf="travelAv()">
+    <ng-template #av_content>
       <div *ngIf="!skip">
         <p> By going away you will earn {{gameService.game.getExperience() | format}} experience. High level
           worlds will yeild more experience but require more resource. </p>
@@ -120,9 +121,9 @@
                   Production of {{p[0].name}} x {{p[1] }}
                 </li>
                 <li *ngFor="let p of world.unitMod">
-                    {{p[0].name}} yield and consume x{{p[1]}} more resources
+                  {{p[0].name}} yield and consume x{{p[1]}} more resources
                   <!-- {{p[0].name}} production x {{p[1] }} -->
-                 </li>
+                </li>
                 <li *ngFor="let p of world.unitPrice"> {{p[0].name}} price x {{p[1] }} </li>
               </ul>
             </div>
@@ -138,7 +139,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </ng-template>
   </div>
 
 </div>

@@ -15,12 +15,8 @@ export class TypeList {
     return this.type
   }
 
-  all100() {
-    this.list.forEach(u => u.percentage = 100)
-    this.list[0].game.isChanged = true
-  }
-  all0() {
-    this.list.forEach(u => u.percentage = 0)
+  allCustom(percent: number) {
+    this.list.filter(u => !u.alwaysOn).forEach(u => u.percentage = percent)
     this.list[0].game.isChanged = true
   }
 }

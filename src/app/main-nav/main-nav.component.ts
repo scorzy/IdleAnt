@@ -4,7 +4,7 @@ import { Production } from '../model/production';
 import { Cost } from '../model/cost';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Logger } from 'codelyzer/util/logger';
-import { Component, OnDestroy, OnInit, Pipe, PipeTransform, OnChanges, AfterViewChecked } from '@angular/core';
+import { Component, OnDestroy, OnInit, Pipe, PipeTransform, OnChanges, AfterViewChecked, ChangeDetectionStrategy } from '@angular/core';
 import { GameService } from '../game.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';

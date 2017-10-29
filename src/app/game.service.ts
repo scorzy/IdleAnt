@@ -50,6 +50,8 @@ export class GameService {
         this.kongregate = kongregateAPI.getAPI();
         console.log("KongregateAPI Loaded");
 
+      //  this.kongregate.services.resizeGame(1920, 1080)
+
         setTimeout(() => {
           try {
             console.log("Kongregate build")

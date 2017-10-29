@@ -13,6 +13,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class AppComponent {
 
+  percentPreset = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]
+
   constructor(
     public gameService: GameService,
     public toastr: ToastsManager,
