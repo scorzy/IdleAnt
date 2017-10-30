@@ -4,7 +4,7 @@ import { Production } from '../model/production';
 import { Cost } from '../model/cost';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Logger } from 'codelyzer/util/logger';
-import { Component, OnDestroy, OnInit, Pipe, PipeTransform, OnChanges, AfterViewChecked } from '@angular/core';
+import { AfterViewChecked, Component, HostBinding, OnChanges, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { GameService } from '../game.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
@@ -19,7 +19,7 @@ import { Base } from '../model/units/base';
   styleUrls: ['./unit.component.scss']
 })
 export class UnitComponent implements OnInit, OnDestroy {
-
+  @HostBinding('class.content-area') className = 'content-area';
   mioId = "0";
   paramsSub: any;
   gen: Unit;

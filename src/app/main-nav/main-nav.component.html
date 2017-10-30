@@ -1,44 +1,39 @@
-<div class="content-container">
-  <div class="content-area">
-    <router-outlet></router-outlet>
-  </div>
+<router-outlet></router-outlet>
 
-  <clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
+<clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
 
-    <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" *ngIf="showPrestige"
-      routerLink="./unit/exp">
-      Experience: {{gameService.game.prestige.experience.quantity | format}}
-    </a>
-    <clr-tree-node *ngFor="let list of typeLists | filterListNotEmpty; trackBy:getListId">
-      <span class="font-weight-bold">
-        <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
-        {{list.type}}
-      </span>
+  <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" *ngIf="showPrestige"
+    routerLink="./unit/exp">
+    Experience: {{gameService.game.prestige.experience.quantity | format}}
+  </a>
+  <clr-tree-node *ngFor="let list of typeLists | filterListNotEmpty; trackBy:getListId">
+    <span class="font-weight-bold">
+      <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
+      {{list.type}}
+    </span>
 
-      <ng-template [(clrIfExpanded)]="list.isCollapsed">
+    <ng-template [(clrIfExpanded)]="list.isCollapsed">
 
-        <div class="unit-group">
-          <clr-tree-node *ngFor="let g of list.list | filterMax; trackBy:getUnitId">
-            <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link" routerLinkActive="active">
-              <span class="resName">
-                <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
-                <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-                <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
+      <div class="unit-group">
+        <clr-tree-node *ngFor="let g of list.list | filterMax; trackBy:getUnitId">
+          <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link" routerLinkActive="active">
+            <span class="resName">
+              <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
+              <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
+              <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
 
-                {{g.name}}</span>
-              <span class="perSec">
-                <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
-                  {{g.totalPerSec | format:true}}/s
-                </span>
+              {{g.name}}</span>
+            <span class="perSec">
+              <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
+                {{g.totalPerSec | format:true}}/s
               </span>
-              <span>{{g.quantity | format:true}}</span>
-            </a>
-          </clr-tree-node>
-        </div>
+            </span>
+            <span>{{g.quantity | format:true}}</span>
+          </a>
+        </clr-tree-node>
+      </div>
 
-      </ng-template>
-    </clr-tree-node>
+    </ng-template>
+  </clr-tree-node>
 
-  </clr-vertical-nav>
-
-</div>
+</clr-vertical-nav>

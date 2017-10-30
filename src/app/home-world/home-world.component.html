@@ -1,30 +1,28 @@
-<div class="content-container">
-  <div class="content-area">
-    <h1>{{gameService.game.world.name}}</h1>
-    <span>Level: {{gameService.game.world.level}}</span>
-    <ul class="list">
-      <li *ngFor="let p of gameService.game.world.avaiableUnits">
-        {{p.name}}: {{p.description }}
-      </li>
-      <li *ngFor="let p of gameService.game.world.unlockedUnits">
-          <span *ngIf="!p[1].greaterThan(0)">
-            {{p[0].name}}: {{p[0].description }}
-          </span>
-          <span *ngIf="p[1].greaterThan(0)">
-            Start with {{p[1] | format }} {{p[0].name}}
-          </span>
-        </li>
-      <li *ngFor="let p of gameService.game.world.prodMod">
-        Production of {{p[0].name}} x {{p[1] }}
-      </li>
-      <li *ngFor="let p of gameService.game.world.unitMod">
-          {{p[0].name}} yield and consume x{{p[1]}} more resources
-        <!-- {{p[0].name}} production x {{p[1] }} -->
-      </li>
-      <li *ngFor="let p of gameService.game.world.unitPrice">
-        {{p[0].name}} price x {{p[1] }}
-      </li>
-    </ul>
+<div class="content-area">
+  <h1>{{gameService.game.world.name}}</h1>
+  <span>Level: {{gameService.game.world.level}}</span>
+  <ul class="list">
+    <li *ngFor="let p of gameService.game.world.avaiableUnits">
+      {{p.name}}: {{p.description }}
+    </li>
+    <li *ngFor="let p of gameService.game.world.unlockedUnits">
+      <span *ngIf="!p[1].greaterThan(0)">
+        {{p[0].name}}: {{p[0].description }}
+      </span>
+      <span *ngIf="p[1].greaterThan(0)">
+        Start with {{p[1] | format }} {{p[0].name}}
+      </span>
+    </li>
+    <li *ngFor="let p of gameService.game.world.prodMod">
+      Production of {{p[0].name}} x {{p[1] }}
+    </li>
+    <li *ngFor="let p of gameService.game.world.unitMod">
+      {{p[0].name}} yield and consume x{{p[1]}} more resources
+      <!-- {{p[0].name}} production x {{p[1] }} -->
+    </li>
+    <li *ngFor="let p of gameService.game.world.unitPrice">
+      {{p[0].name}} price x {{p[1] }}
+    </li>
+  </ul>
 
-  </div>
 </div>

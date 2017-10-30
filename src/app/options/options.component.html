@@ -1,25 +1,23 @@
-<div class="content-container">
-  <div class="content-area">
+<div class="content-area">
 
-    <p>
-      Game autosave every 3 minutes. You can also maually save, load and export savegames. Save are stored
-      in localstorage.
-    </p>
-    <strong>Clear button delete everything !</strong>
+  <p>
+    Game autosave every 3 minutes. You can also maually save, load and export savegames. Save are stored
+    in localstorage.
+  </p>
+  <strong>Clear button delete everything !</strong>
 
-    <div class="form-group">
-      <button class="btn btn-success" (click)="save($event)">Save</button>
-      <button class="btn btn-primary" (click)="load($event)">Load</button>
-      <button class="btn btn-danger" (click)="clear($event)">Clear</button>
-    </div>
-    <div class="form-group">
-      <h5>Export / Import Save</h5>
-      <label for="save">Save</label>
-      <textarea ref-textarea class="form-control" rows="1" id="save" [(ngModel)]="stringSave"></textarea>
-      <button class="btn btn-success" (click)="export($event)">Export</button>
-      <button class="btn btn-primary" (click)="import($event)">Import</button>
-    </div>
-
-    <a href="https://scorzy.github.io/IdleAnt/changelog.txt" target="_blank">Changelog</a>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="save($event)">Save</button>
+    <button class="btn btn-primary" (click)="load($event)">Load</button>
+    <button class="btn btn-danger" (click)="clear($event)">Clear</button>
   </div>
+  <div class="form-group">
+    <h5>Export / Import Save</h5>
+    <label for="save">Save</label>
+    <textarea ref-textarea class="form-control" rows="1" id="save" [(ngModel)]="stringSave"></textarea>
+    <button class="btn btn-success" (click)="export($event)">Export</button>
+    <button class="btn btn-primary" (click)="import($event)">Import</button>
+  </div>
+
+  <a href="https://scorzy.github.io/IdleAnt/changelog.txt" target="_blank">Changelog</a>
 </div>

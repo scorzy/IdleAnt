@@ -11,7 +11,8 @@
         "assets",
         "favicon.ico",
         "img",
-        "changelog.txt"
+        "changelog.txt",
+        "iframe.html"
       ],
       "index": "index.html",
       "main": "main.ts",

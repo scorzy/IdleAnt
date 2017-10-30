@@ -1,5 +1,5 @@
 import { Event } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, HostBinding } from '@angular/core';
 import { GameService } from '../game.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { GameService } from '../game.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OptionsComponent implements OnInit {
+  @HostBinding('class.content-container') className = 'content-container';
 
   stringSave = ""
 

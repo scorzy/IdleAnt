@@ -1,6 +1,6 @@
 import { Cost } from '../model/cost';
 import { Action } from '../model/units/action';
-import { AfterViewChecked, Component, Input, NgModule, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Input, NgModule, OnInit, HostBinding } from '@angular/core';
 import * as numberformat from 'swarm-numberformat';
 
 @Component({
@@ -10,6 +10,8 @@ import * as numberformat from 'swarm-numberformat';
 })
 
 export class ActionComponent implements OnInit, AfterViewChecked {
+  @HostBinding('class.card') card = 'card';
+  @HostBinding('class.card-block') className = 'card-block';
 
   @Input() action: Action
   maxBuy = Decimal(0)

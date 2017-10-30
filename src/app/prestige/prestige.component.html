@@ -1,145 +1,142 @@
-<div class="content-container">
-  <div class="content-area">
-    <h2>{{getTitle()}}</h2>
+<div class="content-area">
+  <h2>{{getTitle()}}</h2>
 
-    <div *ngIf="!travelAv(); else av_content">
-      <div *ngIf="!this.gameService.game.research.prestigeResearch.owned()">
-        <clr-alert [clrAlertType]="'alert-warning'">
-          <div class="alert-item">
-            <span class="alert-text">
-              You will not be able to travel without the Travel research !
-            </span>
-          </div>
-        </clr-alert>
-      </div>
-      <p> You need the travel research and: </p>
+  <div *ngIf="!travelAv(); else av_content">
+    <div *ngIf="!this.gameService.game.research.prestigeResearch.owned()">
+      <clr-alert [clrAlertType]="'alert-warning'">
+        <div class="alert-item">
+          <span class="alert-text">
+            You will not be able to travel without the Travel research !
+          </span>
+        </div>
+      </clr-alert>
+    </div>
+    <p> You need the travel research and: </p>
+    <table class="nowrap" style="width:100%">
+      <tbody>
+        <tr *ngFor="let cost of gameService.game.world.toUnlock">
+          <td>
+            <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span>
+          </td>
+          <td style="width:100%">
+            <div class="progress labeled" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
+              <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
+              </progress>
+              <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice) ;else other_content">
+                {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
+              </span>
+              <ng-template #other_content>
+                <span> 100% </span>
+              </ng-template>
+
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
+
+      <p>You must have less than:</p>
       <table class="nowrap" style="width:100%">
         <tbody>
-          <tr *ngFor="let cost of gameService.game.world.toUnlock">
+          <tr *ngFor="let cost of gameService.game.world.toUnlockMax">
             <td>
               <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span>
             </td>
             <td style="width:100%">
-              <div class="progress labeled" [ngClass]="{'success': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
+              <div class="progress labeled" [ngClass]="{'success': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
                 <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
                 </progress>
-                <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice) ;else other_content">
+                <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
                   {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
                 </span>
-                <ng-template #other_content>
-                  <span> 100% </span>
-                </ng-template>
-
+                <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
+                  100%
+                </span>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
-
-        <p>You must have less than:</p>
-        <table class="nowrap" style="width:100%">
-          <tbody>
-            <tr *ngFor="let cost of gameService.game.world.toUnlockMax">
-              <td>
-                <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}}</span>
-              </td>
-              <td style="width:100%">
-                <div class="progress labeled" [ngClass]="{'success': !cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice), 'danger': cost.unit.quantity.greaterThanOrEqualTo(cost.basePrice)}">
-                  <progress max="100" [value]="cost.unit.quantity.times(100).div(cost.basePrice).toNumber()" data-displayval="0%">
-                  </progress>
-                  <span *ngIf="!cost.unit.quantity.greaterThan(cost.basePrice)">
-                    {{cost.unit.quantity.times(100).div(cost.basePrice) | format}}%
-                  </span>
-                  <span *ngIf="cost.unit.quantity.greaterThan(cost.basePrice)">
-                    100%
-                  </span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button class="btn btn-warning-outline" (click)="skipWorld()">Skip</button>
-      <p> By skipping you will be able to change world, but you will not get {{gameService.game.getExperience()
-        | format}} experience.</p>
     </div>
+    <button class="btn btn-warning-outline" (click)="skipWorld()">Skip</button>
+    <p> By skipping you will be able to change world, but you will not get {{gameService.game.getExperience()
+      | format}} experience.</p>
+  </div>
 
-    <ng-template #av_content>
-      <div *ngIf="!skip">
-        <p> By going away you will earn {{gameService.game.getExperience() | format}} experience. High level
-          worlds will yeild more experience but require more resource. </p>
-      </div>
-      <div *ngIf="skip">
-        <p> By skipping this world you will not earn any experience! If you change your mind go to another
-          tab.
-        </p>
-      </div>
-      <div>
-        Resources needed to travel:
-        <span *ngFor="let cost of gameService.game.world.toUnlock">
+  <ng-template #av_content>
+    <div *ngIf="!skip">
+      <p> By going away you will earn {{gameService.game.getExperience() | format}} experience. High level
+        worlds will yeild more experience but require more resource. </p>
+    </div>
+    <div *ngIf="skip">
+      <p> By skipping this world you will not earn any experience! If you change your mind go to another
+        tab.
+      </p>
+    </div>
+    <div>
+      Resources needed to travel:
+      <span *ngFor="let cost of gameService.game.world.toUnlock">
+        <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}},</span>
+      </span>
+      <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
+        and less than:
+        <span *ngFor="let cost of gameService.game.world.toUnlockMax">
           <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}},</span>
         </span>
-        <div *ngIf="this.gameService.game.world.toUnlockMax.length >0">
-          and less than:
-          <span *ngFor="let cost of gameService.game.world.toUnlockMax">
-            <span class="nowrap">{{cost.basePrice | format}}&nbsp;{{cost.unit.name}},</span>
-          </span>
-        </div>
       </div>
-      <div class="form-group">
-        <button class="btn btn-secondary" (click)="change()">
-          <clr-icon shape="world"></clr-icon>
-          Change worlds
-        </button>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-secondary" (click)="change()">
+        <clr-icon shape="world"></clr-icon>
+        Change worlds
+      </button>
 
-        <label>Min Level:</label>
-        <input type="number" placeholder="0" [(ngModel)]="gameService.game.minUser" class="numIn" min="1" [max]="gameService.game.maxUser">
-        <label>Max Level ({{gameService.game.maxMax}}):</label>
-        <input type="number" [placeholder]="gameService.game.maxMax" [(ngModel)]="gameService.game.maxUser" class="numIn"
-          [min]="gameService.game.minUser" [max]="gameService.game.maxMax">
-      </div>
-      <div class="card-columns card-columns-2">
-        <div class="card" *ngFor="let world of gameService.game.nextWorlds ">
-          <div class="card-header text-capitalize"> {{world.name}} </div>
-          <div class="card-block">
-            <div class="card-title"> Level: {{world.level}}
-              <br/> {{world.experience}} experience </div>
-            <div class="card-text">
-              {{world.description}}
-              <ul class="list">
-                <li *ngFor="let p of world.avaiableUnits"> {{p.name}}: {{p.description }} </li>
-                <li *ngFor="let p of world.unlockedUnits">
-                  <span *ngIf="!p[1].greaterThan(0)">
-                    {{p[0].name}}: {{p[0].description }}
-                  </span>
-                  <span *ngIf="p[1].greaterThan(0)">
-                    Start with {{p[1] | format }} {{p[0].name}}
-                  </span>
-                </li>
-                <li *ngFor="let p of world.prodMod">
-                  Production of {{p[0].name}} x {{p[1] }}
-                </li>
-                <li *ngFor="let p of world.unitMod">
-                  {{p[0].name}} yield and consume x{{p[1]}} more resources
-                  <!-- {{p[0].name}} production x {{p[1] }} -->
-                </li>
-                <li *ngFor="let p of world.unitPrice"> {{p[0].name}} price x {{p[1] }} </li>
-              </ul>
+      <label>Min Level:</label>
+      <input type="number" placeholder="0" [(ngModel)]="gameService.game.minUser" class="numIn" min="1" [max]="gameService.game.maxUser">
+      <label>Max Level ({{gameService.game.maxMax}}):</label>
+      <input type="number" [placeholder]="gameService.game.maxMax" [(ngModel)]="gameService.game.maxUser" class="numIn"
+        [min]="gameService.game.minUser" [max]="gameService.game.maxMax">
+    </div>
+    <div class="card-columns card-columns-2">
+      <div class="card" *ngFor="let world of gameService.game.nextWorlds ">
+        <div class="card-header text-capitalize"> {{world.name}} </div>
+        <div class="card-block">
+          <div class="card-title"> Level: {{world.level}}
+            <br/> {{world.experience}} experience </div>
+          <div class="card-text">
+            {{world.description}}
+            <ul class="list">
+              <li *ngFor="let p of world.avaiableUnits"> {{p.name}}: {{p.description }} </li>
+              <li *ngFor="let p of world.unlockedUnits">
+                <span *ngIf="!p[1].greaterThan(0)">
+                  {{p[0].name}}: {{p[0].description }}
+                </span>
+                <span *ngIf="p[1].greaterThan(0)">
+                  Start with {{p[1] | format }} {{p[0].name}}
+                </span>
+              </li>
+              <li *ngFor="let p of world.prodMod">
+                Production of {{p[0].name}} x {{p[1] }}
+              </li>
+              <li *ngFor="let p of world.unitMod">
+                {{p[0].name}} yield and consume x{{p[1]}} more resources
+                <!-- {{p[0].name}} production x {{p[1] }} -->
+              </li>
+              <li *ngFor="let p of world.unitPrice"> {{p[0].name}} price x {{p[1] }} </li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" (click)="goTo(world)">Go to</button>
+
+            <div class="toggle-switch">
+              <input type="checkbox" [id]="world.id" [(ngModel)]="world.keep">
+              <label [for]="world.id">Keep</label>
             </div>
-            <div class="card-footer">
-              <button class="btn btn-primary" (click)="goTo(world)">Go to</button>
 
-              <div class="toggle-switch">
-                <input type="checkbox" [id]="world.id" [(ngModel)]="world.keep">
-                <label [for]="world.id">Keep</label>
-              </div>
-
-            </div>
           </div>
         </div>
       </div>
-    </ng-template>
-  </div>
-
+    </div>
+  </ng-template>
 </div>

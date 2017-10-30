@@ -10,9 +10,9 @@ $height: 24px;
 .clr-vertical-nav {
    width: 320px !important;
    padding-top: 12px;
-   height: calc(100vh - 108px) !important;
-   display:block !important;
-   overflow-y: scroll;
+   //height: calc(100vh - 108px) !important;
+  //  display:block !important;
+  //  overflow-y: scroll;
 }
 
 .resName{
@@ -24,9 +24,9 @@ $height: 24px;
   display: inline-block;
 }
 
-.content-area {
-  max-height: calc(100vh - 108px) !important;
-}
+// .content-area {
+//   max-height: calc(100vh - 108px) !important;
+// }
 
 .unit-group{
   margin-left: -21px !important;
@@ -39,16 +39,16 @@ $height: 24px;
 .experience{
   margin-left: 30px !important;
 }
-.clr-treenode-link{
-  height:auto;
-}
+// .clr-treenode-link{
+//   height:auto;
+// }
 
-:host /deep/ .nav-content{
-  min-height: 500px;
-  display:block !important;
-  overflow-y: hidden  !important;
-}
+// :host /deep/ .nav-content{
+//   min-height: 500px;
+//   display:block !important;
+//   overflow-y: hidden  !important;
+// }
 
-:host /deep/ .clr-treenode-content{
-  line-height:25px !important;
-}
+// :host /deep/ .clr-treenode-content{
+//   line-height:25px !important;
+// }

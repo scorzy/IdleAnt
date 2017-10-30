@@ -2,7 +2,7 @@ import { Cost } from '../model/cost';
 import { ActivatedRoute, Router } from '@angular/router';
 import { World } from '../model/world';
 import { GameService } from '../game.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-prestige',
@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./prestige.component.scss']
 })
 export class PrestigeComponent implements OnInit {
+  @HostBinding('class.content-container') className = 'content-container';
 
   skip = false
 
@@ -45,7 +46,7 @@ export class PrestigeComponent implements OnInit {
     const size1 = this.gameService.game.world.toUnlock.length
     for (let i = 0; i < size1; i++) {
       currentPrice = this.gameService.game.world.toUnlock[i]
-      if (currentPrice.basePrice.greaterThan(currentPrice.unit.quantity)) {
+      if (currentPrice.basePrice.floor().greaterThan(currentPrice.unit.quantity.ceil())) {
         return false
       }
 
