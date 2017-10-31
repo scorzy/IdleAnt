@@ -1,4 +1,38 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>IdleAnt</title><base href="./"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/x-icon" href="favicon.ico"><!-- <script src='https://cdn1.kongregate.com/javascripts/kongregate_api.js'></script> --><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-108006360-1"></script><script>window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'UA-108006360-1');</script><link href="styles.fe4ef05d74fe46625236.bundle.css" rel="stylesheet"/></head><body><app-root></app-root><script type="text/javascript" src="inline.dac386e393c2b8bd2122.bundle.js"></script><script type="text/javascript" src="polyfills.9871d73c98063d67e1fc.bundle.js"></script><script type="text/javascript" src="scripts.a959a5209c12167b28a1.bundle.js"></script><script type="text/javascript" src="vendor.64897c46dc8ec3450c18.bundle.js"></script><script type="text/javascript" src="main.cc6899e63747511466b8.bundle.js"></script></body></html>
+    gtag('config', 'UA-108006360-1');</script><!--JQuery - temp, will be removed --><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script><link href="styles.fe4ef05d74fe46625236.bundle.css" rel="stylesheet"/></head><body><app-root></app-root><script>preventScroll = function () {
+      setTimeout(function () {
+        $('.nav-content, .content-area').on('DOMMouseScroll mousewheel', function (ev) {
+          console.log("scroll")
+          body = $('body')[0]
+          var $this = $(this),
+            scrollTop = this.scrollTop,
+            scrollHeight = this.scrollHeight,
+            height = $this.innerHeight(),
+            delta = (ev.type == 'DOMMouseScroll' ?
+              ev.originalEvent.detail * -40 :
+              ev.originalEvent.wheelDelta),
+            up = delta > 0;
+
+          var prevent = function () {
+            console.log("prevent")
+            ev.stopPropagation();
+            ev.preventDefault();
+            ev.returnValue = false;
+            return false;
+          }
+
+          if (!up && -delta > scrollHeight - height - scrollTop) {
+            // Scrolling down, but this will take us past the bottom.
+            $this.scrollTop(scrollHeight);
+            return prevent();
+          } else if (up && delta > scrollTop) {
+            // Scrolling up, but this will take us past the top.
+            $this.scrollTop(0);
+            return prevent();
+          }
+        }
+        )
+      }, 0)
+    }; d</script><script type="text/javascript" src="inline.eef4a77e400f82611f5f.bundle.js"></script><script type="text/javascript" src="polyfills.9871d73c98063d67e1fc.bundle.js"></script><script type="text/javascript" src="scripts.a959a5209c12167b28a1.bundle.js"></script><script type="text/javascript" src="vendor.ec6d46675fd6c341b3c2.bundle.js"></script><script type="text/javascript" src="main.857ba17b37abfc300857.bundle.js"></script></body></html>
