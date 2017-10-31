@@ -219,11 +219,14 @@ export class GameModel {
    * @param dif time elapsed in millisecond
    */
   longUpdate(dif: number, forceUp = false) {
-    // this.reloadProduction()
 
     let maxTime = dif
     let unitZero: Unit = null
     const unl = this.all.filter(u => u.unlocked)
+
+    //  Infestation fix 2
+    if (this.infestation.poisonousPlant.unlocked && this.infestation.poisonousPlant.quantity.lessThan(1))
+      this.infestation.poisonousPlant2.quantity = Decimal(0)
 
     // console.log(this.timeToEnd + " " + dif)
     if (this.isChanged || dif > this.timeToEnd || dif > 1000) {

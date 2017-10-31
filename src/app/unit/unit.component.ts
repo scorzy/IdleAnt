@@ -1,3 +1,4 @@
+import { setTimeout } from 'timers';
 import { ActionComponent } from '../action/action.component';
 import { Action } from '../model/units/action';
 import { Production } from '../model/production';
@@ -12,6 +13,8 @@ import { Unit } from '../model/units/unit';
 import * as numberformat from 'swarm-numberformat';
 import * as moment from 'moment';
 import { Base } from '../model/units/base';
+
+declare let preventScroll
 
 @Component({
   selector: 'app-unit',
@@ -32,6 +35,7 @@ export class UnitComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.paramsSub = this.activatedRoute.params.subscribe(params => {
       this.mioId = params['id'];
       if (this.mioId === undefined) {
@@ -40,6 +44,7 @@ export class UnitComponent implements OnInit, OnDestroy {
       this.gen = this.gameService.game.unitMap.get(this.mioId)
       this.gameService.game.activeUnit = this.gen
     });
+    setTimeout(preventScroll, 0)
   }
 
   ngOnDestroy() {
@@ -60,7 +65,7 @@ export class UnitComponent implements OnInit, OnDestroy {
   }
 
   onChange(value: number): void {
-    this.gameService.game.isChanged = true
+    //  this.gameService.game.isChanged = true
   }
 }
 

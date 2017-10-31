@@ -4,6 +4,8 @@ import { World } from '../model/world';
 import { GameService } from '../game.service';
 import { Component, OnInit, HostBinding } from '@angular/core';
 
+declare let preventScroll
+
 @Component({
   selector: 'app-prestige',
   templateUrl: './prestige.component.html',
@@ -21,6 +23,7 @@ export class PrestigeComponent implements OnInit {
   }
 
   ngOnInit() {
+    preventScroll()
   }
   skipWorld() { this.skip = true }
   getTitle() {

@@ -11,7 +11,7 @@ import * as numberformat from 'swarm-numberformat';
 
 export class ActionComponent implements OnInit, AfterViewChecked {
   @HostBinding('class.card') card = 'card';
-  @HostBinding('class.card-block') className = 'card-block';
+  // @HostBinding('class.card-block') className = 'card-block';
 
   @Input() action: Action
   maxBuy = Decimal(0)

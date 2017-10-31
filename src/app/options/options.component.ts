@@ -2,6 +2,8 @@ import { Event } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit, HostBinding } from '@angular/core';
 import { GameService } from '../game.service';
 
+declare let preventScroll
+
 @Component({
   selector: 'app-options',
   templateUrl: './options.component.html',
@@ -16,6 +18,7 @@ export class OptionsComponent implements OnInit {
   constructor(public gameService: GameService) { }
 
   ngOnInit() {
+    preventScroll()
   }
 
   save(event: Event) { this.gameService.save() }

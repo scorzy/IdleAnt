@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <script src='https://cdn1.kongregate.com/javascripts/kongregate_api.js'></script>
+  <!-- <script src='https://cdn1.kongregate.com/javascripts/kongregate_api.js'></script> -->
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108006360-1"></script>
@@ -20,49 +20,53 @@
     gtag('config', 'UA-108006360-1');
   </script>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script> -->
+  <!--JQuery - temp, will be removed -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+    crossorigin="anonymous"></script>
 
 </head>
 
 <body>
   <app-root></app-root>
 
-  <!-- <script>
-    $('.nav-content').on('DOMMouseScroll mousewheel', function (ev) {
-      console.log("scroll")
-      body = $('body')[0]
-      var $this = $(this),
-        scrollTop = this.scrollTop,
-        scrollHeight = this.scrollHeight,
-        height = $this.innerHeight(),
-        delta = (ev.type == 'DOMMouseScroll' ?
-          ev.originalEvent.detail * -40 :
-          ev.originalEvent.wheelDelta),
-        up = delta > 0;
+  <script>
+    preventScroll = function () {
+      setTimeout(function () {
+        $('.nav-content, .content-area').on('DOMMouseScroll mousewheel', function (ev) {
+          console.log("scroll")
+          body = $('body')[0]
+          var $this = $(this),
+            scrollTop = this.scrollTop,
+            scrollHeight = this.scrollHeight,
+            height = $this.innerHeight(),
+            delta = (ev.type == 'DOMMouseScroll' ?
+              ev.originalEvent.detail * -40 :
+              ev.originalEvent.wheelDelta),
+            up = delta > 0;
 
-      var prevent = function () {
-        console.log("prevent")
-        ev.stopPropagation();
-        ev.preventDefault();
-        ev.returnValue = false;
-        return false;
-      }
+          var prevent = function () {
+            console.log("prevent")
+            ev.stopPropagation();
+            ev.preventDefault();
+            ev.returnValue = false;
+            return false;
+          }
 
-      if (!up && -delta > scrollHeight - height - scrollTop) {
-        console.log("1")
-        // Scrolling down, but this will take us past the bottom.
-        $this.scrollTop(scrollHeight);
-        return prevent();
-      } else if (up && delta > scrollTop) {
-        console.log("2")
-        // Scrolling up, but this will take us past the top.
-        $this.scrollTop(0);
-        return prevent();
-      }
-    });
+          if (!up && -delta > scrollHeight - height - scrollTop) {
+            // Scrolling down, but this will take us past the bottom.
+            $this.scrollTop(scrollHeight);
+            return prevent();
+          } else if (up && delta > scrollTop) {
+            // Scrolling up, but this will take us past the top.
+            $this.scrollTop(0);
+            return prevent();
+          }
+        }
+        )
+      }, 0)
+    }; d
 
-  </script> -->
+  </script>
 </body>
 
 </html>

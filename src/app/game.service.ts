@@ -67,7 +67,7 @@ export class GameService {
     } else
       console.log("Github build")
 
-    this.router.navigateByUrl('/')
+    this.router.navigateByUrl('/main/unit/unit/G1')
   }
 
   update() {

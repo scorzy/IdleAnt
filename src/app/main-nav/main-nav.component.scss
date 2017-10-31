@@ -10,9 +10,6 @@ $height: 24px;
 .clr-vertical-nav {
    width: 320px !important;
    padding-top: 12px;
-   //height: calc(100vh - 108px) !important;
-  //  display:block !important;
-  //  overflow-y: scroll;
 }
 
 .resName{
@@ -24,31 +21,19 @@ $height: 24px;
   display: inline-block;
 }
 
-// .content-area {
-//   max-height: calc(100vh - 108px) !important;
-// }
-
 .unit-group{
-  margin-left: -21px !important;
+  margin-left: -28px !important;
+  // font-size:13px;
 }
 
-.clr-treenode-link.active{
-  background-color: #fafafa;
-}
+// .clr-treenode-link.active{
+//   background-color: #fafafa;
+// }
 
 .experience{
   margin-left: 30px !important;
 }
-// .clr-treenode-link{
-//   height:auto;
-// }
 
-// :host /deep/ .nav-content{
-//   min-height: 500px;
-//   display:block !important;
-//   overflow-y: hidden  !important;
-// }
-
-// :host /deep/ .clr-treenode-content{
-//   line-height:25px !important;
-// }
+.clr-treenode-link{
+  height:auto;
+}

@@ -1,3 +1,8 @@
+0.0.10 - 31-10-2017
+- some ui fix
+- prevent scrolling (in progress)
+- poison plant fix
+
 0.0.9 - 28-10-2017
 - more compressed save
 - beetle are less effective

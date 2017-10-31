@@ -22,6 +22,8 @@ import { Unit } from '../model/units/unit';
 import * as numberformat from 'swarm-numberformat';
 import { Base } from '../model/units/base';
 
+declare let preventScroll
+
 @Component({
   selector: 'app-unit',
   templateUrl: './main-nav.component.html',
@@ -64,6 +66,8 @@ export class MainNavComponent implements OnInit, OnDestroy {
         return;
       }
     });
+
+    preventScroll()
   }
 
   ngOnDestroy() {

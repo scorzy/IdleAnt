@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { GameService } from '../game.service';
 import { Research } from '../model/units/action';
 
+declare let preventScroll
+
 @Component({
   selector: 'app-lab',
   templateUrl: './lab.component.html',
@@ -16,6 +18,8 @@ export class LabComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.gameService.game.isLab = true
+
+    preventScroll()
   }
 
   ngOnDestroy() {
