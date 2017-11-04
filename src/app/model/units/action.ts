@@ -279,7 +279,7 @@ export class UpHire extends Action {
     super("upH",
       "Twin",
       n => {
-        this.unit.quantity = this.unit.quantity.plus(this.unit.buyAction.quantity)
+        this.unit.quantity = this.unit.quantity.plus(this.unit.buyAction.quantity.times(n))
         return true;
       },
       costs,
