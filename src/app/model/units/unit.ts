@@ -165,9 +165,9 @@ export class Unit extends Base {
 
   checkUp() {
     this.showUp =
-      (this.upHire && this.upHire.checkBuy()) ||
-      (this.upAction && this.upAction.checkBuy()) ||
-      (this.upSpecial && this.upSpecial.checkBuy())
+      (this.upHire && this.upHire.show && this.upHire.checkBuy()) ||
+      (this.upAction && this.upAction.show && this.upAction.checkBuy()) ||
+      (this.upSpecial && this.upSpecial.show && this.upSpecial.checkBuy())
   }
 
   reloadtAct() {

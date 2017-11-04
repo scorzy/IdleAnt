@@ -142,6 +142,17 @@ export class GameModel {
 
     this.all = Array.from(this.unitMap.values()).filter(u => !u.neverEnding)
 
+    this.all.forEach(u => {
+      if (u.upHire)
+        u.upHire.showHide = true
+
+      if (u.upAction)
+        u.upAction.showHide = true
+
+      if (u.upSpecial)
+        u.upSpecial.showHide = true
+    })
+
     this.world = World.getBaseWorld(this)
 
     this.generateRandomWorld()
@@ -437,7 +448,7 @@ export class GameModel {
     save.pause = this.pause
 
     // save.gameVers = "0.0.1"
-    save.gameVers = "0.0.9"
+    save.gameVers = "0.1.0"
     return LZString.compressToBase64(JSON.stringify(save))
 
   }

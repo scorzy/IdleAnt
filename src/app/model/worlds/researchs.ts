@@ -361,7 +361,7 @@ export class Researchs implements WorldInterface {
     //    Hunter 2
     const hunting2 = new Research(
       "HuntR2",
-      "Advanced Hunting", "Equip an ants with better weapons.",
+      "Advanced Hunting", "Equip ants with better weapons.",
       [new Cost(this.game.baseWorld.science, Decimal(4000))],
       [this.game.baseWorld.advancedHunter], this.game
     )
@@ -369,7 +369,7 @@ export class Researchs implements WorldInterface {
     //    Hunter
     const hunting = new Research(
       "HuntR1",
-      "Hunting", "Equip an ant with a weapon to get food.",
+      "Hunting", "Equip ants with weapons to get food.",
       [new Cost(this.game.baseWorld.science, Decimal(2000))],
       [this.game.baseWorld.hunter, hunting2, this.specialResearch], this.game
     )

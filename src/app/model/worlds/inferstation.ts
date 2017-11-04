@@ -36,7 +36,7 @@ export class Infestation implements WorldInterface {
     this.poisonousPlant = new Unit(this.game, "poisPlant", "Poisonous Plant",
       "This plant may kill them all.")
     this.poisonousPlant2 = new Unit(this.game, "poisPlant2", "Old Poisonous Plant",
-      "Process poisonus plants!.")
+      "Produces poisonus plants!.")
     this.disinfestationAnt = new Unit(this.game, "defAnt", "Disinfestation Ant",
       "Destroy poisonus plants.")
     this.flametrowerAnt = new Unit(this.game, "flameAnt", "Flamethrower Ant",

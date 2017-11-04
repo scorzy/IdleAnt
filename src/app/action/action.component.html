@@ -3,6 +3,11 @@
     <span *ngIf="!action.oneTime && action.showNumber">({{action.quantity | format}})</span>
   </h3>
 
+  <div class="toggle-switch hide" *ngIf="action.showHide">
+    <input type="checkbox" [id]="action.getId()" [(ngModel)]="action.show">
+    <label [for]="action.getId()">Show</label>
+  </div>
+
   <p class="card-text">
     <span>{{action.description}} &nbsp;</span>
     <br/>

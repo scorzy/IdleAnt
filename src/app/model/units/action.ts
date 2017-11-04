@@ -15,6 +15,8 @@ export class Action extends Base {
   public up: Action
   public limit: decimal.Decimal
   public showNumber = true
+  public show = true
+  public showHide = false
 
   realPriceNow = new Array<Cost>()
   maxBuy = new Decimal(0)
@@ -135,6 +137,21 @@ export class Action extends Base {
   }
   getId() {
     return (this.unit ? this.unit.id : "") + "_" + this.id
+  }
+  getData() {
+    const data = super.getData()
+    data.sh = this.show
+    return data
+  }
+  restore(data: any) {
+    super.restore(data)
+    this.show = true
+    if (typeof data.sh !== "undefined")
+      this.show = data.sh
+  }
+  initialize() {
+    super.initialize()
+    this.show = true
   }
 }
 
@@ -261,7 +278,10 @@ export class UpHire extends Action {
   ) {
     super("upH",
       "Twin",
-      null,
+      n => {
+        this.unit.quantity = this.unit.quantity.plus(this.unit.buyAction.quantity)
+        return true;
+      },
       costs,
       "Get more units for the same price.",
       game, unit
