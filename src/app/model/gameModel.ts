@@ -351,9 +351,9 @@ export class GameModel {
     if (this.activeUnit)
       this.activeUnit.reloadAtcMaxBuy()
 
-    if (this.timeModalOpened) {
+   // if (this.timeModalOpened) {
       this.prestige.time.reloadAtcMaxBuy()
-    }
+   // }
   }
 
   /**

@@ -28,6 +28,17 @@
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+
+          <clr-dropdown *ngIf="gameService.game.prestige.timeMaker.quantity.greaterThan(0)">
+            <button type="button" clrDropdownTrigger>Time Warp</button>
+            <clr-dropdown-menu clrPosition="left-top">
+              <a clrDropdownItem (click)="warp(p)" *ngFor="let p of minuteWarps"
+               [ngClass]="{'disabled': !warpAv(p)}">
+                Warp {{p}} minutes
+              </a>
+            </clr-dropdown-menu>
+          </clr-dropdown>
+
           <a clrDropdownItem (click)="all100()">All 100%</a>
 
           <clr-dropdown *ngFor="let list of gameService.game.lists | filterListNotEmpty; trackBy:getListId">

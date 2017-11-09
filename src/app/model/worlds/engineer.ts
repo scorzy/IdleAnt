@@ -95,30 +95,30 @@ export class Engineers implements WorldInterface {
     this.game.lists.push(new TypeList("Engineers", this.listEnginer))
 
     this.composterDep = new Unit(this.game, "depaCo", "Composting Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.laserDep = new Unit(this.game, "depaLa", "Laser Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.hydroDep = new Unit(this.game, "depaHy", "Hydro Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.plantingDep = new Unit(this.game, "depaSo", "Planting Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.refineryDep = new Unit(this.game, "depaRef", "Refine Department",
-      "Yeild engineers.")
+      "Yield engineers.")
 
     this.mineDep = new Unit(this.game, "depaMi", "Mining Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.sandDep = new Unit(this.game, 'depaSa', "Sand Department",
-      'Yeild engineers.')
+      'Yield engineers.')
     this.woodDep = new Unit(this.game, "depaWo", "Wood Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.beeDep = new Unit(this.game, "depaBee", "Bee Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.iceDep = new Unit(this.game, "depaIce", "Ice Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.iceCompDep = new Unit(this.game, "depaIceComp", "Compacting Department",
-      "Yeild engineers.")
+      "Yield engineers.")
     this.lensDep = new Unit(this.game, "depaEnginer", "Burning Lens Department",
-      "Yeild engineers.")
+      "Yield engineers.")
 
     this.sandDep.avabileBaseWorld = false
     this.mineDep.avabileBaseWorld = false

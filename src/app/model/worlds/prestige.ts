@@ -144,7 +144,7 @@ export class Prestige implements WorldInterface {
     //#region  Machinery
     this.expMachinery = new Array<Unit>()
     this.pMachineryPower = new Unit(this.game, "pMach", "Machinery Power",
-      "Machinery yeild and consume 30% more resources.", true)
+      "Machinery yield and consume 30% more resources.", true)
     this.pMachineryPower.actions.push(new BuyAction(this.game, this.pMachineryPower,
       [new Cost(this.experience, Decimal(20), expIncrement)]))
     this.expMachinery.push(this.pMachineryPower)
