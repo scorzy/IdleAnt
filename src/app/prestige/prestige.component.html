@@ -67,11 +67,12 @@
   <ng-template #av_content>
     <div *ngIf="!skip">
       <p> By going away you will earn {{gameService.game.getExperience() | format}} experience. High level
-        worlds will yield more experience but require more resource. </p>
+        worlds will yield more experience but require more. </p>
     </div>
     <div *ngIf="skip">
-      <p> By skipping this world you will not earn any experience! If you change your mind go to another
-        tab.
+      <p>
+        By skipping you will be able to change worlds, but you will not get experience! If you change your mind
+        go to another tab.
       </p>
     </div>
     <div>
@@ -120,7 +121,7 @@
                 Production of {{p[0].name}} x {{p[1] }}
               </li>
               <li *ngFor="let p of world.unitMod">
-                {{p[0].name}} yield and consume x{{p[1]}} more resources
+                {{p[0].name}} yields and consume x{{p[1]}} more resources
                 <!-- {{p[0].name}} production x {{p[1] }} -->
               </li>
               <li *ngFor="let p of world.unitPrice"> {{p[0].name}} price x {{p[1] }} </li>

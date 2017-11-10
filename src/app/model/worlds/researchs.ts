@@ -55,7 +55,7 @@ export class Researchs implements WorldInterface {
     this.bi = new Research(
       "biResea",
       "Business Intelligence",
-      "See who produce or consume your resources.",
+      "See who produces or consumes your resources.",
       [new Cost(this.game.baseWorld.science, Decimal(2E3))],
       [],
       this.game
@@ -88,21 +88,6 @@ export class Researchs implements WorldInterface {
         this.game.world.experience = this.game.world.experience.times(3)
       }
     )
-
-    //    Missing
-    // this.missing = new Research(
-    //   "missing",
-    //   "Missing", "Get 50% of missing world travel requirement.",
-    //   [new Cost(this.game.baseWorld.science, Decimal(2E11))],
-    //   [],
-    //   this.game,
-    //   () => {
-    //     this.game.world.toUnlock.filter(t => t.basePrice.greaterThan(t.unit.quantity))
-    //       .forEach(t => t.unit.quantity = t.unit.quantity.plus(
-    //         t.basePrice.minus(t.unit.quantity).div(2)
-    //       ))
-    //   }
-    // )
 
     //    Escape
     this.escape = new Research(
@@ -202,15 +187,6 @@ export class Researchs implements WorldInterface {
     )
     this.game.baseWorld.science.bonusProduction.push([this.scientificMethod, Decimal(1)])
 
-    // //    Stage
-    // this.stageRes = new Research(
-    //   "stageRes",
-    //   "Stage", "Stage.",
-    //   [new Cost(this.game.baseWorld.science, Decimal(3E6))],
-    //   this.game.machines.stageList,
-    //   this.game
-    // )
-
     const deps: Array<Unlocable> = this.game.engineers.listDep
     this.departmentRes = new Research(
       "departementsRes",
@@ -279,7 +255,7 @@ export class Researchs implements WorldInterface {
     //    Experiment
     this.experimentResearch = new Research(
       "experimentRes",
-      "Experiment", "Unlock scientist Ant",
+      "Experiment", "Unlocks scientist Ant",
       [new Cost(this.game.baseWorld.science, Decimal(800))],
       [this.game.science.scientist, this.scientificMethod],
       this.game
@@ -288,7 +264,7 @@ export class Researchs implements WorldInterface {
     //    Prestige
     this.prestigeResearch = new Research(
       "prestigeRes",
-      "Travel", "Allow you to move to new worlds",
+      "Travel", "Allows you to move to new worlds",
       [new Cost(this.game.baseWorld.science, Decimal(1E7))],
       [this.hereAndNow, this.adaptation, this.evolution],
       this.game,
@@ -300,7 +276,7 @@ export class Researchs implements WorldInterface {
     listM = listM.concat(this.game.machines.listMachinery, [this.engineerRes])
     this.machineryRes = new Research(
       "machiRes",
-      "Machinery", "Unlock powerful machinery.",
+      "Machinery", "Unlocks powerful machinery.",
       [new Cost(this.game.baseWorld.science, Decimal(1E6))],
       listM,
       this.game
@@ -309,7 +285,7 @@ export class Researchs implements WorldInterface {
     //    Special
     this.specialResearch = new Research(
       "speRes",
-      "Technology", "Allow you to research new technologies.",
+      "Technology", "Allows you to research new technologies.",
       [new Cost(this.game.baseWorld.science, Decimal(3E3))],
       [this.composterResearch, this.refineryResearch, this.laserResearch, this.hydroResearch,
       this.planterResearch, this.experimentResearch,
@@ -332,7 +308,7 @@ export class Researchs implements WorldInterface {
     allUpH.push(this.upCombined)
     const r4 = new Research(
       "R4",
-      "Twin", "Allow you to get more units for the same price.",
+      "Twin", "Allows you to get more units for the same price.",
       [new Cost(this.game.baseWorld.science, Decimal(7E3))],
       allUpH,
       this.game
@@ -343,7 +319,7 @@ export class Researchs implements WorldInterface {
     allUp.push(r4)
     const r2 = new Research(
       "R2",
-      "Teamwork 2", "Upgrade even your unit's production bonus.",
+      "Teamwork 2", "Upgrade your unit's production bonus.",
       [new Cost(this.game.baseWorld.science, Decimal(500))],
       allUp,
       this.game
@@ -352,7 +328,7 @@ export class Researchs implements WorldInterface {
     //    Up basic
     this.up1 = new Research(
       "RUp1",
-      "Teamwork", "Give a production bonus based on how many times you have bought a unit.",
+      "Teamwork", "Gives a production bonus based on how many times you have bought a unit.",
       [new Cost(this.game.baseWorld.science, Decimal(50))],
       [r2],
       this.game
@@ -377,7 +353,7 @@ export class Researchs implements WorldInterface {
     //    Wood
     const woodcutting = new Research(
       "WR1",
-      "Woodcutting", "Allow you to collect wood for future usage.",
+      "Woodcutting", "Allows you to collect wood for future usage.",
       [new Cost(this.game.baseWorld.science, Decimal(1000))],
       [this.game.baseWorld.lumberjack, hunting], this.game
     )
@@ -385,7 +361,7 @@ export class Researchs implements WorldInterface {
     //    Fungus up
     const r3 = new Research(
       "R3",
-      "Fungus experiments", "Allow you to do experiments to increase fungus's food production.",
+      "Fungus experiments", "Allows you to do experiments to increase fungus's food production.",
       [new Cost(this.game.baseWorld.science, Decimal(1000))],
       [this.game.baseWorld.fungus.upSpecial], this.game
     )
@@ -393,7 +369,7 @@ export class Researchs implements WorldInterface {
     //    Farming
     const r1 = new Research(
       "R1",
-      "Ant–fungus symbiosis", "Allow you to cultivate fungus. Fungus is a source of food.",
+      "Ant–fungus symbiosis", "Allows you to cultivate fungus. Fungus is a source of food.",
       [new Cost(this.game.baseWorld.science, Decimal(100))],
       [this.game.baseWorld.farmer, r3, woodcutting], this.game
     )
@@ -401,7 +377,7 @@ export class Researchs implements WorldInterface {
     //    Soil
     this.rDirt = new Research(
       "RDirt",
-      "Soil", "Allow you to collect soil for future usage.",
+      "Soil", "Allows you to collect soil for future usage.",
       [new Cost(this.game.baseWorld.science, Decimal(50))],
       [this.game.baseWorld.soil, this.game.baseWorld.carpenter, r1, this.up1], this.game
     )

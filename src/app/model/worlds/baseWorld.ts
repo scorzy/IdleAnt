@@ -100,7 +100,7 @@ export class BaseWorld implements WorldInterface {
     this.fungus = new Unit(this.game, "fun", "Fungus", "Fungus is a source of food.")
     this.listMaterial.push(this.fungus)
 
-    this.wood = new Unit(this.game, "wood", "Wood", "Wood is used to make better nest and machinery.")
+    this.wood = new Unit(this.game, "wood", "Wood", "Wood is used to make better nests and machinery.")
     this.listMaterial.push(this.wood)
 
     this.sand = new Unit(this.game, "sand", "Sand", "Sand can be used to make crystals.")
@@ -122,26 +122,26 @@ export class BaseWorld implements WorldInterface {
   }
   declareGenerators() {
     this.littleAnt = new Unit(this.game, "G1", "Ant",
-      "Ant are the lowest class of worker. They continuously gather food.")
+      "Ants are the lowest class of worker. They continuously gather food.")
     this.queenAnt = new Unit(this.game, "G2", "Queen",
       "Queen produces ants.")
     this.nestAnt = new Unit(this.game, "G3", "Nest",
-      "Nest produces queen.")
+      "Nest produces queens.")
   }
   declareJobs() {
-    this.geologist = new Unit(this.game, "geo", "Geologist", "Geologist yield crystal.")
+    this.geologist = new Unit(this.game, "geo", "Geologist", "Geologists yield crystals.")
     // this.geologist.types = [Type.Ant, Type.Mining]
     this.listJobs.push(this.geologist)
 
-    this.carpenter = new Unit(this.game, "car", "Carpenter", "carpenters yield soil.")
+    this.carpenter = new Unit(this.game, "car", "Carpenter", "carpenters yield soils.")
     // this.carpenter.types = [Type.Ant, Type.SoilG]
     this.listJobs.push(this.carpenter)
 
-    this.farmer = new Unit(this.game, "far", "Farmer", "Farmer yield fungus.")
+    this.farmer = new Unit(this.game, "far", "Farmer", "Farmers yield fungus.")
     // this.farmer.types = [Type.Ant, Type.Farmer]
     this.listJobs.push(this.farmer)
 
-    this.lumberjack = new Unit(this.game, "lum", "Lumberjack", "Lumberjack yield wood.")
+    this.lumberjack = new Unit(this.game, "lum", "Lumberjack", "Lumberjacks yield woods.")
     // this.lumberjack.types = [Type.Ant, Type.WoodG]
     this.listJobs.push(this.lumberjack)
 
@@ -499,7 +499,7 @@ export class BaseWorld implements WorldInterface {
         [], [],
         Decimal(2)
       ),
-      new World(this.game, "of Crystall", "",
+      new World(this.game, "of Crystal", "",
         [this.game.machines.mine, this.game.engineers.mineEnginer],
         [[this.crystal, Decimal(2)]],
         [], [], [], [],

@@ -120,7 +120,7 @@ export class Prestige implements WorldInterface {
     this.pCarpenterNext = new Unit(this.game, "pcarn", "Carpenter follower",
       "Start new worlds with 5 more carpenters.", true)
     this.pLumberjackNext = new Unit(this.game, "plumn", "Lumberjack follower",
-      "Start new worlds with 5 more lumberjack.", true)
+      "Start new worlds with 5 more lumberjacks.", true)
 
     this.expFollower = [this.pAntNext, this.pGeologistNext, this.pScientistNext,
     this.pFarmerNext, this.pCarpenterNext, this.pLumberjackNext]
@@ -144,7 +144,7 @@ export class Prestige implements WorldInterface {
     //#region  Machinery
     this.expMachinery = new Array<Unit>()
     this.pMachineryPower = new Unit(this.game, "pMach", "Machinery Power",
-      "Machinery yield and consume 30% more resources.", true)
+      "Machinery yields and consume 30% more resources.", true)
     this.pMachineryPower.actions.push(new BuyAction(this.game, this.pMachineryPower,
       [new Cost(this.experience, Decimal(20), expIncrement)]))
     this.expMachinery.push(this.pMachineryPower)
@@ -306,12 +306,12 @@ export class Prestige implements WorldInterface {
       "Time can be used to go to the future. One unit of time corresponds to one second.", true)
 
     this.timeMaker = new Unit(this.game, "ptimeMaker", "Time Generator",
-      "Time Generator generate time at 1/10 of real life speed. It's not affected by pause and time warps.", true)
+      "Time Generator generates time at 1/10 of real life speed. It's not affected by pause and time warps.", true)
     this.timeMaker.percentage = 100
     this.timeMaker.alwaysOn = true
 
     this.timeBank = new Unit(this.game, "ptimeBank", "Time Bank",
-      "Time Bank increase the maxium time storage by 1 hour. Base storage is 4 hours.", true)
+      "Time Bank increases the maxium time storage by 1 hour. Base storage is 4 hours.", true)
 
     this.timeMaker.actions.push(new BuyAction(this.game, this.timeMaker,
       [new Cost(this.experience, Decimal(25), expIncrement)]))
