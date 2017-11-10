@@ -1,3 +1,6 @@
+0.1.2 - 10-11-2017
+- fixed typos
+
 0.1.1 - 09-11-2017
 - fixed typos
 - added time warp preset
@@ -25,7 +28,7 @@
 0.0.7 - 27-10-2017
 - code optimization
 - max level increased to 1000 (10.040 Nest)
-- changed xp formula, now high level world yield more experience
+- changed xp formula, now high level worlds yield more experience
 - added university and engineers makers
 - x 10 starting Old Poisonous Plant
 - weedkiller consume fungus and is 10 time less effective
