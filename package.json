@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "cp-cli ./decimalJsTypes.js ./node_modules/@types/decimal.js/index.d.ts",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -29,6 +30,7 @@
     "clarity-icons": "^0.10.1",
     "clarity-ui": "^0.10.1",
     "core-js": "^2.5.1",
+    "cp-cli": "^1.1.0",
     "decimal.js": "^7.2.3",
     "lz-string": "^1.4.4",
     "moment": "^2.18.1",
