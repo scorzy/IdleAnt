@@ -21,7 +21,7 @@ export class OptionsComponent implements OnInit {
     preventScroll()
   }
 
-  save(event: Event) { this.gameService.save() }
+  save(event: Event) { this.gameService.save(false) }
   load(event: Event) { this.gameService.load() }
   clear(event: Event) { this.gameService.clear() }
 

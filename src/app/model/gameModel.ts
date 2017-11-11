@@ -33,6 +33,8 @@ export class GameModel {
 
   isChanged = true
   timeToEnd = Number.POSITIVE_INFINITY
+  gameVersion = "0.1.3"
+  hideSaveNotification = false
 
   //#region
   //    Cost
@@ -351,9 +353,9 @@ export class GameModel {
     if (this.activeUnit)
       this.activeUnit.reloadAtcMaxBuy()
 
-   // if (this.timeModalOpened) {
-      this.prestige.time.reloadAtcMaxBuy()
-   // }
+    // if (this.timeModalOpened) {
+    this.prestige.time.reloadAtcMaxBuy()
+    // }
   }
 
   /**
@@ -446,9 +448,8 @@ export class GameModel {
     save.ml = this.maxLevel
     save.htv = this.homeTabAv
     save.pause = this.pause
-
-    // save.gameVers = "0.0.1"
-    save.gameVers = "0.1.0"
+    save.hsn = this.hideSaveNotification
+    save.gameVers = this.gameVersion
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -539,6 +540,9 @@ export class GameModel {
 
       if (save.pause)
         this.pause = true
+
+      if (save.hsn)
+        this.hideSaveNotification = save.hsn
 
       this.reloadProduction()
       this.unitLists.splice(0, this.unitLists.length)

@@ -18,6 +18,10 @@
     <button class="btn btn-success" (click)="export($event)">Export</button>
     <button class="btn btn-primary" (click)="import($event)">Import</button>
   </div>
-
+  <div class="toggle-switch">
+    <input type="checkbox" id="toggle_1" [(ngModel)]="gameService.game.hideSaveNotification">
+    <label for="toggle_1">Hide success save notification</label>
+  </div><br/>
+  <span>Version: {{gameService.game.gameVersion}}</span>
   <a href="https://scorzy.github.io/IdleAnt/changelog.txt" target="_blank">Changelog</a>
 </div>
