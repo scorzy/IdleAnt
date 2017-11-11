@@ -45,3 +45,7 @@
 .actMinH{
   min-height: 400px;
 }
+
+:host /deep/ clr-tree-node {
+  overflow-y: visible !important;
+}
