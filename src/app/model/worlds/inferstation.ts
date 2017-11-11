@@ -36,13 +36,13 @@ export class Infestation implements WorldInterface {
     this.poisonousPlant = new Unit(this.game, "poisPlant", "Poisonous Plant",
       "This plant may kill them all.")
     this.poisonousPlant2 = new Unit(this.game, "poisPlant2", "Old Poisonous Plant",
-      "Produces poisonus plants!.")
+      "Produces poisonous plants!")
     this.disinfestationAnt = new Unit(this.game, "defAnt", "Disinfestation Ant",
-      "Destroy poisonus plants.")
+      "Destroy poisonous plants.")
     this.flametrowerAnt = new Unit(this.game, "flameAnt", "Flamethrower Ant",
-      "Burn poisonus plants.")
+      "Burn poisonous plants.")
     this.weedkiller = new Unit(this.game, "weedkiller", "Weedkiller",
-      "Destroy poisonus plants efficently.")
+      "Destroy poisonous plants efficently.")
     this.chemistAnt = new Unit(this.game, "chemistAnt", "Chemist Ant",
       "Proces weedkiller.")
     this.disinfestationBeetle = new Unit(this.game, "disinfestationBeetle", "Disinfestation Beetle",
@@ -69,7 +69,7 @@ export class Infestation implements WorldInterface {
     //    Weedkiller
     this.weedkillerRes = new Research(
       "weedkillerRes",
-      "Weedkiller", "Weedkiller will slowly kill poisonus plants.",
+      "Weedkiller", "Weedkiller will slowly kill poisonous plants.",
       [new Cost(this.game.baseWorld.science, Decimal(1E4))],
       [this.weedkiller, this.chemistAnt],
       this.game
@@ -78,7 +78,7 @@ export class Infestation implements WorldInterface {
     //    Flame
     this.flametrowerRes = new Research(
       "flametrowerRes",
-      "Flamethrower", "Burn poisonus plants.",
+      "Flamethrower", "Burn poisonous plants.",
       [new Cost(this.game.baseWorld.science, Decimal(1E3))],
       [this.flametrowerAnt, this.flametrowerBeetle],
       this.game
