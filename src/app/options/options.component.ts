@@ -30,7 +30,7 @@ export class OptionsComponent implements OnInit {
   }
 
   import(event: Event) {
-    this.gameService.game.load(this.stringSave)
+    this.gameService.game.load(this.stringSave.trim())
   }
 
 }
