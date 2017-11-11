@@ -13,7 +13,7 @@ http://www.kongregate.com/games/scorzy88/idle-ants
 ## To Compile
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.4.
 
-Run `npm install` than override the content of node_modules/@types/decimal.js/index.d.ts with the content decimalJsTypes.js
+Run `npm install`, then override the `node_modules/@types/decimal.js/index.d.ts` file with the `decimalJsTypes.js` file.
 
 ## Development server
 
