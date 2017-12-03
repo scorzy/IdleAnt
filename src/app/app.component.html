@@ -41,7 +41,7 @@
 
           <a clrDropdownItem (click)="all100()">All 100%</a>
 
-          <clr-dropdown *ngFor="let list of gameService.game.lists | filterListNotEmpty; trackBy:getListId">
+          <clr-dropdown *ngFor="let list of gameService.game.lists | filterListNotEmpty">
             <button type="button" clrDropdownTrigger>{{list.type}}</button>
             <clr-dropdown-menu clrPosition="left-top">
               <a clrDropdownItem (click)="list.allCustom(p)" *ngFor="let p of percentPreset">{{p}}%</a>

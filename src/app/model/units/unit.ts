@@ -43,6 +43,10 @@ export class Unit extends Base {
 
   togableProductions: Array<TogableProduction> = null
 
+  a = Decimal(0)
+  b = Decimal(0)
+  c = Decimal(0)
+
   constructor(
     public model: GameModel,
     id: string,
