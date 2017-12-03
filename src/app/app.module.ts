@@ -21,6 +21,9 @@ import { PricePipePipe } from './price-pipe.pipe';
 import { ProdToglePipePipe } from './prod-togle-pipe.pipe';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { ToastOptions } from 'ng2-toastr/src/toast-options';
+import { OptNavComponent } from './opt-nav/opt-nav.component';
+import { UiComponent } from './ui/ui.component';
+import { CreditComponent } from './credit/credit.component';
 
 const appRoutes: Routes = [
   {
@@ -37,7 +40,12 @@ const appRoutes: Routes = [
     path: 'lab', component: LabComponent
   },
   {
-    path: 'options', component: OptionsComponent
+    path: 'options', component: OptNavComponent,
+    children: [
+      { path: 'save', component: OptionsComponent },
+      { path: 'ui', component: UiComponent },
+      { path: 'credit', component: CreditComponent },
+    ]
   },
   {
     path: 'prestige', component: PrestigeComponent
@@ -99,7 +107,10 @@ export class CustomOptions extends ToastOptions {
     HomeWorldComponent,
     FilterActive,
     PricePipePipe,
-    ProdToglePipePipe
+    ProdToglePipePipe,
+    OptNavComponent,
+    UiComponent,
+    CreditComponent
   ],
   imports: [
     BrowserModule,

@@ -28,8 +28,13 @@
 
 <body>
   <app-root></app-root>
+  <link rel="stylesheet" type="text/css" href="clarity-ui-dark.min.css" disabled id="darkCss"/>
 
   <script>
+    setCss = function (dark) {
+      document.getElementById("darkCss").disabled = !dark
+    }
+
     preventScroll = function () {
       setTimeout(function () {
         $('.nav-content, .content-area').on('DOMMouseScroll mousewheel', function (ev) {
@@ -64,7 +69,7 @@
         }
         )
       }
-      , 0)
+        , 0)
     };
 
   </script>

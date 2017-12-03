@@ -7,45 +7,48 @@
 //     min-height: 100vh;
 //     height:auto!important;
 // }
-
-:host /deep/ .content-area{
-    padding:10px 24px 24px 24px !important;
+:host /deep/ .content-area {
+    padding: 10px 24px 24px 24px !important;
 }
 
-.matTab{
-  width:10%;
-  max-width:110px;
-  margin-left: 5px;
-}
-.matLink{
-  width:100%;
-  line-height: 24px;
-  border-style: solid;
-  border-width: 0px 1px 0px 0px;
-}
-.navMat{
-  padding-left: 5px;
-  height: 48px;
-}
-.perSecTab{
-  float:right;
+.matTab {
+    width: 10%!important;
+    max-width: 110px!important;
+    margin-left: 5px!important;
 }
 
-.main-container .subnav{
-  flex:0 0 48px;
-}
-.red{
-  color:#F52F22 !important;
-}
-
-.small{
-  font-size:13px;
+.matLink {
+    width: 100%!important;
+    line-height: 24px!important;
+    border-style: solid!important;
+    border-width: 0px 1px 0px 0px!important;
 }
 
-.actMinH{
-  min-height: 400px;
+.navMat {
+    padding-left: 5px!important;
+    height: 48px!important;
+}
+
+.perSecTab {
+    float: right;
+}
+
+.main-container .subnav {
+    flex: 0 0 48px;
+}
+
+.red {
+    color: #F52F22 !important;
+}
+
+.small {
+    font-size: 13px;
+}
+
+.actMinH {
+    min-height: 400px;
 }
 
 :host /deep/ clr-tree-node {
-  overflow-y: visible !important;
+    overflow-y: visible !important;
 }

@@ -12,7 +12,8 @@
         "favicon.ico",
         "img",
         "changelog.txt",
-        "iframe.html"
+        "iframe.html",
+        { "glob": "**/*", "input": "../node_modules/clarity-ui/", "output": "./" }
       ],
       "index": "index.html",
       "main": "main.ts",

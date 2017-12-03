@@ -28,6 +28,7 @@ import { Researchs } from './worlds/researchs';
 import { Prestige } from './worlds/prestige';
 import { Infestation } from './worlds/inferstation';
 import { Science } from './worlds/science';
+import { Options } from './options';
 
 export class GameModel {
 
@@ -35,6 +36,8 @@ export class GameModel {
   timeToEnd = Number.POSITIVE_INFINITY
   gameVersion = "0.1.3"
   hideSaveNotification = false
+
+  options: Options = new Options()
 
   //#region
   //    Cost
