@@ -55,7 +55,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
       this.mioId = params['type']
       // console.log(this.mioId)
       if (this.mioId === "unit") {
-        this.typeLists = this.gameService.game.lists
+        this.typeLists = this.gameService.game.uiLists
         // this.typeLists = this.gameService.game.unitLists
       } else {
         this.typeLists = this.gameService.game.prestige.expLists

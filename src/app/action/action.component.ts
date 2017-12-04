@@ -2,6 +2,7 @@ import { Cost } from '../model/cost';
 import { Action } from '../model/units/action';
 import { AfterViewChecked, Component, Input, NgModule, OnInit, HostBinding } from '@angular/core';
 import * as numberformat from 'swarm-numberformat';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-action',
@@ -31,7 +32,7 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
   Math = Math
 
-  constructor() {
+  constructor(public gameService: GameService) {
 
   }
 
@@ -40,10 +41,15 @@ export class ActionComponent implements OnInit, AfterViewChecked {
   }
 
   getReqNum(): decimal.Decimal {
-    if (!this.required)
+    if (!this.gameService.game.buyMulti || this.gameService.game.buyMulti < 1)
       return Decimal(1)
 
-    return Decimal(Math.max(Math.min(this.required, this.action.maxBuy.toNumber()), 1))
+    return Decimal(Math.max(Math.min(this.gameService.game.buyMulti, this.action.maxBuy.toNumber()), 1))
+
+    // if (!this.required)
+    //   return Decimal(1)
+
+    // return Decimal(Math.max(Math.min(this.required, this.action.maxBuy.toNumber()), 1))
   }
 
   getPriceString1() {

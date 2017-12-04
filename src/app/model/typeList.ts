@@ -6,6 +6,8 @@ import { GameService } from '../game.service';
 export class TypeList {
   isCollapsed = false
   isEnding = false
+  uiList = new Array<Unit>()
+
   constructor(
     public type = "",
     public list = new Array<Unit>()
@@ -18,5 +20,8 @@ export class TypeList {
   allCustom(percent: number) {
     this.list.filter(u => !u.alwaysOn).forEach(u => u.percentage = percent)
     this.list[0].game.isChanged = true
+  }
+  reload() {
+    this.uiList = this.list.filter(u => u.unlocked)
   }
 }

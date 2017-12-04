@@ -13,6 +13,7 @@ import { Unit } from '../model/units/unit';
 import * as numberformat from 'swarm-numberformat';
 import * as moment from 'moment';
 import { Base } from '../model/units/base';
+import { GameModel } from '../model/gameModel';
 
 declare let preventScroll
 

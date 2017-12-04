@@ -9,3 +9,27 @@ table {
 .no-mg-top {
     margin-top: 0px !important;
 }
+
+.no-card-top {
+    margin-top: -12px !important;
+}
+
+.card {
+    margin-top: 12px !important;
+}
+
+.no-alert {
+    font-size: .54167rem;
+    letter-spacing: normal;
+    line-height: .75rem;
+    position: relative;
+    box-sizing: border-box;
+    display: table-row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    width: auto;
+    border-radius: 0px;
+    margin-top: auto;
+}

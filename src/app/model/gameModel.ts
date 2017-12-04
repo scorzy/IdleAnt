@@ -38,6 +38,7 @@ export class GameModel {
   hideSaveNotification = false
 
   options: Options = new Options()
+  buyMulti = 1
 
   //#region
   //    Cost
@@ -75,6 +76,7 @@ export class GameModel {
   unl: Array<Unit>
   allBase: Array<Base>
   lists = new Array<TypeList>()
+  uiLists = new Array<TypeList>()
   unitWithUp = new Array<Unit>()
 
   //    Prestige
@@ -165,6 +167,7 @@ export class GameModel {
     this.generateRandomWorld()
 
     this.setInitialStat()
+    this.prestige.expLists.forEach(v => v.reload())
 
     // console.log("prefix: " + World.worldPrefix.length)
     // console.log("type: " + World.worldTypes.length)
@@ -190,6 +193,7 @@ export class GameModel {
     this.unlockUnits(this.all.filter(u => u.quantity.greaterThan(0)))()
     this.unl = this.all.filter(u => u.unlocked)
     this.reloadProduction()
+    this.reloadLists()
     //  this.reloadList()
 
   }
@@ -414,6 +418,7 @@ export class GameModel {
       if (ok) {
         this.unitWithUp = this.all.filter(u => u.unlocked && (u.upHire || u.upSpecial || u.upAction))
         this.unl = this.all.filter(u => u.unlocked)
+        this.reloadLists()
       }
 
       // if (ok)
@@ -466,6 +471,8 @@ export class GameModel {
     save.pause = this.pause
     save.hsn = this.hideSaveNotification
     save.gameVers = this.gameVersion
+    save.opti = this.options
+
     return LZString.compressToBase64(JSON.stringify(save))
 
   }
@@ -495,12 +502,6 @@ export class GameModel {
       this.nextWorlds[0].restore(save.nw[0])
       this.nextWorlds[1].restore(save.nw[1])
       this.nextWorlds[2].restore(save.nw[2])
-
-      // for (const s of save.pre) {
-      //   const up = this.prestige.allPrestigeUp.find(p => p.id === s.id)
-      //   if (up)
-      //     up.restore(s)
-      // }
 
       for (const s of save.res) {
         const res = this.resList.find(p => p.id === s.id)
@@ -560,9 +561,14 @@ export class GameModel {
       if (save.hsn)
         this.hideSaveNotification = save.hsn
 
+      if (save.opti) {
+        this.options.load(save.opti)
+        this.options.apply()
+      }
+
       this.reloadProduction()
       this.unitLists.splice(0, this.unitLists.length)
-      //  this.reloadList()
+      this.reloadLists()
 
       return save.last
     }
@@ -593,6 +599,11 @@ export class GameModel {
   checkResearch() {
     this.resList.filter(r => r.unlocked && r.avabileThisWorld)
       .forEach(res => res.setMaxBuy())
+  }
+
+  reloadLists() {
+    this.lists.forEach(v => v.reload())
+    this.uiLists = this.lists.filter(u => u.uiList && u.uiList.length > 0)
   }
 
 }

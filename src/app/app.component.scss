@@ -52,3 +52,20 @@
 :host /deep/ clr-tree-node {
     overflow-y: visible !important;
 }
+
+.multiBuy {
+    border: none;
+    background: none;
+    color: #fafafa;
+    padding: 0;
+    vertical-align: middle;
+    max-width: 2.5rem;
+}
+
+#multiLabel:before {
+    display: none
+}
+
+.branding {
+    min-width: auto !important;
+}

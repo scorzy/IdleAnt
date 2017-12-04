@@ -1,6 +1,8 @@
 <clr-main-container>
 
-  <clr-header class="header-5">
+  <!-- class="header-5"  -->
+  <clr-header [ngClass]="getClass()">
+
     <div class="branding">
       <a href="javascript://" class="nav-link" routerLink="/main/unit">
         <!-- <clr-icon shape="vm-bug"></clr-icon> -->
@@ -22,6 +24,18 @@
     </div>
     <div class="header-actions">
 
+      <!-- <div class="form-group">
+        <label for="formFields_10">Textbox [type="tel"]</label>
+        <input type="tel" id="formFields_10" size="35">
+      </div> -->
+
+      <form class="search">
+        <!-- <label for="search_input"> -->
+        <label id="multiLabel" for="multi">Buy:&nbsp;</label>
+        <input class="multiBuy" min="1" id="multi" type="number" name="buyMulti" placeholder="Buy multiplier" [(ngModel)]="gameService.game.buyMulti">
+        <!-- </label> -->
+      </form>
+
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger>
           <clr-icon shape="tools"></clr-icon>
@@ -32,8 +46,7 @@
           <clr-dropdown *ngIf="gameService.game.prestige.timeMaker.quantity.greaterThan(0)">
             <button type="button" clrDropdownTrigger>Time Warp</button>
             <clr-dropdown-menu clrPosition="left-top">
-              <a clrDropdownItem (click)="warp(p)" *ngFor="let p of minuteWarps"
-               [ngClass]="{'disabled': !warpAv(p)}">
+              <a clrDropdownItem (click)="warp(p)" *ngFor="let p of minuteWarps" [ngClass]="{'disabled': !warpAv(p)}">
                 Warp {{p}} minutes
               </a>
             </clr-dropdown-menu>
@@ -63,7 +76,7 @@
         </ng-template>
       </a>
 
-      <a href="javascript://" class="nav-link nav-icon" routerLink="/options">
+      <a href="javascript://" class="nav-link nav-icon" routerLink="/options/save">
         <clr-icon shape="cog"></clr-icon>
       </a>
 

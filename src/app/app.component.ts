@@ -50,5 +50,8 @@ export class AppComponent {
   getListId(index, list: TypeList) {
     return list.getId()
   }
+  getClass() {
+    return "header-" + this.gameService.game.options.header
+  }
 }
 

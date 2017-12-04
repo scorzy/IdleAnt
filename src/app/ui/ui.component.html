@@ -1,4 +1,30 @@
-<div class="toggle-switch">
-  <input type="checkbox" id="toggle_1" [(ngModel)]="gameService.game.options.dark" (change)="setCss()">
-  <label for="toggle_1">Use Dark theme</label>
-</div>
+<form>
+
+  <section class="form-block">
+    <label>Ui options</label>
+
+    <div class="form-group">
+      <div class="toggle-switch">
+        <input name="dark" type="checkbox" id="toggle_1" [(ngModel)]="gameService.game.options.dark" (change)="setCss()">
+        <label for="toggle_1">Use Dark theme</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="selects_1">Header color</label>
+      <div class="select">
+        <select name="header" id="selects_1" [(ngModel)]="gameService.game.options.header">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+        </select>
+      </div>
+
+    </div>
+  </section>
+
+</form>
