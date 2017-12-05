@@ -8,16 +8,20 @@
     <label [for]="action.getId()">Show</label>
   </div>
 
-  <p class="card-text">
+  <div class="card-text">
     <span>{{action.description}} &nbsp;</span>
     <br/>
-    <span *ngIf="!action.oneTime">Getting one will costs:</span>
-    <span *ngIf="action.oneTime">Costs:</span>
-    <span *ngFor="let p of action.realPriceNow" [ngClass]="{'notEnought': p.basePrice.greaterThan(p.unit.quantity)}">
-      {{numberformat.formatShort(p.basePrice)}} {{p.unit.name}},
-    </span>
-    <br/>
-  </p>
+    <p *ngIf="!(action.oneTime && action.owned()) && !action.limit?.greaterThanOrEqualTo(action.maxBuy)">
+      <span *ngIf="!action.oneTime; else costs">Getting one will costs:</span>
+      <ng-template #costs>
+        <span *ngIf="action.oneTime">Costs:</span>
+      </ng-template>
+      <span *ngFor="let p of action.realPriceNow" [ngClass]="{'notEnought': p.basePrice.greaterThan(p.unit.quantity)}">
+        {{numberformat.formatShort(p.basePrice)}} {{p.unit.name}},
+      </span>
+      <br/>
+    </p>
+  </div>
 
   <div *ngIf="action.maxBuy.greaterThanOrEqualTo(1)">
 
@@ -31,8 +35,10 @@
       <div class="btn-group w-100" role="group">
 
         <button type="button" class="btn btn-secondary w-100" (click)="action.buy(getReqNum())" [disabled]="!action.maxBuy.greaterThanOrEqualTo(1)">
-          <span *ngIf="!action.oneTime">{{getPriceString1()}}</span>
-          <span *ngIf="action.oneTime">Get</span>
+          <span *ngIf="!action.oneTime ; else get">{{getPriceString1()}}</span>
+          <ng-template #get>
+            <span *ngIf="action.oneTime">Get</span>
+          </ng-template>
         </button>
         <button type="button " class="btn btn-secondary w-100" (click)="action.buy(action.maxBuy.div(2).ceil())"
           *ngIf="action.maxBuy.greaterThanOrEqualTo(3)">

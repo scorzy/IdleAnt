@@ -37,7 +37,7 @@ export class ActionComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-
+    this.action.maxBuy = this.action.getBuyMax()
   }
 
   getReqNum(): decimal.Decimal {
@@ -60,11 +60,11 @@ export class ActionComponent implements OnInit, AfterViewChecked {
 
   getBuyStringHalf() {
     return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
-      .times(this.action.getBuyMax().div(2).ceil()))
+      .times(this.action.maxBuy.div(2).ceil()))
   }
   getBuyStringMax() {
     return numberformat.formatShort(Decimal(this.action.up ? this.action.up.quantity.plus(1) : 1)
-      .times(this.action.getBuyMax()))
+      .times(this.action.maxBuy))
   }
 
   ngAfterViewChecked(): void {

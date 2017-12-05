@@ -335,3 +335,24 @@ export class TimeWarp extends Action {
     this.showNumber = false
   }
 }
+
+export class Resupply extends Action {
+
+  constructor(
+    game: GameModel,
+    unit: Unit,
+    public supplyPrestige: Unit) {
+    super("resup", "Resupply",
+      n => {
+        this.unit.quantity = this.unit.quantity.times(1.5)
+        return true
+      },
+      [], "Get 50% more", game, unit)
+    this.unit.upResup = this
+  }
+
+  getBuyMax(): decimal.Decimal {
+    this.limit = this.unit.prestigeBonusStart.quantity
+    return super.getBuyMax()
+  }
+}

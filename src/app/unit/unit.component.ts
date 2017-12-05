@@ -1,19 +1,19 @@
-import { setTimeout } from 'timers';
-import { ActionComponent } from '../action/action.component';
-import { Action } from '../model/units/action';
-import { Production } from '../model/production';
-import { Cost } from '../model/cost';
-import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Logger } from 'codelyzer/util/logger';
-import { AfterViewChecked, Component, HostBinding, OnChanges, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
-import { GameService } from '../game.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-import { Unit } from '../model/units/unit';
-import * as numberformat from 'swarm-numberformat';
-import * as moment from 'moment';
-import { Base } from '../model/units/base';
-import { GameModel } from '../model/gameModel';
+import { setTimeout } from 'timers'
+import { ActionComponent } from '../action/action.component'
+import { Action } from '../model/units/action'
+import { Production } from '../model/production'
+import { Cost } from '../model/cost'
+import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks'
+import { Logger } from 'codelyzer/util/logger'
+import { AfterViewChecked, Component, HostBinding, OnChanges, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core'
+import { GameService } from '../game.service'
+import { ActivatedRoute, ParamMap, Router } from '@angular/router'
+import 'rxjs/add/operator/switchMap'
+import { Unit } from '../model/units/unit'
+import * as numberformat from 'swarm-numberformat'
+import * as moment from 'moment'
+import { Base } from '../model/units/base'
+import { GameModel } from '../model/gameModel'
 
 declare let preventScroll
 

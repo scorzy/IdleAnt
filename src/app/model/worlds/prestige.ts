@@ -2,7 +2,7 @@ import { Production } from '../production';
 import { WorldInterface } from './worldInterface';
 import { Unit } from '../units/unit';
 import { GameModel } from '../gameModel';
-import { BuyAction, BuyAndUnlockAction, Research, TimeWarp, UpAction, UpHire, UpSpecial } from '../units/action';
+import { BuyAction, BuyAndUnlockAction, Research, TimeWarp, UpAction, UpHire, UpSpecial, Resupply } from '../units/action';
 import { Base } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
@@ -141,7 +141,7 @@ export class Prestige implements WorldInterface {
 
     //#endregion
 
-    //#region  Machinery
+    //#region Machinery
     this.expMachinery = new Array<Unit>()
     this.pMachineryPower = new Unit(this.game, "pMach", "Machinery Power",
       "Machinery yields and consume 30% more resources.", true)
@@ -209,14 +209,18 @@ export class Prestige implements WorldInterface {
       new Unit(this.game, "supp_" + sm.id, sm.name + " supply.",
         "Start new worlds with 100 more " + sm.name + ".", true))
 
-    this.supplyList.forEach(n => {
-      this.allPrestigeUp.push(n)
-      n.actions.push(new BuyAction(this.game, n,
-        [new Cost(this.experience, Decimal(12), expIncrement)]))
-    })
+    for (let i = 0; i < supplyMaterials.length; i++) {
+      const n = this.supplyList[i]
+      const resup = new Resupply(this.game, supplyMaterials[i], n)
 
-    for (let i = 0; i < supplyMaterials.length; i++)
+      this.allPrestigeUp.push(n)
+      n.actions.push(new BuyAndUnlockAction(this.game, n,
+        [new Cost(this.experience, Decimal(12), expIncrement)],
+        [resup]))
+
       supplyMaterials[i].prestigeBonusStart = this.supplyList[i]
+      supplyMaterials[i].actions.push(resup)
+    }
 
 
     this.expLists.push(new TypeList("Supply", this.supplyList))

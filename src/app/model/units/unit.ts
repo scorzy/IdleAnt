@@ -7,7 +7,7 @@ import * as decimal from 'decimal.js';
 import { GameModel } from '../gameModel';
 import { GameService } from '../../game.service';
 import { Cost } from '../cost';
-import { Action, BuyAction } from './action';
+import { Action, BuyAction, Resupply } from './action';
 import { TogableProduction } from './togableProductions';
 
 export class Unit extends Base {
@@ -26,6 +26,7 @@ export class Unit extends Base {
   upAction: Action
   upSpecial: Action
   upHire: Action
+  upResup: Resupply
 
   bonusProduction = Array<[Base, decimal.Decimal]>()
   prestigeBonusProduction = Array<Base>()
@@ -155,10 +156,10 @@ export class Unit extends Base {
 
     if (this.prestigeBonusStart) {
       this.quantity = this.prestigeBonusQuantityValue.times(this.prestigeBonusStart.quantity)
-      // if (this.quantity.greaterThan(0)) {
-      //   this.unlocked = true
-      // }
     }
+
+    if (this.upResup)
+      this.upResup.unlocked = this.upResup.supplyPrestige.quantity.greaterThan(0)
 
     this.producedBy.forEach(p => p.unlocked = p.defaultUnlocked)
   }

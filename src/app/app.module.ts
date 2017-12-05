@@ -24,6 +24,7 @@ import { ToastOptions } from 'ng2-toastr/src/toast-options';
 import { OptNavComponent } from './opt-nav/opt-nav.component';
 import { UiComponent } from './ui/ui.component';
 import { CreditComponent } from './credit/credit.component';
+import { Action } from './model/units/action';
 
 const appRoutes: Routes = [
   {

@@ -1,5 +1,4 @@
-<div class="content-area">
-
+<div>
   <p>
     Game autosaves every 3 minutes. You can also maually save, load and export savegames. Saves are stored
     in localstorage.
@@ -21,7 +20,8 @@
   <div class="toggle-switch">
     <input type="checkbox" id="toggle_1" [(ngModel)]="gameService.game.hideSaveNotification">
     <label for="toggle_1">Hide success save notification</label>
-  </div><br/>
+  </div>
+  <br/>
   <span>Version: {{gameService.game.gameVersion}}</span>
   <a href="https://scorzy.github.io/IdleAnt/changelog.txt" target="_blank">Changelog</a>
 </div>
