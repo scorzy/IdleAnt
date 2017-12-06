@@ -4,10 +4,10 @@ import { Unit } from './unit';
 import { Production } from '../production';
 import { first } from 'rxjs/operator/first';
 import { any } from 'codelyzer/util/function';
-import * as decimal from 'decimal.js';
 import { GameModel } from '../gameModel';
 import { GameService } from '../../game.service';
 import { Cost } from '../cost';
+import * as decimal from "break_infinity.js"
 
 export class Action extends Base {
 
@@ -86,25 +86,23 @@ export class Action extends Base {
   }
   getBuyMax(): decimal.Decimal {
     if (!this.unlocked)
-      return Decimal(0)
+      return new Decimal(0)
 
     const price = this.getRealPrices()
 
     //    https://blog.kongregate.com/the-math-of-idle-games-part-i/
-    let max = Decimal(Infinity)
+    let max = new Decimal(Number.POSITIVE_INFINITY)
     for (const p of price) {
+
       max = Decimal.min(max,
-        (p.growFactor.lessThanOrEqualTo(1) ?
-          p.unit.quantity.div(p.basePrice) :
-          Decimal.log(
-            (((p.growFactor.minus(1)).times(p.unit.quantity))
-              .div((p.growFactor.pow(this.quantity)).times(p.basePrice))
-            ).plus(1), p.growFactor.toNumber())
-        ).floor()
+        Math.floor(p.growFactor.lessThanOrEqualTo(1) ? p.unit.quantity.div(p.basePrice) : (
+          ((p.growFactor.minus(1)).times(p.unit.quantity))
+            .div((p.growFactor.pow(this.quantity)).times(p.basePrice))
+        ).plus(1).log(p.growFactor))
       )
     }
     if (this.oneTime && max.greaterThanOrEqualTo(1))
-      return Decimal(1)
+      return new Decimal(1)
 
     if (this.limit)
       max = Decimal.min(max, this.limit.minus(this.quantity))
@@ -119,7 +117,7 @@ export class Action extends Base {
   }
   setMaxBuy() {
     if (this.oneTime) {
-      this.maxBuy = !this.owned() && this.checkBuy() ? Decimal(1) : Decimal(0)
+      this.maxBuy = !this.owned() && this.checkBuy() ? new Decimal(1) : new Decimal(0)
     } else {
       this.maxBuy = this.getBuyMax()
     }
@@ -166,7 +164,7 @@ export class BuyAction extends Action {
       (n => {
         this.unit.quantity = this.unit.quantity.plus(
           n.times(
-            this.unit.upHire ? this.unit.upHire.quantity.plus(1) : Decimal(1)
+            this.unit.upHire ? this.unit.upHire.quantity.plus(1) : new Decimal(1)
           ))
         if (this.doNext)
           this.doNext()
@@ -259,8 +257,8 @@ export class UpSpecial extends Action {
       "Experiment",
       null,
       [
-        new Cost(unit, Decimal(100), Decimal(10)),
-        new Cost(unit.model.baseWorld.science, Decimal(100), Decimal(12))
+        new Cost(unit, new Decimal(100), new Decimal(10)),
+        new Cost(unit.model.baseWorld.science, new Decimal(100), new Decimal(12))
       ],
       "Do some experiments to increase the production.",
       game, unit
@@ -324,7 +322,7 @@ export class TimeWarp extends Action {
         this.game.isChanged = true
         return true
       }),
-      [new Cost(game.prestige.time, timeUnits, Decimal(1))],
+      [new Cost(game.prestige.time, timeUnits, new Decimal(1))],
       "Time warp by " + timeName, game
     )
     this.initialize()

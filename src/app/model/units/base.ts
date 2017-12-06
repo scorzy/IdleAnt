@@ -36,7 +36,7 @@ export class Base extends Unlocable {
     public description = "",
     // public types: Type[] = [],
     unlocked = false,
-    public quantity = Decimal(0),
+    public quantity = new Decimal(0),
     public avabileBaseWorld = true,
     public avabileThisWorld = true
   ) {
@@ -59,7 +59,7 @@ export class Base extends Unlocable {
     if (data.q)
       this.quantity = new Decimal(data.q)
     else
-      this.quantity = Decimal(0)
+      this.quantity = new Decimal(0)
     if (data.u)
       this.unlocked = data.u
     else
@@ -70,7 +70,7 @@ export class Base extends Unlocable {
 
   initialize() {
     this.unlocked = false
-    this.quantity = Decimal(0)
+    this.quantity = new Decimal(0)
     this.avabileThisWorld = this.avabileBaseWorld
   }
   isEnding(): boolean {

@@ -149,7 +149,7 @@ export class Engineers implements WorldInterface {
       e.actions.push(new BuyAction(this.game,
         e,
         [
-          new Cost(this.game.baseWorld.littleAnt, Decimal(1E4), this.game.buyExpUnit),
+          new Cost(this.game.baseWorld.littleAnt, new Decimal(1E4), this.game.buyExpUnit),
           new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.buyExp)
         ]
       ))
@@ -164,8 +164,8 @@ export class Engineers implements WorldInterface {
       const engineer = this.listEnginer[i]
       const machine = this.game.machines.listMachinery[i]
 
-      machine.addProductor(new Production(engineer, Decimal(0.01)))
-      this.game.baseWorld.science.addProductor(new Production(engineer, Decimal(-200)))
+      machine.addProductor(new Production(engineer, new Decimal(0.01)))
+      this.game.baseWorld.science.addProductor(new Production(engineer, new Decimal(-200)))
 
       machine.buyAction.priceF.forEach(price => {
         price.unit.addProductor(new Production(engineer, price.basePrice.div(-50)))
@@ -175,7 +175,7 @@ export class Engineers implements WorldInterface {
 
     //  Bee engineer should actually be a Bee
     this.beeEnginer.buyAction.priceF = [
-      new Cost(this.game.bee.foragingBee, Decimal(1E4), this.game.buyExpUnit),
+      new Cost(this.game.bee.foragingBee, new Decimal(1E4), this.game.buyExpUnit),
       new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.buyExp)
     ]
 
@@ -188,15 +188,15 @@ export class Engineers implements WorldInterface {
       const machine = this.game.machines.listMachinery[i]
       const dep = this.listDep[i]
 
-      engineer.addProductor(new Production(dep, Decimal(1)))
-      this.game.baseWorld.science.addProductor(new Production(dep, Decimal(-2000)))
+      engineer.addProductor(new Production(dep, new Decimal(1)))
+      this.game.baseWorld.science.addProductor(new Production(dep, new Decimal(-2000)))
 
       dep.actions.push(new BuyAction(this.game,
         dep,
         [
-          new Cost(this.game.science.university, Decimal(1), this.game.buyExpUnit),
-          new Cost(engineer, Decimal(100), this.game.buyExp),
-          new Cost(machine, Decimal(1E4), this.game.buyExp)
+          new Cost(this.game.science.university, new Decimal(1), this.game.buyExpUnit),
+          new Cost(engineer, new Decimal(100), this.game.buyExp),
+          new Cost(machine, new Decimal(1E4), this.game.buyExp)
         ]
       ))
 

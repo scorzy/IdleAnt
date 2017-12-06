@@ -43,33 +43,33 @@ export class Science implements WorldInterface {
     this.listScience = [this.student, this.scientist, this.university, this.depEdu]
     this.game.lists.push(new TypeList("Science", this.listScience))
 
-    this.studentProduction = new Production(this.university, Decimal(0.2), false)
-    this.scientistProduction = new Production(this.university, Decimal(0.1), false)
-    this.science1Production = new Production(this.university, Decimal(450))
-    this.science2Production = new Production(this.university, Decimal(1000), false)
-    this.uniProduction = new Production(this.university, Decimal(0.1), false)
+    this.studentProduction = new Production(this.university, new Decimal(0.2), false)
+    this.scientistProduction = new Production(this.university, new Decimal(0.1), false)
+    this.science1Production = new Production(this.university, new Decimal(450))
+    this.science2Production = new Production(this.university, new Decimal(1000), false)
+    this.uniProduction = new Production(this.university, new Decimal(0.1), false)
   }
 
   public initStuff() {
 
     this.game.baseWorld.science.addProductor(new Production(this.student))
-    this.game.baseWorld.crystal.addProductor(new Production(this.student, Decimal(-0.5)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.student, new Decimal(-0.5)))
 
-    this.university.addProductor(new Production(this.depEdu, Decimal(0.1)))
-    this.game.baseWorld.science.addProductor(new Production(this.depEdu, Decimal(-1E5)))
+    this.university.addProductor(new Production(this.depEdu, new Decimal(0.1)))
+    this.game.baseWorld.science.addProductor(new Production(this.depEdu, new Decimal(-1E5)))
 
-    const specialProduction = Decimal(15)
-    const specialCost = Decimal(-4)
-    const specialFood = Decimal(1E7)
-    const specialRes2 = Decimal(1E4)
+    const specialProduction = new Decimal(15)
+    const specialCost = new Decimal(-4)
+    const specialFood = new Decimal(1E7)
+    const specialRes2 = new Decimal(1E4)
 
     //    Student
     this.student.actions.push(new BuyAndUnlockAction(this.game,
       this.student,
       [
-        new Cost(this.game.baseWorld.food, Decimal(1000), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.crystal, Decimal(100), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
+        new Cost(this.game.baseWorld.food, new Decimal(1000), new Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.crystal, new Decimal(100), new Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), new Decimal(this.game.buyExpUnit))
       ],
       [this.game.baseWorld.science]
     ))
@@ -86,7 +86,7 @@ export class Science implements WorldInterface {
       [
         new Cost(this.game.baseWorld.food, specialFood.div(5), this.game.buyExp),
         new Cost(this.game.baseWorld.crystal, specialRes2.div(5), this.game.buyExp),
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit)
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), this.game.buyExpUnit)
       ]
     ))
     this.game.baseWorld.science.addProductor(new Production(this.scientist, specialProduction.times(2)))
@@ -121,7 +121,7 @@ export class Science implements WorldInterface {
     this.depEdu.actions.push(new BuyAction(this.game,
       this.depEdu,
       [
-        new Cost(this.university, Decimal(100), this.game.buyExpUnit),
+        new Cost(this.university, new Decimal(100), this.game.buyExpUnit),
         new Cost(this.game.baseWorld.wood, this.game.machines.price1.times(100), this.game.buyExp),
         new Cost(this.game.baseWorld.crystal, this.game.machines.price2.times(100), this.game.buyExp),
         new Cost(this.game.baseWorld.science, this.game.machines.price1.times(100), this.game.buyExp),

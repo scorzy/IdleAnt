@@ -70,7 +70,7 @@ export class Infestation implements WorldInterface {
     this.weedkillerRes = new Research(
       "weedkillerRes",
       "Weedkiller", "Weedkiller will slowly kill poisonous plants.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E4))],
+      [new Cost(this.game.baseWorld.science, new Decimal(1E4))],
       [this.weedkiller, this.chemistAnt],
       this.game
     )
@@ -79,7 +79,7 @@ export class Infestation implements WorldInterface {
     this.flametrowerRes = new Research(
       "flametrowerRes",
       "Flamethrower", "Burn poisonous plants.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E3))],
+      [new Cost(this.game.baseWorld.science, new Decimal(1E3))],
       [this.flametrowerAnt, this.flametrowerBeetle],
       this.game
     )
@@ -88,7 +88,7 @@ export class Infestation implements WorldInterface {
     this.basicDisinfestationRes = new Research(
       "basicDisinfestationRes",
       "Disinfestation", "Unlock basic disinfestation units.",
-      [new Cost(this.game.baseWorld.science, Decimal(100))],
+      [new Cost(this.game.baseWorld.science, new Decimal(100))],
       [
         this.disinfestationAnt, this.disinfestationBeetle,
         this.flametrowerRes, this.weedkillerRes
@@ -102,27 +102,27 @@ export class Infestation implements WorldInterface {
   public initStuff() {
 
     this.poisonousPlant.addProductor(new Production(this.poisonousPlant2))
-    this.poisonousPlant.addProductor(new Production(this.disinfestationAnt, Decimal(-10)))
-    this.poisonousPlant.addProductor(new Production(this.disinfestationBeetle, Decimal(-12)))
+    this.poisonousPlant.addProductor(new Production(this.disinfestationAnt, new Decimal(-10)))
+    this.poisonousPlant.addProductor(new Production(this.disinfestationBeetle, new Decimal(-12)))
 
-    this.poisonousPlant.addProductor(new Production(this.flametrowerBeetle, Decimal(-100)))
-    this.game.baseWorld.wood.addProductor(new Production(this.flametrowerBeetle, Decimal(-5)))
+    this.poisonousPlant.addProductor(new Production(this.flametrowerBeetle, new Decimal(-100)))
+    this.game.baseWorld.wood.addProductor(new Production(this.flametrowerBeetle, new Decimal(-5)))
 
-    this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, Decimal(-120)))
-    this.game.baseWorld.wood.addProductor(new Production(this.flametrowerAnt, Decimal(-5)))
+    this.poisonousPlant.addProductor(new Production(this.flametrowerAnt, new Decimal(-120)))
+    this.game.baseWorld.wood.addProductor(new Production(this.flametrowerAnt, new Decimal(-5)))
 
-    this.poisonousPlant.addProductor(new Production(this.weedkiller, Decimal(-0.01)))
-    this.game.baseWorld.fungus.addProductor(new Production(this.weedkiller, Decimal(-0.01)))
-    this.game.baseWorld.fungus.addProductor(new Production(this.chemistAnt, Decimal(-10)))
-    this.game.baseWorld.soil.addProductor(new Production(this.chemistAnt, Decimal(-10)))
-    this.weedkiller.addProductor(new Production(this.chemistAnt, Decimal(0.1)))
+    this.poisonousPlant.addProductor(new Production(this.weedkiller, new Decimal(-0.01)))
+    this.game.baseWorld.fungus.addProductor(new Production(this.weedkiller, new Decimal(-0.01)))
+    this.game.baseWorld.fungus.addProductor(new Production(this.chemistAnt, new Decimal(-10)))
+    this.game.baseWorld.soil.addProductor(new Production(this.chemistAnt, new Decimal(-10)))
+    this.weedkiller.addProductor(new Production(this.chemistAnt, new Decimal(0.1)))
 
     //  Disinfestation
     this.disinfestationAnt.actions.push(new BuyAction(this.game, this.disinfestationAnt,
       [
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.food, Decimal(1000), this.game.buyExp),
-        new Cost(this.game.baseWorld.crystal, Decimal(100), this.game.buyExp)
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.food, new Decimal(1000), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, new Decimal(100), this.game.buyExp)
       ]
     ))
     this.disinfestationAnt.actions.push(new UpAction(this.game, this.disinfestationAnt,
@@ -133,10 +133,10 @@ export class Infestation implements WorldInterface {
     //  Flametrower
     this.flametrowerAnt.actions.push(new BuyAction(this.game, this.flametrowerAnt,
       [
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.food, Decimal(12E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.wood, Decimal(8E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.crystal, Decimal(4E3), this.game.buyExp)
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.food, new Decimal(12E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.wood, new Decimal(8E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, new Decimal(4E3), this.game.buyExp)
       ]
     ))
     this.flametrowerAnt.actions.push(new UpAction(this.game, this.flametrowerAnt,
@@ -147,10 +147,10 @@ export class Infestation implements WorldInterface {
     //  Chemist
     this.chemistAnt.actions.push(new BuyAction(this.game, this.chemistAnt,
       [
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.food, Decimal(12E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.fungus, Decimal(1E5), this.game.buyExp),
-        new Cost(this.game.baseWorld.soil, Decimal(6E4), this.game.buyExp)
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.food, new Decimal(12E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.fungus, new Decimal(1E5), this.game.buyExp),
+        new Cost(this.game.baseWorld.soil, new Decimal(6E4), this.game.buyExp)
       ]
     ))
     this.chemistAnt.actions.push(new UpAction(this.game, this.chemistAnt,
@@ -162,9 +162,9 @@ export class Infestation implements WorldInterface {
     this.disinfestationBeetle.actions.push(new BuyAction(this.game,
       this.disinfestationBeetle,
       [
-        new Cost(this.game.forest.larva, Decimal(1), this.game.buyExpUnit),
-        new Cost(this.game.baseWorld.wood, Decimal(300), this.game.buyExp),
-        new Cost(this.game.baseWorld.food, Decimal(3000), this.game.buyExp)
+        new Cost(this.game.forest.larva, new Decimal(1), this.game.buyExpUnit),
+        new Cost(this.game.baseWorld.wood, new Decimal(300), this.game.buyExp),
+        new Cost(this.game.baseWorld.food, new Decimal(3000), this.game.buyExp)
       ]
     ))
     this.disinfestationBeetle.actions.push(new UpAction(this.game,
@@ -177,10 +177,10 @@ export class Infestation implements WorldInterface {
     this.flametrowerBeetle.actions.push(new BuyAction(this.game,
       this.flametrowerBeetle,
       [
-        new Cost(this.game.forest.larva, Decimal(1), this.game.buyExp),
-        new Cost(this.game.baseWorld.wood, Decimal(15E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.food, Decimal(5E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.soil, Decimal(6E4), this.game.buyExp)
+        new Cost(this.game.forest.larva, new Decimal(1), this.game.buyExp),
+        new Cost(this.game.baseWorld.wood, new Decimal(15E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.food, new Decimal(5E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.soil, new Decimal(6E4), this.game.buyExp)
       ]
     ))
     this.flametrowerBeetle.actions.push(new UpAction(this.game, this.flametrowerBeetle,
@@ -199,12 +199,12 @@ export class Infestation implements WorldInterface {
         [],
         [],
         [
-          [this.poisonousPlant, Decimal(1E7)],
-          [this.poisonousPlant2, Decimal(1E3)],
-          [this.basicDisinfestationRes, Decimal(0)]
+          [this.poisonousPlant, new Decimal(1E7)],
+          [this.poisonousPlant2, new Decimal(1E3)],
+          [this.basicDisinfestationRes, new Decimal(0)]
         ],
-        Decimal(5.5),
-        [new Cost(this.poisonousPlant, Decimal(5E3))]
+        new Decimal(5.5),
+        [new Cost(this.poisonousPlant, new Decimal(5E3))]
       )
     )
 
@@ -217,12 +217,12 @@ export class Infestation implements WorldInterface {
         [],
         [],
         [
-          [this.poisonousPlant, Decimal(1E7)],
-          [this.poisonousPlant2, Decimal(1E3)],
-          [this.basicDisinfestationRes, Decimal(0)]
+          [this.poisonousPlant, new Decimal(1E7)],
+          [this.poisonousPlant2, new Decimal(1E3)],
+          [this.basicDisinfestationRes, new Decimal(0)]
         ],
-        Decimal(5.5),
-        [new Cost(this.poisonousPlant, Decimal(5E3))]
+        new Decimal(5.5),
+        [new Cost(this.poisonousPlant, new Decimal(5E3))]
       )
     )
 

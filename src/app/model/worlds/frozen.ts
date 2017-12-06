@@ -38,7 +38,7 @@ export class Frozen implements WorldInterface {
     const iceResearch2 = new Research(
       "iceRes2", "Flametrower",
       "Use fire to melt ice.",
-      [new Cost(this.game.baseWorld.science, Decimal(800))],
+      [new Cost(this.game.baseWorld.science, new Decimal(800))],
       [this.iceMelter],
       this.game
     )
@@ -46,7 +46,7 @@ export class Frozen implements WorldInterface {
     this.iceResearch = new Research(
       "iceRes", "Ice",
       "Ice",
-      [new Cost(this.game.baseWorld.science, Decimal(30))],
+      [new Cost(this.game.baseWorld.science, new Decimal(30))],
       [this.iceAnt, this.iceDrillAnt, iceResearch2],
       this.game
     )
@@ -61,8 +61,8 @@ export class Frozen implements WorldInterface {
     this.iceAnt.actions.push(new BuyAction(this.game,
       this.iceAnt,
       [
-        new Cost(this.game.baseWorld.food, Decimal(1000), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
+        new Cost(this.game.baseWorld.food, new Decimal(1000), new Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), new Decimal(this.game.buyExpUnit))
       ]
     ))
     this.iceAnt.actions.push(new UpAction(this.game, this.iceAnt,
@@ -71,12 +71,12 @@ export class Frozen implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
 
     //  Ice Driller
-    this.game.baseWorld.ice.addProductor(new Production(this.iceDrillAnt, Decimal(-10)))
+    this.game.baseWorld.ice.addProductor(new Production(this.iceDrillAnt, new Decimal(-10)))
     this.iceDrillAnt.actions.push(new BuyAction(this.game,
       this.iceDrillAnt,
       [
-        new Cost(this.game.baseWorld.food, Decimal(1000), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
+        new Cost(this.game.baseWorld.food, new Decimal(1000), new Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), new Decimal(this.game.buyExpUnit))
       ]
     ))
     this.iceDrillAnt.actions.push(new UpAction(this.game, this.iceDrillAnt,
@@ -85,14 +85,14 @@ export class Frozen implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
 
     // Ice Melter
-    this.game.baseWorld.ice.addProductor(new Production(this.iceMelter, Decimal(-100)))
-    this.game.baseWorld.wood.addProductor(new Production(this.iceMelter, Decimal(-5)))
+    this.game.baseWorld.ice.addProductor(new Production(this.iceMelter, new Decimal(-100)))
+    this.game.baseWorld.wood.addProductor(new Production(this.iceMelter, new Decimal(-5)))
     this.iceMelter.actions.push(new BuyAction(this.game,
       this.iceMelter,
       [
-        new Cost(this.game.baseWorld.food, Decimal(1E7), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.wood, Decimal(1E4), Decimal(this.game.buyExp)),
-        new Cost(this.game.baseWorld.littleAnt, Decimal(1), Decimal(this.game.buyExpUnit))
+        new Cost(this.game.baseWorld.food, new Decimal(1E7), new Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.wood, new Decimal(1E4), new Decimal(this.game.buyExp)),
+        new Cost(this.game.baseWorld.littleAnt, new Decimal(1), new Decimal(this.game.buyExpUnit))
       ]
     ))
     this.iceMelter.actions.push(new UpAction(this.game, this.iceMelter,
@@ -107,14 +107,14 @@ export class Frozen implements WorldInterface {
       new World(this.game, "Cold", "",
         [],
         [
-          [this.game.baseWorld.food, Decimal(0.6)],
-          [this.game.baseWorld.ice, Decimal(0.5)]
+          [this.game.baseWorld.food, new Decimal(0.6)],
+          [this.game.baseWorld.ice, new Decimal(0.5)]
         ],
         [],
         [],
         [],
-        [[this.iceResearch, Decimal(0)]],
-        Decimal(3)
+        [[this.iceResearch, new Decimal(0)]],
+        new Decimal(3)
       ),
       new World(this.game, "Freezing", "",
         [
@@ -126,15 +126,15 @@ export class Frozen implements WorldInterface {
           this.game.engineers.lensEnginer
         ],
         [
-          [this.game.baseWorld.food, Decimal(0.3)]
+          [this.game.baseWorld.food, new Decimal(0.3)]
         ],
         [],
         [],
         [],
-        [[this.game.baseWorld.ice, Decimal(1E11)],
-        [this.iceResearch, Decimal(0)]],
-        Decimal(4.5),
-        [new Cost(this.game.baseWorld.ice, Decimal(100))]
+        [[this.game.baseWorld.ice, new Decimal(1E11)],
+        [this.iceResearch, new Decimal(0)]],
+        new Decimal(4.5),
+        [new Cost(this.game.baseWorld.ice, new Decimal(100))]
       ),
 
     )

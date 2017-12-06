@@ -27,12 +27,12 @@ export class Machine implements WorldInterface {
 
   listMachinery = new Array<Unit>()
 
-  machineryProd = Decimal(500)
-  machineryCost = Decimal(-150)
+  machineryProd = new Decimal(500)
+  machineryCost = new Decimal(-150)
 
-  price1 = Decimal(1E5)
-  price2 = Decimal(6E4)
-  price3 = Decimal(3E4)
+  price1 = new Decimal(1E5)
+  price2 = new Decimal(6E4)
+  price3 = new Decimal(3E4)
 
   constructor(public game: GameModel) { }
 
@@ -246,26 +246,26 @@ export class Machine implements WorldInterface {
       new World(this.game, "Mechanized", "",
         [], [], [], [], [],
         [
-          [this.composterStation, Decimal(0.2)],
-          [this.refineryStation, Decimal(0.2)],
-          [this.laserStation, Decimal(0.2)],
-          [this.hydroFarm, Decimal(0.2)],
-          [this.plantingMachine, Decimal(0.2)]
+          [this.composterStation, new Decimal(0.2)],
+          [this.refineryStation, new Decimal(0.2)],
+          [this.laserStation, new Decimal(0.2)],
+          [this.hydroFarm, new Decimal(0.2)],
+          [this.plantingMachine, new Decimal(0.2)]
         ],
-        Decimal(1)
+        new Decimal(1)
       ))
 
     World.worldSuffix.push(
       new World(this.game, "of Machine", "",
         [], [], [], [], [],
         [
-          [this.composterStation, Decimal(0.2)],
-          [this.refineryStation, Decimal(0.2)],
-          [this.laserStation, Decimal(0.2)],
-          [this.hydroFarm, Decimal(0.2)],
-          [this.plantingMachine, Decimal(0.2)]
+          [this.composterStation, new Decimal(0.2)],
+          [this.refineryStation, new Decimal(0.2)],
+          [this.laserStation, new Decimal(0.2)],
+          [this.hydroFarm, new Decimal(0.2)],
+          [this.plantingMachine, new Decimal(0.2)]
         ],
-        Decimal(1)
+        new Decimal(1)
       ))
   }
 }

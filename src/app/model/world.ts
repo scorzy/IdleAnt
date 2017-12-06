@@ -26,7 +26,7 @@ export class World {
     public unitMod: [Unit, decimal.Decimal][] = [],
     public unitPrice: [Unit, decimal.Decimal][] = [],
     public unlockedUnits: [Base, decimal.Decimal][] = [],
-    public experience = Decimal(2.5),
+    public experience = new Decimal(2.5),
     public toUnlockMax = new Array<Cost>(),
   ) { }
 
@@ -35,17 +35,17 @@ export class World {
       [],
       [],
       [
-        new Cost(game.baseWorld.food, Decimal(1E12)),
-        new Cost(game.baseWorld.nestAnt, Decimal(40))
+        new Cost(game.baseWorld.food, new Decimal(1E12)),
+        new Cost(game.baseWorld.nestAnt, new Decimal(40))
       ]
     )
-    baseWorld.experience = Decimal(10)
+    baseWorld.experience = new Decimal(10)
     return baseWorld
   }
 
   static getRandomWorld(game: GameModel): World {
     const worldRet = new World(game, "", "", [], [], [])
-    worldRet.experience = Decimal(0)
+    worldRet.experience = new Decimal(0)
 
     const worldType = World.worldTypes[Math.floor(Math.random() * (World.worldTypes.length))]
     const worldPrefix = World.worldPrefix[Math.floor(Math.random() * (World.worldPrefix.length))]
@@ -129,20 +129,20 @@ export class World {
     min = Math.min(game.minUser, game.maxMax)
     max = Math.min(game.maxUser, game.maxMax)
 
-    worldRet.level = Decimal.random().times(Decimal(1 + max - min)).floor().plus(min).toNumber()
+    worldRet.level = new Decimal(Math.random()).times(new Decimal(1 + max - min)).floor().plus(min).toNumber()
 
     // worldRet.level = 1000
 
     const linear = 1 / 4
     const linearExp = 1 / 2
 
-    const toUnlockMultiplier = Decimal(worldRet.level + 1 / linear).times(linear)
+    const toUnlockMultiplier = new Decimal(worldRet.level + 1 / linear).times(linear)
 
 
-    // const toUnlockMultiplier = Decimal(worldRet.level + 1 / linear)
-    //   .times(Decimal(linear).div(Decimal.log(Decimal(10).plus(Decimal(worldRet.level).div(125)))))
+    // const toUnlockMultiplier = new Decimal(worldRet.level + 1 / linear)
+    //   .times(new Decimal(linear).div(Decimal.log(new Decimal(10).plus(new Decimal(worldRet.level).div(125)))))
 
-    const expMultiplier = Decimal.pow(1.00138, worldRet.level).times(Decimal(worldRet.level + 1 / linearExp).times(linearExp))
+    const expMultiplier = Decimal.pow(1.00138, worldRet.level).times(new Decimal(worldRet.level + 1 / linearExp).times(linearExp))
 
     worldRet.toUnlock.forEach(t => t.basePrice = t.basePrice.times(toUnlockMultiplier).floor())
     worldRet.unlockedUnits.forEach(t => t[1] = Decimal.max(t[1].times(toUnlockMultiplier.times(2)).floor(), 0))
@@ -198,7 +198,7 @@ export class World {
     this.game.all.forEach(u => u.reloadtAct())
 
     //  research fix
-    this.game.resList.forEach(r => r.quantity = Decimal(0))
+    this.game.resList.forEach(r => r.quantity = new Decimal(0))
 
     this.game.worldTabAv = true
     this.game.homeTabAv = true
@@ -238,7 +238,7 @@ export class World {
 
     this.prodMod = []
     if (typeof data.p !== "undefined" && data.p != null && data.p.length > 0)
-      this.prodMod = data.p.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
+      this.prodMod = data.p.map(p => [this.game.all.find(u => u.id === p[0]), new Decimal(p[1])])
 
     this.toUnlock = []
     if (typeof data.t !== "undefined" && data.t != null && data.t.length > 0)
@@ -250,15 +250,15 @@ export class World {
 
     this.unitMod = []
     if (typeof data.um !== "undefined" && data.um != null && data.um.length > 0)
-      this.unitMod = data.um.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
+      this.unitMod = data.um.map(p => [this.game.all.find(u => u.id === p[0]), new Decimal(p[1])])
 
     this.unitPrice = []
     if (typeof data.up !== "undefined" && data.up != null && data.up.length > 0)
-      this.unitPrice = data.up.map(p => [this.game.all.find(u => u.id === p[0]), Decimal(p[1])])
+      this.unitPrice = data.up.map(p => [this.game.all.find(u => u.id === p[0]), new Decimal(p[1])])
 
     this.unlockedUnits = []
     if (typeof data.uu !== "undefined" && data.uu != null && data.uu.length > 0)
-      this.unlockedUnits = data.uu.map(p => [this.game.allBase.find(u => u.id === p[0]), Decimal(p[1])])
+      this.unlockedUnits = data.uu.map(p => [this.game.allBase.find(u => u.id === p[0]), new Decimal(p[1])])
 
     this.experience = new Decimal(10)
     if (data.e)

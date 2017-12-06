@@ -41,10 +41,10 @@ export class AppComponent {
   }
 
   warp(minute: number) {
-    this.gameService.game.actMin.buy(Decimal(minute))
+    this.gameService.game.actMin.buy(new Decimal(minute))
   }
   warpAv(minute: number): boolean {
-    return this.gameService.game.actMin.maxBuy.greaterThanOrEqualTo(Decimal(minute))
+    return this.gameService.game.actMin.maxBuy.greaterThanOrEqualTo(new Decimal(minute))
   }
 
   getListId(index, list: TypeList) {

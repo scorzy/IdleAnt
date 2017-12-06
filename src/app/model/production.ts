@@ -18,7 +18,7 @@ export class Production extends Unlocable {
 
   constructor(
     public unit: Unit,    // who make
-    public efficiency: decimal.Decimal = Decimal(1),
+    public efficiency: decimal.Decimal = new Decimal(1),
     unlocked = true
   ) {
     super(unlocked)
@@ -28,23 +28,23 @@ export class Production extends Unlocable {
   getprodPerSec(eff = true): decimal.Decimal {
     if (this.unit.unlocked && this.unlocked) {
 
-      let sum = Decimal(1)
+      let sum = new Decimal(1)
       for (const p of this.product.bonusProduction)
         sum = sum.plus(p[0].quantity.times(p[1]))
 
-      let totalBonus = Decimal(1)
+      let totalBonus = new Decimal(1)
       if (this.bonusList && this.bonusList.length > 0)
         for (let i = 0; i < this.bonusList.length; i++)
           totalBonus = totalBonus.plus(this.bonusList[i][0].quantity.times(this.bonusList[i][1]))
 
       return this.efficiency
         .times(this.unit.getProduction())
-        .times(eff ? this.unit.percentage : Decimal(100)).div(100)
-        .times(this.efficiency.greaterThan(0) ? this.product.worldProdModifiers : Decimal(1))
+        .times(eff ? this.unit.percentage : new Decimal(100)).div(100)
+        .times(this.efficiency.greaterThan(0) ? this.product.worldProdModifiers : new Decimal(1))
         .times(sum)
         .times(totalBonus)
     } else
-      return Decimal(0)
+      return new Decimal(0)
   }
 
   isActive(): boolean {

@@ -51,7 +51,7 @@ export class Beach implements WorldInterface {
     this.lobsterRes = new Research(
       "lobsterRes",
       "Lobsters", "Unlock lobsters.",
-      [new Cost(this.game.baseWorld.science, Decimal(1E5))],
+      [new Cost(this.game.baseWorld.science, new Decimal(1E5))],
       [this.lobster],
       this.game
     )
@@ -60,7 +60,7 @@ export class Beach implements WorldInterface {
     this.shrimpRes = new Research(
       "shrimpRes",
       "Shrimps", "Unlock shrimps.",
-      [new Cost(this.game.baseWorld.science, Decimal(2E3))],
+      [new Cost(this.game.baseWorld.science, new Decimal(2E3))],
       [this.shrimp],
       this.game
     )
@@ -69,7 +69,7 @@ export class Beach implements WorldInterface {
     this.crabJobRes = new Research(
       "crabJobRes",
       "Crab Jobs", "Unlock more jobs for your crab.",
-      [new Cost(this.game.baseWorld.science, Decimal(1.5E3))],
+      [new Cost(this.game.baseWorld.science, new Decimal(1.5E3))],
       [this.crabFarmer, this.crabScientist],
       this.game
     )
@@ -78,7 +78,7 @@ export class Beach implements WorldInterface {
     this.seaRes = new Research(
       "seaRes",
       "Sea Helpers", "Unlock Sea Helpers.",
-      [new Cost(this.game.baseWorld.science, Decimal(30))],
+      [new Cost(this.game.baseWorld.science, new Decimal(30))],
       [this.crab, this.crabQueen, this.crabJobRes, this.shrimpRes, this.lobsterRes],
       this.game
     )
@@ -90,7 +90,7 @@ export class Beach implements WorldInterface {
     //    Crab
     this.crab.actions.push(new BuyAction(this.game,
       this.crab,
-      [new Cost(this.game.baseWorld.food, Decimal(1E3), this.game.buyExp)]
+      [new Cost(this.game.baseWorld.food, new Decimal(1E3), this.game.buyExp)]
     ))
     this.crab.actions.push(new UpAction(this.game, this.crab,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
@@ -103,9 +103,9 @@ export class Beach implements WorldInterface {
     this.crabFarmer.actions.push(new BuyAction(this.game,
       this.crabFarmer,
       [
-        new Cost(this.game.baseWorld.food, Decimal(1E3), this.game.buyExp),
-        new Cost(this.game.baseWorld.sand, Decimal(100), this.game.buyExp),
-        new Cost(this.crab, Decimal(1), this.game.buyExpUnit)
+        new Cost(this.game.baseWorld.food, new Decimal(1E3), this.game.buyExp),
+        new Cost(this.game.baseWorld.sand, new Decimal(100), this.game.buyExp),
+        new Cost(this.crab, new Decimal(1), this.game.buyExpUnit)
       ]
     ))
     this.crabFarmer.actions.push(new UpAction(this.game, this.crabFarmer,
@@ -114,12 +114,12 @@ export class Beach implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceHireExp)]))
 
     this.game.baseWorld.fungus.addProductor(new Production(this.crabFarmer))
-    this.game.baseWorld.sand.addProductor(new Production(this.crabFarmer, Decimal(-1)))
+    this.game.baseWorld.sand.addProductor(new Production(this.crabFarmer, new Decimal(-1)))
 
-    const specialProduction = Decimal(15)
-    const specialCost = Decimal(-4)
-    const specialFood = Decimal(1E7)
-    const specialRes2 = Decimal(1E4)
+    const specialProduction = new Decimal(15)
+    const specialCost = new Decimal(-4)
+    const specialFood = new Decimal(1E7)
+    const specialRes2 = new Decimal(1E4)
 
     //    Crab Scientist
     this.crabScientist.actions.push(new BuyAction(this.game,
@@ -127,7 +127,7 @@ export class Beach implements WorldInterface {
       [
         new Cost(this.game.baseWorld.food, specialFood.div(5), this.game.buyExp),
         new Cost(this.game.baseWorld.sand, specialRes2.div(5), this.game.buyExp),
-        new Cost(this.crab, Decimal(1), this.game.buyExpUnit)
+        new Cost(this.crab, new Decimal(1), this.game.buyExpUnit)
       ]
     ))
     this.crabScientist.actions.push(new UpAction(this.game, this.crabScientist,
@@ -143,8 +143,8 @@ export class Beach implements WorldInterface {
     this.crabQueen.actions.push(new BuyAndUnlockAction(this.game,
       this.crabQueen,
       [
-        new Cost(this.game.baseWorld.food, Decimal(1E5), this.game.buyExp),
-        new Cost(this.crab, Decimal(50), this.game.buyExpUnit)
+        new Cost(this.game.baseWorld.food, new Decimal(1E5), this.game.buyExp),
+        new Cost(this.crab, new Decimal(50), this.game.buyExpUnit)
       ], [this.crabNest]
     ))
     this.crabQueen.actions.push(new UpAction(this.game, this.crabQueen,
@@ -159,7 +159,7 @@ export class Beach implements WorldInterface {
       [
         new Cost(this.game.baseWorld.food, this.game.baseWorld.prestigeFood.div(1.5), this.game.buyExp),
         new Cost(this.game.baseWorld.sand, this.game.baseWorld.prestigeOther1.times(2), this.game.buyExp),
-        new Cost(this.crabQueen, Decimal(250), this.game.buyExpUnit)
+        new Cost(this.crabQueen, new Decimal(250), this.game.buyExpUnit)
       ]
     ))
     this.crabNest.actions.push(new UpAction(this.game, this.crabNest,
@@ -172,7 +172,7 @@ export class Beach implements WorldInterface {
     //    Shrimp
     this.shrimp.actions.push(new BuyAction(this.game,
       this.shrimp,
-      [new Cost(this.game.baseWorld.food, Decimal(3E3), this.game.buyExp)]
+      [new Cost(this.game.baseWorld.food, new Decimal(3E3), this.game.buyExp)]
     ))
     this.shrimp.actions.push(new UpAction(this.game, this.shrimp,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceExp)]))
@@ -180,7 +180,7 @@ export class Beach implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost2, this.game.upgradeScienceHireExp)]))
 
     this.game.baseWorld.sand.addProductor(new Production(this.shrimp))
-    this.game.baseWorld.crystal.addProductor(new Production(this.shrimp, Decimal(0.5)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.shrimp, new Decimal(0.5)))
 
     //    lobster
     const lobsterScience = this.game.scienceCost3.times(1.5)
@@ -206,22 +206,22 @@ export class Beach implements WorldInterface {
       new World(this.game, "Beach", "A beach",
         [this.game.machines.sandDigger, this.game.engineers.sandEnginer],
         [],
-        [new Cost(this.game.beach.crabNest, Decimal(50))],
+        [new Cost(this.game.beach.crabNest, new Decimal(50))],
         [],
         [],
-        [[this.game.beach.seaRes, Decimal(0)]],
-        Decimal(3)
+        [[this.game.beach.seaRes, new Decimal(0)]],
+        new Decimal(3)
       ))
 
     World.worldPrefix.push(
       new World(this.game, "Coastal", "",
         [this.game.machines.sandDigger, this.game.engineers.sandEnginer],
-        [[this.game.baseWorld.sand, Decimal(1.5)], [this.game.baseWorld.fungus, Decimal(0.7)]],
-        [new Cost(this.game.beach.crabNest, Decimal(50))],
-        [[this.game.baseWorld.fungus, Decimal(0.7)]],
+        [[this.game.baseWorld.sand, new Decimal(1.5)], [this.game.baseWorld.fungus, new Decimal(0.7)]],
+        [new Cost(this.game.beach.crabNest, new Decimal(50))],
+        [[this.game.baseWorld.fungus, new Decimal(0.7)]],
         [],
-        [[this.game.beach.seaRes, Decimal(0)]],
-        Decimal(3.5)
+        [[this.game.beach.seaRes, new Decimal(0)]],
+        new Decimal(3.5)
       ))
 
   }

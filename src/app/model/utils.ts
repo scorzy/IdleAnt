@@ -1,4 +1,4 @@
-import * as decimal from 'decimal.js'
+import * as decimal from 'break_infinity.js';
 
 export class Utils {
 
@@ -42,22 +42,22 @@ export class Utils {
     if (p.abs().lessThan(Number.EPSILON)) { // p = 0 -> t^3 = -q -> t = -q^1/3
       roots = [this.cuberoot(q.times(-1))]
     } else if (q.abs().lessThan(Number.EPSILON)) { // q = 0 -> t^3 + pt = 0 -> t(t^2+p)=0
-      roots = [Decimal(0)].concat(p.lessThan(0) ? [(p.times(-1)).sqrt(), (p.times(-1)).sqrt().times(-1)] : [])
+      roots = [new Decimal(0)].concat(p.lessThan(0) ? [(p.times(-1)).sqrt(), (p.times(-1)).sqrt().times(-1)] : [])
     } else {
-      const D = q.pow(2).div(Decimal(4).plus(p.pow(3).div(27)))
+      const D = q.pow(2).div(new Decimal(4).plus(p.pow(3).div(27)))
       // console.log("D: " + D.toString())
 
       if (D.abs().lessThan(Number.EPSILON)) {       // D = 0 -> two roots
-        roots = [q.times(-1.5).div(p), Decimal(3).times(q).times(p)]
+        roots = [q.times(-1.5).div(p), new Decimal(3).times(q).times(p)]
       } else if (D.greaterThan(0)) {             // Only one real root
         // var u = cuberoot(-q/2 - Math.sqrt(D));
         // roots = [u - p/(3*u)];
         const u = this.cuberoot(q.times(-0.5).minus(D.sqrt()))
         roots = [u.minus(p.div(u.times(3)))]
       } else {                        // D < 0, three roots, but needs to use complex numbers/trigonometric solution
-        const u = Decimal(2).times(Decimal.sqrt(p.times(-1).div(3)))
+        const u = new Decimal(2).times(Decimal.sqrt(p.times(-1).div(3)))
         // console.log(q.toString() + " " + p.toString() + " " + u.toString())
-        // let acos = Decimal(3).times(q).div(p).div(u)
+        // let acos = new Decimal(3).times(q).div(p).div(u)
 
         let acos = q
         acos = acos.div(p)
@@ -68,11 +68,11 @@ export class Utils {
           return []
 
         //  workaround for aprossimation 2
-        acos = Decimal.min(Decimal.max(acos, 1), -1)
-        const t = Decimal.acos(acos).div(3)
+        acos = Decimal.min(Decimal.max(acos, 1), -1).toNumber()
+        const t = new Decimal(Math.acos(acos) / 3)
 
         // const t = Math.acos(3 * q / p / u) / 3;  // D < 0 implies p < 0 and acos argument in [-1..1]
-        const k = Decimal(2).times(Math.PI).div(3)
+        const k = new Decimal(2).times(Math.PI).div(3)
         roots = [u.times(t.cos()), u.times((t.minus(k)).cos()), u.times(t.minus(k.times(2)).cos())]
 
         // console.log(roots[0].toString())
@@ -97,3 +97,22 @@ export class Unlocable {
     public avabileThisWorld = true
   ) { }
 }
+
+
+
+Decimal.prototype.lessThanOrEqualTo = function (other: decimal.Decimal) {
+  return this.cmp(other) < 1
+}
+
+Decimal.prototype.lessThan = function (other: decimal.Decimal) {
+  return this.cmp(other) < 0
+}
+
+Decimal.prototype.greaterThan = function (other: decimal.Decimal) {
+  return this.cmp(other) > 0
+}
+Decimal.prototype.greaterThanOrEqualTo = function (other: decimal.Decimal) {
+  return this.cmp(other) > -1
+}
+
+

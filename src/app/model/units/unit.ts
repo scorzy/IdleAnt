@@ -12,15 +12,15 @@ import { TogableProduction } from './togableProductions';
 
 export class Unit extends Base {
 
-  toAdd = Decimal(0)
+  toAdd = new Decimal(0)
 
   producedBy = Array<Production>()
   produces = Array<Production>()
   percentage = 100
 
-  worldProdModifiers = Decimal(1)
-  worldEffModifiers = Decimal(1)
-  worldBuyModifiers = Decimal(1)
+  worldProdModifiers = new Decimal(1)
+  worldEffModifiers = new Decimal(1)
+  worldBuyModifiers = new Decimal(1)
 
   actions = Array<Action>()
   upAction: Action
@@ -31,22 +31,22 @@ export class Unit extends Base {
   bonusProduction = Array<[Base, decimal.Decimal]>()
   prestigeBonusProduction = Array<Base>()
   prestigeBonusStart: Unit
-  prestigeBonusQuantityValue = Decimal(5)
+  prestigeBonusQuantityValue = new Decimal(5)
   alwaysOn = false
   showUp = false
   showTables = true
   showActions = true
 
-  production = Decimal(0)
+  production = new Decimal(0)
 
-  totalPerSec = Decimal(0)
-  totalProducers = Decimal(0)
+  totalPerSec = new Decimal(0)
+  totalProducers = new Decimal(0)
 
   togableProductions: Array<TogableProduction> = null
 
-  a = Decimal(0)
-  b = Decimal(0)
-  c = Decimal(0)
+  a = new Decimal(0)
+  b = new Decimal(0)
+  c = new Decimal(0)
 
   constructor(
     public model: GameModel,
@@ -66,20 +66,20 @@ export class Unit extends Base {
     prod.unit.produces.push(prod)
   }
   loadProduction() {
-    let sum = Decimal(1)
+    let sum = new Decimal(1)
     for (const p of this.prestigeBonusProduction)
       sum = sum.plus(p.quantity.times(0.3))  //  hardcoded +30% prestige bonus...
 
     this.production = (this.getBoost().plus(1)).times(
-      (this.upSpecial ? this.upSpecial.quantity : Decimal(0)).plus(1)
+      (this.upSpecial ? this.upSpecial.quantity : new Decimal(0)).plus(1)
     ).times(this.worldEffModifiers).times(sum)
 
     this.showActions = !!this.actions.find(a => a.unlocked)
   }
   reloadUiPerSec() {
 
-    this.totalProducers = Decimal(0)
-    this.totalPerSec = Decimal(0)
+    this.totalProducers = new Decimal(0)
+    this.totalPerSec = new Decimal(0)
 
     this.producedBy.filter(p => p.isActive() && p.unit.unlocked).forEach(p => {
       this.totalPerSec = this.totalPerSec.plus(p.getprodPerSec().times(p.unit.quantity))
@@ -90,11 +90,11 @@ export class Unit extends Base {
   getBoost(): decimal.Decimal {
     return this.model.research.up1.owned() && this.buyAction ?
       this.buyAction.quantity.times(0.005)
-        .times(this.upAction ? this.upAction.quantity.plus(1) : Decimal(1))
-        .times(Decimal(1).plus(
-          this.upHire && this.model.research.upCombined.owned() ? this.upHire.quantity : Decimal(0))
+        .times(this.upAction ? this.upAction.quantity.plus(1) : new Decimal(1))
+        .times(new Decimal(1).plus(
+          this.upHire && this.model.research.upCombined.owned() ? this.upHire.quantity : new Decimal(0))
         )
-      : Decimal(0)
+      : new Decimal(0)
   }
   getProduction() {
     // this.loadProduction()
@@ -150,9 +150,9 @@ export class Unit extends Base {
   initialize() {
     super.initialize()
 
-    this.worldProdModifiers = Decimal(1)
-    this.worldEffModifiers = Decimal(1)
-    this.worldBuyModifiers = Decimal(1)
+    this.worldProdModifiers = new Decimal(1)
+    this.worldEffModifiers = new Decimal(1)
+    this.worldBuyModifiers = new Decimal(1)
 
     if (this.prestigeBonusStart) {
       this.quantity = this.prestigeBonusQuantityValue.times(this.prestigeBonusStart.quantity)
