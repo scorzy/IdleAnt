@@ -25,6 +25,8 @@ import { OptNavComponent } from './opt-nav/opt-nav.component';
 import { UiComponent } from './ui/ui.component';
 import { CreditComponent } from './credit/credit.component';
 import { Action } from './model/units/action';
+import { WorldComponent } from './world/world.component';
+import { WorldBuilderComponent } from './world-builder/world-builder.component';
 
 const appRoutes: Routes = [
   {
@@ -53,6 +55,9 @@ const appRoutes: Routes = [
   },
   {
     path: 'world', component: HomeWorldComponent
+  },
+  {
+    path: 'world-build', component: WorldBuilderComponent
   }
 ];
 
@@ -111,7 +116,9 @@ export class CustomOptions extends ToastOptions {
     ProdToglePipePipe,
     OptNavComponent,
     UiComponent,
-    CreditComponent
+    CreditComponent,
+    WorldComponent,
+    WorldBuilderComponent
   ],
   imports: [
     BrowserModule,

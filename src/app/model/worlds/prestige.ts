@@ -51,6 +51,7 @@ export class Prestige implements WorldInterface {
   //  Efficiency
   effList = new Array<Unit>()
   effListEng = new Array<Unit>()
+  effListDep = new Array<Unit>()
 
   //  Time
   timeList = new Array<Unit>()
@@ -204,10 +205,10 @@ export class Prestige implements WorldInterface {
       this.game.baseWorld.wood,
       this.game.baseWorld.sand
     ]
-    supplyMaterials.forEach(sm => sm.prestigeBonusQuantityValue = new Decimal(100))
+    supplyMaterials.forEach(sm => sm.prestigeBonusQuantityValue = new Decimal(1000))
     this.supplyList = supplyMaterials.map(sm =>
       new Unit(this.game, "supp_" + sm.id, sm.name + " supply.",
-        "Start new worlds with 100 more " + sm.name + ".", true))
+        "Start new worlds with 1000 more " + sm.name + ".", true))
 
     for (let i = 0; i < supplyMaterials.length; i++) {
       const n = this.supplyList[i]
@@ -303,6 +304,33 @@ export class Prestige implements WorldInterface {
     })
 
     this.expLists.push(new TypeList("Engineering", this.effListEng))
+    //#endregion
+
+    //#region Efficiency 3
+    this.effListDep = new Array<Unit>()
+
+    this.game.engineers.listDep.forEach(dep => {
+
+      const eff = new Unit(this.game, "effDep" + dep.id, dep.name,
+        dep.name + " consume 5% less resources. Max -50%.", true)
+
+      const ba = new BuyAction(this.game, eff,
+        [new Cost(this.experience, new Decimal(60), expIncrement)])
+
+      ba.limit = new Decimal(10)
+
+      eff.actions.push(ba)
+
+      dep.produces.filter(p => p.efficiency.lessThanOrEqualTo(0))
+        .forEach(prod => {
+          if (!prod.bonusList)
+            prod.bonusList = new Array<[Base, decimal.Decimal]>()
+          prod.bonusList.push([eff, new Decimal(-0.05)])
+        })
+      this.effListDep.push(eff)
+    })
+
+    this.expLists.push(new TypeList("Departments", this.effListDep))
     //#endregion
 
     //#region Time

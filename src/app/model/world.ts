@@ -43,13 +43,18 @@ export class World {
     return baseWorld
   }
 
-  static getRandomWorld(game: GameModel): World {
+  static getRandomWorld(game: GameModel,
+    worldPrefix: World = null, worldType: World = null, worldSuffix: World = null, level: number = -1
+  ): World {
     const worldRet = new World(game, "", "", [], [], [])
     worldRet.experience = new Decimal(0)
 
-    const worldType = World.worldTypes[Math.floor(Math.random() * (World.worldTypes.length))]
-    const worldPrefix = World.worldPrefix[Math.floor(Math.random() * (World.worldPrefix.length))]
-    const worldSuffix = World.worldSuffix[Math.floor(Math.random() * (World.worldSuffix.length))]
+    if (!worldType)
+      worldType = World.worldTypes[Math.floor(Math.random() * (World.worldTypes.length))]
+    if (!worldPrefix)
+      worldPrefix = World.worldPrefix[Math.floor(Math.random() * (World.worldPrefix.length))]
+    if (!worldSuffix)
+      worldSuffix = World.worldSuffix[Math.floor(Math.random() * (World.worldSuffix.length))]
 
     const worlds = [worldType, worldPrefix, worldSuffix, this.getBaseWorld(game)]
     worldRet.name = worldPrefix.name + " " + worldType.name + " " + worldSuffix.name
@@ -118,19 +123,22 @@ export class World {
     }
 
     //    Scale the world level
-    let min = game.minUser
-    let max = game.maxUser
+    if (level < 0) {
+      let min = game.minUser
+      let max = game.maxUser
 
-    if (!min)
-      min = 0
-    if (!max)
-      max = game.maxMax
+      if (!min)
+        min = 0
+      if (!max)
+        max = game.maxMax
 
-    min = Math.min(game.minUser, game.maxMax)
-    max = Math.min(game.maxUser, game.maxMax)
+      min = Math.min(game.minUser, game.maxMax)
+      max = Math.min(game.maxUser, game.maxMax)
 
-    worldRet.level = new Decimal(Math.random()).times(new Decimal(1 + max - min)).floor().plus(min).toNumber()
-
+      worldRet.level = new Decimal(Math.random()).times(new Decimal(1 + max - min)).floor().plus(min).toNumber()
+    } else {
+      worldRet.level = Math.min(Math.max(level, 0), game.maxMax)
+    }
     // worldRet.level = 1000
 
     const linear = 1 / 4

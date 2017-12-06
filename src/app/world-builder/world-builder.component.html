@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+    <form>
+
+      <form>
+        <section class="form-block">
+          <label>Generate your world</label>
+          <div class="form-group">
+            <label for="aForm_1">This is a form field</label>
+            <input type="number" name="level" [placeholder]="gameService.game.maxMax" [(ngModel)]="level" [min]="gameService.game.minUser"
+              [max]="gameService.game.maxMax" (change)="generate($event)">
+          </div>
+
+          <div class="form-group">
+            <label for="aForm_pre">Prefix</label>
+            <div class="select">
+              <select id="aForm_pre" name="pre" [(ngModel)]="preName" (change)="setPre($event)">
+                <option *ngFor="let pre of World.worldPrefix" >
+                  {{pre.name}}
+              </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="aForm_type">Type</label>
+            <div class="select">
+              <select id="aForm_type" name="type" [(ngModel)]="typeName" (change)="setType($event)">
+                <option *ngFor="let pre of World.worldTypes" >
+                  {{pre.name}}
+              </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="aForm_suff">Suffix</label>
+            <div class="select">
+              <select id="aForm_suff" name="suff" [(ngModel)]="suffName" (change)="setSuff($event)">
+                <option *ngFor="let pre of World.worldSuffix" >
+                  {{pre.name}}
+              </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- <button type="submit" class="btn btn-primary">Button</button> -->
+        </section>
+      </form>
+
+    </form>
+  </div>
+  <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+    <app-world [world]="world"></app-world>
+  </div>
+</div>

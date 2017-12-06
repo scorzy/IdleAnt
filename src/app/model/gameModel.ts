@@ -33,7 +33,7 @@ export class GameModel {
 
   isChanged = true
   timeToEnd = Number.POSITIVE_INFINITY
-  gameVersion = "0.1.3"
+  gameVersion = "0.2.0"
   hideSaveNotification = false
 
   options: Options = new Options()
@@ -91,8 +91,8 @@ export class GameModel {
   homeTabAv = false
 
   minUser = 0
-  maxUser = 100
-  maxMax = 100
+  maxUser = 1000
+  maxMax = 1000
 
   // ui stuff
   isLab = false
@@ -105,7 +105,7 @@ export class GameModel {
 
   unitLists = new Array<TypeList>()
 
-
+  skip = false
   //#endregion
 
   constructor() { this.initialize() }
@@ -198,7 +198,7 @@ export class GameModel {
   }
 
   setMaxLevel() {
-    this.maxMax = Decimal.min(this.maxLevel.div(12), 1000).floor().toNumber()
+    this.maxMax = Decimal.min(this.maxLevel.div(12), 10000).floor().toNumber()
     this.maxUser = Decimal.min(this.maxUser, this.maxMax).floor().toNumber()
   }
 
