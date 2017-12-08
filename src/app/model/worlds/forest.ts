@@ -69,6 +69,12 @@ export class Forest implements WorldInterface {
     this.beetleCrystalProduction = new Production(this.beetle, new Decimal(0.1), false)
     this.moleScienceProduction = new Production(this.mole, this.game.machines.machineryProd.times(45), false)
 
+    const moleRes2 = new Research("mo2Res", "Mole Nest",
+      "Unlock mole",
+      [new Cost(this.game.baseWorld.science, new Decimal(1E7))],
+      [this.moleNest],
+      this.game
+    )
     const moleSciRes = new Research("moleRes", "Scientist Mole",
       "Mole also produces science",
       [new Cost(this.game.baseWorld.science, new Decimal(5E6))],
@@ -261,9 +267,9 @@ export class Forest implements WorldInterface {
         new Cost(this.mole, new Decimal(100), this.game.buyExpUnit)
       ]
     ))
-    this.moleNest.actions.push(new UpAction(this.game, this.mole,
+    this.moleNest.actions.push(new UpAction(this.game, this.moleNest,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost4.div(10), this.game.upgradeScienceExp)]))
-    this.moleNest.actions.push(new UpHire(this.game, this.mole,
+    this.moleNest.actions.push(new UpHire(this.game, this.moleNest,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost4.div(10), this.game.upgradeScienceExp)]))
     this.mole.addProductor(new Production(this.moleNest))
   }
