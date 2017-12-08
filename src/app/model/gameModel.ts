@@ -250,7 +250,7 @@ export class GameModel {
       this.infestation.poisonousPlant2.quantity = new Decimal(0)
 
     this.all.forEach(u => u.produces.forEach(p => p.reload()))
-
+    this.isChanged = true
     // console.log(this.timeToEnd + " " + dif)
     if (this.isChanged || dif > this.timeToEnd || dif > 1000) {
       //  reload max time
@@ -276,6 +276,9 @@ export class GameModel {
         for (const prod1 of res.producedBy.filter(r => r.isActive() && r.unit.unlocked)) {
           // x
           const prodX = prod1.prodPerSec
+          if (res.id === "food")
+            console.log(prodX)
+            console.log(prod1.unit.quantity)
           res.c = res.c.plus(prodX.times(prod1.unit.quantity))
           for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.isActive() && r2.unit.unlocked)) {
             // x^2
@@ -290,6 +293,9 @@ export class GameModel {
         }
         res.a = res.a.div(6)
         res.b = res.b.div(2)
+
+        if (res.id === "food")
+          console.log(res.a + " " + res.b + " " + res.c)
 
         if (res.a.lessThan(0)
           || res.b.lessThan(0)
