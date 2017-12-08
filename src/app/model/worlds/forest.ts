@@ -84,7 +84,7 @@ export class Forest implements WorldInterface {
     const moleRes = new Research("moleRes", "Mole",
       "Unlock mole",
       [new Cost(this.game.baseWorld.science, new Decimal(1E5))],
-      [this.mole, moleSciRes],
+      [this.mole, moleSciRes, moleRes2],
       this.game
     )
     const beetleWood = new Research("beetleWood", "Woodcutting training",
