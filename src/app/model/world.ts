@@ -158,6 +158,12 @@ export class World {
 
     game.unitLists.splice(0, game.unitLists.length)
 
+    //  World better effect
+    worldRet.prodMod.filter(pm => pm[1].greaterThan(0))
+      .forEach(pm2 => pm2[1] = pm2[1].times(game.prestige.worldBetter.quantity.times(0.5).plus(1)))
+    worldRet.unitMod.filter(pm => pm[1].greaterThan(0))
+      .forEach(pm2 => pm2[1] = pm2[1].times(game.prestige.worldBetter.quantity.times(0.5).plus(1)))
+
     // game.isChanged = true
     worldRet.setDepartments()
     return worldRet

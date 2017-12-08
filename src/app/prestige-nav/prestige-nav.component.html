@@ -1,6 +1,9 @@
 <clr-vertical-nav [clrVerticalNavCollapsible]="false" [clr-nav-level]="2">
 
-  <clr-tree-node *ngFor="let list of gameService.game.uiLists; trackBy:getListId">
+  <a class="clr-treenode-link text-capitalize experience font-weight-bold" routerLinkActive="active" routerLink="./unit/exp">
+    Experience: {{gameService.game.prestige.experience.quantity | format}}
+  </a>
+  <clr-tree-node *ngFor="let list of gameService.game.prestige.expLists; trackBy:getListId">
     <span class="font-weight-bold">
       <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="list.isEnding"></clr-icon>
       {{list.type}}
@@ -12,18 +15,9 @@
         <clr-tree-node *ngFor="let g of list.uiList; trackBy:getUnitId">
           <a [routerLink]="['./unit/'+g.id]" class="clr-treenode-link" routerLinkActive="active">
             <span class="resName">
-              <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
-              <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-              <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
-
               {{g.name}}</span>
-            <span class="perSec">
-              <span *ngIf="g.totalPerSec.abs().greaterThan(0.001)">
-                {{g.totalPerSec | format:true}}/s
-              </span>
-            </span>
             <span>{{g.quantity | format:true}}</span>
-            <!-- <span *ngIf="g.buyAction && g.buyAction.quantity.greaterThan(0)"> / {{g.buyAction.quantity | format:true}}</span> -->
+
           </a>
         </clr-tree-node>
       </div>

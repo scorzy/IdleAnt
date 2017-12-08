@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { World } from '../model/world';
 import { Router } from '@angular/router';
 import { GameService } from '../game.service';
@@ -6,12 +6,14 @@ import { GameService } from '../game.service';
 @Component({
   selector: 'app-world',
   templateUrl: './world.component.html',
-  styleUrls: ['./world.component.scss']
+  styleUrls: ['./world.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorldComponent implements OnInit {
   @HostBinding('class.card') card = 'card'
 
   @Input() world: World
+  @Input() showKeep = false
 
   constructor(
     public gameService: GameService,

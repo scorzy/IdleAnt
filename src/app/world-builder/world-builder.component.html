@@ -1,56 +1,68 @@
-<div class="row">
-  <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
-    <form>
-
+<div *ngIf="this.gameService.game.prestige.worldBuilder.buyAction.owned(); else super_anti_cheat">
+  <div class="row">
+    <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
       <form>
-        <section class="form-block">
-          <label>Generate your world</label>
-          <div class="form-group">
-            <label for="aForm_1">This is a form field</label>
-            <input type="number" name="level" [placeholder]="gameService.game.maxMax" [(ngModel)]="level" [min]="gameService.game.minUser"
-              [max]="gameService.game.maxMax" (change)="generate($event)">
-          </div>
 
-          <div class="form-group">
-            <label for="aForm_pre">Prefix</label>
-            <div class="select">
-              <select id="aForm_pre" name="pre" [(ngModel)]="preName" (change)="setPre($event)">
-                <option *ngFor="let pre of World.worldPrefix" >
-                  {{pre.name}}
-              </option>
-              </select>
+        <form>
+          <section class="form-block">
+            <label>Generate your world</label>
+            <div class="form-group">
+              <label for="aForm_1">Level</label>
+              <label role="tooltip" class="tooltip tooltip-validation tooltip-md" for="aForm_1" [class.invalid]="level > this.gameService.game.maxMax || level <0">
+                <input type="number" name="level" [placeholder]="gameService.game.maxMax" [(ngModel)]="level" [min]="gameService.game.minUser"
+                  [max]="gameService.game.maxMax" (change)="generate($event)">
+                <span class="tooltip-content">
+                  Level not valid.
+                </span>
+              </label>
+
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="aForm_type">Type</label>
-            <div class="select">
-              <select id="aForm_type" name="type" [(ngModel)]="typeName" (change)="setType($event)">
-                <option *ngFor="let pre of World.worldTypes" >
-                  {{pre.name}}
-              </option>
-              </select>
+            <div class="form-group">
+              <label for="aForm_pre">Prefix</label>
+              <div class="select">
+                <select id="aForm_pre" name="pre" [(ngModel)]="preName" (change)="setPre($event)">
+                  <option *ngFor="let pre of World.worldPrefix">
+                    {{pre.name}}
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="aForm_suff">Suffix</label>
-            <div class="select">
-              <select id="aForm_suff" name="suff" [(ngModel)]="suffName" (change)="setSuff($event)">
-                <option *ngFor="let pre of World.worldSuffix" >
-                  {{pre.name}}
-              </option>
-              </select>
+            <div class="form-group">
+              <label for="aForm_type">Type</label>
+              <div class="select">
+                <select id="aForm_type" name="type" [(ngModel)]="typeName" (change)="setType($event)">
+                  <option *ngFor="let pre of World.worldTypes">
+                    {{pre.name}}
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          <!-- <button type="submit" class="btn btn-primary">Button</button> -->
-        </section>
+            <div class="form-group">
+              <label for="aForm_suff">Suffix</label>
+              <div class="select">
+                <select id="aForm_suff" name="suff" [(ngModel)]="suffName" (change)="setSuff($event)">
+                  <option *ngFor="let pre of World.worldSuffix">
+                    {{pre.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- <button type="submit" class="btn btn-primary">Button</button> -->
+          </section>
+        </form>
+
       </form>
-
-    </form>
-  </div>
-  <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
-    <app-world [world]="world"></app-world>
+    </div>
+    <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+      <app-world [world]="world" [showKeep]="false"></app-world>
+    </div>
   </div>
 </div>
+
+<ng-template #super_anti_cheat>
+  <h1>You shoud not be here, buy the world builder</h1>
+</ng-template>

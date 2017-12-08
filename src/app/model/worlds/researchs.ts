@@ -187,6 +187,7 @@ export class Researchs implements WorldInterface {
     )
     this.game.baseWorld.science.bonusProduction.push([this.scientificMethod, new Decimal(1)])
 
+    //  Departements
     const deps: Array<Unlocable> = this.game.engineers.listDep
     this.departmentRes = new Research(
       "departementsRes",

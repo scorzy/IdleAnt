@@ -211,7 +211,7 @@ export class GameModel {
 
     let ret = new Decimal(0)
 
-    const production = prod.getprodPerSec()
+    const production = prod.prodPerSec
 
     if (prod.isActive())
       ret = Decimal.pow(fraction, level)                    //    exponential
@@ -249,6 +249,8 @@ export class GameModel {
     if (this.infestation.poisonousPlant.unlocked && this.infestation.poisonousPlant.quantity.lessThan(1))
       this.infestation.poisonousPlant2.quantity = new Decimal(0)
 
+    this.all.forEach(u => u.produces.forEach(p => p.reload()))
+
     // console.log(this.timeToEnd + " " + dif)
     if (this.isChanged || dif > this.timeToEnd || dif > 1000) {
       //  reload max time
@@ -273,15 +275,15 @@ export class GameModel {
 
         for (const prod1 of res.producedBy.filter(r => r.isActive() && r.unit.unlocked)) {
           // x
-          const prodX = prod1.getprodPerSec()
+          const prodX = prod1.prodPerSec
           res.c = res.c.plus(prodX.times(prod1.unit.quantity))
           for (const prod2 of prod1.unit.producedBy.filter(r2 => r2.isActive() && r2.unit.unlocked)) {
             // x^2
-            const prodX2 = prod2.getprodPerSec().times(prodX)
+            const prodX2 = prod2.prodPerSec.times(prodX)
             res.b = res.b.plus(prodX2.times(prod2.unit.quantity))
             for (const prod3 of prod2.unit.producedBy.filter(r3 => r3.isActive() && r3.unit.unlocked)) {
               // x^3
-              const prodX3 = prod3.getprodPerSec().times(prodX2)
+              const prodX3 = prod3.prodPerSec.times(prodX2)
               res.a = res.a.plus(prodX3.times(prod3.unit.quantity))
             }
           }
@@ -390,6 +392,7 @@ export class GameModel {
 
   update2(dif: decimal.Decimal) {
     this.unl.forEach(u => {
+
       u.quantity = u.quantity
         .plus(u.a.times(Decimal.pow(dif, 3)))
         .plus(u.b.times(Decimal.pow(dif, 2)))
@@ -568,6 +571,7 @@ export class GameModel {
       this.reloadProduction()
       this.unitLists.splice(0, this.unitLists.length)
       this.reloadLists()
+      this.unl = this.all.filter(u => u.unlocked)
 
       return save.last
     }

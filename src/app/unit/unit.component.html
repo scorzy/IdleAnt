@@ -1,7 +1,9 @@
 <div class="row">
 
   <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6">
-    <h1 class="text-capitalize no-mg-top">{{gen.name}}</h1>
+    <h1 class="text-capitalize no-mg-top">{{gen.name}}
+        <small> {{gen.quantity | format}}</small>
+    </h1>
 
     <div *ngIf="gen.isEnding()">
       <clr-alert [clrAlertType]="'alert-warning'">
@@ -14,7 +16,7 @@
     </div>
 
     <p>{{gen.description}}</p>
-    <span>Owned: {{gen.quantity | format}}</span>
+    <!-- <span>Owned: {{gen.quantity | format}}</span> -->
 
 
     <div *ngIf="gen.produces.length >0">
@@ -65,8 +67,8 @@
                 <td class="w-33 text-capitalize">
                   <a [routerLink]="['/main/unit/unit/'+item.product.id]">{{item.product.name}}</a>
                 </td>
-                <td class="w-33">{{item.getprodPerSec(false) | format}}</td>
-                <td class="w-33">{{item.getprodPerSec().times(gen.quantity) | format}}</td>
+                <td class="w-33">{{item.prodPerSecNoEff | format}}</td>
+                <td class="w-33">{{item.prodPerSec.times(gen.quantity) | format}}</td>
               </tr>
             </tbody>
           </table>
@@ -79,9 +81,10 @@
             <table class="table  table-compact">
               <thead>
                 <tr>
-                  <th class="w-33">Unit</th>
-                  <th class="w-33">Quantity</th>
-                  <th class="w-33">Total</th>
+                  <th class="w-25">Unit</th>
+                  <th class="w-25">Quantity</th>
+                  <th class="w-25">Total</th>
+                  <th class="w-25">%</th>
                 </tr>
               </thead>
               <tfoot>
@@ -90,6 +93,7 @@
                   <td>Total</td>
                   <td>{{gen.totalProducers | format}}</td>
                   <td>{{gen.totalPerSec | format}}</td>
+                  <td></td>
                 </tr>
               </tfoot>
               <tbody>
@@ -99,7 +103,8 @@
                     <a [routerLink]="['/main/unit/unit/'+item.unit.id]">{{item.unit.name}}</a>
                   </td>
                   <td>{{item.unit.quantity | format}}</td>
-                  <td>{{item.getprodPerSec().times(item.unit.quantity) | format}}</td>
+                  <td>{{item.prodPerSec.times(item.unit.quantity) | format}}</td>
+                  <td>{{item.prodPerSec.times(item.unit.quantity).div(gen.totalPerSec).times(100) | format}}</td>
                 </tr>
               </tbody>
             </table>

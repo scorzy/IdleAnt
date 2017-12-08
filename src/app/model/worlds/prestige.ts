@@ -7,6 +7,7 @@ import { Base } from '../units/base';
 import { Cost } from '../cost';
 import { TypeList } from '../typeList';
 import { World } from '../world';
+import { forEach } from '@angular/router/src/utils/collection';
 
 export class Prestige implements WorldInterface {
 
@@ -53,11 +54,19 @@ export class Prestige implements WorldInterface {
   effListEng = new Array<Unit>()
   effListDep = new Array<Unit>()
 
+  //  World
+  worldList = new Array<Unit>()
+  worldBuilder: Unit
+  worldBetter: Unit
+
   //  Time
   timeList = new Array<Unit>()
   time: Unit
   timeMaker: Unit
   timeBank: Unit
+
+  //  Non ant efficiency
+  otherList = new Array<Unit>()
 
   constructor(public game: GameModel) { }
 
@@ -362,6 +371,49 @@ export class Prestige implements WorldInterface {
 
     this.timeList = [this.time, this.timeMaker, this.timeBank]
     this.expLists.push(new TypeList("Time Management", this.timeList))
+    //#endregion
+
+    //#region Other
+    this.otherList = new Array<Unit>()
+    const otherLists: (Unit[] | string)[][] =
+      [
+        [this.game.bee.listBee, "Bee"],
+        [this.game.beach.beachList, "Sea"],
+        [this.game.forest.listForest, "Beetle"]
+      ]
+    this.otherList = otherLists.map(ol => {
+      const u = new Unit(this.game, "otherL" + ol[1], ol[1] + " efficienty.",
+        ol[1] + " units yield 100% more.")
+      const ul = <Unit[]>ol[0]
+      ul.forEach(unit => {
+        unit.produces.filter(p => p.efficiency.greaterThan(0))
+          .forEach(prod => {
+            prod.bonusList.push([u, new Decimal(100)])
+          })
+      });
+      u.actions.push(new BuyAction(this.game, u,
+        [new Cost(this.experience, new Decimal(12), expIncrement)]))
+
+      return u
+    })
+
+    this.expLists.push(new TypeList("Non Ant", this.otherList))
+    //#endregion
+
+    //#region World
+    this.worldBuilder = new Unit(this.game, "worldBuilder", "World Builder",
+      "Unlock the world builder ! (one time purchase)")
+    this.worldBuilder.actions.push(new BuyAction(this.game, this.worldBuilder,
+      [new Cost(this.experience, new Decimal(1E3), expIncrement)]))
+    this.worldBuilder.buyAction.oneTime = true
+
+    this.worldBetter = new Unit(this.game, "worldBetter", "World Adaption",
+      "Increase positive effects of new worlds. +50% 'production of.. ' and 'yields and consume'")
+    this.worldBetter.actions.push(new BuyAction(this.game, this.worldBetter,
+      [new Cost(this.experience, new Decimal(10), expIncrement)]))
+
+    this.worldList = [this.worldBuilder, this.worldBetter]
+    this.expLists.push(new TypeList("World", this.worldList))
     //#endregion
 
     this.expLists.map(l => l.list).forEach(al => al.forEach(l => {

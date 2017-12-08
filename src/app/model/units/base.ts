@@ -2,28 +2,6 @@ import { Unlocable } from '../utils';
 import { GameModel } from '../gameModel';
 import { Action } from './action';
 
-// export enum Type {
-//   Material,
-//   Generator,
-//   Ant,
-//   Bee,
-//   Food,
-//   Crystal,
-//   Soil,
-//   Fungus,
-//   Wood,
-//   Sand,
-//   Machinery,
-//   Engineer,
-//   Other,
-//   Scientist,
-//   Laser,
-//   Farmer,
-//   Mining,
-//   SoilG,
-//   WoodG
-// }
-
 export class Base extends Unlocable {
 
   endIn = 0

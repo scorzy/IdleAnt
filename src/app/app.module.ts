@@ -27,13 +27,21 @@ import { CreditComponent } from './credit/credit.component';
 import { Action } from './model/units/action';
 import { WorldComponent } from './world/world.component';
 import { WorldBuilderComponent } from './world-builder/world-builder.component';
+import { PrestigeNavComponent } from './prestige-nav/prestige-nav.component';
 
 const appRoutes: Routes = [
   {
     path: '', redirectTo: "main/unit", pathMatch: 'full'
   },
   {
-    path: 'main/:type', component: MainNavComponent,
+    path: 'main/unit', component: MainNavComponent,
+    children: [
+      { path: 'unit', component: UnitComponent },
+      { path: 'unit/:id', component: UnitComponent }
+    ]
+  },
+  {
+    path: 'main/exp', component: PrestigeNavComponent,
     children: [
       { path: 'unit', component: UnitComponent },
       { path: 'unit/:id', component: UnitComponent }
@@ -118,7 +126,8 @@ export class CustomOptions extends ToastOptions {
     UiComponent,
     CreditComponent,
     WorldComponent,
-    WorldBuilderComponent
+    WorldBuilderComponent,
+    PrestigeNavComponent
   ],
   imports: [
     BrowserModule,

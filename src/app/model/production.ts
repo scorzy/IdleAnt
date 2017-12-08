@@ -14,7 +14,10 @@ export class Production extends Unlocable {
   defaultUnlocked = true
   active = true
 
-  bonusList: Array<[Base, decimal.Decimal]>
+  prodPerSec = new Decimal(0)
+  prodPerSecNoEff = new Decimal(0)
+
+  bonusList = new Array<[Base, decimal.Decimal]>()
 
   constructor(
     public unit: Unit,    // who make
@@ -49,5 +52,10 @@ export class Production extends Unlocable {
 
   isActive(): boolean {
     return this.active && this.unlocked
+  }
+
+  reload() {
+    this.prodPerSec = this.getprodPerSec()
+    this.prodPerSecNoEff = this.getprodPerSec(false)
   }
 }

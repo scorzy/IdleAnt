@@ -19,15 +19,21 @@ export class Beach implements WorldInterface {
   shrimp: Unit
   lobster: Unit
 
+  shark: Unit
+  shark2: Unit
+
   seaRes: Research
   crabJobRes: Research
   shrimpRes: Research
   lobsterRes: Research
+  sharkRes: Research
+  sharkRes2: Research
+  beachList = new Array<Unit>()
 
   constructor(public game: GameModel) { }
 
   declareStuff() {
-    const beachList = new Array<Unit>()
+    this.beachList = new Array<Unit>()
     this.crab = new Unit(this.game, "crab", "Crab", "Crab yield sand.")
     this.crabFarmer = new Unit(this.game, "crabF", "Farmer Crab", "Farmer Crab yield fungus.")
     this.crabQueen = new Unit(this.game, "CrabQ", "Crab Queen", "Crab Queen yield crab.")
@@ -38,21 +44,46 @@ export class Beach implements WorldInterface {
       "Lobster yield sand, and crystal for food.")
     this.crabScientist = new Unit(this.game, "crabScientist", "Scientist Crab",
       "Scientist Crab will get science for sand.")
+    this.shark = new Unit(this.game, "shark", "Shark",
+      "Shark yield food and crystall.")
+    this.shark2 = new Unit(this.game, "shark2", "Great Shark",
+      "Great Shark yield sharks.")
 
-    beachList.push(this.crabNest)
-    beachList.push(this.crabQueen)
-    beachList.push(this.crab)
-    beachList.push(this.crabFarmer)
-    beachList.push(this.crabScientist)
-    beachList.push(this.shrimp)
-    beachList.push(this.lobster)
+    this.beachList.push(this.crabNest)
+    this.beachList.push(this.crabQueen)
+    this.beachList.push(this.crab)
+    this.beachList.push(this.crabFarmer)
+    this.beachList.push(this.crabScientist)
+    this.beachList.push(this.shrimp)
+    this.beachList.push(this.lobster)
+    this.beachList.push(this.shark2)
+    this.beachList.push(this.shark)
+
+
+    //    Shark 2
+    this.sharkRes2 = new Research(
+      "sharkRes2",
+      "Great Shark", "Unlock Great Sharks.",
+      [new Cost(this.game.baseWorld.science, new Decimal(1E11))],
+      [this.shark2],
+      this.game
+    )
+
+    //    Shark
+    this.sharkRes = new Research(
+      "sharkRes",
+      "Shark", "Unlock Sharks.",
+      [new Cost(this.game.baseWorld.science, new Decimal(1E9))],
+      [this.shark, this.sharkRes2],
+      this.game
+    )
 
     //    lobster
     this.lobsterRes = new Research(
       "lobsterRes",
       "Lobsters", "Unlock lobsters.",
       [new Cost(this.game.baseWorld.science, new Decimal(1E5))],
-      [this.lobster],
+      [this.lobster, this.sharkRes],
       this.game
     )
 
@@ -83,7 +114,7 @@ export class Beach implements WorldInterface {
       this.game
     )
     this.seaRes.avabileBaseWorld = false
-    this.game.lists.push(new TypeList("Beach", beachList))
+    this.game.lists.push(new TypeList("Beach", this.beachList))
 
   }
   initStuff() {
@@ -199,6 +230,38 @@ export class Beach implements WorldInterface {
 
     this.game.baseWorld.sand.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(5)))
     this.game.baseWorld.crystal.addProductor(new Production(this.lobster, this.game.machines.machineryProd.div(10)))
+
+    // Shark
+    this.shark.actions.push(new BuyAction(this.game,
+      this.shark,
+      [
+        new Cost(this.game.baseWorld.food, this.game.machines.price1.times(50000), this.game.buyExp),
+        new Cost(this.game.baseWorld.crystal, this.game.machines.price1.times(10), this.game.buyExp)
+      ]
+    ))
+    this.shark.actions.push(new UpAction(this.game, this.shark,
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
+    this.shark.actions.push(new UpHire(this.game, this.shark,
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceHireExp)]))
+
+    this.game.baseWorld.food.addProductor(new Production(this.shark, this.game.machines.machineryProd.times(100)))
+    this.game.baseWorld.crystal.addProductor(new Production(this.shark, this.game.machines.machineryProd.times(50)))
+
+    // Shark 2
+    this.shark2.actions.push(new BuyAction(this.game,
+      this.shark2,
+      [
+        new Cost(this.game.baseWorld.food, this.game.machines.price1.times(500000), this.game.buyExp),
+        new Cost(this.shark, new Decimal(100), this.game.buyExpUnit)
+      ]
+    ))
+    this.shark2.actions.push(new UpAction(this.game, this.shark2,
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
+    this.shark2.actions.push(new UpHire(this.game, this.shark2,
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceHireExp)]))
+
+    this.shark.addProductor(new Production(this.shark2))
+
   }
   addWorld() {
 

@@ -6,6 +6,10 @@ table {
     width: 33%
 }
 
+.w-25 {
+  width: 25%
+}
+
 .no-mg-top {
     margin-top: 0px !important;
 }
@@ -32,4 +36,8 @@ table {
     width: auto;
     border-radius: 0px;
     margin-top: auto;
+}
+
+small{
+  margin-left:2em;
 }

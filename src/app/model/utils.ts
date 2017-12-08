@@ -73,7 +73,9 @@ export class Utils {
 
         // const t = Math.acos(3 * q / p / u) / 3;  // D < 0 implies p < 0 and acos argument in [-1..1]
         const k = new Decimal(2).times(Math.PI).div(3)
-        roots = [u.times(t.cos()), u.times((t.minus(k)).cos()), u.times(t.minus(k.times(2)).cos())]
+        roots = [u.times(Math.cos(t.toNumber())),
+        u.times(Math.cos(t.minus(k).toNumber())),
+        u.times(Math.cos(t.minus(k.times(2)).toNumber()))]
 
         // console.log(roots[0].toString())
         // console.log(roots[1].toString())
@@ -98,7 +100,9 @@ export class Unlocable {
   ) { }
 }
 
-
+Decimal.prototype.cos = function () {
+  return new Decimal(Math.cos(this.toNumber()))
+}
 
 Decimal.prototype.lessThanOrEqualTo = function (other: decimal.Decimal) {
   return this.cmp(other) < 1

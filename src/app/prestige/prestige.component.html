@@ -90,6 +90,10 @@
       </div>
     </div>
     <div class="form-group">
+      <a class="btn btn-success-outline" routerLink="/world-build" *ngIf="this.gameService.game.prestige.worldBuilder.buyAction.owned()">
+        <clr-icon shape="world"></clr-icon>
+        Generate
+      </a>
       <button class="btn btn-secondary" (click)="change()">
         <clr-icon shape="world"></clr-icon>
         Change worlds
@@ -99,17 +103,12 @@
       <input type="number" placeholder="0" [(ngModel)]="gameService.game.minUser" class="numIn" min="1" [max]="gameService.game.maxUser">
       <label>Max Level ({{gameService.game.maxMax}}):</label>
       <input type="number" [placeholder]="gameService.game.maxMax" [(ngModel)]="gameService.game.maxUser" class="numIn"
-        [min]="gameService.game.minUser" [max]="gameService.game.maxMax" >
-
-      <a class="btn btn-success-outline" routerLink="/world-build">
-        <clr-icon shape="world"></clr-icon>
-        Generate
-      </a>
+        [min]="gameService.game.minUser" [max]="gameService.game.maxMax">
 
     </div>
     <div class="card-columns card-columns-2">
 
-      <app-world *ngFor="let world of gameService.game.nextWorlds " [world]="world"></app-world>
+      <app-world *ngFor="let world of gameService.game.nextWorlds " [world]="world" [showKeep]="true"></app-world>
 
     </div>
   </ng-template>
