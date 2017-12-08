@@ -2,7 +2,7 @@
 
   <div class="col-xs-12 col-md-12 col-lg-6 col-xl-6">
     <h1 class="text-capitalize no-mg-top">{{gen.name}}
-        <small> {{gen.quantity | format}}</small>
+      <small> {{gen.quantity | format}}</small>
     </h1>
 
     <div *ngIf="gen.isEnding()">
@@ -24,8 +24,12 @@
         <span *ngIf="gameService.game.research.up1.owned()"> earning a bonus of +{{gen.getBoost().times(100) | format}}% production</span>
       </p>
       <div *ngIf="!gen.alwaysOn">
-        <input type="range" min="0" max="100" [(ngModel)]="gen.percentage" (change)="onChange($event.target.value)">
+
+        <p-slider [(ngModel)]="gen.percentage" [step]="0.1" [min]="0" [max]="100" (change)="onChange($event.target.value)"></p-slider>
+
+        <!-- <input type="range" min="0" max="100" [(ngModel)]="gen.percentage" (change)="onChange($event.target.value)"> -->
         <span>{{gen.percentage}} % operative</span>
+
       </div>
     </div>
 
@@ -62,8 +66,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of gen.produces | filterActive"
-              [ngClass]="{'alert alert-warning no-alert': item.efficiency.lessThan(0)}">
+              <tr *ngFor="let item of gen.produces | filterActive" [ngClass]="{'alert alert-warning no-alert': item.efficiency.lessThan(0)}">
                 <td class="w-33 text-capitalize">
                   <a [routerLink]="['/main/unit/unit/'+item.product.id]">{{item.product.name}}</a>
                 </td>
@@ -88,7 +91,7 @@
                 </tr>
               </thead>
               <tfoot>
-                  <!-- class="bg-info text-white" -->
+                <!-- class="bg-info text-white" -->
                 <tr class="alert alert-info no-alert">
                   <td>Total</td>
                   <td>{{gen.totalProducers | format}}</td>
@@ -97,8 +100,7 @@
                 </tr>
               </tfoot>
               <tbody>
-                <tr *ngFor="let item of gen.producedBy | filterActive; trackBy:getUnitId"
-                [ngClass]="{'alert alert-warning no-alert': item.efficiency.lessThan(0)}">
+                <tr *ngFor="let item of gen.producedBy | filterActive; trackBy:getUnitId" [ngClass]="{'alert alert-warning no-alert': item.efficiency.lessThan(0)}">
                   <td class="text-capitalize">
                     <a [routerLink]="['/main/unit/unit/'+item.unit.id]">{{item.unit.name}}</a>
                   </td>

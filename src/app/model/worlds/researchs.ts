@@ -20,7 +20,6 @@ export class Researchs implements WorldInterface {
   engineerRes: Research
   machineryRes: Research
   departmentRes: Research
-  // stageRes: Research
 
   experimentResearch: Research
   composterResearch: Research
@@ -36,12 +35,14 @@ export class Researchs implements WorldInterface {
   depEduRes: Research
 
   hereAndNow: Research
+  hereAndNow2: Research
   adaptation: Research
   evolution: Research
-  // devolution: Research
   escape: Research
   timeWarp: Research
-  // missing: Research
+
+  r2: Research
+  r4: Research
 
   bi: Research
 
@@ -60,20 +61,6 @@ export class Researchs implements WorldInterface {
       [],
       this.game
     )
-
-    // //   Devolution
-    // this.devolution = new Research(
-    //   "devoluti",
-    //   "De-Evolution",
-    //   "Revert the effect of evolution.",
-    //   [new Cost(this.game.baseWorld.science, new Decimal(1))],
-    //   [],
-    //   this.game,
-    //   () => {
-    //     this.game.world.toUnlock.forEach(t => t.basePrice = t.basePrice.div(5))
-    //     this.game.world.experience = this.game.world.experience.div(3)
-    //   }
-    // )
 
     //    Evolution
     this.evolution = new Research(
@@ -127,12 +114,27 @@ export class Researchs implements WorldInterface {
       }
     )
 
+    //    Here and Now 2
+    this.hereAndNow2 = new Research(
+      "han2Res",
+      "Here and Now 2", "Get 50% of world experience.",
+      [new Cost(this.game.baseWorld.science, new Decimal(1E10))],
+      [],
+      this.game,
+      () => {
+        const expToAdd = this.game.world.experience.div(2)
+        this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(expToAdd)
+        this.game.maxLevel = this.game.maxLevel.plus(expToAdd)
+        this.game.expTabAv = true
+      }
+    )
+
     //    Here and Now
     this.hereAndNow = new Research(
       "hereAndNow",
       "Here and Now", "Get 10 experience.",
       [new Cost(this.game.baseWorld.science, new Decimal(1E9))],
-      [this.timeWarp],
+      [this.timeWarp, this.hereAndNow2],
       this.game,
       () => {
         this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(10)
@@ -199,7 +201,6 @@ export class Researchs implements WorldInterface {
 
     //    Engineer
     const eng: Array<Unlocable> = this.game.engineers.listEnginer
-    // //eng.push(this.stageRes)
     this.engineerRes = new Research(
       "engineerRes",
       "Engineer", "Engineer will slowly build machinery.",
@@ -307,7 +308,7 @@ export class Researchs implements WorldInterface {
     //    Up Hire
     const allUpH = Array.from(this.game.unitMap.values()).filter(u => u.upHire).map(u => u.upHire)
     allUpH.push(this.upCombined)
-    const r4 = new Research(
+    this.r4 = new Research(
       "R4",
       "Twin", "Allows you to get more units for the same price.",
       [new Cost(this.game.baseWorld.science, new Decimal(7E3))],
@@ -317,8 +318,8 @@ export class Researchs implements WorldInterface {
 
     //    Up 2
     const allUp = Array.from(this.game.unitMap.values()).filter(u => u.upAction).map(u => u.upAction)
-    allUp.push(r4)
-    const r2 = new Research(
+    allUp.push(this.r4)
+    this.r2 = new Research(
       "R2",
       "Teamwork 2", "Upgrade your unit's production bonus.",
       [new Cost(this.game.baseWorld.science, new Decimal(500))],
@@ -331,7 +332,7 @@ export class Researchs implements WorldInterface {
       "RUp1",
       "Teamwork", "Gives a production bonus based on how many times you have bought a unit.",
       [new Cost(this.game.baseWorld.science, new Decimal(50))],
-      [r2],
+      [this.r2],
       this.game
     )
 

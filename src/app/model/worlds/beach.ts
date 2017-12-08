@@ -64,7 +64,7 @@ export class Beach implements WorldInterface {
     this.sharkRes2 = new Research(
       "sharkRes2",
       "Great Shark", "Unlock Great Sharks.",
-      [new Cost(this.game.baseWorld.science, new Decimal(1E11))],
+      [new Cost(this.game.baseWorld.science, new Decimal(1E9))],
       [this.shark2],
       this.game
     )
@@ -73,7 +73,7 @@ export class Beach implements WorldInterface {
     this.sharkRes = new Research(
       "sharkRes",
       "Shark", "Unlock Sharks.",
-      [new Cost(this.game.baseWorld.science, new Decimal(1E9))],
+      [new Cost(this.game.baseWorld.science, new Decimal(1E6))],
       [this.shark, this.sharkRes2],
       this.game
     )
@@ -236,13 +236,13 @@ export class Beach implements WorldInterface {
       this.shark,
       [
         new Cost(this.game.baseWorld.food, this.game.machines.price1.times(50000), this.game.buyExp),
-        new Cost(this.game.baseWorld.crystal, this.game.machines.price1.times(10), this.game.buyExp)
+        new Cost(this.game.baseWorld.crystal, this.game.machines.price1.times(5), this.game.buyExp)
       ]
     ))
     this.shark.actions.push(new UpAction(this.game, this.shark,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
     this.shark.actions.push(new UpHire(this.game, this.shark,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceHireExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceHireExp)]))
 
     this.game.baseWorld.food.addProductor(new Production(this.shark, this.game.machines.machineryProd.times(100)))
     this.game.baseWorld.crystal.addProductor(new Production(this.shark, this.game.machines.machineryProd.times(50)))
@@ -256,9 +256,9 @@ export class Beach implements WorldInterface {
       ]
     ))
     this.shark2.actions.push(new UpAction(this.game, this.shark2,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4.times(5), this.game.upgradeScienceExp)]))
     this.shark2.actions.push(new UpHire(this.game, this.shark2,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceHireExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4.times(5), this.game.upgradeScienceHireExp)]))
 
     this.shark.addProductor(new Production(this.shark2))
 
@@ -284,7 +284,21 @@ export class Beach implements WorldInterface {
         [[this.game.baseWorld.fungus, new Decimal(0.7)]],
         [],
         [[this.game.beach.seaRes, new Decimal(0)]],
-        new Decimal(3.5)
+        new Decimal(3)
+      ))
+
+      World.worldSuffix.push(
+        new World(this.game, "of Sharks", "",
+        [],
+        [],
+        [new Cost(this.game.beach.shark2, new Decimal(50))],
+        [
+          [this.game.beach.shark, new Decimal(3)],
+          [this.game.beach.shark2, new Decimal(2)]
+        ],
+        [],
+        [[this.game.beach.seaRes, new Decimal(0)]],
+        new Decimal(3)
       ))
 
   }

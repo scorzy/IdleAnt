@@ -28,6 +28,7 @@ import { Action } from './model/units/action';
 import { WorldComponent } from './world/world.component';
 import { WorldBuilderComponent } from './world-builder/world-builder.component';
 import { PrestigeNavComponent } from './prestige-nav/prestige-nav.component';
+import { SliderModule } from 'primeng/components/slider/slider';
 
 const appRoutes: Routes = [
   {
@@ -139,11 +140,14 @@ export class CustomOptions extends ToastOptions {
     ),
     BrowserModule,
     BrowserAnimationsModule,
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    SliderModule
   ],
   providers: [{ provide: ToastOptions, useClass: CustomOptions }],
   bootstrap: [AppComponent],
-  exports: [ActionComponent]
+  exports: [
+    ActionComponent,
+  ]
 })
 export class AppModule { }
 

@@ -573,6 +573,13 @@ export class GameModel {
       this.reloadLists()
       this.unl = this.all.filter(u => u.unlocked)
 
+      if (this.research.r2.owned())
+        this.unlockUnits(this.research.r2.toUnlock)()
+      if (this.research.r4.owned()) {
+        this.unlockUnits(this.research.r4.toUnlock)()
+        this.research.r4.unlocked = false
+      }
+
       return save.last
     }
 

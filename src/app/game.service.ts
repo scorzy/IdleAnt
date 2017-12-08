@@ -78,7 +78,7 @@ export class GameService {
       if (delta > 1000)
         this.game.isChanged = true
 
-      this.game.longUpdate(delta)
+      this.game.longUpdate(delta * 1000)
 
       this.game.prestige.time.quantity = Decimal.min(
         this.game.prestige.time.quantity.plus(
@@ -97,8 +97,10 @@ export class GameService {
   }
 
   clear() {
+    this.game = null
     localStorage.clear()
     this.game = new GameModel()
+    window.location.reload()
   }
 
   save(timer = true) {

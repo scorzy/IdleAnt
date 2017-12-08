@@ -14,6 +14,7 @@ import * as numberformat from 'swarm-numberformat'
 import * as moment from 'moment'
 import { Base } from '../model/units/base'
 import { GameModel } from '../model/gameModel'
+import { SliderModule } from 'primeng/components/slider/slider'
 
 declare let preventScroll
 

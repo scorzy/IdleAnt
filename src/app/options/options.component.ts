@@ -11,7 +11,7 @@ declare let preventScroll
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OptionsComponent implements OnInit {
-  @HostBinding('class.content-container') className = 'content-container';
+  @HostBinding('class.content-area') className = 'content-area'
 
   stringSave = ""
 
