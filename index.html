@@ -9,7 +9,7 @@
     preventScroll = function () {
       setTimeout(function () {
         $('.nav-content, .content-area').on('DOMMouseScroll mousewheel', function (ev) {
-          console.log("scroll")
+          // console.log("scroll")
           body = $('body')[0]
           var $this = $(this),
             scrollTop = this.scrollTop,
@@ -21,7 +21,7 @@
             up = delta > 0;
 
           var prevent = function () {
-            console.log("prevent")
+            // console.log("prevent")
             ev.stopPropagation();
             ev.preventDefault();
             ev.returnValue = false;
@@ -41,4 +41,4 @@
         )
       }
         , 0)
-    };</script><script type="text/javascript" src="inline.a459cf45860bfe5b563c.bundle.js"></script><script type="text/javascript" src="polyfills.9871d73c98063d67e1fc.bundle.js"></script><script type="text/javascript" src="scripts.9ee1206be440224e9f93.bundle.js"></script><script type="text/javascript" src="vendor.121846ab244d16fcc348.bundle.js"></script><script type="text/javascript" src="main.001c3a962e58368ac057.bundle.js"></script></body></html>
+    };</script><script type="text/javascript" src="inline.1e03692d3321a549661d.bundle.js"></script><script type="text/javascript" src="polyfills.9871d73c98063d67e1fc.bundle.js"></script><script type="text/javascript" src="scripts.9ee1206be440224e9f93.bundle.js"></script><script type="text/javascript" src="vendor.121846ab244d16fcc348.bundle.js"></script><script type="text/javascript" src="main.6a49f5562504353246ea.bundle.js"></script></body></html>
