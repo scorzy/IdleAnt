@@ -40,7 +40,7 @@
     preventScroll = function () {
       setTimeout(function () {
         $('.nav-content, .content-area').on('DOMMouseScroll mousewheel', function (ev) {
-          console.log("scroll")
+          // console.log("scroll")
           body = $('body')[0]
           var $this = $(this),
             scrollTop = this.scrollTop,
@@ -52,7 +52,7 @@
             up = delta > 0;
 
           var prevent = function () {
-            console.log("prevent")
+            // console.log("prevent")
             ev.stopPropagation();
             ev.preventDefault();
             ev.returnValue = false;

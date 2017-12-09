@@ -35,6 +35,7 @@
     "moment": "^2.18.1",
     "mutationobserver-shim": "^0.3.2",
     "ng2-toastr": "^4.1.2",
+    "postcss-url": "^7.3.0",
     "primeng": "^4.3.0",
     "rxjs": "^5.4.1",
     "swarm-numberformat": "^0.4.0",

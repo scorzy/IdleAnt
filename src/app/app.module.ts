@@ -136,7 +136,7 @@ export class CustomOptions extends ToastOptions {
     ClarityModule.forRoot(),
     [RouterModule],
     RouterModule.forRoot(
-      appRoutes
+      appRoutes, { useHash: true }
     ),
     BrowserModule,
     BrowserAnimationsModule,
