@@ -388,7 +388,7 @@ export class Prestige implements WorldInterface {
       ul.forEach(unit => {
         unit.produces.filter(p => p.efficiency.greaterThan(0))
           .forEach(prod => {
-            prod.bonusList.push([u, new Decimal(100)])
+            prod.bonusList.push([u, new Decimal(1)])
           })
       });
       u.actions.push(new BuyAction(this.game, u,

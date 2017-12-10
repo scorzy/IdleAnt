@@ -69,3 +69,7 @@
 .branding {
     min-width: auto !important;
 }
+
+:host /deep/ .nav-content {
+  padding-bottom:25px;
+}

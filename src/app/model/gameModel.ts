@@ -33,7 +33,7 @@ export class GameModel {
 
   isChanged = true
   timeToEnd = Number.POSITIVE_INFINITY
-  gameVersion = "0.2.0"
+  gameVersion = "0.2.1"
   hideSaveNotification = false
 
   options: Options = new Options()
@@ -579,6 +579,8 @@ export class GameModel {
       if (this.research.r4.owned()) {
         this.unlockUnits(this.research.r4.toUnlock)()
         this.research.r4.unlocked = false
+        if (this.research.upCombined.quantity.greaterThan(0))
+          this.research.upCombined.unlocked = false
       }
 
       return save.last
