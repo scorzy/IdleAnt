@@ -91,8 +91,8 @@ export class GameModel {
   homeTabAv = false
 
   minUser = 0
-  maxUser = 1000
-  maxMax = 1000
+  maxUser = 1
+  maxMax = 1
 
   // ui stuff
   isLab = false

@@ -29,6 +29,8 @@ import { WorldComponent } from './world/world.component';
 import { WorldBuilderComponent } from './world-builder/world-builder.component';
 import { PrestigeNavComponent } from './prestige-nav/prestige-nav.component';
 import { SliderModule } from 'primeng/components/slider/slider';
+import { GameService } from './game.service';
+import { Options } from './model/options';
 
 const appRoutes: Routes = [
   {
@@ -72,11 +74,20 @@ const appRoutes: Routes = [
 
 @Pipe({ name: 'format' })
 export class Format implements PipeTransform {
+  constructor(public gameService: GameService) {
+  }
   public transform(value: decimal.Decimal, short: boolean): any {
 
-    return value.abs().lessThan(10) ? value.toNumber().toFixed(2).replace(/\.0+$/, '').replace(".", ",") :
-      value.abs().lessThan(100) ? value.toNumber().toFixed(1).replace(/\.0+$/, '').replace(".", ",") :
-        (value.greaterThanOrEqualTo(0) ? "" : "-") + numberformat.formatShort(value.abs())
+    return this.gameService.game.options.usaFormat ?
+      (
+        value.abs().lessThan(10) ? value.toNumber().toFixed(2).replace(/\.0+$/, '') :
+          value.abs().lessThan(100) ? value.toNumber().toFixed(1).replace(/\.0+$/, '') :
+            (value.greaterThanOrEqualTo(0) ? "" : "-") + numberformat.formatShort(value.abs())
+      ) : (
+        value.abs().lessThan(10) ? value.toNumber().toFixed(2).replace(/\.0+$/, '').replace(".", ",") :
+          value.abs().lessThan(100) ? value.toNumber().toFixed(1).replace(/\.0+$/, '').replace(".", ",") :
+            (value.greaterThanOrEqualTo(0) ? "" : "-") + numberformat.formatShort(value.abs()).replace(".", ",")
+      )
 
   }
 }

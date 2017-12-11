@@ -14,7 +14,8 @@
             <span class="resName">
               <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
               <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-              <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"></clr-icon>
+              <clr-icon class="is-warning is-solid" shape="pause" *ngIf="g.isStopped()"
+               (click)="g.percentage = 100"></clr-icon>
 
               {{g.name}}</span>
             <span class="perSec">

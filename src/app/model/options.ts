@@ -4,6 +4,7 @@ export class Options {
 
   public header = 5
   public dark = false
+  public usaFormat = false
 
   constructor(
   ) { }
@@ -17,6 +18,9 @@ export class Options {
 
     if (data.dark)
       this.dark = data.dark
+
+    if (data.usaFormat)
+      this.usaFormat = data.usaFormat
   }
 
 }

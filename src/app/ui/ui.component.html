@@ -24,7 +24,15 @@
         </select>
       </div>
 
+      <div class="form-group">
+        <div class="toggle-switch">
+          <input type="checkbox" id="format" name="format" [(ngModel)]="gameService.game.options.usaFormat">
+          <label for="format">Alternative number format</label>
+        </div>
+      </div>
+
     </div>
+
   </section>
 
 </form>

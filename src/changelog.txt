@@ -1,7 +1,14 @@
+0.2.2 - 11-12-2017
+- fixed spelling
+- Here and Now 2 debuff
+- alternative number format options
+
 0.2.1 - 10-12-2017
 - fixed non ant bonus (now is 100%, not x100)
 - fixed combined bonus research showing when not needed
 - some ui fix (padding and Nan)
+- click on pause button make unit 100% operative
+- fixed initial world level
 
 0.2.0 - 08-12-2017
 - better performance
