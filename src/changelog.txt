@@ -1,3 +1,8 @@
+0.2.3 - 12-12-2017
+- reduced mole science production
+- fixed world builder select
+- fixed max 10 efficienty
+
 0.2.2 - 11-12-2017
 - fixed spelling
 - Here and Now 2 debuff

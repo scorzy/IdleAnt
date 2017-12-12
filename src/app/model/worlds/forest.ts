@@ -67,7 +67,7 @@ export class Forest implements WorldInterface {
     this.beetleWoodProduction = new Production(this.beetle, new Decimal(0.4), false)
     this.beetleSoilProduction = new Production(this.beetle, new Decimal(0.2), false)
     this.beetleCrystalProduction = new Production(this.beetle, new Decimal(0.1), false)
-    this.moleScienceProduction = new Production(this.mole, this.game.machines.machineryProd.times(45), false)
+    this.moleScienceProduction = new Production(this.mole, this.game.machines.machineryProd.times(10), false)
 
     const moleRes2 = new Research("mo2Res", "Mole Nest",
       "Unlock mole",
