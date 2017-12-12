@@ -14,13 +14,13 @@
       <label for="selects_1">Header color</label>
       <div class="select">
         <select name="header" id="selects_1" [(ngModel)]="gameService.game.options.header">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
+          <option [class.darkFix]="gameService.game.options.dark">1</option>
+          <option [class.darkFix]="gameService.game.options.dark">2</option>
+          <option [class.darkFix]="gameService.game.options.dark">3</option>
+          <option [class.darkFix]="gameService.game.options.dark">4</option>
+          <option [class.darkFix]="gameService.game.options.dark">5</option>
+          <option [class.darkFix]="gameService.game.options.dark">6</option>
+          <option [class.darkFix]="gameService.game.options.dark">7</option>
         </select>
       </div>
 
