@@ -105,7 +105,7 @@ export class Action extends Base {
       return new Decimal(1)
 
     if (this.limit)
-      max = Decimal.min(max, this.limit.minus(this.quantity))
+      max = Decimal.min(max, this.limit.minus(this.quantity).plus(1))
 
     return max
   }
