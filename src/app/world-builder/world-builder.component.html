@@ -20,9 +20,9 @@
 
             <div class="form-group">
               <label for="aForm_pre">Prefix</label>
-              <div class="select">
+              <div class="select" >
                 <select id="aForm_pre" name="pre" [(ngModel)]="preName" (change)="setPre($event)">
-                  <option *ngFor="let pre of World.worldPrefix">
+                  <option *ngFor="let pre of World.worldPrefix" [class.darkFix]="gameService.game.options.dark">
                     {{pre.name}}
                   </option>
                 </select>
@@ -33,7 +33,7 @@
               <label for="aForm_type">Type</label>
               <div class="select">
                 <select id="aForm_type" name="type" [(ngModel)]="typeName" (change)="setType($event)">
-                  <option *ngFor="let pre of World.worldTypes">
+                  <option *ngFor="let pre of World.worldTypes" [class.darkFix]="gameService.game.options.dark">
                     {{pre.name}}
                   </option>
                 </select>
@@ -44,7 +44,7 @@
               <label for="aForm_suff">Suffix</label>
               <div class="select">
                 <select id="aForm_suff" name="suff" [(ngModel)]="suffName" (change)="setSuff($event)">
-                  <option *ngFor="let pre of World.worldSuffix">
+                  <option *ngFor="let pre of World.worldSuffix" [class.darkFix]="gameService.game.options.dark">
                     {{pre.name}}
                   </option>
                 </select>
