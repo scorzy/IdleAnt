@@ -117,15 +117,12 @@ export class Researchs implements WorldInterface {
     //    Here and Now 2
     this.hereAndNow2 = new Research(
       "han2Res",
-      "Here and Now 2", "Get 15% of world experience.",
+      "Here and Now 2", "Get 50% more experience when travel.",
       [new Cost(this.game.baseWorld.science, new Decimal(1E12))],
       [],
       this.game,
       () => {
-        const expToAdd = this.game.world.experience.times(0.15)
-        this.game.prestige.experience.quantity = this.game.prestige.experience.quantity.plus(expToAdd)
-        this.game.maxLevel = this.game.maxLevel.plus(expToAdd)
-        this.game.expTabAv = true
+        this.game.world.experience = this.game.world.experience.times(1.5)
       }
     )
 

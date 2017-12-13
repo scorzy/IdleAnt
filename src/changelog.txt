@@ -1,3 +1,7 @@
+0.2.4 - 13-12-2017
+- changed Here and Now 2
+- mole yeild less soil
+
 0.2.3 - 12-12-2017
 - reduced mole science production
 - fixed world builder select

@@ -257,7 +257,7 @@ export class Forest implements WorldInterface {
       [new Cost(this.game.baseWorld.science, this.game.scienceCost3.div(10), this.game.upgradeScienceExp)]))
     this.mole.actions.push(new UpHire(this.game, this.mole,
       [new Cost(this.game.baseWorld.science, this.game.scienceCost3.div(10), this.game.upgradeScienceExp)]))
-    this.game.baseWorld.soil.addProductor(new Production(this.mole, this.game.machines.machineryProd.times(50)))
+    this.game.baseWorld.soil.addProductor(new Production(this.mole, this.game.machines.machineryProd.times(15)))
 
     //    Mole Nest
     this.moleNest.actions.push(new BuyAction(this.game,
