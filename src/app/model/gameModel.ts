@@ -435,6 +435,7 @@ export class GameModel {
    * Initialize 3 random world
    */
   generateRandomWorld(force: boolean = false) {
+    this.setMaxLevel()
     if (!this.nextWorlds || force) {
       this.nextWorlds = [
         World.getRandomWorld(this),
