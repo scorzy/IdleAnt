@@ -67,7 +67,7 @@ export class Forest implements WorldInterface {
     this.beetleWoodProduction = new Production(this.beetle, new Decimal(0.4), false)
     this.beetleSoilProduction = new Production(this.beetle, new Decimal(0.2), false)
     this.beetleCrystalProduction = new Production(this.beetle, new Decimal(0.1), false)
-    this.moleScienceProduction = new Production(this.mole, this.game.machines.machineryProd.times(10), false)
+    this.moleScienceProduction = new Production(this.mole, this.game.machines.machineryProd.times(5), false)
 
     const moleRes2 = new Research("mo2Res", "Mole Nest",
       "Unlock mole",
@@ -254,10 +254,10 @@ export class Forest implements WorldInterface {
       ]
     ))
     this.mole.actions.push(new UpAction(this.game, this.mole,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost3.div(10), this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
     this.mole.actions.push(new UpHire(this.game, this.mole,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost3.div(10), this.game.upgradeScienceExp)]))
-    this.game.baseWorld.soil.addProductor(new Production(this.mole, this.game.machines.machineryProd.times(15)))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost3, this.game.upgradeScienceExp)]))
+    this.game.baseWorld.soil.addProductor(new Production(this.mole, this.game.machines.machineryProd.times(5)))
 
     //    Mole Nest
     this.moleNest.actions.push(new BuyAction(this.game,
@@ -268,9 +268,9 @@ export class Forest implements WorldInterface {
       ]
     ))
     this.moleNest.actions.push(new UpAction(this.game, this.moleNest,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost4.div(10), this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
     this.moleNest.actions.push(new UpHire(this.game, this.moleNest,
-      [new Cost(this.game.baseWorld.science, this.game.scienceCost4.div(10), this.game.upgradeScienceExp)]))
+      [new Cost(this.game.baseWorld.science, this.game.scienceCost4, this.game.upgradeScienceExp)]))
     this.mole.addProductor(new Production(this.moleNest))
   }
 
