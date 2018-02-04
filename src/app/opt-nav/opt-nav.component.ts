@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core'
 
 @Component({
   selector: 'app-opt-nav',

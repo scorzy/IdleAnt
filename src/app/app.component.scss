@@ -71,8 +71,18 @@
 }
 
 :host /deep/ .nav-content {
-  padding-bottom:25px;
+    padding-bottom: 25px;
 }
-:host /deep/ .darkFix{
-  background: #1b2a32;
+
+:host /deep/ .darkFix {
+    background: #1b2a32;
+}
+
+@media only screen and (max-device-width: 750px) {
+    .branding {
+        display: none;
+    }
+    .matHeadNav {
+        display: none;
+    }
 }

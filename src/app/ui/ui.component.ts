@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { GameService } from '../game.service';
 
 declare let setCss: any
@@ -10,6 +10,7 @@ declare let setCss: any
 })
 
 export class UiComponent implements OnInit {
+  @HostBinding('class.content-area') className = 'content-area'
 
   constructor(public gameService: GameService) {
 

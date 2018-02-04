@@ -1,7 +1,4 @@
-<div class="content-area">
-  <router-outlet></router-outlet>
-</div>
-<clr-vertical-nav>
+<clr-vertical-nav [clr-nav-level]="2">
   <a clrVerticalNavLink routerLink="./save" routerLinkActive="active">
     <clr-icon clrVerticalNavIcon shape="floppy"></clr-icon>
     Save
@@ -15,3 +12,4 @@
     Credit
   </a>
 </clr-vertical-nav>
+<router-outlet></router-outlet>

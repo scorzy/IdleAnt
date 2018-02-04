@@ -5,8 +5,6 @@
 
     <div class="branding">
       <a href="javascript://" class="nav-link" routerLink="/main/unit">
-        <!-- <clr-icon shape="vm-bug"></clr-icon> -->
-
         <span class="title">Idle Ant</span>
       </a>
     </div>
@@ -24,16 +22,9 @@
     </div>
     <div class="header-actions">
 
-      <!-- <div class="form-group">
-        <label for="formFields_10">Textbox [type="tel"]</label>
-        <input type="tel" id="formFields_10" size="35">
-      </div> -->
-
       <form class="search">
-        <!-- <label for="search_input"> -->
-        <label id="multiLabel" for="multi">Buy:&nbsp;</label>
+        <label id="multiLabel" for="multi">B:&nbsp;</label>
         <input class="multiBuy" min="1" id="multi" type="number" name="buyMulti" placeholder="Buy multiplier" [(ngModel)]="gameService.game.buyMulti">
-        <!-- </label> -->
       </form>
 
       <clr-dropdown>
@@ -84,7 +75,7 @@
   </clr-header>
 
   <!-- Top Material Nav -->
-  <nav class="subnav">
+  <nav class="subnav matHeadNav">
     <ul class="nav navMat">
       <li class="nav-item" class="matTab" *ngFor="let g of gameService.game.baseWorld.listMaterial | filterMax">
         <a [routerLink]="['/main/unit/unit/'+g.id]" class="nav-link matLink" routerLinkActive="active" [ngClass]="{'red': g.isEnding()}">
@@ -92,7 +83,7 @@
           <span style="display:block;">
             <clr-icon class="is-info" shape="angle-double" *ngIf="g.showUp"></clr-icon>
             <clr-icon class="alert-icon is-error" shape="exclamation-triangle" *ngIf="g.isEnding()"></clr-icon>
-            <span class="first">{{g.name}}</span>
+            <span class="first small">{{g.name}}</span>
           </span>
 
           <span class="perSecTab small">

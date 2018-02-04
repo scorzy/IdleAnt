@@ -127,10 +127,8 @@ export class Unit extends Base {
       data.p.forEach(e => {
         const prod = this.producedBy.find(p => p.unit.id === e[0])
         if (prod) {
-          if (typeof e[1] === 'boolean')
-            prod.unlocked = e[1]
-          if (typeof e[2] === 'boolean')
-            prod.active = e[2]
+          prod.unlocked = !!e[1]
+          prod.active = !!e[2]
         }
       });
 

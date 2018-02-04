@@ -7,33 +7,34 @@ $height: 24px;
     line-height: $height;
 }
 
+@media only screen and (min-device-width: 750px) {
+    .clr-vertical-nav {
+        width: 320px !important;
+    }
+}
+
 .clr-vertical-nav {
-   width: 320px !important;
-   padding-top: 12px;
+    padding-top: 12px;
 }
 
-.resName{
-  display: inline-block;
-  width: 50%;
-}
-.perSec{
-  width: 25%;
-  display: inline-block;
+.resName {
+    display: inline-block;
+    width: 50%;
 }
 
-.unit-group{
-  margin-left: -28px !important;
-  // font-size:13px;
+.perSec {
+    width: 25%;
+    display: inline-block;
 }
 
-// .clr-treenode-link.active{
-//   background-color: #fafafa;
-// }
-
-.experience{
-  margin-left: 30px !important;
+.unit-group {
+    margin-left: -35px !important;
 }
 
-.clr-treenode-link{
-  height:auto;
+.experience {
+    margin-left: 30px !important;
+}
+
+.clr-treenode-link {
+    height: auto;
 }
