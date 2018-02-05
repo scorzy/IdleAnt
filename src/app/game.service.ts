@@ -100,7 +100,7 @@ export class GameService {
     this.game = null
     localStorage.clear()
     this.game = new GameModel()
-    window.location.reload()
+    window.location.reload(true)
   }
 
   save(timer = true) {

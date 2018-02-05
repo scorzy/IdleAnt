@@ -70,7 +70,7 @@ export class Forest implements WorldInterface {
     this.moleScienceProduction = new Production(this.mole, this.game.machines.machineryProd.times(5), false)
 
     const moleRes2 = new Research("mo2Res", "Mole Nest",
-      "Unlock mole",
+      "Unlock Mole Nest",
       [new Cost(this.game.baseWorld.science, new Decimal(1E7))],
       [this.moleNest],
       this.game

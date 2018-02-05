@@ -80,9 +80,9 @@
 
 @media only screen and (max-device-width: 750px) {
     .branding {
-        display: none;
+        display: none !important;
     }
     .matHeadNav {
-        display: none;
+        display: none !important;
     }
 }
