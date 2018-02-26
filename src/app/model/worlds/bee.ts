@@ -242,7 +242,7 @@ export class Bee implements WorldInterface {
     //  Bears crystall
     this.bear3Res = new Research(
       "bg3Res",
-      "Mining Bears", "Bears also yeild crystalls.",
+      "Mining Bears", "Bears also yield crystalls.",
       [new Cost(this.game.baseWorld.science, new Decimal(1E8))],
       [this.bearCrystalProduction],
       this.game
@@ -251,7 +251,7 @@ export class Bee implements WorldInterface {
     //  Bears soil
     this.bear2Res = new Research(
       "bg2Res",
-      "Carpenter Bears", "Bears also yeild soils.",
+      "Carpenter Bears", "Bears also yield soils.",
       [new Cost(this.game.baseWorld.science, new Decimal(5E6))],
       [this.bearSoilProduction, this.bear3Res],
       this.game
