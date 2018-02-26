@@ -68,7 +68,7 @@ export class Utils {
           return []
 
         //  workaround for aprossimation 2
-        acos = Decimal.min(Decimal.max(acos, 1), -1).toNumber()
+        acos = Decimal.max(Decimal.min(acos, 1), -1).toNumber()
         const t = new Decimal(Math.acos(acos) / 3)
 
         // const t = Math.acos(3 * q / p / u) / 3;  // D < 0 implies p < 0 and acos argument in [-1..1]
