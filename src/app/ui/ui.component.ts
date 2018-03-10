@@ -22,5 +22,10 @@ export class UiComponent implements OnInit {
   setCss() {
     setCss(this.gameService.game.options.dark)
   }
-
+  reformat() {
+    this.gameService.game.options.generateFormatter()
+  }
+  setSize() {
+    this.gameService.setSize()
+  }
 }

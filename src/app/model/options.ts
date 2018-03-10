@@ -1,10 +1,16 @@
+import { numberformat } from 'swarm-numberformat'
+
 declare let setCss: any
 
 export class Options {
 
-  public header = 5
-  public dark = false
-  public usaFormat = false
+  header = 5
+  dark = false
+  usaFormat = false
+  numFormat = "T"
+  formatter = new numberformat.Formatter({ format: 'standard', sigfigs: 2, flavor: 'short' })
+  width = 0
+  height = 0
 
   constructor(
   ) { }
@@ -12,15 +18,23 @@ export class Options {
   apply() {
     setCss(this.dark)
   }
+  generateFormatter() {
+    this.formatter = new numberformat.Formatter({
+      format: this.numFormat === "T" ? 'standard' : (
+        this.numFormat === "S" ? 'scientific' : (
+          this.numFormat === "E" ? 'engineering' : 'longScale'))
+      , sigfigs: 2, flavor: 'short'
+    })
+  }
   load(data: any) {
-    if (data.header)
-      this.header = data.header
+    if (data.header) this.header = data.header
+    if (data.dark) this.dark = data.dark
+    if (data.usaFormat) this.usaFormat = data.usaFormat
+    if (data.numFormat) this.numFormat = data.numFormat
+    if (data.width) this.width = data.width
+    if (data.height) this.height = data.height
 
-    if (data.dark)
-      this.dark = data.dark
-
-    if (data.usaFormat)
-      this.usaFormat = data.usaFormat
+    this.generateFormatter()
   }
 
 }

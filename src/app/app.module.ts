@@ -1,4 +1,4 @@
-import {ClarityModule} from '@clr/angular';
+import { ClarityModule } from '@clr/angular';
 import { FilterUnlocked, UnitComponent, FilterActive } from './unit/unit.component';
 import { OptionsComponent } from './options/options.component';
 import { Unit } from './model/units/unit';
@@ -82,11 +82,13 @@ export class Format implements PipeTransform {
       (
         value.abs().lessThan(10) ? value.toNumber().toFixed(2).replace(/\.0+$/, '') :
           value.abs().lessThan(100) ? value.toNumber().toFixed(1).replace(/\.0+$/, '') :
-            (value.greaterThanOrEqualTo(0) ? "" : "-") + numberformat.formatShort(value.abs())
+            (value.greaterThanOrEqualTo(0) ? "" : "-") +
+            this.gameService.game.options.formatter.format(value.abs())
       ) : (
         value.abs().lessThan(10) ? value.toNumber().toFixed(2).replace(/\.0+$/, '').replace(".", ",") :
           value.abs().lessThan(100) ? value.toNumber().toFixed(1).replace(/\.0+$/, '').replace(".", ",") :
-            (value.greaterThanOrEqualTo(0) ? "" : "-") + numberformat.formatShort(value.abs()).replace(".", ",")
+            (value.greaterThanOrEqualTo(0) ? "" : "-") +
+            this.gameService.game.options.formatter.format(value.abs()).replace(".", ",")
       )
 
   }

@@ -1,11 +1,13 @@
-import * as decimal from 'decimal.js';
-import { GameModel } from './model/gameModel';
-import { log } from 'util';
-import { Logger } from 'jasmine-spec-reporter/built/display/logger';
-import { Injectable, OnInit, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import * as moment from 'moment';
+import * as decimal from 'decimal.js'
+import { GameModel } from './model/gameModel'
+import { log } from 'util'
+import { Logger } from 'jasmine-spec-reporter/built/display/logger'
+import { Injectable, OnInit, ViewContainerRef } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { ToastsManager } from 'ng2-toastr/ng2-toastr'
+import * as moment from 'moment'
+import 'rxjs/add/observable/interval'
+import { Observable } from 'rxjs/Observable'
 
 declare let kongregateAPI;
 
@@ -38,26 +40,30 @@ export class GameService {
 
     this.game.isChanged = true
 
-    setInterval(this.update.bind(this), this.interval)
+    Observable.interval(this.interval).subscribe(this.update.bind(this))
+    // setInterval(this.update.bind(this), this.interval)
 
-    setInterval(this.checkUpgrades.bind(this), 1000)
+    Observable.interval(1000).subscribe(this.checkUpgrades.bind(this))
+    // setInterval(this.checkUpgrades.bind(this), 1000)
 
     setInterval(this.save.bind(this), this.saveFreq)
 
     if (typeof kongregateAPI !== 'undefined') {
       kongregateAPI.loadAPI(() => {
 
-        this.kongregate = kongregateAPI.getAPI();
-        console.log("KongregateAPI Loaded");
+        this.kongregate = kongregateAPI.getAPI()
+        console.log("KongregateAPI Loaded")
 
         //  this.kongregate.services.resizeGame(1920, 1080)
 
         setTimeout(() => {
           try {
             console.log("Kongregate build")
+            this.setSize()
             this.sendKong()
             this.isKongregate = true
-            setInterval(this.sendKong.bind(this), this.kongFreq)
+            Observable.interval(this.kongFreq).subscribe(this.sendKong.bind(this))
+            // setInterval(this.sendKong.bind(this), this.kongFreq)
           } catch (e) {
             console.log("Error: " + e.message)
           }
@@ -78,7 +84,7 @@ export class GameService {
       if (delta > 1000)
         this.game.isChanged = true
 
-      this.game.longUpdate(delta )
+      this.game.longUpdate(delta)
 
       this.game.prestige.time.quantity = Decimal.min(
         this.game.prestige.time.quantity.plus(
@@ -164,5 +170,9 @@ export class GameService {
     }
 
   }
+  setSize() {
+    if (this.game.options.width > 1050 && this.game.options.height > 700)
+      this.kongregate.services.resizeGame(this.game.options.width, this.game.options.height)
 
+  }
 }
