@@ -28,7 +28,7 @@ $height: 24px;
 }
 
 .unit-group {
-    margin-left: -35px !important;
+    margin-left: -45px !important;
 }
 
 .experience {
@@ -37,4 +37,8 @@ $height: 24px;
 
 .clr-treenode-link {
     height: auto;
+}
+:host /deep/ .clr-treenode-children {
+    margin-left: .3rem !important; 
+    overflow-y: visible !important;
 }
