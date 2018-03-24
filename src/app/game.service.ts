@@ -9,7 +9,8 @@ import * as moment from 'moment'
 import 'rxjs/add/observable/interval'
 import { Observable } from 'rxjs/Observable'
 
-declare let kongregateAPI;
+declare let kongregateAPI
+declare let reload
 
 @Injectable()
 export class GameService {
@@ -34,9 +35,6 @@ export class GameService {
   ) {
     this.game = new GameModel()
     this.last = Date.now()
-    // const l = this.load(false)
-    // if (l)
-    //   this.last = l
 
     this.game.isChanged = true
 
@@ -84,7 +82,7 @@ export class GameService {
       if (delta > 1000)
         this.game.isChanged = true
 
-      this.game.longUpdate(delta )
+      this.game.longUpdate(delta)
 
       this.game.prestige.time.quantity = Decimal.min(
         this.game.prestige.time.quantity.plus(
@@ -106,7 +104,9 @@ export class GameService {
     this.game = null
     localStorage.clear()
     this.game = new GameModel()
-    window.location.reload(true)
+    // this.router.navigateByUrl("")
+    // window.location.reload(true)
+    reload()
   }
 
   save(timer = true) {
@@ -125,7 +125,7 @@ export class GameService {
     }
   }
 
-  load(notify = true): number {
+  load(notify = true, first = false): number {
     try {
       if (typeof (Storage) !== 'undefined') {
         const saveRaw = localStorage.getItem('save')
@@ -142,7 +142,8 @@ export class GameService {
           }
 
         } else {
-          this.toastr.error("No savegame found", "Error")
+          if (!first)
+            this.toastr.error("No savegame found", "Error")
         }
 
       } else {

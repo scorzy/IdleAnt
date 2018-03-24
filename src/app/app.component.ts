@@ -23,7 +23,7 @@ export class AppComponent {
     vcr: ViewContainerRef
   ) {
     this.toastr.setRootViewContainerRef(vcr)
-    const l = this.gameService.load(false)
+    const l = this.gameService.load(false, true)
     if (l)
       this.gameService.last = l
   }
