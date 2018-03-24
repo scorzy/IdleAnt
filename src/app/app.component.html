@@ -9,22 +9,39 @@
       </a>
     </div>
     <div class="header-nav" [clr-nav-level]="1">
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/unit">Units</a>
 
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/lab" *ngIf="gameService.game.baseWorld.science.unlocked">Laboratory</a>
+      <a class="nav-link nav-text headS" routerLinkActive="active" routerLink="/main/unit">
+        <!-- <clr-icon shape="library" class="headL"></clr-icon> -->
+        <span>Units</span>
+      </a>
 
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige" *ngIf="gameService.game.worldTabAv">Travel</a>
+      <a class="nav-link nav-text" routerLinkActive="active" routerLink="/lab" *ngIf="gameService.game.baseWorld.science.unlocked">
+        <clr-icon shape="library" class="headL"></clr-icon>
+        <span class="headS">Laboratory</span>
+      </a>
 
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/main/exp" *ngIf="gameService.game.expTabAv">Experience</a>
+      <a class="nav-link nav-text" routerLinkActive="active" routerLink="/prestige" *ngIf="gameService.game.worldTabAv">
+        <clr-icon shape="world" class="headL"></clr-icon>
+        <span class="headS">Travel</span>
+      </a>
 
-      <a class="nav-link" class="nav-link nav-text" routerLinkActive="active" routerLink="/world" *ngIf="gameService.game.homeTabAv">World</a>
+      <a class="nav-link nav-text" routerLinkActive="active" routerLink="/main/exp" *ngIf="gameService.game.expTabAv">
+        <clr-icon shape="scroll" class="headL"></clr-icon>
+        <span class="headS">Experience</span>
+      </a>
+
+      <a class="nav-link nav-text" routerLinkActive="active" routerLink="/world" *ngIf="gameService.game.homeTabAv">
+        <clr-icon shape="home" class="headL"></clr-icon>
+        <span class="headS">World</span>
+      </a>
 
     </div>
     <div class="header-actions">
 
       <form class="search">
         <label id="multiLabel" for="multi">B:&nbsp;</label>
-        <input class="multiBuy" min="1" id="multi" type="number" name="buyMulti" placeholder="Buy multiplier" [(ngModel)]="gameService.game.buyMulti">
+        <input class="multiBuy" min="1" id="multi" type="number" name="buyMulti" placeholder="Buy multiplier"
+          [(ngModel)]="gameService.game.buyMulti">
       </form>
 
       <clr-dropdown>
@@ -48,6 +65,9 @@
           <clr-dropdown *ngFor="let list of gameService.game.lists | filterListNotEmpty">
             <button type="button" clrDropdownTrigger>{{list.type}}</button>
             <clr-dropdown-menu clrPosition="left-top">
+              <a clrDropdownItem (click)="list.buyN()">Buy n</a>
+              <a clrDropdownItem (click)="list.buyTwins()">Twins</a>
+              <a clrDropdownItem (click)="list.buyTeam()">Team</a>
               <a clrDropdownItem (click)="list.allCustom(p)" *ngFor="let p of percentPreset">{{p}}%</a>
             </clr-dropdown-menu>
           </clr-dropdown>

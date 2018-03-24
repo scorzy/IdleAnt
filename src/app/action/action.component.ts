@@ -33,7 +33,6 @@ export class ActionComponent implements OnInit {
   Math = Math
 
   constructor(public gameService: GameService) {
-
   }
 
   ngOnInit() {

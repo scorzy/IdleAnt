@@ -34,9 +34,9 @@ export class GameService {
   ) {
     this.game = new GameModel()
     this.last = Date.now()
-    const l = this.load(false)
-    if (l)
-      this.last = l
+    // const l = this.load(false)
+    // if (l)
+    //   this.last = l
 
     this.game.isChanged = true
 
@@ -84,7 +84,7 @@ export class GameService {
       if (delta > 1000)
         this.game.isChanged = true
 
-      this.game.longUpdate(delta)
+      this.game.longUpdate(delta * 1000)
 
       this.game.prestige.time.quantity = Decimal.min(
         this.game.prestige.time.quantity.plus(

@@ -24,4 +24,27 @@ export class TypeList {
   reload() {
     this.uiList = this.list.filter(u => u.unlocked)
   }
+  buyN() {
+    const n = this.getReqNum(this.list[0].game)
+    this.list.filter(u => u.unlocked && u.buyAction && u.buyAction.unlocked)
+      .sort((a, b) => a.quantity.cmp(b.quantity))
+      .forEach(un => un.buyAction.buy(n))
+  }
+  buyTwins() {
+    this.list.filter(u => u.unlocked && u.upHire && u.upHire.unlocked)
+      .sort((a, b) => a.upHire.quantity.cmp(b.upHire.quantity))
+      .forEach(un => un.upHire.buy(new Decimal(1)))
+  }
+  buyTeam() {
+    this.list.filter(u => u.unlocked && u.upAction && u.upAction.unlocked)
+      .sort((a, b) => a.upAction.quantity.cmp(b.upAction.quantity))
+      .forEach(un => un.upAction.buy(new Decimal(1)))
+  }
+
+  getReqNum(game: GameModel): decimal.Decimal {
+    if (!game.buyMulti || game.buyMulti < 1)
+      return new Decimal(1)
+
+    return new Decimal(game.buyMulti)
+  }
 }

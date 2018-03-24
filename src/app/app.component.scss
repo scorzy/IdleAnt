@@ -3,10 +3,6 @@
     overflow: hidden;
 }
 
-// .main-container{
-//     min-height: 100vh;
-//     height:auto!important;
-// }
 :host /deep/ .content-area {
     padding: 10px 24px 24px 24px !important;
 }
@@ -78,11 +74,23 @@
     background: #1b2a32;
 }
 
-@media only screen and (max-device-width: 750px) {
+@media only screen and (max-width: 750px) {
     .branding {
         display: none !important;
     }
     .matHeadNav {
+        display: none !important;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .headL {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-width: 750px) {
+    .headS {
         display: none !important;
     }
 }

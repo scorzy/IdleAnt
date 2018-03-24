@@ -23,6 +23,9 @@ export class AppComponent {
     vcr: ViewContainerRef
   ) {
     this.toastr.setRootViewContainerRef(vcr)
+    const l = this.gameService.load(false)
+    if (l)
+      this.gameService.last = l
   }
 
   opeTimeWarp() {
