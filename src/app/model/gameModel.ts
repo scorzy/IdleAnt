@@ -33,7 +33,7 @@ export class GameModel {
 
   isChanged = true
   timeToEnd = Number.POSITIVE_INFINITY
-  gameVersion = "0.3.0"
+  gameVersion = "0.3.1"
   hideSaveNotification = false
 
   options: Options = new Options()
