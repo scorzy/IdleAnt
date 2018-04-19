@@ -1,9 +1,8 @@
 import { Cost } from '../model/cost';
 import { Action } from '../model/units/action';
 import { AfterViewChecked, Component, Input, NgModule, OnInit, HostBinding } from '@angular/core';
-import * as numberformat from 'swarm-numberformat';
 import { GameService } from '../game.service';
-
+declare let numberformat
 @Component({
   selector: 'app-action',
   templateUrl: './action.component.html',

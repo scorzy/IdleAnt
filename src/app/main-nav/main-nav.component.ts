@@ -19,7 +19,6 @@ import { GameService } from '../game.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { Unit } from '../model/units/unit';
-import * as numberformat from 'swarm-numberformat';
 import { Base } from '../model/units/base';
 
 declare let preventScroll

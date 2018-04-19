@@ -1,5 +1,4 @@
-import { numberformat } from 'swarm-numberformat'
-
+declare let numberformat
 declare let setCss: any
 
 export class Options {

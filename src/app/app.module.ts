@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TypeList } from './model/typeList';
-import * as numberformat from 'swarm-numberformat';
 import { FormsModule } from '@angular/forms';
 import { ActionComponent } from './action/action.component';
 import { PrestigeComponent } from './prestige/prestige.component';
@@ -31,6 +30,8 @@ import { PrestigeNavComponent } from './prestige-nav/prestige-nav.component';
 import { SliderModule } from 'primeng/components/slider/slider';
 import { GameService } from './game.service';
 import { Options } from './model/options';
+
+declare let numberformat
 
 const appRoutes: Routes = [
   {
