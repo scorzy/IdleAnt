@@ -3,6 +3,11 @@
     <span *ngIf="!action.oneTime && action.showNumber">({{action.quantity | format}})</span>
   </h3>
 
+  <div class="toggle-switch hide" *ngIf="action.showBuyMenu || action.showHide">
+    <input type="checkbox" [id]="action.getId() +'_m'" [(ngModel)]="action.buyFromMenu">
+    <label [for]="action.getId()+'_m'">Menù buy</label>
+  </div>
+
   <div class="toggle-switch hide" *ngIf="action.showHide">
     <input type="checkbox" [id]="action.getId()" [(ngModel)]="action.show">
     <label [for]="action.getId()">Show</label>
@@ -39,8 +44,7 @@
             <span *ngIf="action.oneTime">Get</span>
           </ng-template>
         </button>
-        <button type="button " class="btn btn-secondary w-100" (click)="action.buy(action.maxBuy.div(2).ceil())"
-          *ngIf="action.maxBuy.greaterThanOrEqualTo(3)">
+        <button type="button " class="btn btn-secondary w-100" (click)="action.buy(action.maxBuy.div(2).ceil())" *ngIf="action.maxBuy.greaterThanOrEqualTo(3)">
           <span>{{getBuyStringHalf()}}</span>
         </button>
         <button type="button" class="btn btn-secondary w-100" (click)="action.buy(action.maxBuy)" *ngIf="action.maxBuy.greaterThanOrEqualTo(2)">
