@@ -1,29 +1,13 @@
 import { Engineers } from "./worlds/engineer";
 import { World } from "./world";
-import { DefaultUrlHandlingStrategy } from "@angular/router/src/url_handling_strategy";
 import { Utils, Unlocable } from "./utils";
 import { Base } from "./units/base";
 import { Cost } from "./cost";
-import { Alert, alertArray, IAlert } from "./alert";
 import { TypeList } from "./typeList";
-import {
-  Action,
-  BuyAction,
-  BuyAndUnlockAction,
-  Research,
-  UpHire,
-  UpSpecial,
-  UnlockProd,
-  UpAction
-} from "./units/action";
+import { Action, Research } from "./units/action";
 import { Production } from "./production";
 import { Map } from "rxjs/util/Map";
-import { Data } from "@angular/router";
-import { forEach } from "@angular/router/src/utils/collection";
-import { isAsciiLetter } from "codelyzer/angular/styles/chars";
-import { Logger } from "protractor/built/logger";
 import { Unit } from "./units/unit";
-import { Component, Injectable, Input } from "@angular/core";
 import * as LZString from "lz-string";
 import { BaseWorld } from "./worlds/baseWorld";
 import { WorldInterface } from "./worlds/worldInterface";
@@ -41,7 +25,7 @@ import { Options } from "./options";
 export class GameModel {
   isChanged = true;
   timeToEnd = Number.POSITIVE_INFINITY;
-  gameVersion = "0.3.2";
+  gameVersion = "0.3.3";
   hideSaveNotification = false;
 
   options: Options = new Options();
@@ -421,7 +405,7 @@ export class GameModel {
   /**
    * Unlock units and recheck dependencies.
    */
-  unlockUnits(units: Unlocable[], message: string = null) {
+  unlockUnits(units: Unlocable[]) {
     return () => {
       let ok = false;
       units.filter(u => u.avabileThisWorld).forEach(u => {

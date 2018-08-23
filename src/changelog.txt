@@ -1,3 +1,7 @@
+0.3.3 - 23-08-2018
+- renamed "Here and Now 2" to "Over and Beyond"
+- "Here and Now" give more experience after world level 100
+
 0.3.2 - 18-06-2018
 - buy from menu flag
 - fixed mole research
