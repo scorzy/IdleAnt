@@ -8,7 +8,8 @@
     "build": "ng build --prod --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "release": "ngh"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +30,7 @@
     "@types/lz-string": "^1.3.32",
     "@types/moment": "^2.13.0",
     "@webcomponents/custom-elements": "^1.0.8",
+    "angular-cli-ghpages": "^0.5.3",
     "break_infinity.js": "^1.0.5",
     "core-js": "^2.5.3",
     "cp-cli": "^1.1.0",
