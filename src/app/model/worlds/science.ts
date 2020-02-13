@@ -113,7 +113,7 @@ export class Science implements WorldInterface {
     this.scientist.addProductor(this.scientistProduction)
 
     this.university.togableProductions = [
-      new TogableProduction("Generate Studentes", [this.studentProduction]),
+      new TogableProduction("Generate Students", [this.studentProduction]),
       new TogableProduction("Generate Scientist", [this.scientistProduction])
     ]
 
