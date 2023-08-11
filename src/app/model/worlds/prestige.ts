@@ -352,7 +352,7 @@ export class Prestige implements WorldInterface {
     this.timeMaker.alwaysOn = true
 
     this.timeBank = new Unit(this.game, "ptimeBank", "Time Bank",
-      "Time Bank increases the maxium time storage by 1 hour. Base storage is 4 hours.", true)
+      "Time Bank increases the maximum time storage by 1 hour. Base storage is 4 hours.", true)
 
     this.timeMaker.actions.push(new BuyAction(this.game, this.timeMaker,
       [new Cost(this.experience, new Decimal(25), expIncrement)]))
